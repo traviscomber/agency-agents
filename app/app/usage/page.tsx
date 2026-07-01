@@ -4,7 +4,7 @@ import { Progress } from '@/components/ui/progress'
 import { MOCK_USER, MOCK_RUNS } from '@/lib/data/mock-store'
 import { getPlanById } from '@/lib/data/plans'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { Bot, ArrowRight } from 'lucide-react'
+import { ArrowRight, Bot, Calendar } from 'lucide-react'
 
 export default function UsagePage() {
   const plan = getPlanById(MOCK_USER.plan)
@@ -21,130 +21,186 @@ export default function UsagePage() {
     if (!acc[run.agentId]) {
       acc[run.agentId] = { name: run.agentName, division: run.agentDivision, count: 0 }
     }
-    acc[run.agentId].count++
+    acc[run.agentId].count += 1
     return acc
   }, {})
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-8">
-        <h1 className="text-xl font-semibold text-foreground mb-1">Usage</h1>
-        <p className="text-sm text-muted-foreground">
-          Your usage for the current billing period.
-        </p>
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+      <div className="rounded-[28px] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-3">
+              Usage
+            </p>
+            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              A clean view of run consumption and plan pressure.
+            </h1>
+            <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl">
+              Track how many runs are left, which divisions are driving usage, and when to upgrade.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 sm:min-w-[360px]">
+            <div className="rounded-2xl border border-border bg-white/80 p-3">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Plan</p>
+              <p className="mt-1 text-2xl font-semibold text-foreground capitalize">{plan?.name}</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-white/80 p-3">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Used</p>
+              <p className="mt-1 text-2xl font-semibold text-foreground">{runsUsed}</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-white/80 p-3">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Limit</p>
+              <p className="mt-1 text-2xl font-semibold text-foreground">{runsLimit}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {/* Plan */}
-        <div className="col-span-full lg:col-span-1 rounded-lg border border-border bg-white p-5">
-          <p className="text-xs text-muted-foreground mb-1">Current plan</p>
-          <p className="text-2xl font-semibold text-foreground capitalize mb-3">{plan?.name}</p>
-          <p className="text-xs text-muted-foreground mb-4">
-            {plan?.price === null
-              ? 'Custom pricing'
-              : plan?.price === 0
-              ? 'Free forever'
-              : `$${plan?.price}/month`}
-          </p>
-          <Button variant="outline" size="sm" className="w-full" asChild>
-            <Link href="/app/billing">Manage billing <ArrowRight size={12} className="ml-1" /></Link>
+      <div className="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr] xl:grid-cols-[0.9fr_1.1fr]">
+        <section className="rounded-[28px] border border-border bg-white p-5 sm:p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Current status</p>
+              <h2 className="mt-2 text-lg font-semibold text-foreground">
+                {plan?.price === null ? 'Custom plan' : plan?.price === 0 ? 'Free tier' : 'Paid plan'}
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {plan?.price === null
+                  ? 'Custom pricing'
+                  : plan?.price === 0
+                    ? 'Free forever'
+                    : `$${plan?.price}/month`}
+              </p>
+            </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted/70 text-foreground">
+              <Calendar size={18} />
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-border bg-muted/20 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Monthly usage
+              </span>
+              <span className="text-xs text-muted-foreground">{Math.round(usagePercent)}%</span>
+            </div>
+            <Progress value={usagePercent} className="mt-3 h-2" />
+            <p className="mt-3 text-sm text-muted-foreground">
+              {runsLimit - runsUsed > 0
+                ? `${runsLimit - runsUsed} runs remaining this period`
+                : 'Limit reached - upgrade to continue'}
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-white p-4">
+              <p className="text-xs text-muted-foreground">Billing period</p>
+              <p className="mt-1 text-sm font-semibold text-foreground">Jan 1 - Jan 31, 2024</p>
+              <p className="mt-1 text-xs text-muted-foreground">Resets in 11 days</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-white p-4">
+              <p className="text-xs text-muted-foreground">Plan density</p>
+              <p className="mt-1 text-sm font-semibold text-foreground">
+                {runsUsed === 0 ? 'No usage' : `${Math.round((runsUsed / runsLimit) * 10) / 10} runs per slot`}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">Simple read on consumption pace.</p>
+            </div>
+          </div>
+
+          <Button variant="outline" size="sm" className="mt-6 w-full" asChild>
+            <Link href="/app/billing">
+              Manage billing <ArrowRight size={12} className="ml-1" />
+            </Link>
           </Button>
-        </div>
+        </section>
 
-        {/* Runs */}
-        <div className="rounded-lg border border-border bg-white p-5">
-          <p className="text-xs text-muted-foreground mb-1">Runs this period</p>
-          <p className="text-2xl font-semibold text-foreground mb-1">
-            {runsUsed} <span className="text-sm font-normal text-muted-foreground">/ {runsLimit}</span>
-          </p>
-          <Progress value={usagePercent} className="h-1.5 mb-2" />
-          <p className="text-xs text-muted-foreground">
-            {runsLimit - runsUsed > 0
-              ? `${runsLimit - runsUsed} runs remaining`
-              : 'Limit reached — upgrade to continue'}
-          </p>
-        </div>
+        <section className="grid gap-4">
+          <div className="rounded-[28px] border border-border bg-white p-5 sm:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h2 className="text-sm font-semibold text-foreground">Runs by division</h2>
+                <p className="mt-1 text-xs text-muted-foreground">Distribution across the workspace map.</p>
+              </div>
+            </div>
 
-        {/* Period */}
-        <div className="rounded-lg border border-border bg-white p-5">
-          <p className="text-xs text-muted-foreground mb-1">Billing period</p>
-          <p className="text-sm font-medium text-foreground mb-0.5">Jan 1 – Jan 31, 2024</p>
-          <p className="text-xs text-muted-foreground">Resets in 11 days</p>
-        </div>
+            {Object.keys(runsByDivision).length === 0 ? (
+              <p className="mt-4 text-sm text-muted-foreground">No runs yet.</p>
+            ) : (
+              <div className="mt-4 space-y-3">
+                {Object.entries(runsByDivision)
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([division, count]) => (
+                    <div key={division} className="flex items-center gap-3">
+                      <DivisionBadge division={division} />
+                      <div className="flex flex-1 items-center gap-3">
+                        <Progress value={(count / runsUsed) * 100} className="h-2 flex-1" />
+                        <span className="w-6 shrink-0 text-right text-xs font-semibold text-foreground">
+                          {count}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-[28px] border border-border bg-white p-5 sm:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h2 className="text-sm font-semibold text-foreground">Runs by agent</h2>
+                <p className="mt-1 text-xs text-muted-foreground">What the active agents are doing most often.</p>
+              </div>
+            </div>
+
+            {Object.keys(runsByAgent).length === 0 ? (
+              <p className="mt-4 text-sm text-muted-foreground">No runs yet.</p>
+            ) : (
+              <div className="mt-4 space-y-3">
+                {Object.entries(runsByAgent)
+                  .sort(([, a], [, b]) => b.count - a.count)
+                  .map(([agentId, info]) => (
+                    <div key={agentId} className="rounded-2xl border border-border bg-muted/20 p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <Bot size={13} className="text-muted-foreground shrink-0" />
+                            <p className="truncate text-sm font-semibold text-foreground">{info.name}</p>
+                          </div>
+                          <p className="mt-1 text-xs text-muted-foreground">Agent traffic grouped by execution count.</p>
+                        </div>
+                        <span className="rounded-full border border-border bg-white px-2.5 py-1 text-xs font-semibold text-foreground">
+                          {info.count}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex items-center gap-3">
+                        <DivisionBadge division={info.division} size="sm" />
+                        <Progress value={(info.count / runsUsed) * 100} className="h-2 flex-1" />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        </section>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* By division */}
-        <div className="rounded-lg border border-border bg-white p-5">
-          <h2 className="text-sm font-semibold text-foreground mb-4">Runs by division</h2>
-          {Object.keys(runsByDivision).length === 0 ? (
-            <p className="text-xs text-muted-foreground">No runs yet.</p>
-          ) : (
-            <div className="space-y-3">
-              {Object.entries(runsByDivision)
-                .sort(([, a], [, b]) => b - a)
-                .map(([division, count]) => (
-                  <div key={division} className="flex items-center justify-between">
-                    <DivisionBadge division={division} />
-                    <div className="flex items-center gap-3 flex-1 ml-3">
-                      <Progress
-                        value={(count / runsUsed) * 100}
-                        className="h-1.5 flex-1"
-                      />
-                      <span className="text-xs font-medium text-foreground w-4 text-right shrink-0">
-                        {count}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          )}
-        </div>
-
-        {/* By agent */}
-        <div className="rounded-lg border border-border bg-white p-5">
-          <h2 className="text-sm font-semibold text-foreground mb-4">Runs by agent</h2>
-          {Object.keys(runsByAgent).length === 0 ? (
-            <p className="text-xs text-muted-foreground">No runs yet.</p>
-          ) : (
-            <div className="space-y-3">
-              {Object.entries(runsByAgent)
-                .sort(([, a], [, b]) => b.count - a.count)
-                .map(([agentId, info]) => (
-                  <div key={agentId} className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Bot size={13} className="text-muted-foreground shrink-0" />
-                      <p className="text-xs font-medium text-foreground truncate">{info.name}</p>
-                    </div>
-                    <div className="flex items-center gap-3 flex-1 ml-2">
-                      <Progress
-                        value={(info.count / runsUsed) * 100}
-                        className="h-1.5 flex-1"
-                      />
-                      <span className="text-xs font-medium text-foreground w-4 text-right shrink-0">
-                        {info.count}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Upgrade nudge */}
       {(usagePercent >= 60 && MOCK_USER.plan !== 'enterprise') && (
-        <div className="mt-6 rounded-lg border border-border bg-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mt-6 rounded-[28px] border border-border bg-white p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-0.5">
-              You have used {Math.round(usagePercent)}% of your runs
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Upgrade nudge</p>
+            <h3 className="mt-1 text-sm font-semibold text-foreground">
+              You have used {Math.round(usagePercent)}% of your runs.
             </h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="mt-1 text-sm text-muted-foreground">
               Upgrade to get more runs and unlock all agents.
             </p>
           </div>
           <Button size="sm" asChild>
-            <Link href="/app/billing">Upgrade plan</Link>
+            <Link href="/pricing">
+              Compare plans <ArrowRight size={12} className="ml-1" />
+            </Link>
           </Button>
         </div>
       )}
