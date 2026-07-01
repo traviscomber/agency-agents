@@ -5,6 +5,8 @@ import { PLANS } from '@/lib/data/plans'
 import { CheckCircle2, ArrowRight, Sparkles, Shield, Wand2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic'
+
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(15,23,42,0.08),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(201,213,225,0.32),_transparent_30%),linear-gradient(to_bottom,_#f8fafc,_#ffffff_18%,_#f8fafc_100%)]">
