@@ -8,7 +8,9 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex">
       {/* Left panel */}
       <div className="hidden lg:flex flex-col justify-between w-96 bg-white border-r border-border p-10">
-        <Link href="/" className="text-sm font-semibold text-foreground">AgencyOS</Link>
+        <Link href="/" className="text-sm font-semibold text-foreground">
+          AgencyOS
+        </Link>
         <div>
           <blockquote className="text-sm text-muted-foreground leading-relaxed italic mb-3">
             &ldquo;AgencyOS replaced 4 separate tools for me. I run everything from product strategy to
@@ -36,17 +38,24 @@ export default function LoginPage() {
 
           <form className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-sm">Email</Label>
+              <Label htmlFor="email" className="text-sm">
+                Email
+              </Label>
               <Input id="email" type="email" placeholder="you@example.com" className="h-9" />
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm">Password</Label>
-                <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                <Label htmlFor="password" className="text-sm">
+                  Password
+                </Label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Forgot password?
                 </Link>
               </div>
-              <Input id="password" type="password" placeholder="••••••••" className="h-9" />
+              <Input id="password" type="password" placeholder="Enter your password" className="h-9" />
             </div>
             <Button className="w-full" type="submit">
               Sign in
@@ -55,9 +64,14 @@ export default function LoginPage() {
 
           <p className="mt-6 text-xs text-muted-foreground text-center">
             By signing in you agree to our{' '}
-            <Link href="/terms" className="hover:underline">Terms</Link>
+            <Link href="/terms" className="hover:underline">
+              Terms
+            </Link>
             {' '}and{' '}
-            <Link href="/privacy" className="hover:underline">Privacy Policy</Link>.
+            <Link href="/privacy" className="hover:underline">
+              Privacy Policy
+            </Link>
+            .
           </p>
         </div>
       </div>
