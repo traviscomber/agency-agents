@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MOCK_USER } from '@/lib/data/mock-store'
+import { Sparkles } from 'lucide-react'
 
 export default function SettingsPage() {
   const [fullName, setFullName] = useState(MOCK_USER.fullName)
@@ -23,6 +24,10 @@ export default function SettingsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
       <div className="rounded-[28px] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground mb-3">
+          <Sparkles size={12} className="text-primary" />
+          Brandbook aligned settings
+        </div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-3">
           Preferences
         </p>

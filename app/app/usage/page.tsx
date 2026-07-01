@@ -4,7 +4,7 @@ import { Progress } from '@/components/ui/progress'
 import { MOCK_USER, MOCK_RUNS } from '@/lib/data/mock-store'
 import { getPlanById } from '@/lib/data/plans'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { ArrowRight, Bot, Calendar } from 'lucide-react'
+import { ArrowRight, BarChart3, Bot, Calendar } from 'lucide-react'
 
 export default function UsagePage() {
   const plan = getPlanById(MOCK_USER.plan)
@@ -30,6 +30,10 @@ export default function UsagePage() {
       <div className="rounded-[28px] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              <BarChart3 size={12} className="text-primary" />
+              Brandbook aligned usage
+            </div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-3">
               Usage
             </p>

@@ -34,6 +34,10 @@ export default function SavedPage() {
       <div className="rounded-[28px] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              <Bookmark size={12} className="text-primary" />
+              Brandbook aligned library
+            </div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-3">
               Library
             </p>
