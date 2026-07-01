@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { PLANS } from '@/lib/data/plans'
-import { CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, ArrowRight, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function PricingPage() {
@@ -10,46 +10,66 @@ export default function PricingPage() {
     <div className="min-h-screen bg-background">
       <PublicNavbar />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-        <div className="max-w-xl mb-14">
-          <h1 className="text-4xl font-semibold text-foreground mb-4 text-balance">
-            Simple, transparent pricing.
-          </h1>
-          <p className="text-muted-foreground leading-relaxed">
-            Start for free. Upgrade when you need more runs, more agents, or team collaboration.
-          </p>
-        </div>
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+        <section className="mb-10 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+          <div className="grid gap-8 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:p-8">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-1 text-xs font-medium text-muted-foreground">
+                <Sparkles size={12} className="text-primary" />
+                Pricing built for specialist work
+              </div>
+              <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-foreground text-balance sm:text-5xl">
+                Simple, transparent pricing.
+              </h1>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Start for free. Upgrade when you need more runs, more agents, or team collaboration.
+              </p>
+            </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {PLANS.filter((p) => p.id !== 'enterprise').map((plan) => (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                ['Free to start', 'Test the system without a credit card.'],
+                ['Clear upgrade path', 'Plans scale from solo use to teams.'],
+                ['Agent access', 'Each plan exposes a deeper specialist set.'],
+                ['Predictable limits', 'Usage and upgrades are easy to scan.'],
+              ].map(([title, desc]) => (
+                <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4 shadow-sm">
+                  <p className="text-sm font-semibold text-foreground">{title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-4 mb-10 sm:grid-cols-2 lg:grid-cols-4">
+          {PLANS.filter((plan) => plan.id !== 'enterprise').map((plan) => (
             <div
               key={plan.id}
               className={cn(
-                'relative flex flex-col p-6 rounded-lg border bg-white',
+                'relative flex flex-col overflow-hidden rounded-2xl border bg-white p-6 shadow-sm transition-all',
                 plan.highlighted
-                  ? 'border-primary shadow-sm ring-1 ring-primary/20'
-                  : 'border-border'
+                  ? 'border-primary/40 ring-1 ring-primary/15 shadow-md'
+                  : 'border-border hover:border-primary/20 hover:shadow-md'
               )}
             >
               {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-medium px-3 py-0.5 rounded-full">
+                <span className="absolute right-4 top-4 rounded-full bg-slate-950 px-3 py-1 text-[11px] font-medium text-white">
                   Most popular
                 </span>
               )}
               <div className="mb-5">
-                <h3 className="text-sm font-semibold text-foreground mb-1">{plan.name}</h3>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-semibold text-foreground">{plan.priceLabel}</span>
-                  {plan.price !== null && (
-                    <span className="text-xs text-muted-foreground">/month</span>
-                  )}
+                <h2 className="text-sm font-semibold tracking-tight text-foreground">{plan.name}</h2>
+                <div className="mt-2 flex items-baseline gap-1">
+                  <span className="text-3xl font-semibold tracking-tight text-foreground">{plan.priceLabel}</span>
+                  {plan.price !== null && <span className="text-xs text-muted-foreground">/month</span>}
                 </div>
               </div>
-              <ul className="flex-1 space-y-2.5 mb-6">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <CheckCircle2 size={14} className="text-primary mt-0.5 shrink-0" />
-                    {f}
+              <ul className="flex-1 space-y-2.5">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-primary" />
+                    {feature}
                   </li>
                 ))}
               </ul>
@@ -57,40 +77,44 @@ export default function PricingPage() {
                 variant={plan.highlighted ? 'default' : 'outline'}
                 size="sm"
                 asChild
-                className="w-full"
+                className="mt-6 w-full"
               >
-                <Link href="/signup">{plan.cta}</Link>
+                <Link href="/signup">
+                  {plan.cta}
+                  <ArrowRight size={12} className="ml-1.5" />
+                </Link>
               </Button>
             </div>
           ))}
-        </div>
+        </section>
 
-        {/* Enterprise row */}
-        <div className="rounded-lg border border-border bg-white p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h3 className="text-sm font-semibold text-foreground mb-1">Enterprise</h3>
-            <p className="text-sm text-muted-foreground max-w-md">
-              Private agents, white-label, custom usage limits, dedicated onboarding, and custom security requirements.
-            </p>
+        <section className="rounded-[1.75rem] border border-border bg-white p-6 shadow-sm">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold tracking-tight text-foreground">Enterprise</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                Private agents, white-label, custom usage limits, dedicated onboarding, and custom security requirements.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <ul className="flex flex-wrap gap-3">
+                {PLANS.find((plan) => plan.id === 'enterprise')?.features.slice(0, 3).map((feature) => (
+                  <li key={feature} className="flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1.5 text-xs text-muted-foreground">
+                    <CheckCircle2 size={12} className="text-primary" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Button size="sm" asChild>
+                <Link href="mailto:hello@agencyos.app">Contact us</Link>
+              </Button>
+            </div>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
-            <ul className="flex flex-wrap gap-3 mb-3 sm:mb-0">
-              {PLANS.find((p) => p.id === 'enterprise')?.features.slice(0, 3).map((f) => (
-                <li key={f} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <CheckCircle2 size={12} className="text-primary" /> {f}
-                </li>
-              ))}
-            </ul>
-            <Button size="sm" asChild>
-              <Link href="mailto:hello@agencyos.app">Contact us</Link>
-            </Button>
-          </div>
-        </div>
+        </section>
 
-        {/* FAQ */}
-        <div className="mt-16 max-w-2xl">
-          <h2 className="text-xl font-semibold text-foreground mb-8">Common questions</h2>
-          <div className="space-y-6">
+        <section className="mt-14 max-w-2xl">
+          <h2 className="text-xl font-semibold tracking-tight text-foreground">Common questions</h2>
+          <div className="mt-8 space-y-6">
             {[
               {
                 q: 'What counts as an agent run?',
@@ -108,19 +132,15 @@ export default function PricingPage() {
                 q: 'Do unused runs roll over?',
                 a: 'No. Run limits reset at the start of each billing period. Unused runs do not carry over.',
               },
-              {
-                q: 'Is there a free trial for paid plans?',
-                a: 'The Free plan gives you 5 agent runs per month at no cost. You can explore the product before upgrading.',
-              },
             ].map(({ q, a }) => (
               <div key={q} className="border-b border-border pb-6 last:border-0">
-                <h3 className="text-sm font-semibold text-foreground mb-2">{q}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{a}</p>
+                <h3 className="text-sm font-semibold text-foreground">{q}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{a}</p>
               </div>
             ))}
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   )
 }
