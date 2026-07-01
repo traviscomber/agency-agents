@@ -3,8 +3,16 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  LayoutDashboard, Bot, FolderOpen, History, Bookmark,
-  BarChart2, CreditCard, Settings, LogOut, ChevronRight,
+  LayoutDashboard,
+  Bot,
+  FolderOpen,
+  History,
+  Bookmark,
+  BarChart2,
+  CreditCard,
+  Settings,
+  LogOut,
+  Sparkles,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UsageMeter } from '@/components/shared/UsageMeter'
@@ -25,16 +33,20 @@ export function AppSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="hidden lg:flex flex-col w-56 bg-white border-r border-border h-screen sticky top-0 overflow-y-auto shrink-0">
-      {/* Logo */}
-      <div className="px-4 py-4 border-b border-border">
-        <Link href="/app" className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-foreground">AgencyOS</span>
+    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border/70 bg-white/90 backdrop-blur xl:flex">
+      <div className="border-b border-border/70 p-5">
+        <Link href="/app" className="flex items-center gap-3">
+          <span className="flex size-10 items-center justify-center rounded-xl bg-slate-950 text-white shadow-sm">
+            <Sparkles size={16} />
+          </span>
+          <div className="leading-tight">
+            <span className="block text-sm font-semibold tracking-tight text-foreground">AgencyOS</span>
+            <span className="block text-[11px] text-muted-foreground">Operational workspace</span>
+          </div>
         </Link>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-2 py-4 space-y-0.5">
+      <nav className="flex-1 space-y-1 p-3">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href || (href !== '/app' && pathname.startsWith(href))
           return (
@@ -42,38 +54,36 @@ export function AppSidebar() {
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-2.5 px-3 py-2 rounded text-sm transition-colors',
+                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
                 isActive
-                  ? 'bg-muted text-foreground font-medium'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
+                  ? 'bg-slate-950 text-white shadow-sm'
+                  : 'text-muted-foreground hover:bg-slate-50 hover:text-foreground'
               )}
             >
-              <Icon size={15} />
+              <Icon size={15} className={cn(isActive ? 'text-white' : 'text-slate-500')} />
               {label}
             </Link>
           )
         })}
       </nav>
 
-      {/* Usage meter */}
-      <div className="px-3 py-3 border-t border-border">
+      <div className="border-t border-border/70 p-4">
         <UsageMeter used={3} limit={5} plan={MOCK_USER.plan} compact />
       </div>
 
-      {/* User */}
-      <div className="px-3 py-3 border-t border-border">
-        <div className="flex items-center gap-2.5 px-1 mb-2">
-          <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center text-xs font-medium text-foreground shrink-0">
+      <div className="border-t border-border/70 p-4">
+        <div className="mb-3 flex items-center gap-3 rounded-2xl border border-border bg-slate-50 p-3">
+          <div className="flex size-9 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
             {MOCK_USER.fullName.charAt(0)}
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-foreground truncate">{MOCK_USER.fullName}</p>
-            <p className="text-[11px] text-muted-foreground truncate">{MOCK_USER.email}</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs font-medium text-foreground">{MOCK_USER.fullName}</p>
+            <p className="truncate text-[11px] text-muted-foreground">{MOCK_USER.email}</p>
           </div>
         </div>
         <Link
           href="/login"
-          className="flex items-center gap-2 px-3 py-1.5 rounded text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors w-full"
+          className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs text-muted-foreground transition-colors hover:bg-slate-50 hover:text-foreground"
         >
           <LogOut size={13} />
           Sign out

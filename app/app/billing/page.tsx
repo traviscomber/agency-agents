@@ -3,30 +3,53 @@ import { Button } from '@/components/ui/button'
 import { MOCK_USER } from '@/lib/data/mock-store'
 import { PLANS, getPlanById } from '@/lib/data/plans'
 import { PLAN_HIERARCHY } from '@/lib/types'
-import { CheckCircle2, ArrowRight } from 'lucide-react'
+import { CheckCircle2, ArrowRight, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function BillingPage() {
   const currentPlan = getPlanById(MOCK_USER.plan)
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-8">
-        <h1 className="text-xl font-semibold text-foreground mb-1">Billing</h1>
-        <p className="text-sm text-muted-foreground">
-          Manage your plan and billing information.
-        </p>
-      </div>
-
-      {/* Current plan summary */}
-      <div className="rounded-lg border border-border bg-white p-6 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Current plan</p>
-            <p className="text-xl font-semibold text-foreground capitalize">{currentPlan?.name}</p>
-            <p className="text-sm text-muted-foreground mt-1">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-1 text-xs font-medium text-muted-foreground">
+              <Sparkles size={12} className="text-primary" />
+              Billing and plan management
+            </div>
+            <h1 className="text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
+              Manage your plan with less friction.
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Review your current plan, compare limits, and move up or down without losing context.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              ['Current plan', currentPlan?.name ?? 'Unknown'],
+              ['Billing model', currentPlan?.price === 0 ? 'Free' : currentPlan?.price === null ? 'Custom' : 'Monthly'],
+              ['Upgrade path', 'Visible and immediate'],
+              ['Support', 'Contact sales for enterprise'],
+            ].map(([title, value]) => (
+              <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4 shadow-sm">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</p>
+                <p className="mt-2 text-sm font-semibold text-foreground">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs text-muted-foreground">Current plan</p>
+            <p className="text-2xl font-semibold tracking-tight text-foreground capitalize">{currentPlan?.name}</p>
+            <p className="mt-1 text-sm text-muted-foreground">
               {currentPlan?.price === 0
-                ? 'Free — no card required'
+                ? 'Free - no card required'
                 : currentPlan?.price === null
                 ? 'Custom pricing'
                 : `$${currentPlan?.price}/month · Renews Jan 31, 2024`}
@@ -35,18 +58,17 @@ export default function BillingPage() {
           {MOCK_USER.plan !== 'free' && MOCK_USER.plan !== 'enterprise' && (
             <div className="flex gap-2">
               <Button variant="outline" size="sm">Manage payment</Button>
-              <Button variant="outline" size="sm" className="text-destructive border-destructive/30 hover:bg-destructive/5">
+              <Button variant="outline" size="sm" className="border-destructive/30 text-destructive hover:bg-destructive/5">
                 Cancel plan
               </Button>
             </div>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Plan comparison */}
-      <div className="mb-6">
-        <h2 className="text-sm font-semibold text-foreground mb-4">Available plans</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="mb-6 mt-8">
+        <h2 className="mb-4 text-sm font-semibold text-foreground">Available plans</h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {PLANS.filter((p) => p.id !== 'enterprise').map((plan) => {
             const isCurrent = plan.id === MOCK_USER.plan
             const isUpgrade = PLAN_HIERARCHY.indexOf(plan.id) > PLAN_HIERARCHY.indexOf(MOCK_USER.plan)
@@ -56,27 +78,27 @@ export default function BillingPage() {
               <div
                 key={plan.id}
                 className={cn(
-                  'relative flex flex-col p-5 rounded-lg border bg-white',
+                  'relative flex flex-col rounded-2xl border bg-white p-5 shadow-sm',
                   isCurrent
-                    ? 'border-primary ring-1 ring-primary/20'
+                    ? 'border-primary/40 ring-1 ring-primary/15'
                     : plan.highlighted
                     ? 'border-border shadow-sm'
                     : 'border-border'
                 )}
               >
                 {isCurrent && (
-                  <span className="absolute -top-2.5 left-4 bg-primary text-primary-foreground text-[10px] font-medium px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-2.5 left-4 rounded-full bg-slate-950 px-2 py-0.5 text-[10px] font-medium text-white">
                     Current
                   </span>
                 )}
                 {plan.highlighted && !isCurrent && (
-                  <span className="absolute -top-2.5 left-4 bg-foreground text-background text-[10px] font-medium px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-2.5 left-4 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-700">
                     Popular
                   </span>
                 )}
 
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-foreground mb-1">{plan.name}</h3>
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">{plan.name}</h3>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-semibold text-foreground">{plan.priceLabel}</span>
                     {plan.price !== null && plan.price !== 0 && (
@@ -85,10 +107,10 @@ export default function BillingPage() {
                   </div>
                 </div>
 
-                <ul className="flex-1 space-y-2 mb-5">
+                <ul className="mb-5 flex-1 space-y-2">
                   {plan.features.slice(0, 4).map((f) => (
                     <li key={f} className="flex items-start gap-1.5 text-xs text-muted-foreground">
-                      <CheckCircle2 size={12} className="text-primary mt-0.5 shrink-0" />
+                      <CheckCircle2 size={12} className="mt-0.5 shrink-0 text-primary" />
                       {f}
                     </li>
                   ))}
@@ -115,29 +137,29 @@ export default function BillingPage() {
         </div>
       </div>
 
-      {/* Enterprise */}
-      <div className="rounded-lg border border-border bg-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <h3 className="text-sm font-semibold text-foreground mb-0.5">Enterprise</h3>
-          <p className="text-xs text-muted-foreground">
-            Private agents, white-label, custom limits, and dedicated onboarding.
-          </p>
+      <div className="mb-8 rounded-2xl border border-border bg-white p-5 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="mb-0.5 text-sm font-semibold text-foreground">Enterprise</h3>
+            <p className="text-xs text-muted-foreground">
+              Private agents, white-label, custom limits, and dedicated onboarding.
+            </p>
+          </div>
+          <Button size="sm" asChild>
+            <Link href="mailto:hello@agencyos.app">Contact sales</Link>
+          </Button>
         </div>
-        <Button size="sm" asChild>
-          <Link href="mailto:hello@agencyos.app">Contact sales</Link>
-        </Button>
       </div>
 
-      {/* Billing history */}
       <div>
-        <h2 className="text-sm font-semibold text-foreground mb-4">Billing history</h2>
+        <h2 className="mb-4 text-sm font-semibold text-foreground">Billing history</h2>
         {MOCK_USER.plan === 'free' ? (
-          <div className="rounded-lg border border-border bg-white p-6 text-center">
+          <div className="rounded-2xl border border-border bg-white p-6 text-center shadow-sm">
             <p className="text-xs text-muted-foreground">No invoices. You are on the free plan.</p>
           </div>
         ) : (
-          <div className="rounded-lg border border-border bg-white overflow-hidden">
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-4 py-2.5 border-b border-border bg-muted/30">
+          <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+            <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-border bg-slate-50 px-4 py-2.5">
               <span className="text-xs font-medium text-muted-foreground">Date</span>
               <span className="text-xs font-medium text-muted-foreground">Amount</span>
               <span className="text-xs font-medium text-muted-foreground">Status</span>
@@ -148,11 +170,11 @@ export default function BillingPage() {
             ].map((invoice, i) => (
               <div
                 key={i}
-                className="grid grid-cols-[1fr_auto_auto] gap-4 px-4 py-3 border-b border-border last:border-0 items-center"
+                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0"
               >
                 <span className="text-sm text-foreground">{invoice.date}</span>
                 <span className="text-sm text-foreground">{invoice.amount}</span>
-                <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded">
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
                   {invoice.status}
                 </span>
               </div>
