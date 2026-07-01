@@ -30,14 +30,14 @@ export default function AppAgentsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
-        <div className="grid gap-6 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
+      <section className="mb-8 overflow-hidden rounded-[2rem] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:p-8">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-1 text-xs font-medium text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
               <Sparkles size={12} className="text-primary" />
-              Workspace agent library
+              Agent library
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Agents, organized as a workbench.
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -54,7 +54,7 @@ export default function AppAgentsPage() {
               ['Task clarity', 'Each card shows when to use the specialist and what it produces.'],
               ['Workspace fit', 'The grid density matches the rest of the product dashboard.'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4 shadow-sm">
+              <div key={title} className="rounded-[1.25rem] border border-border bg-white p-4 shadow-sm">
                 <p className="text-sm font-semibold text-foreground">{title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
               </div>
@@ -63,7 +63,7 @@ export default function AppAgentsPage() {
         </div>
       </section>
 
-      <section className="mb-6 rounded-[1.5rem] border border-border bg-white p-4 shadow-sm sm:p-5">
+      <section className="mb-6 rounded-[1.5rem] border border-border bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative w-full max-w-md">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -71,7 +71,7 @@ export default function AppAgentsPage() {
               placeholder="Search agents..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-10 pl-9 text-sm"
+              className="h-10 rounded-2xl border-border bg-slate-50 pl-9 text-sm"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -105,7 +105,7 @@ export default function AppAgentsPage() {
       </section>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-border bg-white py-20 text-center shadow-sm">
+        <div className="rounded-[1.5rem] border border-border bg-white py-20 text-center shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
           <p className="text-sm text-muted-foreground">No agents match your search.</p>
         </div>
       ) : (
@@ -116,8 +116,8 @@ export default function AppAgentsPage() {
               <article
                 key={agent.id}
                 className={cn(
-                  'group relative flex flex-col overflow-hidden rounded-2xl border bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md',
-                  hasAccess ? 'border-border hover:border-primary/25' : 'border-border/80 opacity-90'
+                  'group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-34px_rgba(15,23,42,0.6)]',
+                  hasAccess ? 'border-border hover:border-primary/25' : 'border-border/80 opacity-95'
                 )}
               >
                 {!hasAccess && (
