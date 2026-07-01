@@ -5,7 +5,7 @@ import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { getAgentBySlug, SEED_AGENTS } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
-import { ArrowRight, ChevronRight } from 'lucide-react'
+import { ArrowRight, ChevronRight, Sparkles } from 'lucide-react'
 
 export async function generateStaticParams() {
   return SEED_AGENTS.map((a) => ({ slug: a.slug }))
@@ -21,163 +21,170 @@ export default async function PublicAgentDetailPage({
   if (!agent) notFound()
 
   const relatedAgents = SEED_AGENTS.filter(
-    (a) => a.id !== agent.id && (a.division === agent.division || agent.suggestedPrompts.some(() => true))
+    (a) => a.id !== agent.id && (a.division === agent.division || a.suggestedPrompts.some(() => true))
   ).slice(0, 3)
 
   return (
     <div className="min-h-screen bg-background">
       <PublicNavbar />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1 text-xs text-muted-foreground mb-8">
-          <Link href="/agents" className="hover:text-foreground transition-colors">Agents</Link>
+      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+        <nav className="mb-6 flex items-center gap-1 text-xs text-muted-foreground">
+          <Link href="/agents" className="transition-colors hover:text-foreground">
+            Agents
+          </Link>
           <ChevronRight size={12} />
           <span className="text-foreground">{agent.name}</span>
         </nav>
 
-        <div className="grid lg:grid-cols-3 gap-10">
-          {/* Main content */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Header */}
+        <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+          <div className="grid gap-8 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
             <div>
-              <div className="flex flex-wrap items-center gap-2 mb-4">
+              <div className="mb-4 flex flex-wrap items-center gap-2">
                 <DivisionBadge division={agent.division} />
                 <PlanBadge plan={agent.planRequired} />
               </div>
-              <h1 className="text-3xl font-semibold text-foreground mb-3">{agent.name}</h1>
-              <p className="text-muted-foreground leading-relaxed">{agent.longDescription}</p>
-            </div>
-
-            {/* Role & Mission */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="p-5 rounded-lg border border-border bg-white">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Role</p>
-                <p className="text-sm text-foreground font-medium">{agent.role}</p>
-              </div>
-              <div className="p-5 rounded-lg border border-border bg-white">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Mission</p>
-                <p className="text-sm text-foreground">{agent.mission}</p>
-              </div>
-            </div>
-
-            {/* When to use */}
-            <div>
-              <h2 className="text-base font-semibold text-foreground mb-3">When to use</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">{agent.whenToUse}</p>
-            </div>
-
-            {/* Input & Output */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div>
-                <h2 className="text-base font-semibold text-foreground mb-3">Input requirements</h2>
-                <ul className="space-y-2">
-                  {agent.inputRequirements.map((req) => (
-                    <li key={req} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-muted-foreground/40 shrink-0" />
-                      {req}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h2 className="text-base font-semibold text-foreground mb-3">Output format</h2>
-                <ul className="space-y-2">
-                  {agent.outputFormat.map((fmt) => (
-                    <li key={fmt} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0" />
-                      {fmt}
-                    </li>
-                  ))}
-                </ul>
+              <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
+                {agent.name}
+              </h1>
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {agent.longDescription}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button asChild>
+                  <Link href="/signup">
+                    Run this specialist <ArrowRight size={14} className="ml-1.5" />
+                  </Link>
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link href="/pricing">Compare plans</Link>
+                </Button>
               </div>
             </div>
 
-            {/* Example tasks */}
-            <div>
-              <h2 className="text-base font-semibold text-foreground mb-3">Example tasks</h2>
-              <div className="space-y-2">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                ['Role', agent.role],
+                ['Mission', agent.mission],
+                ['Best use', agent.whenToUse],
+                ['Output style', 'Structured deliverables with clear sections and next steps.'],
+              ].map(([title, desc]) => (
+                <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-6">
+            <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">Input requirements</h2>
+              <ul className="mt-4 space-y-3">
+                {agent.inputRequirements.map((req) => (
+                  <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    {req}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">Output format</h2>
+              <ul className="mt-4 space-y-3">
+                {agent.outputFormat.map((fmt) => (
+                  <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500" />
+                    {fmt}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {agent.exampleTasks.map((task) => (
                   <Link
                     key={task}
                     href="/signup"
-                    className="flex items-center justify-between p-3 rounded border border-border bg-white hover:border-primary/30 hover:shadow-sm transition-all group"
+                    className="rounded-2xl border border-border bg-slate-50 p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-white"
                   >
-                    <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                      {task}
-                    </span>
-                    <ArrowRight size={13} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0 ml-3" />
+                    {task}
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* Suggested prompts */}
-            <div>
-              <h2 className="text-base font-semibold text-foreground mb-3">Suggested prompts</h2>
-              <div className="flex flex-wrap gap-2">
+            <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">Suggested prompts</h2>
+              <div className="mt-4 flex flex-wrap gap-2">
                 {agent.suggestedPrompts.map((prompt) => (
                   <Link
                     key={prompt}
                     href="/signup"
-                    className="px-3 py-1.5 text-xs border border-border rounded bg-white hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                    className="rounded-full border border-border bg-slate-50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/25 hover:bg-white hover:text-foreground"
                   >
                     {prompt}
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-5">
-            {/* Run CTA */}
-            <div className="p-5 rounded-lg border border-border bg-white sticky top-20">
-              <div className="mb-4">
-                <p className="text-xs text-muted-foreground mb-1">Required plan</p>
-                <PlanBadge plan={agent.planRequired} />
+          <aside className="space-y-5">
+            <div className="sticky top-24 rounded-2xl border border-border bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-slate-200">
+                <Sparkles size={12} />
+                Ready to run
               </div>
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                Sign up to run this agent and receive a structured deliverable saved to your workspace.
+              <p className="mt-4 text-sm leading-relaxed text-slate-300">
+                Sign up to run this specialist and receive a structured deliverable saved to your workspace.
               </p>
-              <Button className="w-full mb-2" asChild>
-                <Link href="/signup">
-                  Run this agent <ArrowRight size={14} className="ml-1.5" />
-                </Link>
-              </Button>
-              <Button variant="outline" className="w-full" size="sm" asChild>
-                <Link href="/signup">Sign in</Link>
-              </Button>
+              <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Required plan</p>
+                <div className="mt-3">
+                  <PlanBadge plan={agent.planRequired} />
+                </div>
+              </div>
+              <div className="mt-5 space-y-2">
+                <Button className="w-full bg-white text-slate-950 hover:bg-slate-100" asChild>
+                  <Link href="/signup">
+                    Run this agent <ArrowRight size={14} className="ml-1.5" />
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white" asChild>
+                  <Link href="/signup">Sign in</Link>
+                </Button>
+              </div>
             </div>
 
-            {/* Related agents */}
             {relatedAgents.length > 0 && (
-              <div className="p-5 rounded-lg border border-border bg-white">
-                <h3 className="text-xs font-semibold text-foreground uppercase tracking-wide mb-4">
+              <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Related agents
                 </h3>
-                <div className="space-y-3">
+                <div className="mt-4 space-y-3">
                   {relatedAgents.map((related) => (
-                    <Link
-                      key={related.id}
-                      href={`/agents/${related.slug}`}
-                      className="flex items-start gap-3 group"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors truncate">
+                    <Link key={related.id} href={`/agents/${related.slug}`} className="group flex items-start justify-between gap-3 rounded-2xl border border-border bg-slate-50 p-4">
+                      <div>
+                        <p className="text-sm font-medium text-foreground group-hover:text-primary">
                           {related.name}
                         </p>
-                        <p className="text-xs text-muted-foreground truncate">{related.division}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">{related.division}</p>
                       </div>
-                      <ArrowRight size={12} className="text-muted-foreground/40 mt-1 shrink-0" />
+                      <ArrowRight size={12} className="mt-1 shrink-0 text-muted-foreground/60" />
                     </Link>
                   ))}
                 </div>
               </div>
             )}
-          </div>
+          </aside>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

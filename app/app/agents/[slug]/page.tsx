@@ -6,7 +6,7 @@ import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
 import { MOCK_USER } from '@/lib/data/mock-store'
 import { canAccessAgent } from '@/lib/types'
-import { ArrowRight, ArrowLeft, Lock } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Lock, Sparkles } from 'lucide-react'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -24,160 +24,140 @@ export default async function AppAgentDetailPage({ params }: Props) {
   const hasAccess = canAccessAgent(MOCK_USER.plan, agent.planRequired)
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-      {/* Back */}
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <Link
         href="/app/agents"
-        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors"
+        className="mb-6 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft size={13} /> Back to agents
       </Link>
 
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-8 pb-8 border-b border-border">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-3">
-            <DivisionBadge division={agent.division} />
-            <PlanBadge plan={agent.planRequired} />
+      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+        <div className="grid gap-8 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:p-8">
+          <div>
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <DivisionBadge division={agent.division} />
+              <PlanBadge plan={agent.planRequired} />
+            </div>
+            <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
+              {agent.name}
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {agent.longDescription}
+            </p>
+            <p className="mt-5 text-sm font-medium text-foreground">Role: {agent.role}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{agent.mission}</p>
           </div>
-          <h1 className="text-2xl font-semibold text-foreground mb-2">{agent.name}</h1>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-xl mb-1">
-            {agent.longDescription}
-          </p>
-          <p className="text-xs text-muted-foreground">Role: {agent.role}</p>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              ['When to use', agent.whenToUse],
+              ['What you provide', 'Context, constraints, and any source material the specialist should use.'],
+              ['What you get', 'Structured output with clear recommendations, not a generic conversation transcript.'],
+              ['Next action', hasAccess ? 'Run the specialist in the workspace.' : 'Upgrade to unlock this specialist.'],
+            ].map(([title, desc]) => (
+              <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="shrink-0">
-          {hasAccess ? (
-            <Button asChild>
-              <Link href={`/app/run/${agent.slug}`}>
-                Run this agent <ArrowRight size={14} className="ml-1.5" />
-              </Link>
-            </Button>
-          ) : (
-            <Button variant="outline" asChild>
-              <Link href="/app/billing">
-                <Lock size={13} className="mr-1.5" /> Upgrade to unlock
-              </Link>
-            </Button>
+      </section>
+
+      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="space-y-6">
+          <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+            <h2 className="text-sm font-semibold text-foreground">What you provide</h2>
+            <ul className="mt-4 space-y-3">
+              {agent.inputRequirements.map((req) => (
+                <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  {req}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+            <h2 className="text-sm font-semibold text-foreground">What you get</h2>
+            <ul className="mt-4 space-y-3">
+              {agent.outputFormat.map((fmt) => (
+                <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500" />
+                  {fmt}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+            <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {agent.exampleTasks.map((task, index) => (
+                <div key={index} className="rounded-2xl border border-border bg-slate-50 p-4 text-sm leading-relaxed text-foreground">
+                  {task}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {hasAccess && (
+            <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">Suggested starting prompts</h2>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {agent.suggestedPrompts.map((prompt) => (
+                  <Link
+                    key={prompt}
+                    href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
+                    className="rounded-full border border-border bg-slate-50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/25 hover:bg-white hover:text-foreground"
+                  >
+                    {prompt}
+                  </Link>
+                ))}
+              </div>
+            </section>
           )}
         </div>
-      </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mb-10">
-        {/* Mission */}
-        <div>
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            Mission
-          </h2>
-          <p className="text-sm text-foreground leading-relaxed">{agent.mission}</p>
-        </div>
-
-        {/* When to use */}
-        <div>
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            When to use
-          </h2>
-          <p className="text-sm text-foreground leading-relaxed">{agent.whenToUse}</p>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8 mb-10">
-        {/* Input requirements */}
-        <div>
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            What you provide
-          </h2>
-          <ul className="space-y-2">
-            {agent.inputRequirements.map((req, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                {req}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Output format */}
-        <div>
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            What you get
-          </h2>
-          <ul className="space-y-2">
-            {agent.outputFormat.map((fmt, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                {fmt}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Example tasks */}
-      <div className="mb-10">
-        <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-          Example tasks
-        </h2>
-        <div className="grid sm:grid-cols-3 gap-3">
-          {agent.exampleTasks.map((task, i) => (
-            <div key={i} className="p-4 rounded-lg border border-border bg-white text-sm text-foreground leading-relaxed">
-              {task}
+        <aside className="space-y-5">
+          <div className="sticky top-24 rounded-2xl border border-border bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-slate-200">
+              <Sparkles size={12} />
+              {hasAccess ? 'Ready to run' : 'Locked specialist'}
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Suggested prompts */}
-      {hasAccess && (
-        <div className="mb-10">
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            Suggested starting prompts
-          </h2>
-          <div className="space-y-2">
-            {agent.suggestedPrompts.map((prompt, i) => (
-              <Link
-                key={i}
-                href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
-                className="flex items-center justify-between p-3 rounded border border-border bg-white hover:border-primary/30 hover:bg-muted/20 transition-all group text-sm text-foreground"
-              >
-                <span>{prompt}</span>
-                <ArrowRight size={12} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0 ml-3" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* CTA */}
-      <div className="rounded-lg border border-border bg-white p-6">
-        {hasAccess ? (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-sm font-semibold text-foreground mb-1">Ready to run {agent.name}?</h3>
-              <p className="text-xs text-muted-foreground">Describe your task and receive a structured deliverable.</p>
+            <p className="mt-4 text-sm leading-relaxed text-slate-300">
+              {hasAccess
+                ? 'Describe your task and the workspace will guide you into a structured run.'
+                : `This specialist requires the ${agent.planRequired} plan or higher.`}
+            </p>
+            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Required plan</p>
+              <div className="mt-3">
+                <PlanBadge plan={agent.planRequired} />
+              </div>
             </div>
-            <Button asChild>
-              <Link href={`/app/run/${agent.slug}`}>
-                Run now <ArrowRight size={14} className="ml-1.5" />
-              </Link>
-            </Button>
-          </div>
-        ) : (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-sm font-semibold text-foreground mb-1">
-                Upgrade to access {agent.name}
-              </h3>
-              <p className="text-xs text-muted-foreground">
-                This agent requires the{' '}
-                <span className="font-medium capitalize">{agent.planRequired}</span> plan or higher.
-              </p>
+            <div className="mt-5 space-y-2">
+              {hasAccess ? (
+                <Button className="w-full bg-white text-slate-950 hover:bg-slate-100" asChild>
+                  <Link href={`/app/run/${agent.slug}`}>
+                    Run this specialist <ArrowRight size={14} className="ml-1.5" />
+                  </Link>
+                </Button>
+              ) : (
+                <Button variant="outline" className="w-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white" asChild>
+                  <Link href="/app/billing">
+                    <Lock size={13} className="mr-1.5" />
+                    Upgrade to unlock
+                  </Link>
+                </Button>
+              )}
+              <Button variant="outline" className="w-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white" asChild>
+                <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse agents' : 'Sign up'}</Link>
+              </Button>
             </div>
-            <Button asChild>
-              <Link href="/app/billing">Upgrade plan</Link>
-            </Button>
           </div>
-        )}
+        </aside>
       </div>
     </div>
   )
