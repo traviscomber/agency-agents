@@ -23,36 +23,36 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-      <div className="rounded-[28px] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
-        <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground mb-3">
+      <div className="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
           <Sparkles size={12} className="text-primary" />
           Brandbook aligned settings
         </div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-3">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
           Preferences
         </p>
         <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">Settings tuned for the workspace owner.</h1>
-        <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl">
+        <p className="mt-3 max-w-2xl text-sm text-slate-600 sm:text-base">
           Update profile details, manage security, and keep the default experience aligned with how the team works.
         </p>
       </div>
 
-      <div className="mt-6 rounded-[28px] border border-border bg-white p-5 sm:p-6">
+      <div className="mt-6 rounded-[28px] border border-slate-200 bg-white p-5 sm:p-6">
         <Tabs defaultValue="profile">
-          <TabsList className="mb-8 grid w-full grid-cols-3 rounded-2xl bg-muted/40 p-1">
-            <TabsTrigger value="profile" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+          <TabsList className="mb-8 grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1">
+            <TabsTrigger value="profile" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
               Profile
             </TabsTrigger>
-            <TabsTrigger value="account" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+            <TabsTrigger value="account" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
               Account
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+            <TabsTrigger value="notifications" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
               Notifications
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile" className="space-y-6">
-            <div className="rounded-2xl border border-border bg-muted/20 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
               <h2 className="text-sm font-semibold text-foreground">Profile information</h2>
               <div className="mt-4 space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -71,7 +71,7 @@ export default function SettingsPage() {
                       id="email"
                       value={email}
                       disabled
-                      className="text-sm h-10 bg-muted/40"
+                      className="h-10 text-sm bg-slate-100"
                     />
                   </div>
                 </div>
@@ -102,23 +102,23 @@ export default function SettingsPage() {
 
             <Separator />
 
-            <div className="rounded-2xl border border-border bg-muted/20 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
               <h2 className="text-sm font-semibold text-foreground">Avatar</h2>
               <div className="mt-4 flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-semibold text-foreground ring-1 ring-border">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-semibold text-foreground ring-1 ring-slate-200">
                   {fullName.charAt(0)}
                 </div>
                 <div>
                   <Button variant="outline" size="sm" className="text-xs h-9 bg-white">
                     Upload image
                   </Button>
-                  <p className="mt-1.5 text-xs text-muted-foreground">JPG, PNG or GIF. Max 2MB.</p>
+                  <p className="mt-1.5 text-xs text-slate-500">JPG, PNG or GIF. Max 2MB.</p>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <p className={`text-xs ${saved ? 'text-emerald-600' : 'text-transparent'}`}>Changes saved.</p>
+              <p className={`text-xs ${saved ? 'text-emerald-700' : 'text-transparent'}`}>Changes saved.</p>
               <Button size="sm" onClick={handleSave}>
                 Save changes
               </Button>
@@ -126,7 +126,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="account" className="space-y-6">
-            <div className="rounded-2xl border border-border bg-muted/20 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
               <h2 className="text-sm font-semibold text-foreground">Password</h2>
               <div className="mt-4 max-w-sm space-y-3">
                 <div className="space-y-1.5">
@@ -147,21 +147,21 @@ export default function SettingsPage() {
 
             <Separator />
 
-            <div className="rounded-2xl border border-border bg-muted/20 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
               <h2 className="text-sm font-semibold text-foreground">Danger zone</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm text-slate-600">
                 Permanently delete your account and all data. This cannot be undone.
               </p>
-              <Button variant="outline" size="sm" className="mt-4 text-destructive border-destructive/30 hover:bg-destructive/5 text-xs">
+              <Button variant="outline" size="sm" className="mt-4 border-destructive/30 text-xs text-destructive hover:bg-destructive/5">
                 Delete account
               </Button>
             </div>
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-6">
-            <div className="rounded-2xl border border-border bg-muted/20 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
               <h2 className="text-sm font-semibold text-foreground">Email notifications</h2>
-              <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+              <div className="mt-4 space-y-3 text-sm text-slate-600">
                 <label className="flex items-center gap-3">
                   <input type="checkbox" defaultChecked className="accent-foreground" />
                   Run completed

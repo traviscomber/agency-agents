@@ -15,13 +15,13 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(15,23,42,0.10),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(201,213,225,0.35),_transparent_30%),linear-gradient(to_bottom,_#f8fafc,_#ffffff_20%,_#f8fafc_100%)]">
       <div className="grid min-h-screen lg:grid-cols-[0.98fr_1.02fr]">
-        <aside className="hidden border-r border-border/70 bg-white p-10 lg:flex lg:flex-col lg:justify-between">
+        <aside className="hidden border-r border-slate-200 bg-white p-10 lg:flex lg:flex-col lg:justify-between">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
             <Sparkles size={15} className="text-primary" />
             AgencyOS
           </Link>
           <div className="max-w-md">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
               <Shield size={12} className="text-primary" />
               Free plan includes
             </div>
@@ -43,14 +43,14 @@ export default function SignupPage() {
                 <Sparkles size={15} className="text-primary" />
                 AgencyOS
               </Link>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
-                <Shield size={12} className="text-primary" />
-                Create your workspace
-              </div>
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-sm">
+            <Shield size={12} className="text-primary" />
+            Create your workspace
+          </div>
               <h1 className="text-3xl font-semibold tracking-tight text-foreground text-balance">
                 Create your account
               </h1>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">
                 Already have an account?{' '}
                 <Link href="/login" className="font-medium text-foreground hover:underline">
                   Sign in
@@ -58,7 +58,7 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <form className="space-y-4 rounded-[1.5rem] border border-border bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+            <form className="space-y-4 rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
               <div className="space-y-1.5">
                 <Label htmlFor="name" className="text-sm">Full name</Label>
                 <Input id="name" type="text" placeholder="Your name" className="h-10 rounded-2xl" />
@@ -81,17 +81,17 @@ export default function SignupPage() {
                 'A crisp signup surface that matches the product system',
                 'Quick path into the workspace without extra friction',
               ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-border bg-white px-4 py-3 text-sm text-muted-foreground shadow-sm">
+                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
                   {item}
                 </div>
               ))}
             </div>
 
-            <p className="mt-6 text-center text-xs text-muted-foreground">
+            <p className="mt-6 text-center text-xs text-slate-600">
               By creating an account you agree to our{' '}
-              <Link href="/terms" className="hover:text-foreground hover:underline">Terms</Link>
+              <Link href="/terms" className="hover:text-slate-950 hover:underline">Terms</Link>
               {' '}and{' '}
-              <Link href="/privacy" className="hover:text-foreground hover:underline">Privacy Policy</Link>.
+              <Link href="/privacy" className="hover:text-slate-950 hover:underline">Privacy Policy</Link>.
             </p>
           </div>
         </main>

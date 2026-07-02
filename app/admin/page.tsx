@@ -28,16 +28,16 @@ export default function AdminDashboard() {
     <div className="max-w-5xl mx-auto px-6 py-8">
       <div className="mb-8">
         <h1 className="text-xl font-semibold text-foreground mb-1">Admin dashboard</h1>
-        <p className="text-sm text-muted-foreground">Platform overview and key metrics.</p>
+        <p className="text-sm text-slate-600">Platform overview and key metrics.</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
         {STATS.map(({ label, value, icon: Icon }) => (
-          <div key={label} className="p-4 rounded-lg border border-border bg-white">
+          <div key={label} className="rounded-lg border border-slate-200 bg-white p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Icon size={14} className="text-muted-foreground" />
-              <p className="text-xs text-muted-foreground">{label}</p>
+              <Icon size={14} className="text-slate-500" />
+              <p className="text-xs text-slate-500">{label}</p>
             </div>
             <p className="text-2xl font-semibold text-foreground">{value}</p>
           </div>
@@ -46,23 +46,23 @@ export default function AdminDashboard() {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Recent runs */}
-        <div className="rounded-lg border border-border bg-white p-5">
+        <div className="rounded-lg border border-slate-200 bg-white p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">Recent runs</h2>
           <div className="space-y-3">
             {MOCK_RUNS.map((run) => (
               <div key={run.id} className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded bg-muted flex items-center justify-center shrink-0">
-                  <Bot size={12} className="text-muted-foreground" />
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded bg-slate-100">
+                  <Bot size={12} className="text-slate-600" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-medium text-foreground truncate">{run.agentName}</p>
-                  <p className="text-[11px] text-muted-foreground truncate">{run.task}</p>
+                  <p className="text-[11px] truncate text-slate-600">{run.task}</p>
                 </div>
                 <span
                   className={`text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0 ${
                     run.status === 'completed'
-                      ? 'bg-green-50 text-green-700'
-                      : 'bg-muted text-muted-foreground'
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : 'bg-slate-100 text-slate-600'
                   }`}
                 >
                   {run.status}
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Usage by division */}
-        <div className="rounded-lg border border-border bg-white p-5">
+        <div className="rounded-lg border border-slate-200 bg-white p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">Runs by division</h2>
           <div className="space-y-3">
             {Object.entries(runsByDivision)
