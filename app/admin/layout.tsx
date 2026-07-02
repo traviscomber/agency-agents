@@ -17,22 +17,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <aside className="hidden lg:flex flex-col w-52 bg-foreground h-screen sticky top-0 shrink-0">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-slate-900/10 bg-slate-950 lg:flex">
         {/* Logo */}
-        <div className="px-4 py-4 border-b border-white/10">
+        <div className="border-b border-white/10 px-4 py-4">
           <Link href="/admin" className="flex items-center gap-2">
-            <Shield size={14} className="text-white/60" />
+            <Shield size={14} className="text-white/75" />
             <span className="text-xs font-semibold text-white">AgencyOS Admin</span>
           </Link>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-2 py-4 space-y-0.5">
+        <nav className="flex-1 space-y-0.5 px-2 py-4">
           {ADMIN_NAV.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2.5 px-3 py-2 rounded text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+              className="flex items-center gap-2.5 rounded px-3 py-2 text-sm text-white/72 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Icon size={14} />
               {label}
@@ -41,10 +41,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Back to app */}
-        <div className="px-3 py-3 border-t border-white/10">
+        <div className="border-t border-white/10 px-3 py-3">
           <Link
             href="/app"
-            className="flex items-center gap-2 px-3 py-1.5 rounded text-xs text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            className="flex items-center gap-2 rounded px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/10 hover:text-white"
           >
             &larr; Back to workspace
           </Link>

@@ -14,18 +14,18 @@ export default function ForgotPasswordPage() {
             AgencyOS
           </Link>
           <div className="mb-8">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-sm">
               <Mail size={12} className="text-primary" />
               Password reset
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-foreground text-balance">
               Reset your password
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
               Enter your email and we will send you a link to reset your password.
             </p>
           </div>
-          <form className="space-y-4 rounded-[1.5rem] border border-border bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+          <form className="space-y-4 rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-sm">Email</Label>
               <Input id="email" type="email" placeholder="you@example.com" className="h-10 rounded-2xl" />
@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
             </Button>
           </form>
           <p className="mt-6 text-center text-sm">
-            <Link href="/login" className="text-muted-foreground transition-colors hover:text-foreground">
+            <Link href="/login" className="text-slate-600 transition-colors hover:text-slate-950">
               Back to sign in
             </Link>
           </p>
