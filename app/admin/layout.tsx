@@ -17,11 +17,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-slate-900/10 bg-slate-950 lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-slate-200 bg-[linear-gradient(180deg,#0f172a,#111827_55%,#1e293b)] lg:flex">
         {/* Logo */}
         <div className="border-b border-white/10 px-4 py-4">
           <Link href="/admin" className="flex items-center gap-2">
-            <Shield size={14} className="text-white/75" />
+            <Shield size={14} className="text-white/85" />
             <span className="text-xs font-semibold text-white">AgencyOS Admin</span>
           </Link>
         </div>
@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2.5 rounded px-3 py-2 text-sm text-white/72 transition-colors hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/84 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Icon size={14} />
               {label}
@@ -44,7 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="border-t border-white/10 px-3 py-3">
           <Link
             href="/app"
-            className="flex items-center gap-2 rounded px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs text-white/72 transition-colors hover:bg-white/10 hover:text-white"
           >
             &larr; Back to workspace
           </Link>

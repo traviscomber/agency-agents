@@ -20,7 +20,7 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
     return (
       <div className="w-full">
         <div className="mb-1 flex items-center justify-between">
-          <span className="text-xs text-slate-600">
+          <span className="text-xs text-slate-700">
             {used}/{limit} runs
           </span>
           {isWarning && !isCritical && (
@@ -49,7 +49,7 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
       <div className="mb-2 flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-foreground">Monthly runs</p>
-          <p className="text-xs capitalize text-slate-600">{plan} plan</p>
+          <p className="text-xs capitalize text-slate-700">{plan} plan</p>
         </div>
         <span
           className={cn(
@@ -58,7 +58,7 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
           )}
         >
           {used}
-          <span className="text-base font-normal text-slate-600">/{limit}</span>
+          <span className="text-base font-normal text-slate-700">/{limit}</span>
         </span>
       </div>
       <Progress

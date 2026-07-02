@@ -26,18 +26,18 @@ export default function AdminDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_56%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
+      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#eef2ff_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
         <div className="flex flex-col gap-3">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Admin dashboard</h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-slate-600">Platform overview and key metrics.</p>
+          <p className="max-w-2xl text-sm leading-relaxed text-slate-700">Platform overview and key metrics.</p>
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {stats.map(({ label, value, icon: Icon }) => (
-            <div key={label} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div key={label} className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.45)]">
               <div className="mb-2 flex items-center gap-2">
-                <Icon size={14} className="text-slate-500" />
-                <p className="text-xs font-medium text-slate-500">{label}</p>
+                <Icon size={14} className="text-slate-600" />
+                <p className="text-xs font-medium text-slate-700">{label}</p>
               </div>
               <p className="text-2xl font-semibold text-foreground">{value}</p>
             </div>
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
       </section>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+        <div className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
           <h2 className="mb-4 text-sm font-semibold text-foreground">Recent runs</h2>
           <div className="space-y-3">
             {MOCK_RUNS.map((run) => (

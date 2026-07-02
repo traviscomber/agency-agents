@@ -9,7 +9,7 @@ export default function AdminRunsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:p-8">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
@@ -19,7 +19,7 @@ export default function AdminRunsPage() {
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Execution log with the status signal surfaced first.
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
               Track completed work, failed runs, and live jobs without burying the operational state in low-contrast chrome.
             </p>
           </div>
@@ -30,15 +30,15 @@ export default function AdminRunsPage() {
               <p className="mt-3 text-3xl font-semibold">{MOCK_RUNS.length}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Completed</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Completed</p>
               <p className="mt-3 text-3xl font-semibold text-emerald-600">{completed}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Running</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Running</p>
               <p className="mt-3 text-3xl font-semibold text-sky-600">{running}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Failed</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Failed</p>
               <p className="mt-3 text-3xl font-semibold text-rose-600">{failed}</p>
             </div>
           </div>
@@ -46,12 +46,12 @@ export default function AdminRunsPage() {
       </section>
 
       <div className="mt-6 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-        <div className="grid grid-cols-[auto_2fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-slate-50 px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Agent</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Task</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Division</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Date</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Status</span>
+        <div className="grid grid-cols-[auto_2fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Agent</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Task</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Division</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Date</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Status</span>
         </div>
 
         {MOCK_RUNS.map((run, i) => (
@@ -71,7 +71,7 @@ export default function AdminRunsPage() {
             <div className="min-w-0">
               <p className="truncate text-sm text-foreground">{run.task}</p>
               {run.projectName && (
-                <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-600">
+                <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-700">
                   <FolderOpen size={9} />
                   {run.projectName}
                 </p>
@@ -80,7 +80,7 @@ export default function AdminRunsPage() {
 
             <DivisionBadge division={run.agentDivision} size="sm" />
 
-            <p className="flex items-center gap-1 text-xs text-slate-600">
+            <p className="flex items-center gap-1 text-xs text-slate-700">
               <Calendar size={10} />
               {new Date(run.createdAt).toLocaleDateString('en-US', {
                 month: 'short',

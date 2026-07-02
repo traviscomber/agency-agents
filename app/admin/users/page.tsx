@@ -23,7 +23,7 @@ export default function AdminUsersPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:p-8">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
@@ -33,7 +33,7 @@ export default function AdminUsersPage() {
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               User registry with clear ownership and plan visibility.
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
               Review access, spot account health issues, and keep admin actions obvious without burying the main data.
             </p>
           </div>
@@ -44,15 +44,15 @@ export default function AdminUsersPage() {
               <p className="mt-3 text-3xl font-semibold">{MOCK_USERS.length}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Admins</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Admins</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{admins}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Onboarding</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Onboarding</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{onboarded}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Health</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Health</p>
               <p className="mt-3 text-sm font-semibold text-foreground">Visible at a glance</p>
             </div>
           </div>
@@ -64,18 +64,18 @@ export default function AdminUsersPage() {
           <div key={planId} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 text-center shadow-sm">
             <PlanBadge plan={planId} size="sm" className="justify-center mb-2" />
             <p className="text-2xl font-semibold text-foreground">{planCounts[planId]}</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-slate-500">{planId}</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-slate-600">{planId}</p>
           </div>
         ))}
       </div>
 
       <div className="mt-6 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-slate-50 px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">User</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Company</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Plan</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Joined</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Actions</span>
+        <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3">
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">User</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Company</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Plan</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Joined</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Actions</span>
         </div>
 
         {MOCK_USERS.map((user, i) => (
@@ -98,21 +98,21 @@ export default function AdminUsersPage() {
                     </span>
                   )}
                 </p>
-                <p className="truncate text-xs text-slate-600">
+                <p className="truncate text-xs text-slate-700">
                   <Mail size={10} className="mr-1 inline -translate-y-[1px]" />
                   {user.email}
                 </p>
               </div>
             </div>
 
-            <p className="truncate text-xs text-slate-600">
+            <p className="truncate text-xs text-slate-700">
               <Building2 size={10} className="mr-1 inline -translate-y-[1px]" />
               {user.company || '-'}
             </p>
 
             <PlanBadge plan={user.plan} size="sm" />
 
-            <p className="flex items-center gap-1 text-xs text-slate-600">
+            <p className="flex items-center gap-1 text-xs text-slate-700">
               <Calendar size={10} />
               {new Date(user.createdAt).toLocaleDateString('en-US', {
                 month: 'short',
