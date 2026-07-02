@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, use } from 'react'
+import { useEffect, useState, use, type ReactNode } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -14,8 +14,7 @@ import { MOCK_USER, MOCK_PROJECTS } from '@/lib/data/mock-store'
 import { runMockAgent } from '@/lib/ai/mock-provider'
 import { canAccessAgent } from '@/lib/types'
 import type { AgentOutput } from '@/lib/types'
-import { ArrowLeft, Bot, Loader2, ArrowRight, Lock, Bookmark, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { ArrowLeft, ArrowRight, AlertCircle, Bookmark, Bot, CheckCircle2, Loader2, Lock, Sparkles } from 'lucide-react'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -23,9 +22,18 @@ interface Props {
 
 function HeaderStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.25rem] border border-border bg-white p-4 shadow-sm">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
+    <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
+      <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">{label}</p>
       <p className="mt-2 text-lg font-semibold text-foreground">{value}</p>
+    </div>
+  )
+}
+
+function OutputBlock({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+      <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">{title}</h3>
+      <div className="mt-3 text-sm leading-relaxed text-foreground">{children}</div>
     </div>
   )
 }
@@ -54,7 +62,7 @@ export default function RunAgentPage({ params }: Props) {
   if (!agent) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-16 text-center">
-        <p className="text-sm text-muted-foreground mb-4">Agent not found.</p>
+        <p className="mb-4 text-sm text-slate-600">Agent not found.</p>
         <Button variant="outline" asChild>
           <Link href="/app/agents">Back to agents</Link>
         </Button>
@@ -65,11 +73,11 @@ export default function RunAgentPage({ params }: Props) {
   if (!hasAccess) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-muted/40">
-          <Lock size={18} className="text-muted-foreground" />
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white">
+          <Lock size={18} />
         </div>
         <h2 className="text-2xl font-semibold tracking-tight text-foreground">Upgrade required</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm text-slate-600">
           {agent.name} requires the <span className="font-medium capitalize">{agent.planRequired}</span> plan.
         </p>
         <Button asChild className="mt-6">
@@ -95,25 +103,21 @@ export default function RunAgentPage({ params }: Props) {
     }
   }
 
-  function handleSave() {
-    setSaved(true)
-  }
-
   const selectedProject = MOCK_PROJECTS.find((project) => project.id === projectId)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
         href={`/app/agents/${slug}`}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 transition-colors hover:text-foreground"
       >
         <ArrowLeft size={13} /> Back to {agent.name}
       </Link>
 
-      <section className="mt-5 overflow-hidden rounded-[2rem] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+      <section className="mt-5 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
               <Sparkles size={12} className="text-primary" />
               Run workspace
             </div>
@@ -124,7 +128,7 @@ export default function RunAgentPage({ params }: Props) {
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {agent.name}
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
               {agent.shortDescription}
             </p>
           </div>
@@ -138,19 +142,20 @@ export default function RunAgentPage({ params }: Props) {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="space-y-6">
-          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
-            <div className="grid gap-3 sm:grid-cols-3">
-              <HeaderStat label="Plan" value={MOCK_USER.plan} />
-              <HeaderStat label="Project" value={selectedProject?.name || 'Unassigned'} />
-              <HeaderStat label="State" value={status === 'idle' ? 'Ready' : status === 'running' ? 'Running' : status === 'done' ? 'Complete' : 'Error'} />
-            </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <HeaderStat label="Plan" value={MOCK_USER.plan} />
+            <HeaderStat label="Project" value={selectedProject?.name || 'Unassigned'} />
+            <HeaderStat
+              label="State"
+              value={status === 'idle' ? 'Ready' : status === 'running' ? 'Running' : status === 'done' ? 'Complete' : 'Error'}
+            />
           </div>
 
-          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
             <div className="mb-5 flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-semibold text-foreground">Run configuration</h2>
-                <p className="text-xs text-muted-foreground">Shape the request before execution.</p>
+                <p className="text-xs text-slate-600">Shape the request before execution.</p>
               </div>
             </div>
 
@@ -172,7 +177,7 @@ export default function RunAgentPage({ params }: Props) {
 
               <div className="space-y-1.5">
                 <Label htmlFor="context" className="text-sm font-medium">
-                  Context <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+                  Context <span className="text-xs font-normal text-slate-500">(optional)</span>
                 </Label>
                 <Textarea
                   id="context"
@@ -259,80 +264,71 @@ export default function RunAgentPage({ params }: Props) {
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-foreground">Agent output</h2>
                 {saved ? (
-                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5 text-xs text-slate-500">
                     <CheckCircle2 size={13} className="text-primary" /> Saved
                   </span>
                 ) : (
-                  <Button variant="outline" size="sm" className="text-xs" onClick={handleSave}>
+                  <Button variant="outline" size="sm" className="text-xs" onClick={() => setSaved(true)}>
                     <Bookmark size={12} className="mr-1.5" /> Save output
                   </Button>
                 )}
               </div>
 
-              <div className="rounded-[1.5rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Summary</h3>
-                <p className="mt-3 text-sm leading-relaxed text-foreground">{output.summary}</p>
-              </div>
+              <OutputBlock title="Summary">
+                <p>{output.summary}</p>
+              </OutputBlock>
 
-              <div className="rounded-[1.5rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Main result</h3>
-                <div className="prose prose-sm mt-4 max-w-none">
-                  {output.mainResult.split('\n').map((line, i) => {
+              <OutputBlock title="Main result">
+                <div className="space-y-2">
+                  {output.mainResult.split('\n').map((line, index) => {
+                    if (!line.trim()) return null
                     if (line.startsWith('**') && line.endsWith('**')) {
                       return (
-                        <p key={i} className="mb-2 mt-4 text-sm font-semibold text-foreground">
+                        <p key={index} className="mt-3 font-semibold text-foreground">
                           {line.replace(/\*\*/g, '')}
                         </p>
                       )
                     }
-                    if (line.match(/^\d\./)) {
+                    if (/^\d+\./.test(line)) {
                       return (
-                        <p key={i} className="mb-1 ml-3 text-sm text-foreground">
+                        <p key={index} className="ml-3">
                           {line}
                         </p>
                       )
                     }
-                    if (line.trim() === '') return null
-                    return (
-                      <p key={i} className="mb-2 text-sm leading-relaxed text-foreground">
-                        {line}
-                      </p>
-                    )
+                    return <p key={index}>{line}</p>
                   })}
                 </div>
-              </div>
+              </OutputBlock>
 
-              <div className="rounded-[1.5rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Action steps</h3>
-                <ol className="mt-4 space-y-3">
-                  {output.actionSteps.map((step, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground">
-                        {i + 1}
+              <OutputBlock title="Action steps">
+                <ol className="space-y-3">
+                  {output.actionSteps.map((step, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
+                        {index + 1}
                       </span>
-                      <span className="text-sm leading-relaxed text-foreground">{step}</span>
+                      <span>{step}</span>
                     </li>
                   ))}
                 </ol>
-              </div>
+              </OutputBlock>
 
               {output.risksNotes.length > 0 && (
-                <div className="rounded-[1.5rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                  <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Risks &amp; notes</h3>
-                  <ul className="mt-4 space-y-2">
-                    {output.risksNotes.map((note, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
-                        {note}
+                <OutputBlock title="Risks & notes">
+                  <ul className="space-y-2">
+                    {output.risksNotes.map((note, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+                        <span>{note}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </OutputBlock>
               )}
 
-              <div className="rounded-[1.5rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Suggested next step</h3>
-                <p className="mt-3 text-sm text-foreground">{output.suggestedNextStep}</p>
+              <OutputBlock title="Suggested next step">
+                <p>{output.suggestedNextStep}</p>
                 {output.relatedAgents.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {output.relatedAgents.map((relSlug) => {
@@ -342,7 +338,7 @@ export default function RunAgentPage({ params }: Props) {
                         <Link
                           key={relSlug}
                           href={`/app/agents/${relSlug}`}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/30 px-3 py-1.5 text-xs text-foreground transition-colors hover:border-primary/30 hover:bg-muted/60"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-foreground transition-colors hover:border-primary/30 hover:bg-white"
                         >
                           {rel.name} <ArrowRight size={10} />
                         </Link>
@@ -350,7 +346,7 @@ export default function RunAgentPage({ params }: Props) {
                     })}
                   </div>
                 )}
-              </div>
+              </OutputBlock>
 
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button
@@ -361,6 +357,7 @@ export default function RunAgentPage({ params }: Props) {
                     setOutput(null)
                     setTask('')
                     setContext('')
+                    setSaved(false)
                   }}
                 >
                   Run another task
@@ -377,27 +374,27 @@ export default function RunAgentPage({ params }: Props) {
         </div>
 
         <aside className="space-y-4">
-          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Agent context</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Agent context</p>
                 <h2 className="mt-2 text-sm font-semibold text-foreground">{agent.name}</h2>
               </div>
-              <Bot size={16} className="text-muted-foreground" />
+              <Bot size={16} className="text-slate-500" />
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{agent.shortDescription}</p>
-            <div className="mt-4 rounded-[1.25rem] border border-border bg-muted/20 p-4">
-              <p className="text-xs text-muted-foreground">Recommended use</p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
+            <div className="mt-4 rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs text-slate-500">Recommended use</p>
               <p className="mt-1 text-sm font-medium text-foreground">{agent.whenToUse}</p>
             </div>
           </div>
 
-          <div className="rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Checklist</p>
-            <div className="mt-4 space-y-3 text-sm text-muted-foreground">
-              <div className="rounded-[1.25rem] border border-border bg-muted/20 p-4">Write a task with a clear outcome.</div>
-              <div className="rounded-[1.25rem] border border-border bg-muted/20 p-4">Add context if the agent needs source material.</div>
-              <div className="rounded-[1.25rem] border border-border bg-muted/20 p-4">Save the output if it becomes part of your project history.</div>
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Checklist</p>
+            <div className="mt-4 space-y-3 text-sm text-slate-600">
+              <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Write a task with a clear outcome.</div>
+              <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Add context if the agent needs source material.</div>
+              <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Save the output if it becomes part of your project history.</div>
             </div>
           </div>
         </aside>

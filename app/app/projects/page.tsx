@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type { Project } from '@/lib/types'
-import { ArrowRight, Bot, Bookmark, Calendar, FolderOpen, Plus } from 'lucide-react'
+import { ArrowRight, Bot, Bookmark, Calendar, FolderOpen, Plus, Sparkles } from 'lucide-react'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', {
@@ -57,34 +57,38 @@ export default function ProjectsPage() {
   )
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-      <div className="rounded-[28px] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_56%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground mb-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+              <Sparkles size={12} className="text-primary" />
               Workspace
+            </div>
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+              Project architecture
             </p>
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Projects that keep the run history readable.
             </h1>
-            <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-xl">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
               Organize agent work by initiative, track what shipped, and keep saved outputs tied to the right context.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <div className="grid grid-cols-3 gap-3 sm:min-w-[360px]">
-              <div className="rounded-2xl border border-border bg-white/80 p-3">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Projects</p>
+              <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Projects</p>
                 <p className="mt-1 text-2xl font-semibold text-foreground">{projects.length}</p>
               </div>
-              <div className="rounded-2xl border border-border bg-white/80 p-3">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Runs</p>
+              <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Runs</p>
                 <p className="mt-1 text-2xl font-semibold text-foreground">{totals.runs}</p>
               </div>
-              <div className="rounded-2xl border border-border bg-white/80 p-3">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Saved</p>
-                <p className="mt-1 text-2xl font-semibold text-foreground">{totals.saved}</p>
+              <div className="rounded-2xl border border-slate-200 bg-slate-950 p-3 text-white shadow-[0_18px_40px_-24px_rgba(15,23,42,0.9)]">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/55">Saved</p>
+                <p className="mt-1 text-2xl font-semibold">{totals.saved}</p>
               </div>
             </div>
 
@@ -93,15 +97,15 @@ export default function ProjectsPage() {
             </Button>
           </div>
         </div>
-      </div>
+      </section>
 
       {projects.length === 0 ? (
-        <div className="mt-6 rounded-[28px] border border-border bg-white p-12 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-muted/40">
-            <FolderOpen size={26} className="text-muted-foreground" />
+        <div className="mt-6 rounded-[28px] border border-slate-200 bg-white p-12 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-white">
+            <FolderOpen size={26} />
           </div>
           <h3 className="text-base font-semibold text-foreground">No projects yet</h3>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+          <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
             Create a project to group runs, save outputs, and keep the workspace organized.
           </p>
           <Button size="sm" onClick={() => setShowNew(true)} className="mt-6">
@@ -113,42 +117,42 @@ export default function ProjectsPage() {
           {projects.map((project, index) => (
             <article
               key={project.id}
-              className="group rounded-[24px] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-transform duration-200 hover:-translate-y-0.5"
+              className="group rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-transform duration-200 hover:-translate-y-0.5"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-muted/70 text-foreground">
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white">
                     <FolderOpen size={18} />
                   </div>
                   <div className="min-w-0">
                     <h2 className="truncate text-sm font-semibold text-foreground">{project.name}</h2>
-                    <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500">
                       Project {String(index + 1).padStart(2, '0')}
                     </p>
                   </div>
                 </div>
-                <span className="rounded-full border border-border bg-muted/40 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
                   {project.status}
                 </span>
               </div>
 
-              <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">
+              <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-600">
                 {project.description || 'No description provided yet.'}
               </p>
 
               <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-2xl border border-border bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Runs</p>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Runs</p>
                   <p className="mt-1 text-xl font-semibold text-foreground">{project.runCount}</p>
                 </div>
-                <div className="rounded-2xl border border-border bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Saved</p>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Saved</p>
                   <p className="mt-1 text-xl font-semibold text-foreground">{project.savedCount}</p>
                 </div>
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-                <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4">
+                <span className="flex items-center gap-1.5 text-xs text-slate-600">
                   <Calendar size={11} />
                   Updated {formatDate(project.updatedAt)}
                 </span>
@@ -163,10 +167,10 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      <div className="mt-6 rounded-[24px] border border-border bg-white p-5">
+      <div className="mt-6 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Recommended flow</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Recommended flow</p>
             <h3 className="mt-1 text-sm font-semibold text-foreground">Start from a project, then branch into runs and saves.</h3>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -206,7 +210,7 @@ export default function ProjectsPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="proj-desc" className="text-sm font-medium">
-                Description <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+                Description <span className="text-xs font-normal text-slate-500">(optional)</span>
               </Label>
               <Textarea
                 id="proj-desc"
