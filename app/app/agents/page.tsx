@@ -30,17 +30,17 @@ export default function AppAgentsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="mb-8 overflow-hidden rounded-[2rem] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+      <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:p-8">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
               <Sparkles size={12} className="text-primary" />
               Agent library
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Agents, organized as a workbench.
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
               {SEED_AGENTS.length} specialists available. You are on the{' '}
               <span className="font-medium text-foreground capitalize">{MOCK_USER.plan}</span> plan.
               Filter by division or search for a task-shaped fit.
@@ -54,59 +54,59 @@ export default function AppAgentsPage() {
               ['Task clarity', 'Each card shows when to use the specialist and what it produces.'],
               ['Workspace fit', 'The grid density matches the rest of the product dashboard.'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-[1.25rem] border border-border bg-white p-4 shadow-sm">
+              <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
                 <p className="text-sm font-semibold text-foreground">{title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mb-6 rounded-[1.5rem] border border-border bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
+      <section className="mb-6 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative w-full max-w-md">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <Input
               placeholder="Search agents..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-10 rounded-2xl border-border bg-slate-50 pl-9 text-sm"
+              className="h-10 rounded-2xl border-slate-200 bg-slate-50 pl-9 text-sm"
             />
           </div>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveDivision(null)}
-              className={cn(
-                'rounded-full border px-3 py-1.5 text-xs transition-colors',
-                !activeDivision
-                  ? 'border-slate-950 bg-slate-950 text-white'
-                  : 'border-border bg-white text-muted-foreground hover:text-foreground'
-              )}
-            >
-              All
+                className={cn(
+                  'rounded-full border px-3 py-1.5 text-xs transition-colors',
+                  !activeDivision
+                    ? 'border-slate-950 bg-slate-950 text-white'
+                    : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
+                )}
+              >
+                All
             </button>
             {DIVISIONS.map((division) => (
               <button
                 key={division}
                 onClick={() => setActiveDivision(activeDivision === division ? null : division)}
-                className={cn(
-                  'rounded-full border px-3 py-1.5 text-xs transition-colors',
-                  activeDivision === division
-                    ? 'border-primary bg-primary text-primary-foreground'
-                    : 'border-border bg-white text-muted-foreground hover:text-foreground'
-                )}
-              >
-                {division}
-              </button>
+                  className={cn(
+                    'rounded-full border px-3 py-1.5 text-xs transition-colors',
+                    activeDivision === division
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
+                  )}
+                >
+                  {division}
+                </button>
             ))}
           </div>
         </div>
       </section>
 
       {filtered.length === 0 ? (
-        <div className="rounded-[1.5rem] border border-border bg-white py-20 text-center shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-          <p className="text-sm text-muted-foreground">No agents match your search.</p>
+        <div className="rounded-[1.5rem] border border-slate-200 bg-white py-20 text-center shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+          <p className="text-sm text-slate-600">No agents match your search.</p>
         </div>
       ) : (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -117,11 +117,11 @@ export default function AppAgentsPage() {
                 key={agent.id}
                 className={cn(
                   'group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-34px_rgba(15,23,42,0.6)]',
-                  hasAccess ? 'border-border hover:border-primary/25' : 'border-border/80 opacity-95'
+                  hasAccess ? 'border-slate-200 hover:border-primary/25' : 'border-slate-200/80 opacity-95'
                 )}
               >
                 {!hasAccess && (
-                  <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-muted-foreground">
+                  <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
                     <Lock size={12} />
                   </div>
                 )}
@@ -130,10 +130,10 @@ export default function AppAgentsPage() {
                   <PlanBadge plan={agent.planRequired} size="sm" />
                 </div>
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{agent.shortDescription}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
 
                 <div className="mt-4 space-y-2">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">Best for</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">Best for</p>
                   <p className="text-sm leading-relaxed text-foreground/90">{agent.whenToUse}</p>
                 </div>
 

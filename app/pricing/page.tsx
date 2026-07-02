@@ -13,17 +13,17 @@ export default function PricingPage() {
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <section className="overflow-hidden rounded-[2rem] border border-border/70 bg-gradient-to-br from-white via-white to-muted/30 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:p-8">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
                 <Sparkles size={12} className="text-primary" />
                 Pricing for specialist work
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground text-balance sm:text-5xl">
                 Simple pricing, presented like a serious product.
               </h1>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
                 Start free, then move up only when the workspace needs more runs, deeper access, or team coordination.
               </p>
 
@@ -40,18 +40,18 @@ export default function PricingPage() {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              {[
-                { title: 'Free to start', desc: 'Test the system without a credit card.' },
-                { title: 'Clear upgrade path', desc: 'Plans scale from solo use to teams.' },
-                { title: 'Agent access', desc: 'Each plan exposes a deeper specialist set.' },
-                { title: 'Predictable limits', desc: 'Usage and upgrades are easy to scan.' },
-              ].map(({ title, desc }) => (
-                <div key={title} className="rounded-[1.25rem] border border-border bg-white p-4 shadow-sm">
-                  <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-xl bg-muted/60">
+                {[
+                  { title: 'Free to start', desc: 'Test the system without a credit card.' },
+                  { title: 'Clear upgrade path', desc: 'Plans scale from solo use to teams.' },
+                  { title: 'Agent access', desc: 'Each plan exposes a deeper specialist set.' },
+                  { title: 'Predictable limits', desc: 'Usage and upgrades are easy to scan.' },
+                ].map(({ title, desc }) => (
+                <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
+                  <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <Shield size={14} className="text-foreground" />
                   </div>
                   <p className="text-sm font-semibold text-foreground">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
                 </div>
               ))}
             </div>
@@ -66,7 +66,7 @@ export default function PricingPage() {
                 'relative flex flex-col overflow-hidden rounded-[1.5rem] border bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all',
                 plan.highlighted
                   ? 'border-primary/40 ring-1 ring-primary/15 shadow-[0_16px_42px_-34px_rgba(15,23,42,0.55)]'
-                  : 'border-border hover:border-primary/20 hover:-translate-y-0.5'
+                  : 'border-slate-200 hover:border-primary/20 hover:-translate-y-0.5'
               )}
             >
               {plan.highlighted && (
@@ -78,12 +78,12 @@ export default function PricingPage() {
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{plan.name}</h2>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className="text-3xl font-semibold tracking-tight text-foreground">{plan.priceLabel}</span>
-                  {plan.price !== null && <span className="text-xs text-muted-foreground">/month</span>}
+                  {plan.price !== null && <span className="text-xs text-slate-600">/month</span>}
                 </div>
               </div>
               <ul className="flex-1 space-y-2.5">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
                     <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-primary" />
                     {feature}
                   </li>
@@ -99,18 +99,18 @@ export default function PricingPage() {
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-[1.75rem] border border-border bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-muted/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
               <Wand2 size={12} className="text-primary" />
               What pricing includes
             </div>
             <h3 className="mt-4 text-lg font-semibold text-foreground">A cleaner fit for specialist work.</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
               The product should feel easy to evaluate: every plan communicates value, limits, and the next step to upgrade.
             </p>
           </div>
 
-          <div className="rounded-[1.75rem] border border-border bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
             <div className="grid gap-3 sm:grid-cols-2">
               {[
                 'No hidden billing states',
@@ -118,7 +118,7 @@ export default function PricingPage() {
                 'Upgrade prompts appear only when useful',
                 'A polished path from free to team use',
               ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-border bg-slate-50 px-4 py-3 text-sm text-muted-foreground">
+                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
                   {item}
                 </div>
               ))}

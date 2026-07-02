@@ -20,14 +20,14 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
     return (
       <div className="w-full">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-slate-600">
             {used}/{limit} runs
           </span>
           {isWarning && !isCritical && (
-            <span className="text-xs text-amber-600 font-medium">Near limit</span>
+            <span className="text-xs font-medium text-amber-700">Near limit</span>
           )}
           {isCritical && (
-            <Link href="/app/billing" className="text-xs text-red-600 font-medium hover:underline">
+            <Link href="/app/billing" className="text-xs font-medium text-red-700 hover:underline">
               Upgrade
             </Link>
           )}
@@ -45,15 +45,15 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
   }
 
   return (
-    <div className="p-4 rounded-lg border bg-card">
+    <div className="rounded-xl border border-slate-200 bg-card p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.32)]">
       <div className="flex items-center justify-between mb-2">
         <div>
           <p className="text-sm font-medium text-foreground">Monthly runs</p>
-          <p className="text-xs text-muted-foreground capitalize">{plan} plan</p>
+          <p className="text-xs capitalize text-slate-600">{plan} plan</p>
         </div>
         <span className={cn('text-2xl font-semibold', isCritical ? 'text-red-600' : isWarning ? 'text-amber-600' : 'text-foreground')}>
           {used}
-          <span className="text-base font-normal text-muted-foreground">/{limit}</span>
+          <span className="text-base font-normal text-slate-600">/{limit}</span>
         </span>
       </div>
       <Progress
@@ -65,7 +65,7 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
         )}
       />
       {isCritical && (
-        <p className="mt-2 text-xs text-red-600">
+        <p className="mt-2 text-xs text-red-700">
           You have reached your monthly limit.{' '}
           <Link href="/app/billing" className="font-medium underline">
             Upgrade your plan
@@ -73,7 +73,7 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
         </p>
       )}
       {isWarning && !isCritical && (
-        <p className="mt-2 text-xs text-amber-700">
+        <p className="mt-2 text-xs text-amber-800">
           You are approaching your monthly limit.{' '}
           <Link href="/app/billing" className="font-medium underline">
             Upgrade for more runs

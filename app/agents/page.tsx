@@ -32,17 +32,17 @@ export default function PublicAgentsPage() {
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <section className="mb-10 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+        <section className="mb-10 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-1 text-xs font-medium text-muted-foreground">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
                 <Sparkles size={12} className="text-primary" />
                 Public agent library
               </div>
               <h1 className="text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
                 Find the right specialist for the job.
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
                 {SEED_AGENTS.length} specialized agents across {DIVISIONS.length} divisions. Browse, filter, and inspect
                 the work style of each agent before you sign up.
               </p>
@@ -65,19 +65,19 @@ export default function PublicAgentsPage() {
                 ['Access model', 'Plan badges make the gating model obvious before you commit.'],
                 ['Fast scanning', 'Division chips and summaries help users compare options quickly.'],
               ].map(([title, desc]) => (
-                <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4 shadow-sm">
+                <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
                   <p className="text-sm font-semibold text-foreground">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="mb-8 rounded-[1.5rem] border border-border bg-white p-4 shadow-sm sm:p-5">
+        <section className="mb-8 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
             <div className="relative w-full max-w-md">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <Input
                 placeholder="Search by agent, division, or use case..."
                 value={search}
@@ -92,7 +92,7 @@ export default function PublicAgentsPage() {
                   'rounded-full border px-3 py-1.5 text-xs transition-colors',
                   !activeDivision
                     ? 'border-slate-950 bg-slate-950 text-white'
-                    : 'border-border bg-white text-muted-foreground hover:text-foreground'
+                    : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
                 )}
               >
                 All
@@ -105,7 +105,7 @@ export default function PublicAgentsPage() {
                     'rounded-full border px-3 py-1.5 text-xs transition-colors',
                     activeDivision === division
                       ? 'border-primary bg-primary text-primary-foreground'
-                      : 'border-border bg-white text-muted-foreground hover:text-foreground'
+                      : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
                   )}
                 >
                   {division}
@@ -116,25 +116,25 @@ export default function PublicAgentsPage() {
         </section>
 
         {filtered.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-white py-20 text-center shadow-sm">
-            <p className="text-sm text-muted-foreground">No agents match your search.</p>
+          <div className="rounded-2xl border border-slate-200 bg-white py-20 text-center shadow-sm">
+            <p className="text-sm text-slate-600">No agents match your search.</p>
           </div>
         ) : (
           <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((agent) => (
               <article
                 key={agent.id}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-md"
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-md"
               >
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <DivisionBadge division={agent.division} size="sm" />
                   <PlanBadge plan={agent.planRequired} size="sm" />
                 </div>
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{agent.shortDescription}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
 
                 <div className="mt-4 space-y-2">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">Best for</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">Best for</p>
                   <p className="text-sm leading-relaxed text-foreground/90">{agent.whenToUse}</p>
                 </div>
 
@@ -145,7 +145,7 @@ export default function PublicAgentsPage() {
                   >
                     View details <ArrowRight size={11} />
                   </Link>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1 text-[11px] text-muted-foreground">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1 text-[11px] text-slate-600">
                     <Sparkles size={10} className="text-primary" />
                     Structured output
                   </span>

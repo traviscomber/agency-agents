@@ -11,14 +11,14 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, actionLabel, actionHref, icon }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+    <div className="flex flex-col items-center justify-center px-4 py-16 text-center">
       {icon && (
-        <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-4 text-muted-foreground">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.3)]">
           {icon}
         </div>
       )}
-      <h3 className="text-sm font-semibold text-foreground mb-1">{title}</h3>
-      <p className="text-sm text-muted-foreground max-w-xs mb-6">{description}</p>
+      <h3 className="mb-1 text-sm font-semibold text-foreground">{title}</h3>
+      <p className="mb-6 max-w-xs text-sm leading-relaxed text-slate-600">{description}</p>
       {actionLabel && actionHref && (
         <Button asChild size="sm">
           <Link href={actionHref}>{actionLabel}</Link>
