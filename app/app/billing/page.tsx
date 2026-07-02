@@ -14,14 +14,14 @@ export default function BillingPage() {
       <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
               <Sparkles size={12} className="text-primary" />
               Billing and plan management
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
               Manage your plan with less friction.
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
               Review your current plan, compare limits, and move up or down without losing context.
             </p>
           </div>
@@ -34,7 +34,7 @@ export default function BillingPage() {
               ['Support', 'Contact sales for enterprise'],
             ].map(([title, value]) => (
               <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</p>
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">{title}</p>
                 <p className="mt-2 text-sm font-semibold text-foreground">{value}</p>
               </div>
             ))}
@@ -45,9 +45,9 @@ export default function BillingPage() {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs text-slate-500">Current plan</p>
+            <p className="text-xs text-slate-600">Current plan</p>
             <p className="text-2xl font-semibold tracking-tight capitalize text-foreground">{currentPlan?.name}</p>
-            <p className="mt-1 text-sm text-slate-600">
+            <p className="mt-1 text-sm text-slate-700">
               {currentPlan?.price === 0
                 ? 'Free - no card required'
                 : currentPlan?.price === null
@@ -104,14 +104,14 @@ export default function BillingPage() {
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-semibold text-foreground">{plan.priceLabel}</span>
                     {plan.price !== null && plan.price !== 0 && (
-                      <span className="text-xs text-slate-600">/mo</span>
+                      <span className="text-xs text-slate-700">/mo</span>
                     )}
                   </div>
                 </div>
 
                 <ul className="mb-5 flex-1 space-y-2">
                   {plan.features.slice(0, 4).map((f) => (
-                    <li key={f} className="flex items-start gap-1.5 text-xs text-slate-600">
+                    <li key={f} className="flex items-start gap-1.5 text-xs text-slate-700">
                       <CheckCircle2 size={12} className="mt-0.5 shrink-0 text-primary" />
                       {f}
                     </li>
@@ -143,7 +143,7 @@ export default function BillingPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="mb-0.5 text-sm font-semibold text-foreground">Enterprise</h3>
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-slate-700">
               Private agents, white-label, custom limits, and dedicated onboarding.
             </p>
           </div>
@@ -157,14 +157,14 @@ export default function BillingPage() {
         <h2 className="mb-4 text-sm font-semibold text-foreground">Billing history</h2>
         {MOCK_USER.plan === 'free' ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-            <p className="text-xs text-slate-600">No invoices. You are on the free plan.</p>
+            <p className="text-xs text-slate-700">No invoices. You are on the free plan.</p>
           </div>
         ) : (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-slate-200 bg-slate-50 px-4 py-2.5">
-              <span className="text-xs font-medium text-slate-500">Date</span>
-              <span className="text-xs font-medium text-slate-500">Amount</span>
-              <span className="text-xs font-medium text-slate-500">Status</span>
+              <span className="text-xs font-medium text-slate-600">Date</span>
+              <span className="text-xs font-medium text-slate-600">Amount</span>
+              <span className="text-xs font-medium text-slate-600">Status</span>
             </div>
             {[
               { date: 'Jan 1, 2024', amount: `$${currentPlan?.price}`, status: 'Paid' },

@@ -68,7 +68,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               <p className="mt-1 text-sm text-white/70">A project frame for run coordination and output review.</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">Last updated</p>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-600">Last updated</p>
               <p className="mt-3 text-2xl font-semibold text-foreground">{formatDate(project.updatedAt)}</p>
               <p className="mt-1 text-sm text-slate-600">Tracking work at a glance.</p>
             </div>
@@ -90,7 +90,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <TabsContent value="runs" className="mt-6">
             {runs.length === 0 ? (
               <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 p-12 text-center">
-                <Bot size={28} className="mx-auto text-slate-500" />
+                <Bot size={28} className="mx-auto text-slate-600" />
                 <p className="mt-4 text-sm text-slate-600">No runs in this project yet.</p>
                 <Button size="sm" asChild className="mt-6">
                   <Link href="/app/agents">Run an agent</Link>
@@ -124,11 +124,11 @@ export default async function ProjectDetailPage({ params }: Props) {
                         >
                           {run.status}
                         </span>
-                        <span className="ml-auto text-xs text-slate-500">{formatDate(run.createdAt)}</span>
+                        <span className="ml-auto text-xs text-slate-600">{formatDate(run.createdAt)}</span>
                       </div>
                       <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{run.task}</p>
                     </div>
-                    <span className="mt-2 text-slate-500 transition-colors group-hover:text-foreground">
+                    <span className="mt-2 text-slate-600 transition-colors group-hover:text-foreground">
                       <ArrowRight size={13} />
                     </span>
                   </Link>
@@ -152,11 +152,11 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-slate-600">
                           {item.agentName} · {formatDate(item.createdAt)}
                         </p>
                       </div>
-                      <Bookmark size={14} className="shrink-0 text-slate-500" />
+                      <Bookmark size={14} className="shrink-0 text-slate-600" />
                     </div>
                     <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-600">{item.content}</p>
                   </article>

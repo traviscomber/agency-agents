@@ -23,7 +23,7 @@ interface Props {
 function HeaderStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">{label}</p>
+      <p className="text-[11px] uppercase tracking-[0.22em] text-slate-600">{label}</p>
       <p className="mt-2 text-lg font-semibold text-foreground">{value}</p>
     </div>
   )
@@ -32,7 +32,7 @@ function HeaderStat({ label, value }: { label: string; value: string }) {
 function OutputBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-      <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">{title}</h3>
+      <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">{title}</h3>
       <div className="mt-3 text-sm leading-relaxed text-foreground">{children}</div>
     </div>
   )
@@ -62,7 +62,7 @@ export default function RunAgentPage({ params }: Props) {
   if (!agent) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-16 text-center">
-        <p className="mb-4 text-sm text-slate-600">Agent not found.</p>
+        <p className="mb-4 text-sm text-slate-700">Agent not found.</p>
         <Button variant="outline" asChild>
           <Link href="/app/agents">Back to agents</Link>
         </Button>
@@ -77,7 +77,7 @@ export default function RunAgentPage({ params }: Props) {
           <Lock size={18} />
         </div>
         <h2 className="text-2xl font-semibold tracking-tight text-foreground">Upgrade required</h2>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-slate-700">
           {agent.name} requires the <span className="font-medium capitalize">{agent.planRequired}</span> plan.
         </p>
         <Button asChild className="mt-6">
@@ -109,7 +109,7 @@ export default function RunAgentPage({ params }: Props) {
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <Link
         href={`/app/agents/${slug}`}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 transition-colors hover:text-foreground"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 transition-colors hover:text-foreground"
       >
         <ArrowLeft size={13} /> Back to {agent.name}
       </Link>
@@ -117,7 +117,7 @@ export default function RunAgentPage({ params }: Props) {
       <section className="mt-5 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
               <Sparkles size={12} className="text-primary" />
               Run workspace
             </div>
@@ -128,7 +128,7 @@ export default function RunAgentPage({ params }: Props) {
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {agent.name}
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
               {agent.shortDescription}
             </p>
           </div>
@@ -155,7 +155,7 @@ export default function RunAgentPage({ params }: Props) {
             <div className="mb-5 flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-semibold text-foreground">Run configuration</h2>
-                <p className="text-xs text-slate-600">Shape the request before execution.</p>
+                <p className="text-xs text-slate-700">Shape the request before execution.</p>
               </div>
             </div>
 
@@ -177,7 +177,7 @@ export default function RunAgentPage({ params }: Props) {
 
               <div className="space-y-1.5">
                 <Label htmlFor="context" className="text-sm font-medium">
-                  Context <span className="text-xs font-normal text-slate-500">(optional)</span>
+                  Context <span className="text-xs font-normal text-slate-600">(optional)</span>
                 </Label>
                 <Textarea
                   id="context"
@@ -264,7 +264,7 @@ export default function RunAgentPage({ params }: Props) {
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-foreground">Agent output</h2>
                 {saved ? (
-                  <span className="flex items-center gap-1.5 text-xs text-slate-500">
+                  <span className="flex items-center gap-1.5 text-xs text-slate-600">
                     <CheckCircle2 size={13} className="text-primary" /> Saved
                   </span>
                 ) : (
@@ -377,21 +377,21 @@ export default function RunAgentPage({ params }: Props) {
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Agent context</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Agent context</p>
                 <h2 className="mt-2 text-sm font-semibold text-foreground">{agent.name}</h2>
               </div>
-              <Bot size={16} className="text-slate-500" />
+              <Bot size={16} className="text-slate-600" />
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-700">{agent.shortDescription}</p>
             <div className="mt-4 rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs text-slate-500">Recommended use</p>
+              <p className="text-xs text-slate-600">Recommended use</p>
               <p className="mt-1 text-sm font-medium text-foreground">{agent.whenToUse}</p>
             </div>
           </div>
 
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Checklist</p>
-            <div className="mt-4 space-y-3 text-sm text-slate-600">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Checklist</p>
+            <div className="mt-4 space-y-3 text-sm text-slate-700">
               <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Write a task with a clear outcome.</div>
               <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Add context if the agent needs source material.</div>
               <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Save the output if it becomes part of your project history.</div>

@@ -66,7 +66,7 @@ export default function AppAgentsPage() {
       <section className="mb-6 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative w-full max-w-md">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
             <Input
               placeholder="Search agents..."
               value={search}
@@ -117,7 +117,7 @@ export default function AppAgentsPage() {
                 key={agent.id}
                 className={cn(
                   'group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-34px_rgba(15,23,42,0.6)]',
-                  hasAccess ? 'border-slate-200 hover:border-primary/25' : 'border-slate-200/80 opacity-95'
+                  hasAccess ? 'border-slate-200 hover:border-primary/25' : 'border-slate-200/90'
                 )}
               >
                 {!hasAccess && (
@@ -133,7 +133,7 @@ export default function AppAgentsPage() {
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
 
                 <div className="mt-4 space-y-2">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">Best for</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">Best for</p>
                   <p className="text-sm leading-relaxed text-foreground/90">{agent.whenToUse}</p>
                 </div>
 

@@ -25,7 +25,7 @@ export default function HistoryPage() {
               <Sparkles size={12} className="text-primary" />
               Brandbook aligned
             </div>
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-600">
               Activity
             </p>
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
@@ -38,15 +38,15 @@ export default function HistoryPage() {
 
           <div className="grid grid-cols-3 gap-3 sm:min-w-[360px]">
             <div className="rounded-2xl border border-slate-200 bg-white p-3">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Total</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Total</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{MOCK_RUNS.length}</p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-3">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Done</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Done</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{completedRuns}</p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-3">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Failed</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Failed</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{failedRuns}</p>
             </div>
           </div>
@@ -109,7 +109,7 @@ export default function HistoryPage() {
                           {run.task}
                         </p>
                         {run.projectName && (
-                          <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
+                          <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-600">
                             <FolderOpen size={11} />
                             {run.projectName}
                           </p>
@@ -117,7 +117,7 @@ export default function HistoryPage() {
                       </div>
                     </div>
 
-                    <div className="flex shrink-0 items-center gap-2 text-xs text-slate-500">
+                    <div className="flex shrink-0 items-center gap-2 text-xs text-slate-600">
                       <Calendar size={11} />
                       {formatDate(run.createdAt)}
                     </div>
@@ -139,16 +139,16 @@ export default function HistoryPage() {
 
           <aside className="space-y-4">
             <div className="rounded-[28px] border border-slate-200 bg-white p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Signals</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Signals</p>
               <div className="mt-4 space-y-3">
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-xs text-slate-500">Completion rate</p>
+                  <p className="text-xs text-slate-600">Completion rate</p>
                   <p className="mt-1 text-2xl font-semibold text-foreground">
                     {MOCK_RUNS.length === 0 ? '0%' : `${Math.round((completedRuns / MOCK_RUNS.length) * 100)}%`}
                   </p>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-xs text-slate-500">Failure rate</p>
+                  <p className="text-xs text-slate-600">Failure rate</p>
                   <p className="mt-1 text-2xl font-semibold text-foreground">
                     {MOCK_RUNS.length === 0 ? '0%' : `${Math.round((failedRuns / MOCK_RUNS.length) * 100)}%`}
                   </p>
@@ -157,7 +157,7 @@ export default function HistoryPage() {
             </div>
 
             <div className="rounded-[28px] border border-slate-200 bg-white p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Next step</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Next step</p>
               <h3 className="mt-2 text-sm font-semibold text-foreground">Review the agents that are getting the most reuse.</h3>
               <p className="mt-2 text-sm text-slate-600">
                 The history view pairs well with the agent catalog when you want to compare usage and patterns.

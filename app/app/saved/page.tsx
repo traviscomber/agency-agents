@@ -37,7 +37,7 @@ export default function SavedPage() {
               <Bookmark size={12} className="text-primary" />
               Library
             </div>
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-600">
               Knowledge base
             </p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
@@ -50,7 +50,7 @@ export default function SavedPage() {
 
           <div className="grid grid-cols-2 gap-3 sm:min-w-[280px]">
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-3 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Saved</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Saved</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{MOCK_SAVED_OUTPUTS.length}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-slate-950 p-3 text-white shadow-[0_18px_40px_-24px_rgba(15,23,42,0.9)]">
@@ -64,7 +64,7 @@ export default function SavedPage() {
       <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="relative max-w-xl">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
             <Input
               placeholder="Search saved outputs..."
               value={search}
@@ -79,7 +79,7 @@ export default function SavedPage() {
                 <Bookmark size={26} />
               </div>
               <h3 className="text-base font-semibold text-foreground">{search ? 'No results' : 'No saved outputs yet'}</h3>
-              <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
+              <p className="mx-auto mt-2 max-w-md text-sm text-slate-700">
                 {search ? 'Try a different search term.' : 'Save agent outputs during a run to find them here.'}
               </p>
               {!search && (
@@ -102,21 +102,21 @@ export default function SavedPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <h2 className="truncate text-sm font-semibold text-foreground">{saved.title}</h2>
-                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">{saved.agentName}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-600">{saved.agentName}</p>
                     </div>
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white">
                       <Bookmark size={16} />
                     </div>
                   </div>
 
-                  <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-600">{saved.content}</p>
+                  <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-700">{saved.content}</p>
 
                   <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-200 pt-4">
-                    <span className="flex items-center gap-1.5 text-xs text-slate-600">
+                    <span className="flex items-center gap-1.5 text-xs text-slate-700">
                       <FolderOpen size={11} />
                       {saved.projectName || 'No project'}
                     </span>
-                    <span className="text-xs text-slate-500">{formatDate(saved.createdAt)}</span>
+                    <span className="text-xs text-slate-600">{formatDate(saved.createdAt)}</span>
                   </div>
                 </article>
               ))}
@@ -126,15 +126,15 @@ export default function SavedPage() {
 
         <aside className="lg:w-[360px]">
           <div className="sticky top-4 rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Preview</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Preview</p>
             {active ? (
               <div className="mt-4">
                 <h3 className="text-base font-semibold text-foreground">{active.title}</h3>
-                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">{active.agentName}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-600">{active.agentName}</p>
                 <div className="mt-4 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
                   <p className="whitespace-pre-wrap text-sm leading-6 text-foreground">{active.content}</p>
                 </div>
-                <div className="mt-4 space-y-2 border-t border-slate-200 pt-4 text-xs text-slate-600">
+                <div className="mt-4 space-y-2 border-t border-slate-200 pt-4 text-xs text-slate-700">
                   <p className="flex items-center gap-1.5">
                     <FolderOpen size={11} />
                     {active.projectName || 'No project linked'}
@@ -151,7 +151,7 @@ export default function SavedPage() {
                 </div>
               </div>
             ) : (
-              <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+              <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 text-sm text-slate-700">
                 <div className="mb-2 flex items-center gap-2 font-medium text-foreground">
                   <Sparkles size={14} className="text-primary" />
                   Preview panel

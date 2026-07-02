@@ -27,7 +27,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <Link
         href="/app/agents"
-        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-950"
+        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-600 transition-colors hover:text-slate-950"
       >
         <ArrowLeft size={13} /> Back to agents
       </Link>
@@ -42,11 +42,11 @@ export default async function AppAgentDetailPage({ params }: Props) {
             <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
               {agent.name}
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-700 sm:text-base">
               {agent.longDescription}
             </p>
             <p className="mt-5 text-sm font-medium text-foreground">Role: {agent.role}</p>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.mission}</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-700">{agent.mission}</p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
@@ -57,7 +57,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
               ['Next action', hasAccess ? 'Run the specialist in the workspace.' : 'Upgrade to unlock this specialist.'],
             ].map(([title, desc]) => (
               <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</p>
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">{title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
               </div>
             ))}
@@ -71,7 +71,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
               <h2 className="text-sm font-semibold text-foreground">What you provide</h2>
               <ul className="mt-4 space-y-3">
                 {agent.inputRequirements.map((req) => (
-                  <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
+                  <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     {req}
                   </li>
@@ -83,8 +83,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
               <h2 className="text-sm font-semibold text-foreground">What you get</h2>
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
-                  <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500" />
+                  <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-700" />
                     {fmt}
                   </li>
                 ))}
@@ -110,7 +110,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   <Link
                     key={prompt}
                     href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
                   >
                     {prompt}
                   </Link>

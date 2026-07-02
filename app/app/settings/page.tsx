@@ -28,11 +28,11 @@ export default function SettingsPage() {
           <Sparkles size={12} className="text-primary" />
           Brandbook aligned settings
         </div>
-        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">Preferences</p>
+        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-600">Preferences</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           Settings tuned for the workspace owner.
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
           Update profile details, manage security, and keep the default experience aligned with how the team works.
         </p>
       </section>
@@ -112,7 +112,7 @@ export default function SettingsPage() {
                   <Button variant="outline" size="sm" className="h-9 bg-white text-xs">
                     Upload image
                   </Button>
-                  <p className="mt-1.5 text-xs text-slate-500">JPG, PNG or GIF. Max 2MB.</p>
+                  <p className="mt-1.5 text-xs text-slate-600">JPG, PNG or GIF. Max 2MB.</p>
                 </div>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function SettingsPage() {
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Danger zone</h2>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-sm text-slate-700">
                 Permanently delete your account and all data. This cannot be undone.
               </p>
               <Button variant="outline" size="sm" className="mt-4 border-destructive/30 text-xs text-destructive hover:bg-destructive/5">
@@ -161,7 +161,7 @@ export default function SettingsPage() {
           <TabsContent value="notifications" className="space-y-6">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Email notifications</h2>
-              <div className="mt-4 space-y-3 text-sm text-slate-600">
+              <div className="mt-4 space-y-3 text-sm text-slate-700">
                 <label className="flex items-center gap-3">
                   <input type="checkbox" defaultChecked className="accent-foreground" />
                   Run completed
