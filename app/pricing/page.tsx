@@ -13,14 +13,14 @@ export default function PricingPage() {
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
-          <div className="grid gap-8 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:p-8">
+        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_54%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+          <div className="grid gap-8 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:p-8">
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
                 <Sparkles size={12} className="text-primary" />
                 Pricing for specialist work
               </div>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground text-balance sm:text-5xl">
+              <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
                 Simple pricing, presented like a serious product.
               </h1>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
@@ -66,7 +66,7 @@ export default function PricingPage() {
                 'relative flex flex-col overflow-hidden rounded-[1.5rem] border bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all',
                 plan.highlighted
                   ? 'border-primary/40 ring-1 ring-primary/15 shadow-[0_16px_42px_-34px_rgba(15,23,42,0.55)]'
-                  : 'border-slate-200 hover:border-primary/20 hover:-translate-y-0.5'
+                  : 'border-slate-200 hover:-translate-y-0.5 hover:border-primary/20'
               )}
             >
               {plan.highlighted && (
@@ -74,13 +74,15 @@ export default function PricingPage() {
                   Most popular
                 </span>
               )}
+
               <div className="mb-5">
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{plan.name}</h2>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className="text-3xl font-semibold tracking-tight text-foreground">{plan.priceLabel}</span>
-                {plan.price !== null && <span className="text-xs text-slate-600">/month</span>}
+                  {plan.price !== null && <span className="text-xs text-slate-600">/month</span>}
+                </div>
               </div>
-              </div>
+
               <ul className="flex-1 space-y-2.5">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
@@ -89,6 +91,7 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
+
               <Button variant={plan.highlighted ? 'default' : 'outline'} className="mt-6 w-full" asChild>
                 <Link href={plan.id === 'enterprise' ? '/contact' : '/signup'}>
                   {plan.cta} <ArrowRight size={12} className="ml-1" />
