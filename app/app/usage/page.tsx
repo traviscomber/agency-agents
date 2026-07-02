@@ -46,15 +46,15 @@ export default function UsagePage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 sm:min-w-[360px]">
-            <div className="rounded-2xl border border-slate-200 bg-white/90 p-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Plan</p>
               <p className="mt-1 text-2xl font-semibold text-foreground capitalize">{plan?.name}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/90 p-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Used</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{runsUsed}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/90 p-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Limit</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{runsLimit}</p>
             </div>

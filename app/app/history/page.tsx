@@ -37,15 +37,15 @@ export default function HistoryPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 sm:min-w-[360px]">
-            <div className="rounded-2xl border border-slate-200 bg-white/90 p-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Total</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{MOCK_RUNS.length}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/90 p-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Done</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{completedRuns}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/90 p-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Failed</p>
               <p className="mt-1 text-2xl font-semibold text-foreground">{failedRuns}</p>
             </div>
@@ -81,7 +81,7 @@ export default function HistoryPage() {
               </Button>
             </div>
 
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-slate-200">
               {MOCK_RUNS.map((run) => (
                 <article key={run.id} className="py-5 first:pt-0 last:pb-0">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
