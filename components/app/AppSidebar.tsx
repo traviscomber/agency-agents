@@ -34,33 +34,33 @@ export function AppSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-[18.5rem] shrink-0 flex-col border-r border-slate-200/90 bg-white/88 backdrop-blur-xl xl:flex">
+    <aside className="sticky top-0 hidden h-screen w-[18.5rem] shrink-0 flex-col border-r border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.9))] backdrop-blur-xl xl:flex">
       <div className="border-b border-slate-200/90 p-5">
         <Link href="/app" className="group flex items-center gap-3">
-          <span className="flex size-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#0f172a,#334155)] text-white shadow-[0_12px_30px_-14px_rgba(15,23,42,0.85)] transition-transform duration-200 group-hover:-translate-y-0.5">
+          <span className="flex size-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#0f172a,#1e293b_55%,#334155)] text-white shadow-[0_12px_30px_-14px_rgba(15,23,42,0.85)] transition-transform duration-200 group-hover:-translate-y-0.5">
             <Sparkles size={17} />
           </span>
           <div className="min-w-0 leading-tight">
             <span className="block text-sm font-semibold tracking-tight text-foreground">AgencyOS</span>
-            <span className="block text-[11px] uppercase tracking-[0.22em] text-slate-500">
+            <span className="block text-[11px] uppercase tracking-[0.22em] text-slate-600">
               Agency workspace
             </span>
           </div>
         </Link>
 
-        <div className="mt-4 rounded-2xl border border-slate-900/10 bg-gradient-to-br from-slate-950 to-slate-800 p-4 text-white shadow-[0_16px_50px_-28px_rgba(15,23,42,0.7)]">
+        <div className="mt-4 rounded-2xl border border-slate-900/10 bg-[linear-gradient(135deg,#0f172a,#111827_55%,#334155)] p-4 text-white shadow-[0_16px_50px_-28px_rgba(15,23,42,0.7)]">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.24em] text-white/68">Brandbook</p>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-white/72">Brandbook</p>
               <p className="mt-1 text-sm font-medium">Visual system v2</p>
             </div>
-            <span className="rounded-full border border-white/16 bg-white/12 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/86">
+            <span className="rounded-full border border-white/16 bg-white/12 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
               Live
             </span>
           </div>
           <Link
             href="/app/projects"
-            className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-white/90 transition-colors hover:text-white"
+            className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-white/95 transition-colors hover:text-white"
           >
             Explore workspace
             <ArrowUpRight size={12} />
@@ -82,7 +82,7 @@ export function AppSidebar() {
                 'group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm transition-all duration-200',
                 isActive
                   ? 'bg-slate-950 text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.9)]'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-950'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
               )}
             >
               <span
@@ -103,7 +103,7 @@ export function AppSidebar() {
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_12px_30px_-26px_rgba(15,23,42,0.55)]">
           <div className="mb-3 flex items-center justify-between">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">Usage</p>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-600">Usage</p>
               <p className="mt-1 text-sm font-semibold text-foreground">Current plan activity</p>
             </div>
             <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
@@ -122,12 +122,12 @@ export function AppSidebar() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-foreground">{MOCK_USER.fullName}</p>
-              <p className="truncate text-xs text-slate-500">{MOCK_USER.email}</p>
+              <p className="truncate text-xs text-slate-600">{MOCK_USER.email}</p>
             </div>
           </div>
           <Link
             href="/login"
-            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950"
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950"
           >
             <LogOut size={13} />
             Sign out

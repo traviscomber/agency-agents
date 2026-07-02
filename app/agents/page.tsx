@@ -34,7 +34,7 @@ export default function PublicAgentsPage() {
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <section className="mb-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_52%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <section className="mb-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_38%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
@@ -67,7 +67,10 @@ export default function PublicAgentsPage() {
                 ['Access model', 'Plan badges make the gating model obvious before you commit.'],
                 ['Fast scanning', 'Division chips and summaries help users compare options quickly.'],
               ].map(([title, desc]) => (
-                <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
+                <div
+                  key={title}
+                  className="rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.5)]"
+                >
                   <p className="text-sm font-semibold text-foreground">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
                 </div>
@@ -76,15 +79,15 @@ export default function PublicAgentsPage() {
           </div>
         </section>
 
-        <section className="mb-6 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
+        <section className="mb-6 rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
             <div className="relative w-full max-w-md">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
               <Input
                 placeholder="Search by agent, division, or use case..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-10 rounded-2xl border-slate-200 bg-slate-50 pl-9 text-sm"
+                className="h-10 rounded-2xl border-slate-200 bg-white pl-9 text-sm shadow-sm"
               />
             </div>
             <div className="flex flex-wrap gap-2">
@@ -94,7 +97,7 @@ export default function PublicAgentsPage() {
                   'rounded-full border px-3 py-1.5 text-xs transition-colors',
                   !activeDivision
                     ? 'border-slate-950 bg-slate-950 text-white'
-                    : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
+                    : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-950'
                 )}
               >
                 All
@@ -107,8 +110,8 @@ export default function PublicAgentsPage() {
                     'rounded-full border px-3 py-1.5 text-xs transition-colors',
                     activeDivision === division
                       ? 'border-primary bg-primary text-primary-foreground'
-                      : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
-                  )}
+                      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                )}
                 >
                   {division}
                 </button>
@@ -118,8 +121,8 @@ export default function PublicAgentsPage() {
         </section>
 
         {filtered.length === 0 ? (
-          <div className="rounded-[1.5rem] border border-slate-200 bg-white py-20 text-center shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <p className="text-sm text-slate-600">No agents match your search.</p>
+          <div className="rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] py-20 text-center shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+            <p className="text-sm text-slate-700">No agents match your search.</p>
           </div>
         ) : (
           <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -129,12 +132,12 @@ export default function PublicAgentsPage() {
                 <article
                   key={agent.id}
                   className={cn(
-                    'group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-34px_rgba(15,23,42,0.6)]',
+                    'group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-34px_rgba(15,23,42,0.6)]',
                     hasAccess ? 'border-slate-200 hover:border-primary/25' : 'border-slate-200/80 opacity-95'
                   )}
                 >
                   {!hasAccess && (
-                    <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
+                    <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-950 text-white">
                       <Lock size={12} />
                     </div>
                   )}

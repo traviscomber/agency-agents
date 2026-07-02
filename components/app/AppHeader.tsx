@@ -56,14 +56,16 @@ export function AppHeader({ title }: AppHeaderProps) {
   }, [pathname, title])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white/92 backdrop-blur-xl xl:hidden">
+    <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.92))] backdrop-blur-xl xl:hidden">
       <div className="border-b border-slate-900/10 bg-[linear-gradient(90deg,#0f172a,#1e293b_55%,#334155)] px-4 py-2 text-white">
-        <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.24em] text-white/76">
+        <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.24em] text-white/80">
           <span className="inline-flex items-center gap-2">
             <Sparkles size={13} className="text-white" />
             AgencyOS
           </span>
-          <span>Visual system v2</span>
+          <span className="rounded-full border border-white/16 bg-white/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-white">
+            Visual system v2
+          </span>
         </div>
       </div>
 
@@ -71,17 +73,17 @@ export function AppHeader({ title }: AppHeaderProps) {
         <div className="flex min-w-0 items-center gap-3">
           <button
             onClick={() => setOpen(!open)}
-            className="rounded-xl border border-slate-200 bg-white p-2 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950"
+            className="rounded-xl border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950"
             aria-label="Toggle menu"
           >
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
           <div className="min-w-0">
-            <p className="text-xs uppercase tracking-[0.22em] text-slate-500">Workspace</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-600">Workspace</p>
             <p className="truncate text-sm font-semibold tracking-tight text-foreground">{currentTitle}</p>
           </div>
         </div>
-        <Button size="sm" asChild className="text-xs shadow-sm">
+        <Button size="sm" asChild className="text-xs shadow-sm shadow-primary/10">
           <Link href="/app/agents">
             Run agent
             <ArrowUpRight size={12} className="ml-1" />
@@ -99,17 +101,17 @@ export function AppHeader({ title }: AppHeaderProps) {
                   key={href}
                   href={href}
                   onClick={() => setOpen(false)}
-                className={cn(
-                  'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm transition-all duration-200',
-                  isActive
-                    ? 'bg-slate-950 text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.9)]'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-950'
-                )}
-              >
-                <span
                   className={cn(
-                    'flex size-8 items-center justify-center rounded-xl',
-                    isActive ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-500'
+                    'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm transition-all duration-200',
+                    isActive
+                      ? 'bg-slate-950 text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.9)]'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'flex size-8 items-center justify-center rounded-xl',
+                      isActive ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-600'
                     )}
                   >
                     <Icon size={15} />

@@ -29,7 +29,7 @@ export default async function PublicAgentDetailPage({
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <nav className="mb-6 flex items-center gap-1 text-xs text-slate-500">
+        <nav className="mb-6 flex items-center gap-1 text-xs text-slate-600">
           <Link href="/agents" className="transition-colors hover:text-foreground">
             Agents
           </Link>
@@ -37,7 +37,7 @@ export default async function PublicAgentDetailPage({
           <span className="text-foreground">{agent.name}</span>
         </nav>
 
-        <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_52%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_40%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
             <div>
               <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -69,8 +69,11 @@ export default async function PublicAgentDetailPage({
                 ['Best use', agent.whenToUse],
                 ['Output style', 'Structured deliverables with clear sections and next steps.'],
               ].map(([title, desc]) => (
-                <div key={title} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</p>
+                <div
+                  key={title}
+                  className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.5)]"
+                >
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
                 </div>
               ))}
@@ -80,11 +83,11 @@ export default async function PublicAgentDetailPage({
 
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-6">
-            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
               <h2 className="text-sm font-semibold text-foreground">Input requirements</h2>
               <ul className="mt-4 space-y-3">
                 {agent.inputRequirements.map((req) => (
-                  <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
+                  <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                     {req}
                   </li>
@@ -92,26 +95,26 @@ export default async function PublicAgentDetailPage({
               </ul>
             </section>
 
-            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
               <h2 className="text-sm font-semibold text-foreground">Output format</h2>
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
-                  <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500" />
+                  <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-700" />
                     {fmt}
                   </li>
                 ))}
               </ul>
             </section>
 
-            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
               <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {agent.exampleTasks.map((task) => (
                   <Link
                     key={task}
                     href="/signup"
-                    className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-white"
+                    className="rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-slate-50"
                   >
                     {task}
                   </Link>
@@ -119,14 +122,14 @@ export default async function PublicAgentDetailPage({
               </div>
             </section>
 
-            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
               <h2 className="text-sm font-semibold text-foreground">Suggested prompts</h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {agent.suggestedPrompts.map((prompt) => (
                   <Link
                     key={prompt}
                     href="/signup"
-                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-primary/25 hover:bg-slate-50 hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -136,7 +139,7 @@ export default async function PublicAgentDetailPage({
           </div>
 
           <aside className="space-y-5">
-            <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+            <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-[linear-gradient(135deg,#0f172a,#111827_55%,#334155)] p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
               <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
                 <Sparkles size={12} />
                 Ready to run
@@ -167,8 +170,8 @@ export default async function PublicAgentDetailPage({
             </div>
 
             {relatedAgents.length > 0 && (
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
                   Related agents
                 </h3>
                 <div className="mt-4 space-y-3">
@@ -176,15 +179,15 @@ export default async function PublicAgentDetailPage({
                     <Link
                       key={related.id}
                       href={`/agents/${related.slug}`}
-                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary/25 hover:bg-slate-50"
                     >
                       <div>
                         <p className="text-sm font-medium text-foreground group-hover:text-primary">
                           {related.name}
                         </p>
-                        <p className="mt-1 text-xs text-slate-500">{related.division}</p>
+                        <p className="mt-1 text-xs text-slate-600">{related.division}</p>
                       </div>
-                      <ArrowRight size={12} className="mt-1 shrink-0 text-slate-400" />
+                      <ArrowRight size={12} className="mt-1 shrink-0 text-slate-600" />
                     </Link>
                   ))}
                 </div>
