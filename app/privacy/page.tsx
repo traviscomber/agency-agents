@@ -29,33 +29,33 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-background">
       <PublicNavbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+      <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="mb-10">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest mb-4">
+          <p className="mb-4 text-xs font-medium uppercase tracking-widest text-slate-500">
             Legal
           </p>
-          <h1 className="text-4xl font-semibold text-foreground mb-4 text-balance">
+          <h1 className="mb-4 text-balance text-4xl font-semibold text-foreground">
             Privacy policy
           </h1>
-          <p className="text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="max-w-2xl leading-relaxed text-slate-600">
             This page explains how AgencyOS handles information on the website, signup flow, and product demo.
           </p>
         </div>
 
         <div className="space-y-8">
           {SECTIONS.map((section) => (
-            <section key={section.title} className="border-b border-border pb-8 last:border-0">
-              <h2 className="text-lg font-semibold text-foreground mb-2">{section.title}</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
+            <section key={section.title} className="border-b border-slate-200 pb-8 last:border-0">
+              <h2 className="mb-2 text-lg font-semibold text-foreground">{section.title}</h2>
+              <p className="max-w-3xl text-sm leading-relaxed text-slate-600">
                 {section.body}
               </p>
             </section>
           ))}
         </div>
 
-        <div className="mt-12 rounded-lg border border-border bg-white p-6">
-          <h2 className="text-sm font-semibold text-foreground mb-2">Contact</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+        <div className="mt-12 rounded-lg border border-slate-200 bg-white p-6">
+          <h2 className="mb-2 text-sm font-semibold text-foreground">Contact</h2>
+          <p className="text-sm leading-relaxed text-slate-600">
             For privacy questions, email{' '}
             <a href="mailto:hello@agencyos.app" className="text-foreground hover:underline">
               hello@agencyos.app

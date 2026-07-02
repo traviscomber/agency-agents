@@ -11,17 +11,17 @@ export default function BillingPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-slate-50 px-3 py-1 text-xs font-medium text-muted-foreground">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">
               <Sparkles size={12} className="text-primary" />
               Billing and plan management
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
+            <h1 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
               Manage your plan with less friction.
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
               Review your current plan, compare limits, and move up or down without losing context.
             </p>
           </div>
@@ -33,8 +33,8 @@ export default function BillingPage() {
               ['Upgrade path', 'Visible and immediate'],
               ['Support', 'Contact sales for enterprise'],
             ].map(([title, value]) => (
-              <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4 shadow-sm">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</p>
+              <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</p>
                 <p className="mt-2 text-sm font-semibold text-foreground">{value}</p>
               </div>
             ))}
@@ -42,17 +42,17 @@ export default function BillingPage() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs text-muted-foreground">Current plan</p>
-            <p className="text-2xl font-semibold tracking-tight text-foreground capitalize">{currentPlan?.name}</p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-xs text-slate-500">Current plan</p>
+            <p className="text-2xl font-semibold tracking-tight capitalize text-foreground">{currentPlan?.name}</p>
+            <p className="mt-1 text-sm text-slate-600">
               {currentPlan?.price === 0
                 ? 'Free - no card required'
                 : currentPlan?.price === null
-                ? 'Custom pricing'
-                : `$${currentPlan?.price}/month · Renews Jan 31, 2024`}
+                  ? 'Custom pricing'
+                  : `$${currentPlan?.price}/month · Renews Jan 31, 2024`}
             </p>
           </div>
           {MOCK_USER.plan !== 'free' && MOCK_USER.plan !== 'enterprise' && (
@@ -82,8 +82,8 @@ export default function BillingPage() {
                   isCurrent
                     ? 'border-primary/40 ring-1 ring-primary/15'
                     : plan.highlighted
-                    ? 'border-border shadow-sm'
-                    : 'border-border'
+                      ? 'border-slate-200 shadow-sm'
+                      : 'border-slate-200'
                 )}
               >
                 {isCurrent && (
@@ -102,14 +102,14 @@ export default function BillingPage() {
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-semibold text-foreground">{plan.priceLabel}</span>
                     {plan.price !== null && plan.price !== 0 && (
-                      <span className="text-xs text-muted-foreground">/mo</span>
+                      <span className="text-xs text-slate-600">/mo</span>
                     )}
                   </div>
                 </div>
 
                 <ul className="mb-5 flex-1 space-y-2">
                   {plan.features.slice(0, 4).map((f) => (
-                    <li key={f} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                    <li key={f} className="flex items-start gap-1.5 text-xs text-slate-600">
                       <CheckCircle2 size={12} className="mt-0.5 shrink-0 text-primary" />
                       {f}
                     </li>
@@ -137,11 +137,11 @@ export default function BillingPage() {
         </div>
       </div>
 
-      <div className="mb-8 rounded-2xl border border-border bg-white p-5 shadow-sm">
+      <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="mb-0.5 text-sm font-semibold text-foreground">Enterprise</h3>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-slate-600">
               Private agents, white-label, custom limits, and dedicated onboarding.
             </p>
           </div>
@@ -154,15 +154,15 @@ export default function BillingPage() {
       <div>
         <h2 className="mb-4 text-sm font-semibold text-foreground">Billing history</h2>
         {MOCK_USER.plan === 'free' ? (
-          <div className="rounded-2xl border border-border bg-white p-6 text-center shadow-sm">
-            <p className="text-xs text-muted-foreground">No invoices. You are on the free plan.</p>
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+            <p className="text-xs text-slate-600">No invoices. You are on the free plan.</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-border bg-slate-50 px-4 py-2.5">
-              <span className="text-xs font-medium text-muted-foreground">Date</span>
-              <span className="text-xs font-medium text-muted-foreground">Amount</span>
-              <span className="text-xs font-medium text-muted-foreground">Status</span>
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-slate-200 bg-slate-50 px-4 py-2.5">
+              <span className="text-xs font-medium text-slate-500">Date</span>
+              <span className="text-xs font-medium text-slate-500">Amount</span>
+              <span className="text-xs font-medium text-slate-500">Status</span>
             </div>
             {[
               { date: 'Jan 1, 2024', amount: `$${currentPlan?.price}`, status: 'Paid' },
@@ -170,11 +170,11 @@ export default function BillingPage() {
             ].map((invoice, i) => (
               <div
                 key={i}
-                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0"
+                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-slate-200 px-4 py-3 last:border-0"
               >
                 <span className="text-sm text-foreground">{invoice.date}</span>
                 <span className="text-sm text-foreground">{invoice.amount}</span>
-                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
                   {invoice.status}
                 </span>
               </div>

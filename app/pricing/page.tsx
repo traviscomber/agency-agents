@@ -40,12 +40,12 @@ export default function PricingPage() {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-                {[
-                  { title: 'Free to start', desc: 'Test the system without a credit card.' },
-                  { title: 'Clear upgrade path', desc: 'Plans scale from solo use to teams.' },
-                  { title: 'Agent access', desc: 'Each plan exposes a deeper specialist set.' },
-                  { title: 'Predictable limits', desc: 'Usage and upgrades are easy to scan.' },
-                ].map(({ title, desc }) => (
+              {[
+                { title: 'Free to start', desc: 'Test the system without a credit card.' },
+                { title: 'Clear upgrade path', desc: 'Plans scale from solo use to teams.' },
+                { title: 'Agent access', desc: 'Each plan exposes a deeper specialist set.' },
+                { title: 'Predictable limits', desc: 'Usage and upgrades are easy to scan.' },
+              ].map(({ title, desc }) => (
                 <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
                   <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <Shield size={14} className="text-foreground" />
@@ -78,8 +78,8 @@ export default function PricingPage() {
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{plan.name}</h2>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className="text-3xl font-semibold tracking-tight text-foreground">{plan.priceLabel}</span>
-                  {plan.price !== null && <span className="text-xs text-slate-600">/month</span>}
-                </div>
+                {plan.price !== null && <span className="text-xs text-slate-600">/month</span>}
+              </div>
               </div>
               <ul className="flex-1 space-y-2.5">
                 {plan.features.map((feature) => (

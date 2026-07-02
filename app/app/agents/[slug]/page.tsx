@@ -27,12 +27,12 @@ export default async function AppAgentDetailPage({ params }: Props) {
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <Link
         href="/app/agents"
-        className="mb-6 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-950"
       >
         <ArrowLeft size={13} /> Back to agents
       </Link>
 
-      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-sm">
+      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
         <div className="grid gap-8 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:p-8">
           <div>
             <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -42,11 +42,11 @@ export default async function AppAgentDetailPage({ params }: Props) {
             <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
               {agent.name}
             </h1>
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
               {agent.longDescription}
             </p>
             <p className="mt-5 text-sm font-medium text-foreground">Role: {agent.role}</p>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{agent.mission}</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.mission}</p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
@@ -56,8 +56,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
               ['What you get', 'Structured output with clear recommendations, not a generic conversation transcript.'],
               ['Next action', hasAccess ? 'Run the specialist in the workspace.' : 'Upgrade to unlock this specialist.'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-2xl border border-border bg-slate-50 p-4">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">{title}</p>
+              <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
               </div>
             ))}
@@ -67,35 +67,35 @@ export default async function AppAgentDetailPage({ params }: Props) {
 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
-          <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-foreground">What you provide</h2>
-            <ul className="mt-4 space-y-3">
-              {agent.inputRequirements.map((req) => (
-                <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                  {req}
-                </li>
-              ))}
-            </ul>
-          </section>
+            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">What you provide</h2>
+              <ul className="mt-4 space-y-3">
+                {agent.inputRequirements.map((req) => (
+                  <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    {req}
+                  </li>
+                ))}
+              </ul>
+            </section>
 
-          <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-foreground">What you get</h2>
-            <ul className="mt-4 space-y-3">
-              {agent.outputFormat.map((fmt) => (
-                <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500" />
-                  {fmt}
-                </li>
-              ))}
-            </ul>
-          </section>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">What you get</h2>
+              <ul className="mt-4 space-y-3">
+                {agent.outputFormat.map((fmt) => (
+                  <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-500" />
+                    {fmt}
+                  </li>
+                ))}
+              </ul>
+            </section>
 
-          <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {agent.exampleTasks.map((task, index) => (
-                <div key={index} className="rounded-2xl border border-border bg-slate-50 p-4 text-sm leading-relaxed text-foreground">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {agent.exampleTasks.map((task, index) => (
+                <div key={index} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-foreground">
                   {task}
                 </div>
               ))}
@@ -103,14 +103,14 @@ export default async function AppAgentDetailPage({ params }: Props) {
           </section>
 
           {hasAccess && (
-            <section className="rounded-2xl border border-border bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Suggested starting prompts</h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {agent.suggestedPrompts.map((prompt) => (
                   <Link
                     key={prompt}
                     href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
-                    className="rounded-full border border-border bg-slate-50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/25 hover:bg-white hover:text-foreground"
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -121,21 +121,21 @@ export default async function AppAgentDetailPage({ params }: Props) {
         </div>
 
         <aside className="space-y-5">
-          <div className="sticky top-24 rounded-2xl border border-border bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-slate-200">
+          <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
               <Sparkles size={12} />
               {hasAccess ? 'Ready to run' : 'Locked specialist'}
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-slate-300">
+            <p className="mt-4 text-sm leading-relaxed text-slate-200">
               {hasAccess
                 ? 'Describe your task and the workspace will guide you into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}
             </p>
-            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Required plan</p>
-              <div className="mt-3">
-                <PlanBadge plan={agent.planRequired} />
-              </div>
+            <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
+                <div className="mt-3">
+                  <PlanBadge plan={agent.planRequired} />
+                </div>
             </div>
             <div className="mt-5 space-y-2">
               {hasAccess ? (
@@ -145,14 +145,14 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   </Link>
                 </Button>
               ) : (
-                <Button variant="outline" className="w-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white" asChild>
+                <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
                   <Link href="/app/billing">
                     <Lock size={13} className="mr-1.5" />
                     Upgrade to unlock
                   </Link>
                 </Button>
               )}
-              <Button variant="outline" className="w-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white" asChild>
+              <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
                 <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse agents' : 'Sign up'}</Link>
               </Button>
             </div>
