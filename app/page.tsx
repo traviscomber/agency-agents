@@ -4,7 +4,7 @@ import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { getFeaturedAgents } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
-import { ArrowRight, CheckCircle2, Sparkles, Shield, Workflow, Zap, BarChart3, Layers3 } from 'lucide-react'
+import { ArrowRight, BarChart3, CheckCircle2, Layers3, Shield, Sparkles, Workflow, Zap } from 'lucide-react'
 
 const OPERATING_LAYERS = [
   {
@@ -69,8 +69,8 @@ export default function LandingPage() {
       <main>
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-x-0 top-0 h-[680px] bg-[linear-gradient(to_bottom,_rgba(15,23,42,0.96),_rgba(15,23,42,0.88)_55%,_rgba(15,23,42,0.75)_100%)]" />
-            <div className="absolute inset-x-0 top-0 h-[680px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.20),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(255,255,255,0.08),_transparent_30%)]" />
+            <div className="absolute inset-x-0 top-0 h-[700px] bg-[linear-gradient(to_bottom,_rgba(15,23,42,0.96),_rgba(15,23,42,0.9)_55%,_rgba(15,23,42,0.78)_100%)]" />
+            <div className="absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.2),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(255,255,255,0.08),_transparent_30%)]" />
           </div>
 
           <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20">
@@ -92,7 +92,12 @@ export default function LandingPage() {
                     Start free <ArrowRight size={14} className="ml-1.5" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="default" asChild className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white">
+                <Button
+                  variant="outline"
+                  size="default"
+                  asChild
+                  className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                >
                   <Link href="/pricing">See pricing</Link>
                 </Button>
               </div>
@@ -161,15 +166,15 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="border-t border-border/70 bg-white">
+        <section className="border-t border-slate-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">How it becomes a system</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground text-balance">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">How it becomes a system</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance text-foreground">
                   Designed to move from one concrete drag to a controlled operating layer.
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-4 text-sm leading-relaxed text-slate-600">
                   The visual system should say the same thing the product does: this is not a toy, it is an applied
                   workspace for teams under pressure.
                 </p>
@@ -177,14 +182,14 @@ export default function LandingPage() {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {VALUE_POINTS.map(({ icon: Icon, title, desc }) => (
-                  <div key={title} className="rounded-[1.35rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)]">
+                  <div key={title} className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)]">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white">
                         <Icon size={16} />
                       </div>
                       <p className="text-sm font-semibold text-foreground">{title}</p>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{desc}</p>
                   </div>
                 ))}
               </div>
@@ -192,7 +197,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="border-t border-border bg-slate-950 text-white">
+        <section className="border-t border-slate-200 bg-slate-950 text-white">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
               <div>
@@ -221,11 +226,11 @@ export default function LandingPage() {
         <section className="border-t border-slate-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Agents</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground text-balance">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Agents</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance text-foreground">
                 Specialists for every function.
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
                 Each specialist is built to look and behave like part of a real operating system: division, plan,
                 output, and next action are always visible.
               </p>
@@ -236,14 +241,14 @@ export default function LandingPage() {
                 <Link
                   key={agent.id}
                   href={`/agents/${agent.slug}`}
-                  className="group rounded-[1.35rem] border border-border bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/25"
+                  className="group rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/25"
                 >
                   <div className="mb-3 flex items-start justify-between gap-3">
                     <DivisionBadge division={agent.division} size="sm" />
                     <PlanBadge plan={agent.planRequired} size="sm" />
                   </div>
                   <h3 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{agent.shortDescription}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
                   <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-foreground">
                     Open specialist <ArrowRight size={11} />
                   </div>
@@ -253,7 +258,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="border-t border-border">
+        <section className="border-t border-slate-200">
           <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
             <div className="rounded-[2rem] border border-slate-900/10 bg-slate-950 p-8 text-white shadow-[0_24px_90px_rgba(15,23,42,0.18)]">
               <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -272,7 +277,12 @@ export default function LandingPage() {
                       Start free <ArrowRight size={14} className="ml-1.5" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="default" asChild className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white">
+                  <Button
+                    variant="outline"
+                    size="default"
+                    asChild
+                    className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                  >
                     <Link href="/pricing">See pricing</Link>
                   </Button>
                 </div>
