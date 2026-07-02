@@ -8,11 +8,11 @@ interface PlanBadgeProps {
 }
 
 const PLAN_STYLES: Record<PlanId, string> = {
-  free: 'bg-zinc-100 text-zinc-600 border border-zinc-200',
-  starter: 'bg-sky-50 text-sky-700 border border-sky-200',
-  pro: 'bg-slate-100 text-slate-700 border border-slate-200',
-  team: 'bg-indigo-50 text-indigo-700 border border-indigo-200',
-  enterprise: 'bg-amber-50 text-amber-700 border border-amber-200',
+  free: 'bg-slate-100 text-slate-700 border border-slate-200',
+  starter: 'bg-sky-100 text-sky-800 border border-sky-200',
+  pro: 'bg-slate-200 text-slate-800 border border-slate-300',
+  team: 'bg-indigo-100 text-indigo-800 border border-indigo-200',
+  enterprise: 'bg-amber-100 text-amber-900 border border-amber-200',
 }
 
 const PLAN_LABELS: Record<PlanId, string> = {

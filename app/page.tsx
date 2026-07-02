@@ -75,14 +75,14 @@ export default function LandingPage() {
 
           <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20">
             <div className="max-w-2xl text-white">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/72">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/84">
                 <Sparkles size={12} className="text-white" />
                 AI specialist workspace
               </div>
               <h1 className="mt-5 max-w-xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-[68px] lg:leading-[0.98]">
                 A specialist workspace for work that needs structure.
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/72 sm:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/82 sm:text-lg">
                 AgencyOS turns scattered prompts into an operating layer: agents, projects, run history, saved
                 deliverables, and plan control in one place.
               </p>
@@ -92,7 +92,7 @@ export default function LandingPage() {
                     Start free <ArrowRight size={14} className="ml-1.5" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="default" asChild className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white">
+                <Button variant="outline" size="default" asChild className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white">
                   <Link href="/pricing">See pricing</Link>
                 </Button>
               </div>
@@ -103,9 +103,9 @@ export default function LandingPage() {
                   ['24/7', 'specialist availability'],
                   ['4 layers', 'evidence to action'],
                 ].map(([value, label]) => (
-                  <div key={label} className="rounded-[1.25rem] border border-white/10 bg-white/6 p-4 backdrop-blur">
+                  <div key={label} className="rounded-[1.25rem] border border-white/12 bg-white/8 p-4 backdrop-blur">
                     <p className="text-2xl font-semibold tracking-tight text-white">{value}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/55">{label}</p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/70">{label}</p>
                   </div>
                 ))}
               </div>
@@ -116,7 +116,7 @@ export default function LandingPage() {
               <div className="rounded-[2rem] border border-white/12 bg-slate-950 p-5 text-white shadow-[0_24px_90px_rgba(15,23,42,0.42)]">
                 <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-4">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">Operating layer</p>
+                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/58">Operating layer</p>
                     <h2 className="mt-2 text-xl font-semibold tracking-tight">From scattered signals to accountable work.</h2>
                   </div>
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
@@ -126,7 +126,7 @@ export default function LandingPage() {
 
                 <div className="mt-5 space-y-3">
                   {OPERATING_LAYERS.map((layer, index) => (
-                    <div key={layer.step} className="flex items-start gap-3 rounded-[1.25rem] border border-white/10 bg-white/5 p-4">
+                    <div key={layer.step} className="flex items-start gap-3 rounded-[1.25rem] border border-white/12 bg-white/7 p-4">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-xs font-semibold text-slate-950">
                         {layer.step}
                       </div>
@@ -137,18 +137,18 @@ export default function LandingPage() {
                             {index === 0 ? 'capture' : index === 1 ? 'structure' : index === 2 ? 'manage' : 'act'}
                           </span>
                         </div>
-                        <p className="mt-1 text-sm leading-relaxed text-white/68">{layer.desc}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-white/78">{layer.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-5 rounded-[1.25rem] border border-white/10 bg-white/5 p-4">
-                  <div className="flex items-center justify-between text-xs text-white/65">
+                <div className="mt-5 rounded-[1.25rem] border border-white/12 bg-white/7 p-4">
+                  <div className="flex items-center justify-between text-xs text-white/74">
                     <span>Operational clarity</span>
                     <span>86%</span>
                   </div>
-                  <div className="mt-3 h-2 rounded-full bg-white/10">
+                  <div className="mt-3 h-2 rounded-full bg-white/12">
                     <div className="h-2 w-[86%] rounded-full bg-white" />
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -196,21 +196,21 @@ export default function LandingPage() {
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">Implementation rhythm</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/58">Implementation rhythm</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance">
                   The interface should feel like a method, not a collection of screens.
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-white/68">
+                <p className="mt-4 text-sm leading-relaxed text-white/78">
                   Four steps are enough when the language is clear and each section earns its place.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {WORKFLOW_STEPS.map((item) => (
-                  <div key={item.step} className="rounded-[1.35rem] border border-white/10 bg-white/5 p-5">
-                    <span className="text-xs font-mono text-white/45">{item.step}</span>
+                  <div key={item.step} className="rounded-[1.35rem] border border-white/12 bg-white/7 p-5">
+                    <span className="text-xs font-mono text-white/56">{item.step}</span>
                     <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/68">{item.desc}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-white/78">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -218,7 +218,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="border-t border-border bg-white/70">
+        <section className="border-t border-slate-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="mb-8">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Agents</p>
@@ -255,14 +255,14 @@ export default function LandingPage() {
 
         <section className="border-t border-border">
           <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-            <div className="rounded-[2rem] border border-border bg-slate-950 p-8 text-white shadow-[0_24px_90px_rgba(15,23,42,0.18)]">
+            <div className="rounded-[2rem] border border-slate-900/10 bg-slate-950 p-8 text-white shadow-[0_24px_90px_rgba(15,23,42,0.18)]">
               <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
                 <div className="max-w-2xl">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/45">Next step</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/58">Next step</p>
                   <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance">
                     Start with one task. Turn it into a workspace that the team can actually use.
                   </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-white/68">
+                  <p className="mt-4 text-sm leading-relaxed text-white/78">
                     Free to start. No credit card required. Upgrade when the workflow needs more structure.
                   </p>
                 </div>
@@ -272,7 +272,7 @@ export default function LandingPage() {
                       Start free <ArrowRight size={14} className="ml-1.5" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="default" asChild className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white">
+                  <Button variant="outline" size="default" asChild className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white">
                     <Link href="/pricing">See pricing</Link>
                   </Button>
                 </div>
