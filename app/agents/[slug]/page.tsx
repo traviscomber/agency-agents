@@ -25,7 +25,7 @@ export default async function PublicAgentDetailPage({
   ).slice(0, 3)
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(15,23,42,0.08),_transparent_30%),linear-gradient(to_bottom,_#f8fafc,_#ffffff_24%,_#f8fafc_100%)]">
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
@@ -37,14 +37,14 @@ export default async function PublicAgentDetailPage({
           <span className="text-foreground">{agent.name}</span>
         </nav>
 
-        <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
+        <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_52%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
             <div>
               <div className="mb-4 flex flex-wrap items-center gap-2">
                 <DivisionBadge division={agent.division} />
                 <PlanBadge plan={agent.planRequired} />
               </div>
-              <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-foreground text-balance sm:text-4xl">
+              <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
                 {agent.name}
               </h1>
               <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
@@ -69,7 +69,7 @@ export default async function PublicAgentDetailPage({
                 ['Best use', agent.whenToUse],
                 ['Output style', 'Structured deliverables with clear sections and next steps.'],
               ].map(([title, desc]) => (
-                <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div key={title} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
                   <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
                 </div>
@@ -136,27 +136,31 @@ export default async function PublicAgentDetailPage({
           </div>
 
           <aside className="space-y-5">
-          <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
-              <Sparkles size={12} />
-              Ready to run
-            </div>
-            <p className="mt-4 text-sm leading-relaxed text-slate-200">
-              Sign up to run this specialist and receive a structured deliverable saved to your workspace.
-            </p>
-            <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
+            <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
+                <Sparkles size={12} />
+                Ready to run
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-slate-200">
+                Sign up to run this specialist and receive a structured deliverable saved to your workspace.
+              </p>
+              <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>
-            </div>
+              </div>
               <div className="mt-5 space-y-2">
                 <Button className="w-full bg-white text-slate-950 hover:bg-slate-100" asChild>
                   <Link href="/signup">
                     Run this agent <ArrowRight size={14} className="ml-1.5" />
                   </Link>
                 </Button>
-                <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
+                <Button
+                  variant="outline"
+                  className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                  asChild
+                >
                   <Link href="/signup">Sign in</Link>
                 </Button>
               </div>
@@ -169,7 +173,11 @@ export default async function PublicAgentDetailPage({
                 </h3>
                 <div className="mt-4 space-y-3">
                   {relatedAgents.map((related) => (
-                    <Link key={related.id} href={`/agents/${related.slug}`} className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <Link
+                      key={related.id}
+                      href={`/agents/${related.slug}`}
+                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                    >
                       <div>
                         <p className="text-sm font-medium text-foreground group-hover:text-primary">
                           {related.name}
