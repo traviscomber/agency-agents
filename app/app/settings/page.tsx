@@ -22,22 +22,22 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-      <div className="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 p-6 sm:p-8 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_54%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
+        <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
           <Sparkles size={12} className="text-primary" />
           Brandbook aligned settings
         </div>
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
-          Preferences
-        </p>
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">Settings tuned for the workspace owner.</h1>
-        <p className="mt-3 max-w-2xl text-sm text-slate-600 sm:text-base">
+        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">Preferences</p>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          Settings tuned for the workspace owner.
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
           Update profile details, manage security, and keep the default experience aligned with how the team works.
         </p>
-      </div>
+      </section>
 
-      <div className="mt-6 rounded-[28px] border border-slate-200 bg-white p-5 sm:p-6">
+      <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
         <Tabs defaultValue="profile">
           <TabsList className="mb-8 grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1">
             <TabsTrigger value="profile" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
@@ -52,7 +52,7 @@ export default function SettingsPage() {
           </TabsList>
 
           <TabsContent value="profile" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Profile information</h2>
               <div className="mt-4 space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -62,7 +62,7 @@ export default function SettingsPage() {
                       id="fullName"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="text-sm h-10 bg-white"
+                      className="h-10 bg-white text-sm"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -71,7 +71,7 @@ export default function SettingsPage() {
                       id="email"
                       value={email}
                       disabled
-                      className="h-10 text-sm bg-slate-100"
+                      className="h-10 bg-slate-100 text-sm"
                     />
                   </div>
                 </div>
@@ -83,7 +83,7 @@ export default function SettingsPage() {
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder="Acme Inc."
-                      className="text-sm h-10 bg-white"
+                      className="h-10 bg-white text-sm"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -93,7 +93,7 @@ export default function SettingsPage() {
                       value={role}
                       onChange={(e) => setRole(e.target.value)}
                       placeholder="Founder, Developer..."
-                      className="text-sm h-10 bg-white"
+                      className="h-10 bg-white text-sm"
                     />
                   </div>
                 </div>
@@ -102,14 +102,14 @@ export default function SettingsPage() {
 
             <Separator />
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Avatar</h2>
               <div className="mt-4 flex items-center gap-4">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-semibold text-foreground ring-1 ring-slate-200">
                   {fullName.charAt(0)}
                 </div>
                 <div>
-                  <Button variant="outline" size="sm" className="text-xs h-9 bg-white">
+                  <Button variant="outline" size="sm" className="h-9 bg-white text-xs">
                     Upload image
                   </Button>
                   <p className="mt-1.5 text-xs text-slate-500">JPG, PNG or GIF. Max 2MB.</p>
@@ -126,20 +126,20 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="account" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Password</h2>
               <div className="mt-4 max-w-sm space-y-3">
                 <div className="space-y-1.5">
                   <Label className="text-sm font-medium">Current password</Label>
-                  <Input type="password" placeholder="password" className="text-sm h-10 bg-white" />
+                  <Input type="password" placeholder="password" className="h-10 bg-white text-sm" />
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-sm font-medium">New password</Label>
-                  <Input type="password" placeholder="password" className="text-sm h-10 bg-white" />
+                  <Input type="password" placeholder="password" className="h-10 bg-white text-sm" />
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-sm font-medium">Confirm new password</Label>
-                  <Input type="password" placeholder="password" className="text-sm h-10 bg-white" />
+                  <Input type="password" placeholder="password" className="h-10 bg-white text-sm" />
                 </div>
                 <Button size="sm">Update password</Button>
               </div>
@@ -147,7 +147,7 @@ export default function SettingsPage() {
 
             <Separator />
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Danger zone</h2>
               <p className="mt-2 text-sm text-slate-600">
                 Permanently delete your account and all data. This cannot be undone.
@@ -159,7 +159,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Email notifications</h2>
               <div className="mt-4 space-y-3 text-sm text-slate-600">
                 <label className="flex items-center gap-3">
