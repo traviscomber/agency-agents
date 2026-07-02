@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 
 const SECTIONS = [
@@ -19,7 +20,7 @@ const SECTIONS = [
   {
     title: 'Your choices',
     body:
-      'You can contact us to request access, correction, or deletion of information where applicable.',
+      'You can contact us through the contact page to request access, correction, or deletion of information where applicable.',
   },
 ]
 
@@ -37,7 +38,7 @@ export default function PrivacyPage() {
             Privacy policy
           </h1>
           <p className="text-muted-foreground leading-relaxed max-w-2xl">
-            This page explains how AgencyOS handles information on the website and product demo.
+            This page explains how AgencyOS handles information on the website, signup flow, and product demo.
           </p>
         </div>
 
@@ -59,6 +60,10 @@ export default function PrivacyPage() {
             <a href="mailto:hello@agencyos.app" className="text-foreground hover:underline">
               hello@agencyos.app
             </a>
+            {' '}or use the{' '}
+            <Link href="/contact" className="text-foreground hover:underline">
+              contact page
+            </Link>
             .
           </p>
         </div>

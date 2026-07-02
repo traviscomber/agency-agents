@@ -59,7 +59,7 @@ export default function PricingPage() {
         </section>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PLANS.filter((plan) => plan.id !== 'enterprise').map((plan) => (
+          {PLANS.map((plan) => (
             <div
               key={plan.id}
               className={cn(
@@ -90,7 +90,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Button variant={plan.highlighted ? 'default' : 'outline'} className="mt-6 w-full" asChild>
-                <Link href="/signup">
+                <Link href={plan.id === 'enterprise' ? '/contact' : '/signup'}>
                   {plan.cta} <ArrowRight size={12} className="ml-1" />
                 </Link>
               </Button>

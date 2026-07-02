@@ -3,8 +3,15 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Menu, Sparkles, X } from 'lucide-react'
+import { Menu, Sparkles, X, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+const NAV_ITEMS = [
+  { href: '/agents', label: 'Agents' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/contact', label: 'Contact' },
+  { href: '/app', label: 'Dashboard' },
+]
 
 export function PublicNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -13,30 +20,28 @@ export function PublicNavbar() {
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/82 backdrop-blur-xl supports-[backdrop-filter]:bg-white/72">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/10">
+          <Link href="/" className="group flex items-center gap-3">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-slate-950 text-white shadow-[0_12px_30px_-14px_rgba(15,23,42,0.85)] transition-transform duration-200 group-hover:-translate-y-0.5">
               <Sparkles size={15} />
             </span>
             <div className="leading-tight">
-              <span className="block text-sm font-semibold tracking-tight text-foreground">
-                AgencyOS
-              </span>
-              <span className="block text-[11px] text-muted-foreground">
-                Specialist workspace
+              <span className="block text-sm font-semibold tracking-tight text-foreground">AgencyOS</span>
+              <span className="block text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+                AI specialist workspace
               </span>
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-7 md:flex">
-            <Link href="/agents" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Agents
-            </Link>
-            <Link href="/pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Pricing
-            </Link>
-            <Link href="/app" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Dashboard
-            </Link>
+          <nav className="hidden items-center gap-6 md:flex">
+            {NAV_ITEMS.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
@@ -44,7 +49,9 @@ export function PublicNavbar() {
               <Link href="/login">Log in</Link>
             </Button>
             <Button size="sm" asChild className="shadow-sm shadow-primary/10">
-              <Link href="/signup">Start free</Link>
+              <Link href="/signup">
+                Start free <ArrowRight size={12} className="ml-1" />
+              </Link>
             </Button>
           </div>
 
@@ -62,22 +69,24 @@ export function PublicNavbar() {
         {mobileOpen && (
           <div className="border-t border-border/70 py-4 md:hidden">
             <nav className="flex flex-col gap-3">
-              <Link href="/agents" className="text-sm text-muted-foreground hover:text-foreground">
-                Agents
-              </Link>
-              <Link href="/pricing" className="text-sm text-muted-foreground hover:text-foreground">
-                Pricing
-              </Link>
-              <Link href="/app" className="text-sm text-muted-foreground hover:text-foreground">
-                Dashboard
-              </Link>
+              {NAV_ITEMS.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {label}
+                </Link>
+              ))}
             </nav>
             <div className="mt-4 flex gap-2">
               <Button variant="outline" size="sm" asChild className="flex-1">
                 <Link href="/login">Log in</Link>
               </Button>
               <Button size="sm" asChild className="flex-1">
-                <Link href="/signup">Start free</Link>
+                <Link href="/signup">
+                  Start free <ArrowRight size={12} className="ml-1" />
+                </Link>
               </Button>
             </div>
           </div>
