@@ -57,7 +57,9 @@ export default function BillingPage() {
           </div>
           {MOCK_USER.plan !== 'free' && MOCK_USER.plan !== 'enterprise' && (
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">Manage payment</Button>
+              <Button variant="outline" size="sm">
+                Manage payment
+              </Button>
               <Button variant="outline" size="sm" className="border-destructive/30 text-destructive hover:bg-destructive/5">
                 Cancel plan
               </Button>
