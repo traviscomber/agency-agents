@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { MOCK_PROJECTS, MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { ArrowLeft, ArrowRight, Bot, Bookmark, Calendar, FolderOpen, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Bot, Bookmark, Calendar, Sparkles } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 

@@ -122,7 +122,7 @@ export function AppSidebar() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-foreground">{MOCK_USER.fullName}</p>
-              <p className="truncate text-xs text-muted-foreground">{MOCK_USER.email}</p>
+              <p className="truncate text-xs text-slate-500">{MOCK_USER.email}</p>
             </div>
           </div>
           <Link

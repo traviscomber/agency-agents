@@ -77,7 +77,7 @@ export function AppHeader({ title }: AppHeaderProps) {
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
           <div className="min-w-0">
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Workspace</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-500">Workspace</p>
             <p className="truncate text-sm font-semibold tracking-tight text-foreground">{currentTitle}</p>
           </div>
         </div>
