@@ -1,8 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
 
 interface UsageMeterProps {
   used: number
@@ -19,7 +19,7 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
   if (compact) {
     return (
       <div className="w-full">
-        <div className="flex items-center justify-between mb-1">
+        <div className="mb-1 flex items-center justify-between">
           <span className="text-xs text-slate-600">
             {used}/{limit} runs
           </span>
@@ -45,13 +45,18 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-card p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.32)]">
-      <div className="flex items-center justify-between mb-2">
+    <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.32)]">
+      <div className="mb-2 flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-foreground">Monthly runs</p>
           <p className="text-xs capitalize text-slate-600">{plan} plan</p>
         </div>
-        <span className={cn('text-2xl font-semibold', isCritical ? 'text-red-600' : isWarning ? 'text-amber-600' : 'text-foreground')}>
+        <span
+          className={cn(
+            'text-2xl font-semibold',
+            isCritical ? 'text-red-600' : isWarning ? 'text-amber-600' : 'text-foreground'
+          )}
+        >
           {used}
           <span className="text-base font-normal text-slate-600">/{limit}</span>
         </span>
@@ -65,15 +70,15 @@ export function UsageMeter({ used, limit, plan, compact = false }: UsageMeterPro
         )}
       />
       {isCritical && (
-        <p className="mt-2 text-xs text-red-700">
+        <p className="mt-2 text-xs leading-relaxed text-red-700">
           You have reached your monthly limit.{' '}
           <Link href="/app/billing" className="font-medium underline">
             Upgrade your plan
           </Link>
         </p>
-      )}
+        )}
       {isWarning && !isCritical && (
-        <p className="mt-2 text-xs text-amber-800">
+        <p className="mt-2 text-xs leading-relaxed text-amber-800">
           You are approaching your monthly limit.{' '}
           <Link href="/app/billing" className="font-medium underline">
             Upgrade for more runs
