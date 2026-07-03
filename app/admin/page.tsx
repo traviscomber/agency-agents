@@ -25,44 +25,43 @@ export default function AdminDashboard() {
   ]
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#eef2ff_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
-        <div className="flex flex-col gap-3">
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Admin dashboard</h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-slate-700">Platform overview and key metrics.</p>
-        </div>
-
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {stats.map(({ label, value, icon: Icon }) => (
-            <div key={label} className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.45)]">
-              <div className="mb-2 flex items-center gap-2">
-                <Icon size={14} className="text-slate-600" />
-                <p className="text-xs font-medium text-slate-700">{label}</p>
-              </div>
-              <p className="text-2xl font-semibold text-foreground">{value}</p>
-            </div>
-          ))}
-        </div>
+    <div className="mx-auto max-w-6xl px-6 py-8">
+      {/* Header */}
+      <section className="mb-8">
+        <h1 className="text-4xl font-light tracking-[-0.02em] text-[#173634]">Platform Dashboard</h1>
+        <p className="mt-2 text-base text-[#555a56]">Overview and key metrics.</p>
       </section>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-          <h2 className="mb-4 text-sm font-semibold text-foreground">Recent runs</h2>
-          <div className="space-y-3">
-            {MOCK_RUNS.map((run) => (
-              <div key={run.id} className="flex items-center gap-3">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-950 text-white">
-                  <Bot size={12} />
-                </div>
+      {/* Stats grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+        {stats.map(({ label, value, icon: Icon }) => (
+          <div key={label} className="space-y-3 rounded-none border border-[#d8e5e2] bg-white px-5 py-4">
+            <div className="flex items-center gap-2">
+              <Icon size={16} className="text-[#8fb2aa]" />
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">{label}</p>
+            </div>
+            <p className="text-3xl font-semibold text-[#173634]">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Sections */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Recent runs */}
+        <div className="space-y-3 rounded-none border border-[#d8e5e2] bg-white p-5">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">Recent runs</h2>
+          <div className="space-y-2">
+            {MOCK_RUNS.slice(0, 6).map((run) => (
+              <div key={run.id} className="flex items-center justify-between gap-3 border-t border-[#d8e5e2] pt-2 first:border-0 first:pt-0">
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-xs font-medium text-foreground">{run.agentName}</p>
-                  <p className="truncate text-[11px] text-slate-600">{run.task}</p>
+                  <p className="truncate text-sm text-[#173634]">{run.agentName}</p>
+                  <p className="truncate text-xs text-[#555a56]">{run.task}</p>
                 </div>
                 <span
-                  className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                  className={`shrink-0 rounded-full px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${
                     run.status === 'completed'
-                      ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
-                      : 'bg-slate-100 text-slate-600 ring-1 ring-slate-200'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : 'bg-[#f1f6f4] text-[#555a56]'
                   }`}
                 >
                   {run.status}
@@ -72,22 +71,23 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-          <h2 className="mb-4 text-sm font-semibold text-foreground">Runs by division</h2>
+        {/* Runs by division */}
+        <div className="space-y-3 rounded-none border border-[#d8e5e2] bg-white p-5">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">Runs by division</h2>
           <div className="space-y-3">
             {Object.entries(runsByDivision)
               .sort(([, a], [, b]) => b - a)
               .map(([division, count]) => (
-                <div key={division} className="flex items-center justify-between gap-3">
-                  <DivisionBadge division={division} />
-                  <div className="ml-2 flex flex-1 items-center gap-2">
-                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100">
-                      <div
-                        className="h-full rounded-full bg-slate-950"
-                        style={{ width: `${(count / MOCK_RUNS.length) * 100}%` }}
-                      />
-                    </div>
-                    <span className="w-4 text-right text-xs font-medium text-foreground">{count}</span>
+                <div key={division} className="space-y-2">
+                  <div className="flex items-center justify-between gap-3">
+                    <DivisionBadge division={division} />
+                    <span className="text-xs font-semibold text-[#173634]">{count}</span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-[#e8ede9]">
+                    <div
+                      className="h-full rounded-full bg-[#8fb2aa]"
+                      style={{ width: `${(count / MOCK_RUNS.length) * 100}%` }}
+                    />
                   </div>
                 </div>
               ))}

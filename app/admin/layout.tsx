@@ -15,38 +15,38 @@ const ADMIN_NAV = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen" style={{ backgroundColor: '#fbfbfa' }}>
       {/* Sidebar */}
-      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-slate-200 bg-[linear-gradient(180deg,#0f172a,#111827_55%,#1e293b)] lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#d8e5e2] bg-white lg:flex">
         {/* Logo */}
-        <div className="border-b border-white/10 px-4 py-4">
+        <div className="border-b border-[#d8e5e2] px-6 py-5">
           <Link href="/admin" className="flex items-center gap-2">
-            <Shield size={14} className="text-white/85" />
-            <span className="text-xs font-semibold text-white">AgencyOS Admin</span>
+            <Shield size={16} className="text-[#8fb2aa]" />
+            <span className="text-xs font-semibold tracking-[0.12em] text-[#173634]">ADMIN</span>
           </Link>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 space-y-0.5 px-2 py-4">
+        <nav className="flex-1 space-y-px px-3 py-4">
           {ADMIN_NAV.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/84 transition-colors hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-3 rounded-none border-l-2 border-transparent px-4 py-3 text-sm font-light text-[#555a56] transition-all hover:border-[#8fb2aa] hover:bg-[#f1f6f4] hover:text-[#173634]"
             >
-              <Icon size={14} />
+              <Icon size={16} />
               {label}
             </Link>
           ))}
         </nav>
 
         {/* Back to app */}
-        <div className="border-t border-white/10 px-3 py-3">
+        <div className="border-t border-[#d8e5e2] px-3 py-3">
           <Link
             href="/app"
-            className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs text-white/72 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-2 rounded-none border-l-2 border-transparent px-4 py-2.5 text-xs font-light tracking-[0.12em] text-[#555a56] transition-all hover:border-[#8fb2aa] hover:bg-[#f1f6f4] hover:text-[#173634]"
           >
-            &larr; Back to workspace
+            ← Back
           </Link>
         </div>
       </aside>
