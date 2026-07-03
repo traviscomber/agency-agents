@@ -21,14 +21,14 @@ export default function SignupPage() {
             AgencyOS
           </Link>
           <div className="mt-10 max-w-md">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
               <Shield size={12} className="text-primary" />
               Free plan includes
             </div>
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-balance text-foreground">
               Create your workspace with a clean entry point.
             </h1>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600">
+            <p className="mt-4 text-sm leading-relaxed text-slate-700">
               The signup surface should feel fast, legible, and aligned with the rest of the product system.
             </p>
             <ul className="mt-6 space-y-3">
@@ -49,14 +49,14 @@ export default function SignupPage() {
                 <Sparkles size={15} className="text-primary" />
                 AgencyOS
               </Link>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-sm">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700 shadow-sm">
                 <Shield size={12} className="text-primary" />
                 Create your workspace
               </div>
               <h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground">
                 Create your account
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">
                 Already have an account?{' '}
                 <Link href="/login" className="font-medium text-foreground hover:underline">
                   Sign in
@@ -87,13 +87,13 @@ export default function SignupPage() {
                 'A crisp signup surface that matches the product system',
                 'Quick path into the workspace without extra friction',
               ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3 text-sm text-slate-700 shadow-sm">
                   {item}
                 </div>
               ))}
             </div>
 
-            <p className="mt-6 text-center text-xs text-slate-600">
+            <p className="mt-6 text-center text-xs text-slate-700">
               By creating an account you agree to our{' '}
               <Link href="/terms" className="hover:text-slate-950 hover:underline">Terms</Link>
               {' '}and{' '}

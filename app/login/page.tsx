@@ -16,7 +16,7 @@ export default function LoginPage() {
             AgencyOS
           </Link>
           <div className="mt-10 max-w-lg">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/90">
               <Shield size={12} className="text-white" />
               Workspace login
             </div>
@@ -48,12 +48,12 @@ export default function LoginPage() {
                 <Sparkles size={15} className="text-primary" />
                 AgencyOS
               </Link>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-sm">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700 shadow-sm">
                 <Shield size={12} className="text-primary" />
                 Secure access
               </div>
               <h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground">Sign in</h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            <p className="mt-2 text-sm leading-relaxed text-slate-700">
                 Don&apos;t have an account?{' '}
                 <Link href="/signup" className="font-medium text-foreground hover:underline">
                   Start free
@@ -73,7 +73,7 @@ export default function LoginPage() {
                   <Label htmlFor="password" className="text-sm font-medium">
                     Password
                   </Label>
-                  <Link href="/forgot-password" className="text-xs text-slate-600 transition-colors hover:text-slate-950">
+                  <Link href="/forgot-password" className="text-xs text-slate-700 transition-colors hover:text-slate-950">
                     Forgot password?
                   </Link>
                 </div>
@@ -89,13 +89,13 @@ export default function LoginPage() {
                 'Planned structure for specialist teams',
                 'A polished, brand-aligned login surface',
               ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3 text-sm text-slate-700 shadow-sm">
                   {item}
                 </div>
               ))}
             </div>
 
-            <p className="mt-6 text-center text-xs text-slate-600">
+            <p className="mt-6 text-center text-xs text-slate-700">
               By signing in you agree to our{' '}
               <Link href="/terms" className="hover:text-slate-950 hover:underline">
                 Terms

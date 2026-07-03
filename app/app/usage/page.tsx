@@ -78,7 +78,7 @@ export default function UsagePage() {
                     : `$${plan?.price}/month`}
               </p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-foreground">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-800">
               <Calendar size={18} />
             </div>
           </div>

@@ -75,7 +75,7 @@ export default function LandingPage() {
 
           <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20">
             <div className="max-w-2xl text-white">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/84">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/90">
                 <Sparkles size={12} className="text-white" />
                 AI specialist workspace
               </div>
@@ -170,11 +170,11 @@ export default function LandingPage() {
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="grid gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">How it becomes a system</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">How it becomes a system</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance text-foreground">
                   Designed to move from one concrete drag to a controlled operating layer.
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-slate-600">
+                <p className="mt-4 text-sm leading-relaxed text-slate-700">
                   The visual system should say the same thing the product does: this is not a toy, it is an applied
                   workspace for teams under pressure.
                 </p>
@@ -189,7 +189,7 @@ export default function LandingPage() {
                       </div>
                       <p className="text-sm font-semibold text-foreground">{title}</p>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{desc}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-700">{desc}</p>
                   </div>
                 ))}
               </div>
@@ -226,11 +226,11 @@ export default function LandingPage() {
         <section className="border-t border-slate-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
             <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Agents</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">Agents</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance text-foreground">
                 Specialists for every function.
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700">
                 Each specialist is built to look and behave like part of a real operating system: division, plan,
                 output, and next action are always visible.
               </p>
@@ -248,7 +248,7 @@ export default function LandingPage() {
                     <PlanBadge plan={agent.planRequired} size="sm" />
                   </div>
                   <h3 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{agent.shortDescription}</p>
                   <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-foreground">
                     Open specialist <ArrowRight size={11} />
                   </div>

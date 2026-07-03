@@ -52,7 +52,7 @@ export default function SettingsPage() {
           </TabsList>
 
           <TabsContent value="profile" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Profile information</h2>
               <div className="mt-4 space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -102,7 +102,7 @@ export default function SettingsPage() {
 
             <Separator />
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Avatar</h2>
               <div className="mt-4 flex items-center gap-4">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-semibold text-foreground ring-1 ring-slate-200">
@@ -112,7 +112,7 @@ export default function SettingsPage() {
                   <Button variant="outline" size="sm" className="h-9 bg-white text-xs">
                     Upload image
                   </Button>
-                  <p className="mt-1.5 text-xs text-slate-600">JPG, PNG or GIF. Max 2MB.</p>
+                  <p className="mt-1.5 text-xs text-slate-700">JPG, PNG or GIF. Max 2MB.</p>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="account" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Password</h2>
               <div className="mt-4 max-w-sm space-y-3">
                 <div className="space-y-1.5">
@@ -147,7 +147,7 @@ export default function SettingsPage() {
 
             <Separator />
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Danger zone</h2>
               <p className="mt-2 text-sm text-slate-700">
                 Permanently delete your account and all data. This cannot be undone.
@@ -159,7 +159,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 shadow-sm">
               <h2 className="text-sm font-semibold text-foreground">Email notifications</h2>
               <div className="mt-4 space-y-3 text-sm text-slate-700">
                 <label className="flex items-center gap-3">

@@ -61,11 +61,11 @@ export default function ProjectsPage() {
       <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_56%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
               <Sparkles size={12} className="text-primary" />
               Workspace
             </div>
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-600">
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-700">
               Project architecture
             </p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
@@ -79,11 +79,11 @@ export default function ProjectsPage() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <div className="grid grid-cols-3 gap-3 sm:min-w-[360px]">
               <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Projects</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Projects</p>
                 <p className="mt-1 text-2xl font-semibold text-foreground">{projects.length}</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Runs</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Runs</p>
                 <p className="mt-1 text-2xl font-semibold text-foreground">{totals.runs}</p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-slate-950 p-3 text-white shadow-[0_18px_40px_-24px_rgba(15,23,42,0.9)]">
@@ -126,12 +126,12 @@ export default function ProjectsPage() {
                   </div>
                   <div className="min-w-0">
                     <h2 className="truncate text-sm font-semibold text-foreground">{project.name}</h2>
-                    <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-600">
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-700">
                       Project {String(index + 1).padStart(2, '0')}
                     </p>
                   </div>
                 </div>
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
+                <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-700">
                   {project.status}
                 </span>
               </div>
@@ -141,18 +141,18 @@ export default function ProjectsPage() {
               </p>
 
               <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-600">Runs</p>
+                <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-3">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-700">Runs</p>
                   <p className="mt-1 text-xl font-semibold text-foreground">{project.runCount}</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-600">Saved</p>
+                <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-3">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-slate-700">Saved</p>
                   <p className="mt-1 text-xl font-semibold text-foreground">{project.savedCount}</p>
                 </div>
               </div>
 
               <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4">
-                <span className="flex items-center gap-1.5 text-xs text-slate-600">
+                <span className="flex items-center gap-1.5 text-xs text-slate-700">
                   <Calendar size={11} />
                   Updated {formatDate(project.updatedAt)}
                 </span>
@@ -170,7 +170,7 @@ export default function ProjectsPage() {
       <div className="mt-6 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Recommended flow</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-700">Recommended flow</p>
             <h3 className="mt-1 text-sm font-semibold text-foreground">Start from a project, then branch into runs and saves.</h3>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -210,7 +210,7 @@ export default function ProjectsPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="proj-desc" className="text-sm font-medium">
-                Description <span className="text-xs font-normal text-slate-600">(optional)</span>
+                Description <span className="text-xs font-normal text-slate-700">(optional)</span>
               </Label>
               <Textarea
                 id="proj-desc"
