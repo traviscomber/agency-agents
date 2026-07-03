@@ -4,6 +4,9 @@ import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { getFeaturedAgents } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
+import { FadeInUp } from '@/components/animations/FadeInUp'
+import { ScaleIn } from '@/components/animations/ScaleIn'
+import { HoverCard } from '@/components/animations/HoverCard'
 import { ArrowRight, BarChart3, CheckCircle2, Layers3, Shield, Sparkles, Workflow, Zap } from 'lucide-react'
 
 const OPERATING_LAYERS = [
@@ -74,49 +77,54 @@ export default function LandingPage() {
           </div>
 
           <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20">
-            <div className="max-w-2xl text-white">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/84">
-                <Sparkles size={12} className="text-white" />
-                AI specialist workspace
+            <FadeInUp>
+              <div className="max-w-2xl text-white">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/84">
+                  <Sparkles size={12} className="text-white" />
+                  AI specialist workspace
+                </div>
+                <h1 className="mt-5 max-w-xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-[68px] lg:leading-[0.98]">
+                  A specialist workspace for work that needs structure.
+                </h1>
+                <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/82 sm:text-lg">
+                  AgencyOS turns scattered prompts into an operating layer: agents, projects, run history, saved
+                  deliverables, and plan control in one place.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <Button size="default" asChild className="bg-white text-slate-950 hover:bg-slate-100">
+                    <Link href="/signup">
+                      Start free <ArrowRight size={14} className="ml-1.5" />
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="default"
+                    asChild
+                    className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                  >
+                    <Link href="/pricing">See pricing</Link>
+                  </Button>
+                </div>
+                <div className="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
+                  {[
+                    ['10+', 'agent families'],
+                    ['1 workspace', 'for the whole team'],
+                    ['24/7', 'specialist availability'],
+                    ['4 layers', 'evidence to action'],
+                  ].map(([value, label], idx) => (
+                    <FadeInUp key={label} delay={0.1 * idx}>
+                      <div className="rounded-[1.25rem] border border-white/12 bg-white/8 p-4 backdrop-blur">
+                        <p className="text-2xl font-semibold tracking-tight text-white">{value}</p>
+                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/70">{label}</p>
+                      </div>
+                    </FadeInUp>
+                  ))}
+                </div>
               </div>
-              <h1 className="mt-5 max-w-xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-[68px] lg:leading-[0.98]">
-                A specialist workspace for work that needs structure.
-              </h1>
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/82 sm:text-lg">
-                AgencyOS turns scattered prompts into an operating layer: agents, projects, run history, saved
-                deliverables, and plan control in one place.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Button size="default" asChild className="bg-white text-slate-950 hover:bg-slate-100">
-                  <Link href="/signup">
-                    Start free <ArrowRight size={14} className="ml-1.5" />
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="default"
-                  asChild
-                  className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
-                >
-                  <Link href="/pricing">See pricing</Link>
-                </Button>
-              </div>
-              <div className="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
-                {[
-                  ['10+', 'agent families'],
-                  ['1 workspace', 'for the whole team'],
-                  ['24/7', 'specialist availability'],
-                  ['4 layers', 'evidence to action'],
-                ].map(([value, label]) => (
-                  <div key={label} className="rounded-[1.25rem] border border-white/12 bg-white/8 p-4 backdrop-blur">
-                    <p className="text-2xl font-semibold tracking-tight text-white">{value}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/70">{label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </FadeInUp>
 
-            <div className="relative">
+            <ScaleIn delay={0.3}>
+              <div className="relative">
               <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_transparent_55%)] blur-2xl" />
               <div className="rounded-[2rem] border border-white/12 bg-slate-950 p-5 text-white shadow-[0_24px_90px_rgba(15,23,42,0.42)]">
                 <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-4">
@@ -163,6 +171,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
+            </ScaleIn>
           </div>
         </section>
 
@@ -181,16 +190,20 @@ export default function LandingPage() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                {VALUE_POINTS.map(({ icon: Icon, title, desc }) => (
-                  <div key={title} className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)]">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white">
-                        <Icon size={16} />
+                {VALUE_POINTS.map(({ icon: Icon, title, desc }, idx) => (
+                  <FadeInUp key={title} delay={0.1 * idx}>
+                    <HoverCard>
+                      <div className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)]">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-white">
+                            <Icon size={16} />
+                          </div>
+                          <p className="text-sm font-semibold text-foreground">{title}</p>
+                        </div>
+                        <p className="mt-3 text-sm leading-relaxed text-slate-600">{desc}</p>
                       </div>
-                      <p className="text-sm font-semibold text-foreground">{title}</p>
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{desc}</p>
-                  </div>
+                    </HoverCard>
+                  </FadeInUp>
                 ))}
               </div>
             </div>
@@ -211,12 +224,16 @@ export default function LandingPage() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                {WORKFLOW_STEPS.map((item) => (
-                  <div key={item.step} className="rounded-[1.35rem] border border-white/12 bg-white/7 p-5">
-                    <span className="text-xs font-mono text-white/56">{item.step}</span>
-                    <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/78">{item.desc}</p>
-                  </div>
+                {WORKFLOW_STEPS.map((item, idx) => (
+                  <FadeInUp key={item.step} delay={0.1 * idx}>
+                    <HoverCard>
+                      <div className="rounded-[1.35rem] border border-white/12 bg-white/7 p-5">
+                        <span className="text-xs font-mono text-white/56">{item.step}</span>
+                        <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-white/78">{item.desc}</p>
+                      </div>
+                    </HoverCard>
+                  </FadeInUp>
                 ))}
               </div>
             </div>
@@ -237,22 +254,25 @@ export default function LandingPage() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredAgents.slice(0, 6).map((agent) => (
-                <Link
-                  key={agent.id}
-                  href={`/agents/${agent.slug}`}
-                  className="group rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)] transition-all hover:-translate-y-0.5 hover:border-primary/25"
-                >
-                  <div className="mb-3 flex items-start justify-between gap-3">
-                    <DivisionBadge division={agent.division} size="sm" />
-                    <PlanBadge plan={agent.planRequired} size="sm" />
-                  </div>
-                  <h3 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
-                  <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-foreground">
-                    Open specialist <ArrowRight size={11} />
-                  </div>
-                </Link>
+              {featuredAgents.slice(0, 6).map((agent, idx) => (
+                <FadeInUp key={agent.id} delay={0.05 * idx}>
+                  <HoverCard>
+                    <Link
+                      href={`/agents/${agent.slug}`}
+                      className="group rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)] transition-all hover:border-primary/25 block"
+                    >
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <DivisionBadge division={agent.division} size="sm" />
+                        <PlanBadge plan={agent.planRequired} size="sm" />
+                      </div>
+                      <h3 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
+                      <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-foreground">
+                        Open specialist <ArrowRight size={11} />
+                      </div>
+                    </Link>
+                  </HoverCard>
+                </FadeInUp>
               ))}
             </div>
           </div>
@@ -260,34 +280,38 @@ export default function LandingPage() {
 
         <section className="border-t border-slate-200">
           <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
-            <div className="rounded-[2rem] border border-slate-900/10 bg-slate-950 p-8 text-white shadow-[0_24px_90px_rgba(15,23,42,0.18)]">
-              <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-                <div className="max-w-2xl">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/58">Next step</p>
-                  <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance">
-                    Start with one task. Turn it into a workspace that the team can actually use.
-                  </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-white/78">
-                    Free to start. No credit card required. Upgrade when the workflow needs more structure.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Button size="default" asChild className="bg-white text-slate-950 hover:bg-slate-100">
-                    <Link href="/signup">
-                      Start free <ArrowRight size={14} className="ml-1.5" />
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="default"
-                    asChild
-                    className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
-                  >
-                    <Link href="/pricing">See pricing</Link>
-                  </Button>
+            <ScaleIn>
+              <div className="rounded-[2rem] border border-slate-900/10 bg-slate-950 p-8 text-white shadow-[0_24px_90px_rgba(15,23,42,0.18)]">
+                <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+                  <FadeInUp>
+                    <div className="max-w-2xl">
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/58">Next step</p>
+                      <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance">
+                        Start with one task. Turn it into a workspace that the team can actually use.
+                      </h2>
+                      <p className="mt-4 text-sm leading-relaxed text-white/78">
+                        Free to start. No credit card required. Upgrade when the workflow needs more structure.
+                      </p>
+                    </div>
+                  </FadeInUp>
+                  <div className="flex flex-wrap gap-3">
+                    <Button size="default" asChild className="bg-white text-slate-950 hover:bg-slate-100">
+                      <Link href="/signup">
+                        Start free <ArrowRight size={14} className="ml-1.5" />
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="default"
+                      asChild
+                      className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                    >
+                      <Link href="/pricing">See pricing</Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScaleIn>
           </div>
         </section>
       </main>
