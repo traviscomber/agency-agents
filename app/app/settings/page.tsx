@@ -24,11 +24,11 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
       <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_54%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
-        <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+        <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
           <Sparkles size={12} className="text-primary" />
           Brandbook aligned settings
         </div>
-        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-600">Preferences</p>
+        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-700">Preferences</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           Settings tuned for the workspace owner.
         </h1>
@@ -39,14 +39,14 @@ export default function SettingsPage() {
 
       <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
         <Tabs defaultValue="profile">
-          <TabsList className="mb-8 grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1">
-            <TabsTrigger value="profile" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
+            <TabsList className="mb-8 grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1">
+            <TabsTrigger value="profile" className="rounded-xl text-xs text-slate-700 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
               Profile
             </TabsTrigger>
-            <TabsTrigger value="account" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
+            <TabsTrigger value="account" className="rounded-xl text-xs text-slate-700 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
               Account
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
+            <TabsTrigger value="notifications" className="rounded-xl text-xs text-slate-700 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
               Notifications
             </TabsTrigger>
           </TabsList>
