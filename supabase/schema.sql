@@ -287,3 +287,41 @@ create policy "scheduled_runs: select own" on public.scheduled_runs for select u
 create policy "scheduled_runs: insert own" on public.scheduled_runs for insert with check (auth.uid() = user_id);
 create policy "scheduled_runs: update own" on public.scheduled_runs for update using (auth.uid() = user_id);
 create policy "scheduled_runs: delete own" on public.scheduled_runs for delete using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- agent_chains (workflow automation)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.agent_chains (
+  id           uuid primary key default uuid_generate_v4(),
+  user_id      uuid not null references public.users(id) on delete cascade,
+  name         text not null,
+  description  text,
+  agents       jsonb not null,
+  is_active    boolean not null default true,
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now()
+);
+
+alter table public.agent_chains enable row level security;
+create policy "agent_chains: select own" on public.agent_chains for select using (auth.uid() = user_id);
+create policy "agent_chains: insert own" on public.agent_chains for insert with check (auth.uid() = user_id);
+create policy "agent_chains: update own" on public.agent_chains for update using (auth.uid() = user_id);
+create policy "agent_chains: delete own" on public.agent_chains for delete using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- fine_tuning_models (custom training)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.fine_tuning_models (
+  id           uuid primary key default uuid_generate_v4(),
+  user_id      uuid not null references public.users(id) on delete cascade,
+  name         text not null,
+  agent_slug   text not null,
+  status       text not null default 'pending' check (status in ('pending', 'training', 'ready', 'failed')),
+  training_file_url text,
+  samples_count int,
+  completed_at timestamptz,
+  created_at   timestamptz not null default now()
+);
+
+alter table public.fine_tuning_models enable row level security;
+create policy "fine_tuning_models: select own" on public.fine_tuning_models for select using (auth.uid() = user_id);

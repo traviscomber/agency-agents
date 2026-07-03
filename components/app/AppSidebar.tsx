@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Bot, FolderOpen, History, Bookmark,
   BarChart2, CreditCard, Settings, LogOut, ArrowUpRight, Clock, TrendingUp,
+  Zap, Workflow, Cpu,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UsageMeter } from '@/components/shared/UsageMeter'
@@ -21,6 +22,12 @@ const NAV_MAIN = [
 const NAV_AUTOMATION = [
   { href: '/app/scheduled-runs', label: 'Scheduled', icon: Clock },
   { href: '/app/analytics',      label: 'Analytics', icon: TrendingUp },
+]
+
+const NAV_ADVANCED = [
+  { href: '/app/chains',         label: 'Chains',     icon: Workflow },
+  { href: '/app/fine-tuning',    label: 'Training',   icon: Cpu },
+  { href: '/app/integrations/slack', label: 'Slack',  icon: Zap },
 ]
 
 const NAV_ACCOUNT = [
@@ -95,6 +102,13 @@ export function AppSidebar() {
           Automation
         </p>
         {NAV_AUTOMATION.map((item) => <NavLink key={item.href} {...item} />)}
+
+        <div className="my-3 border-t border-[#d8e5e2]" />
+
+        <p className="mb-1 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#a7b9b4]">
+          Advanced
+        </p>
+        {NAV_ADVANCED.map((item) => <NavLink key={item.href} {...item} />)}
 
         <div className="my-3 border-t border-[#d8e5e2]" />
 
