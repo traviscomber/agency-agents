@@ -6,10 +6,12 @@ import { CheckCircle2, ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 const FAQ = [
-  { q: 'Can I start without a credit card?', a: 'Yes. The free plan gives you 5 runs per month to evaluate the workspace before committing.' },
-  { q: 'What happens when I hit the run limit?', a: 'Runs stop and you see an upgrade prompt. No overages, no surprise charges.' },
-  { q: 'Can I change plans at any time?', a: 'Yes. Upgrades take effect immediately; downgrades apply at the start of the next billing period.' },
-  { q: 'What is an agent run?', a: 'One complete execution of a specialist agent with your inputs, producing a structured output artifact.' },
+  { q: 'Can I start without a credit card?', a: 'Yes. The free plan gives you 20 runs per month to evaluate the workspace before upgrading.' },
+  { q: 'What happens when I hit the run limit?', a: 'Starter+ plans support overage pricing at $0.50/run. Free plan stops at the monthly limit.' },
+  { q: 'Do you offer annual discounts?', a: 'Yes. Contact sales for Enterprise plans to discuss annual billing and volume discounts.' },
+  { q: 'Which plan includes scheduled automation?', a: 'Starter and higher. Set agents to run daily, weekly, or monthly automatically—perfect for reports and data processing.' },
+  { q: 'Can I use agent chaining?', a: 'Yes, on Professional+ plans. Chain agents in sequence (write → review → publish) for complex workflows.' },
+  { q: 'What is white-label?', a: 'Enterprise customers can resell AgencyOS under their own brand. Custom domain, branding, and revenue share included.' },
 ]
 
 export default function PricingPage() {
