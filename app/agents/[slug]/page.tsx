@@ -65,9 +65,9 @@ export default async function PublicAgentDetailPage({
             <div className="grid gap-3 sm:grid-cols-2">
               {[
                 ['Role', agent.role],
-                ['Mission', agent.mission],
-                ['Best use', agent.whenToUse],
-                ['Output style', 'Structured deliverables with clear sections and next steps.'],
+              ['Mission', agent.mission],
+              ['Best use', agent.whenToUse],
+              ['Output shape', 'Structured deliverables with clear sections and next steps.'],
               ].map(([title, desc]) => (
                 <div
                   key={title}
@@ -96,7 +96,7 @@ export default async function PublicAgentDetailPage({
             </section>
 
             <section className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-              <h2 className="text-sm font-semibold text-foreground">Output format</h2>
+              <h2 className="text-sm font-semibold text-foreground">Deliverable shape</h2>
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
                   <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
@@ -156,7 +156,7 @@ export default async function PublicAgentDetailPage({
               <div className="mt-5 space-y-2">
                 <Button className="w-full bg-white text-slate-950 hover:bg-slate-100" asChild>
                   <Link href="/signup">
-                    Run this agent <ArrowRight size={14} className="ml-1.5" />
+                    Run this specialist <ArrowRight size={14} className="ml-1.5" />
                   </Link>
                 </Button>
                 <Button

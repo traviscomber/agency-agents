@@ -50,7 +50,7 @@ export default function ProjectsPage() {
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Work index</p>
         <div className="mt-2 flex items-center justify-between gap-4">
-          <h1 className="text-3xl font-light tracking-tight text-[#173634]">Projects.</h1>
+          <h1 className="text-3xl font-light tracking-tight text-[#173634]">Project ledger.</h1>
           <Button
             onClick={() => setShowNew(true)}
             className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
@@ -59,7 +59,7 @@ export default function ProjectsPage() {
           </Button>
         </div>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          Organize runs, context, and saved deliverables by initiative so each project reads like a compact working record.
+          Organize each initiative as a working record so runs, context, and deliverables stay linked from start to finish.
         </p>
       </header>
 
@@ -68,7 +68,7 @@ export default function ProjectsPage() {
         {[
           { label: 'Projects', value: projects.length },
           { label: 'Total runs', value: totals.runs },
-          { label: 'Saved outputs', value: totals.saved },
+          { label: 'Saved deliverables', value: totals.saved },
         ].map(({ label, value }) => (
           <div key={label} className="bg-[#fbfbfa] px-5 py-5">
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
       {projects.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
           <p className="text-sm font-medium text-[#173634]">No projects yet</p>
-          <p className="mt-1 text-xs text-[#173634]/45">Create a project to keep a run, its context, and its deliverables together.</p>
+          <p className="mt-1 text-xs text-[#173634]/45">Create a project to keep each run, its context, and its deliverables together.</p>
           <Button
             onClick={() => setShowNew(true)}
             className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
@@ -144,8 +144,8 @@ export default function ProjectsPage() {
             <DialogTitle className="text-base font-light text-[#173634]">New project</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
-            <p className="text-xs leading-relaxed text-[#173634]/55">
-              Give each initiative a home for the run, the source context, and the outputs that come out of it.
+              <p className="text-xs leading-relaxed text-[#173634]/55">
+              Give each initiative a home for the run, the source context, and the deliverables that come out of it.
             </p>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Name</Label>

@@ -53,8 +53,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
             {[
               ['When to use', agent.whenToUse],
               ['What you provide', 'Context, constraints, and any source material the specialist should use.'],
-              ['What you get', 'Structured output with clear recommendations, not a generic conversation transcript.'],
-              ['Next action', hasAccess ? 'Run the specialist in the workspace.' : 'Upgrade to unlock this specialist.'],
+              ['Deliverable shape', 'Structured output with clear recommendations, not a generic conversation transcript.'],
+              ['Next action', hasAccess ? 'Open a run in the workspace.' : 'Upgrade to unlock this specialist.'],
             ].map(([title, desc]) => (
               <div key={title} className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
                 <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">{title}</p>
@@ -80,7 +80,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
             </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">What you get</h2>
+              <h2 className="text-sm font-semibold text-foreground">Deliverable shape</h2>
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
                   <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
@@ -128,7 +128,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-white/86">
               {hasAccess
-                ? 'Describe your task and the workspace will guide you into a structured run.'
+                ? 'Describe the target, context, and constraints. The workspace will turn that into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}
             </p>
             <div className="mt-5 rounded-2xl border border-white/16 bg-white/14 p-4">
@@ -153,7 +153,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
                 </Button>
               )}
               <Button variant="outline" className="w-full border-white/24 bg-white/14 text-white hover:bg-white/18 hover:text-white" asChild>
-                <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse agents' : 'Sign up'}</Link>
+                  <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse specialists' : 'Sign up'}</Link>
               </Button>
             </div>
           </div>
