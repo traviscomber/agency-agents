@@ -29,7 +29,7 @@ export default async function PublicAgentDetailPage({
       <PublicNavbar />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <nav className="mb-6 flex items-center gap-1 text-xs text-slate-600">
+        <nav className="mb-6 flex items-center gap-1 text-xs text-slate-700">
           <Link href="/agents" className="transition-colors hover:text-foreground">
             Agents
           </Link>
@@ -47,7 +47,7 @@ export default async function PublicAgentDetailPage({
               <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
                 {agent.name}
               </h1>
-              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-700 sm:text-base">
                 {agent.longDescription}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
@@ -73,7 +73,7 @@ export default async function PublicAgentDetailPage({
                   key={title}
                   className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.5)]"
                 >
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">{title}</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
                 </div>
               ))}
@@ -114,7 +114,7 @@ export default async function PublicAgentDetailPage({
                   <Link
                     key={task}
                     href="/signup"
-                    className="rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-slate-50"
+                    className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-white"
                   >
                     {task}
                   </Link>
@@ -129,7 +129,7 @@ export default async function PublicAgentDetailPage({
                   <Link
                     key={prompt}
                     href="/signup"
-                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-primary/25 hover:bg-slate-50 hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -147,7 +147,7 @@ export default async function PublicAgentDetailPage({
               <p className="mt-4 text-sm leading-relaxed text-slate-200">
                 Sign up to run this specialist and receive a structured deliverable saved to your workspace.
               </p>
-              <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
+              <div className="mt-5 rounded-2xl border border-white/14 bg-white/12 p-4">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
@@ -161,7 +161,7 @@ export default async function PublicAgentDetailPage({
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                  className="w-full border-white/24 bg-white/12 text-white hover:bg-white/18 hover:text-white"
                   asChild
                 >
                   <Link href="/signup">Sign in</Link>
@@ -171,7 +171,7 @@ export default async function PublicAgentDetailPage({
 
             {relatedAgents.length > 0 && (
               <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-700">
                   Related agents
                 </h3>
                 <div className="mt-4 space-y-3">
@@ -179,15 +179,15 @@ export default async function PublicAgentDetailPage({
                     <Link
                       key={related.id}
                       href={`/agents/${related.slug}`}
-                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary/25 hover:bg-slate-50"
+                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 transition-colors hover:border-primary/25 hover:bg-white"
                     >
                       <div>
                         <p className="text-sm font-medium text-foreground group-hover:text-primary">
                           {related.name}
                         </p>
-                        <p className="mt-1 text-xs text-slate-600">{related.division}</p>
+                        <p className="mt-1 text-xs text-slate-700">{related.division}</p>
                       </div>
-                      <ArrowRight size={12} className="mt-1 shrink-0 text-slate-600" />
+                      <ArrowRight size={12} className="mt-1 shrink-0 text-slate-700" />
                     </Link>
                   ))}
                 </div>
