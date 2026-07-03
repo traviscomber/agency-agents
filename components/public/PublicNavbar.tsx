@@ -27,7 +27,7 @@ export function PublicNavbar() {
           </span>
           <div className="leading-tight">
             <span className="block text-sm font-semibold tracking-tight text-[#f5fbfa]">AgencyOS</span>
-            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AI Workspace</span>
+            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Command center</span>
           </div>
         </Link>
 

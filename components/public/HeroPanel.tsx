@@ -9,7 +9,7 @@ const RUNS = [
     agent: 'Strategic Brief Writer',
     division: 'Strategy',
     status: 'complete',
-    output: 'Q3 positioning brief — 6 pages, 4 sections, ready for review.',
+    output: 'Q3 positioning brief — 6 pages, 4 sections, ready for sign-off.',
     time: '2m ago',
     icon: FileText,
   },
@@ -25,7 +25,7 @@ const RUNS = [
     agent: 'Hiring Brief Specialist',
     division: 'Talent',
     status: 'complete',
-    output: 'Senior PM brief drafted — requirements, team fit, 3 screening Qs.',
+    output: 'Senior PM brief drafted — requirements, team fit, 3 screening questions.',
     time: '8m ago',
     icon: Users,
   },
@@ -105,7 +105,7 @@ export function HeroPanel() {
                 <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
               </div>
               <span className="ml-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/60">
-                AgencyOS Workspace
+                AgencyOS Command Center
               </span>
             </div>
             <div className="flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/8 px-2.5 py-1">
@@ -142,7 +142,7 @@ export function HeroPanel() {
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
                         isActive && !isComplete
                           ? 'bg-amber-400/14 text-amber-400'
-                          : 'bg-white/10 text-white/72'
+                          : 'bg-white/12 text-white/82'
                       }`}
                     >
                       <Icon size={14} />
@@ -150,7 +150,7 @@ export function HeroPanel() {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className={`text-xs font-semibold leading-none ${isActive ? 'text-white' : 'text-white/78'}`}>
+                        <p className={`text-xs font-semibold leading-none ${isActive ? 'text-white' : 'text-white/88'}`}>
                           {run.agent}
                         </p>
                         <span className="shrink-0 text-[10px] text-white/50">{run.time}</span>
@@ -168,7 +168,7 @@ export function HeroPanel() {
                       {/* Division tag */}
                       <div className="mt-2 flex items-center gap-2">
                         <span className={`inline-block rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] ${
-                          isActive ? 'bg-white/10 text-white/78' : 'bg-white/6 text-white/40'
+                          isActive ? 'bg-white/12 text-white/88' : 'bg-white/8 text-white/52'
                         }`}>
                           {run.division}
                         </span>
@@ -226,7 +226,7 @@ export function HeroPanel() {
         </div>
         <div>
           <p className="text-[10px] font-semibold text-white">4 runs completed today</p>
-          <p className="text-[9px] text-white/44">Across Strategy, Legal, Talent</p>
+          <p className="text-[9px] text-white/56">Specialists across strategy, legal, and talent</p>
         </div>
       </motion.div>
     </div>

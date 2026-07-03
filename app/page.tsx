@@ -58,7 +58,7 @@ export default function LandingPage() {
                 <div className="inline-flex items-center gap-2.5 border border-[#1e3431] bg-[#0d1f1d] px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#8fb2aa]" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">
-                    AI Specialist Workspace
+                    AgencyOS command center
                   </span>
                 </div>
               </FadeInUp>
