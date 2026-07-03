@@ -67,10 +67,10 @@ export default function LandingPage() {
       <PublicNavbar />
 
       <main>
-        <section className="relative overflow-hidden">
+        <section className="relative overflow-hidden bg-slate-950">
           <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-x-0 top-0 h-[700px] bg-[linear-gradient(to_bottom,_rgba(15,23,42,0.96),_rgba(15,23,42,0.9)_55%,_rgba(15,23,42,0.78)_100%)]" />
-            <div className="absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.2),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(255,255,255,0.08),_transparent_30%)]" />
+            <div className="absolute inset-x-0 top-0 h-[700px] bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.98),_rgba(15,23,42,0.94)_40%,_rgba(15,23,42,0.88)_100%)]" />
+            <div className="absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.15),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(71,85,105,0.12),_transparent_35%)]" />
           </div>
 
           <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20">
