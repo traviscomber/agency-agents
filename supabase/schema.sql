@@ -325,3 +325,63 @@ create table public.fine_tuning_models (
 
 alter table public.fine_tuning_models enable row level security;
 create policy "fine_tuning_models: select own" on public.fine_tuning_models for select using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- agent_marketplace (publish & sell)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.agent_marketplace (
+  id           uuid primary key default uuid_generate_v4(),
+  creator_id   uuid not null references public.users(id) on delete cascade,
+  agent_slug   text not null unique,
+  title        text not null,
+  description  text not null,
+  price_per_run decimal(5,2) not null,
+  category     text not null,
+  rating       decimal(3,2),
+  review_count int default 0,
+  sales_count  int default 0,
+  is_published boolean not null default false,
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now()
+);
+
+alter table public.agent_marketplace enable row level security;
+
+-- ─────────────────────────────────────────────────────────────────────
+-- white_label_partners (reseller program)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.white_label_partners (
+  id             uuid primary key default uuid_generate_v4(),
+  partner_id     uuid not null references public.users(id) on delete cascade,
+  brand_name     text not null,
+  custom_domain  text unique,
+  logo_url       text,
+  color_primary  text default '#8fb2aa',
+  monthly_fee    decimal(7,2) not null default 299,
+  revenue_split  int not null default 30,
+  is_active      boolean not null default true,
+  created_at     timestamptz not null default now(),
+  updated_at     timestamptz not null default now()
+);
+
+alter table public.white_label_partners enable row level security;
+
+-- ─────────────────────────────────────────────────────────────────────
+-- batch_jobs (bulk processing)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.batch_jobs (
+  id           uuid primary key default uuid_generate_v4(),
+  user_id      uuid not null references public.users(id) on delete cascade,
+  agent_slug   text not null,
+  file_url     text not null,
+  status       text not null default 'pending' check (status in ('pending', 'processing', 'complete', 'failed')),
+  total_items  int,
+  processed    int default 0,
+  results_url  text,
+  cost         decimal(8,2),
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now()
+);
+
+alter table public.batch_jobs enable row level security;
+create policy "batch_jobs: select own" on public.batch_jobs for select using (auth.uid() = user_id);

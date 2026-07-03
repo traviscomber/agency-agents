@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Bot, FolderOpen, History, Bookmark,
   BarChart2, CreditCard, Settings, LogOut, ArrowUpRight, Clock, TrendingUp,
-  Zap, Workflow, Cpu,
+  Zap, Workflow, Cpu, Store, Database, Award,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UsageMeter } from '@/components/shared/UsageMeter'
@@ -28,6 +28,12 @@ const NAV_ADVANCED = [
   { href: '/app/chains',         label: 'Chains',     icon: Workflow },
   { href: '/app/fine-tuning',    label: 'Training',   icon: Cpu },
   { href: '/app/integrations/slack', label: 'Slack',  icon: Zap },
+]
+
+const NAV_MONETIZATION = [
+  { href: '/app/marketplace',    label: 'Marketplace', icon: Store },
+  { href: '/app/batch',          label: 'Batch',      icon: Database },
+  { href: '/app/white-label',    label: 'Reseller',   icon: Award },
 ]
 
 const NAV_ACCOUNT = [
@@ -109,6 +115,13 @@ export function AppSidebar() {
           Advanced
         </p>
         {NAV_ADVANCED.map((item) => <NavLink key={item.href} {...item} />)}
+
+        <div className="my-3 border-t border-[#d8e5e2]" />
+
+        <p className="mb-1 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#a7b9b4]">
+          Monetization
+        </p>
+        {NAV_MONETIZATION.map((item) => <NavLink key={item.href} {...item} />)}
 
         <div className="my-3 border-t border-[#d8e5e2]" />
 
