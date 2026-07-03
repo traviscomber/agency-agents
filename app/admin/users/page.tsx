@@ -44,15 +44,15 @@ export default function AdminUsersPage() {
               <p className="mt-3 text-3xl font-semibold">{MOCK_USERS.length}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Admins</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Admins</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{admins}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Onboarding</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Onboarding</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{onboarded}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Health</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Health</p>
               <p className="mt-3 text-sm font-semibold text-foreground">Visible at a glance</p>
             </div>
           </div>
@@ -64,18 +64,18 @@ export default function AdminUsersPage() {
           <div key={planId} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 text-center shadow-sm">
             <PlanBadge plan={planId} size="sm" className="justify-center mb-2" />
             <p className="text-2xl font-semibold text-foreground">{planCounts[planId]}</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-slate-600">{planId}</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-slate-700">{planId}</p>
           </div>
         ))}
       </div>
 
       <div className="mt-6 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">User</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Company</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Plan</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Joined</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Actions</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">User</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Company</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Plan</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Joined</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Actions</span>
         </div>
 
         {MOCK_USERS.map((user, i) => (

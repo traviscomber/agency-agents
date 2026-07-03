@@ -46,7 +46,7 @@ export default function ContactPage() {
         <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_54%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:p-8">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
                 <ShieldCheck size={12} className="text-primary" />
                 Contact AgencyOS
               </div>
@@ -133,7 +133,7 @@ export default function ContactPage() {
         <section className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)] sm:p-8">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-600">Book a diagnosis</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">Book a diagnosis</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance text-foreground">
                 If you need a clearer path, we will help you decide what to build next.
               </h2>

@@ -114,7 +114,7 @@ export default async function PublicAgentDetailPage({
                   <Link
                     key={task}
                     href="/signup"
-                    className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-slate-50"
+                    className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 text-sm leading-relaxed text-foreground transition-colors hover:border-primary/25 hover:bg-white"
                   >
                     {task}
                   </Link>
@@ -129,7 +129,7 @@ export default async function PublicAgentDetailPage({
                   <Link
                     key={prompt}
                     href="/signup"
-                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-slate-50 hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -179,7 +179,7 @@ export default async function PublicAgentDetailPage({
                     <Link
                       key={related.id}
                       href={`/agents/${related.slug}`}
-                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 transition-colors hover:border-primary/25 hover:bg-slate-50"
+                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 transition-colors hover:border-primary/25 hover:bg-white"
                     >
                       <div>
                         <p className="text-sm font-medium text-foreground group-hover:text-primary">

@@ -36,7 +36,7 @@ export default function AdminDashboard() {
           {stats.map(({ label, value, icon: Icon }) => (
             <div key={label} className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.45)]">
               <div className="mb-2 flex items-center gap-2">
-                <Icon size={14} className="text-slate-600" />
+                <Icon size={14} className="text-slate-700" />
                 <p className="text-xs font-medium text-slate-700">{label}</p>
               </div>
               <p className="text-2xl font-semibold text-foreground">{value}</p>
@@ -56,13 +56,13 @@ export default function AdminDashboard() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-xs font-medium text-foreground">{run.agentName}</p>
-                  <p className="truncate text-[11px] text-slate-600">{run.task}</p>
+                  <p className="truncate text-[11px] text-slate-700">{run.task}</p>
                 </div>
                 <span
                   className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                     run.status === 'completed'
                       ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
-                      : 'bg-slate-100 text-slate-600 ring-1 ring-slate-200'
+                      : 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
                   }`}
                 >
                   {run.status}

@@ -30,15 +30,15 @@ export default function AdminRunsPage() {
               <p className="mt-3 text-3xl font-semibold">{MOCK_RUNS.length}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Completed</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Completed</p>
               <p className="mt-3 text-3xl font-semibold text-emerald-600">{completed}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Running</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Running</p>
               <p className="mt-3 text-3xl font-semibold text-sky-600">{running}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Failed</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Failed</p>
               <p className="mt-3 text-3xl font-semibold text-rose-600">{failed}</p>
             </div>
           </div>
@@ -47,11 +47,11 @@ export default function AdminRunsPage() {
 
       <div className="mt-6 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
         <div className="grid grid-cols-[auto_2fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Agent</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Task</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Division</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Date</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Status</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Agent</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Task</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Division</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Date</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Status</span>
         </div>
 
         {MOCK_RUNS.map((run, i) => (
@@ -96,7 +96,7 @@ export default function AdminRunsPage() {
                     ? 'bg-rose-50 text-rose-700 ring-1 ring-rose-200'
                     : run.status === 'running'
                       ? 'bg-sky-50 text-sky-700 ring-1 ring-sky-200'
-                      : 'bg-slate-100 text-slate-600 ring-1 ring-slate-200'
+                      : 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
               }`}
             >
               {run.status}

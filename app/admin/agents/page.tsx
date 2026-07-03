@@ -31,15 +31,15 @@ export default function AdminAgentsPage() {
               <p className="mt-3 text-3xl font-semibold">{SEED_AGENTS.length}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Active</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Active</p>
               <p className="mt-3 text-3xl font-semibold text-emerald-600">{active}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Featured</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Featured</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{featured}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Create</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Create</p>
               <p className="mt-3 text-sm font-semibold text-foreground">New agent flow</p>
             </div>
           </div>
@@ -48,11 +48,11 @@ export default function AdminAgentsPage() {
 
       <div className="mt-6 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 border-b border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3">
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Agent</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Division</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Plan</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Status</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">Actions</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Agent</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Division</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Plan</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Status</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">Actions</span>
         </div>
 
         {SEED_AGENTS.map((agent, i) => (
@@ -79,7 +79,7 @@ export default function AdminAgentsPage() {
                 </>
               ) : (
                 <>
-                  <XCircle size={12} className="text-slate-600" />
+                  <XCircle size={12} className="text-slate-700" />
                   <span className="text-xs font-medium text-slate-700">Inactive</span>
                 </>
               )}
