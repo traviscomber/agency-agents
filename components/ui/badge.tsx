@@ -17,7 +17,7 @@ const badgeVariants = cva(
         outline:
           "border-slate-200 bg-white text-slate-800 [a]:hover:bg-slate-50 [a]:hover:text-slate-950",
         ghost:
-          "bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800/40",
+          "bg-transparent text-slate-800 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800/40",
         link: "text-primary underline-offset-4 hover:underline",
       },
     },
