@@ -71,7 +71,7 @@ export default function ProjectsPage() {
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Projects that keep the run history readable.
             </h1>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-700 sm:text-base">
               Organize agent work by initiative, track what shipped, and keep saved outputs tied to the right context.
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function ProjectsPage() {
             <FolderOpen size={26} />
           </div>
           <h3 className="text-base font-semibold text-foreground">No projects yet</h3>
-          <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
+          <p className="mx-auto mt-2 max-w-md text-sm text-slate-700">
             Create a project to group runs, save outputs, and keep the workspace organized.
           </p>
           <Button size="sm" onClick={() => setShowNew(true)} className="mt-6">
@@ -136,7 +136,7 @@ export default function ProjectsPage() {
                 </span>
               </div>
 
-              <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-600">
+              <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-700">
                 {project.description || 'No description provided yet.'}
               </p>
 

@@ -31,7 +31,7 @@ export default function HistoryPage() {
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
               Run history with enough context to understand what happened.
             </h1>
-            <p className="mt-3 max-w-xl text-sm text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-xl text-sm text-slate-700 sm:text-base">
               Every agent execution, result, and project link in one chronological view.
             </p>
           </div>
@@ -59,7 +59,7 @@ export default function HistoryPage() {
             <Bot size={26} className="text-slate-600" />
           </div>
           <h3 className="text-base font-semibold text-foreground">No runs yet</h3>
-          <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
+          <p className="mx-auto mt-2 max-w-md text-sm text-slate-700">
             Run an agent to populate this timeline with execution details and outcomes.
           </p>
           <Button size="sm" asChild className="mt-6">
@@ -72,7 +72,7 @@ export default function HistoryPage() {
             <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                 <div>
                   <h2 className="text-sm font-semibold text-foreground">Timeline</h2>
-                <p className="mt-1 text-xs text-slate-600">Most recent execution first.</p>
+            <p className="mt-1 text-xs text-slate-700">Most recent execution first.</p>
                 </div>
               <Button variant="outline" size="sm" asChild>
                 <Link href="/app/agents">
@@ -105,11 +105,11 @@ export default function HistoryPage() {
                             {run.status}
                           </span>
                         </div>
-                        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
                           {run.task}
                         </p>
                         {run.projectName && (
-                          <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-600">
+                          <p className="mt-2 flex items-center gap-1.5 text-xs text-slate-700">
                             <FolderOpen size={11} />
                             {run.projectName}
                           </p>

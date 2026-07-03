@@ -27,7 +27,7 @@ export default function AppDashboard() {
             <h1 className="mt-4 max-w-xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[3rem] lg:leading-[1.05]">
               Good morning, {MOCK_USER.fullName.split(' ')[0]}. The next move is always visible.
             </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
               You are on the <span className="font-medium text-foreground capitalize">{plan?.name}</span> plan.
               Start an agent, save an output, or move work into a project with fewer visual distractions.
             </p>
@@ -50,17 +50,17 @@ export default function AppDashboard() {
               <p className="mt-1 text-[11px] text-white/70">Executed this cycle</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Projects</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Projects</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{MOCK_PROJECTS.length}</p>
-              <p className="mt-1 text-[11px] text-slate-600">Workspace structure</p>
+              <p className="mt-1 text-[11px] text-slate-700">Workspace structure</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Saved</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Saved</p>
               <p className="mt-3 text-3xl font-semibold text-foreground">{MOCK_SAVED_OUTPUTS.length}</p>
-              <p className="mt-1 text-[11px] text-slate-600">Reusable outputs</p>
+              <p className="mt-1 text-[11px] text-slate-700">Reusable outputs</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-600">Plan</p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-slate-700">Plan</p>
               <p className="mt-3 text-sm font-semibold capitalize text-foreground">{plan?.name}</p>
               <div className="mt-2">
                 <PlanBadge plan={MOCK_USER.plan} size="sm" />
@@ -76,9 +76,9 @@ export default function AppDashboard() {
             <div className="mb-4 flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-semibold text-foreground">Recommended agents</h2>
-                <p className="text-xs text-slate-600">Curated specialists based on your workspace.</p>
+                <p className="text-xs text-slate-700">Curated specialists based on your workspace.</p>
               </div>
-              <Link href="/app/agents" className="text-xs font-medium text-slate-600 transition-colors hover:text-foreground">
+              <Link href="/app/agents" className="text-xs font-medium text-slate-700 transition-colors hover:text-foreground">
                 All agents <ArrowRight size={11} className="ml-1 inline" />
               </Link>
             </div>
@@ -109,7 +109,7 @@ export default function AppDashboard() {
                 <h2 className="text-sm font-semibold text-foreground">Recent runs</h2>
                 <p className="text-xs text-slate-700">What the team has been working on.</p>
               </div>
-              <Link href="/app/history" className="text-xs font-medium text-slate-600 transition-colors hover:text-foreground">
+              <Link href="/app/history" className="text-xs font-medium text-slate-700 transition-colors hover:text-foreground">
                 View all <ArrowRight size={11} className="ml-1 inline" />
               </Link>
             </div>
@@ -123,13 +123,13 @@ export default function AppDashboard() {
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-sm font-medium text-foreground">{run.agentName}</p>
                       <DivisionBadge division={run.agentDivision} size="sm" />
-                      <span className="ml-auto text-xs text-slate-600">
+                      <span className="ml-auto text-xs text-slate-700">
                         {new Date(run.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                     <p className="mt-1 text-xs text-slate-700">{run.task}</p>
                     {run.projectName && (
-                      <p className="mt-1 text-xs text-slate-600">
+                      <p className="mt-1 text-xs text-slate-700">
                         <FolderOpen size={10} className="mr-1 inline" />
                         {run.projectName}
                       </p>
@@ -154,7 +154,7 @@ export default function AppDashboard() {
             <div className="space-y-3">
               {MOCK_PROJECTS.map((project) => (
                 <Link key={project.id} href={`/app/projects/${project.id}`} className="group flex items-start gap-2.5">
-                  <FolderOpen size={14} className="mt-0.5 shrink-0 text-slate-600 transition-colors group-hover:text-foreground" />
+                  <FolderOpen size={14} className="mt-0.5 shrink-0 text-slate-700 transition-colors group-hover:text-foreground" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-foreground group-hover:text-primary">
                       {project.name}
@@ -183,12 +183,12 @@ export default function AppDashboard() {
             <div className="space-y-3">
               {MOCK_SAVED_OUTPUTS.slice(0, 3).map((saved) => (
                 <Link key={saved.id} href="/app/saved" className="group flex items-start gap-2.5">
-                  <Bookmark size={13} className="mt-0.5 shrink-0 text-slate-600 transition-colors group-hover:text-foreground" />
+                  <Bookmark size={13} className="mt-0.5 shrink-0 text-slate-700 transition-colors group-hover:text-foreground" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-xs font-medium text-foreground group-hover:text-primary">
                       {saved.title}
                     </p>
-                    <p className="text-[11px] text-slate-600">{saved.agentName}</p>
+                    <p className="text-[11px] text-slate-700">{saved.agentName}</p>
                   </div>
                 </Link>
               ))}
