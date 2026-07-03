@@ -122,11 +122,11 @@ export default async function AppAgentDetailPage({ params }: Props) {
 
         <aside className="space-y-5">
           <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/14 px-3 py-1 text-xs font-medium text-white/90">
               <Sparkles size={12} />
               {hasAccess ? 'Ready to run' : 'Locked specialist'}
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-slate-200">
+            <p className="mt-4 text-sm leading-relaxed text-white/86">
               {hasAccess
                 ? 'Describe your task and the workspace will guide you into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}

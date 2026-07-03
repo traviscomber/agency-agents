@@ -147,8 +147,8 @@ export default async function PublicAgentDetailPage({
               <p className="mt-4 text-sm leading-relaxed text-slate-200">
                 Sign up to run this specialist and receive a structured deliverable saved to your workspace.
               </p>
-              <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
+              <div className="mt-5 rounded-2xl border border-white/14 bg-white/12 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/88">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>
