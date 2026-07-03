@@ -46,14 +46,14 @@ export default function ContactPage() {
         <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_54%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:p-8">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
                 <ShieldCheck size={12} className="text-primary" />
                 Contact AgencyOS
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
                 Reach the team without hunting through the app.
               </h1>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-700 sm:text-base">
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
                 Use the direct channel that fits your request. Product, billing, and partnership questions all land in the
                 same place so we can route them quickly.
               </p>
@@ -84,12 +84,12 @@ export default function ContactPage() {
                 ].map(({ icon: Icon, title, body }) => (
                   <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-800">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-950">
                         <Icon size={15} />
                       </div>
                       <p className="text-sm font-semibold text-foreground">{title}</p>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-700">{body}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{body}</p>
                   </div>
                 ))}
               </div>
@@ -104,8 +104,8 @@ export default function ContactPage() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold text-foreground">{title}</p>
-                      <p className="mt-1 text-sm text-slate-700">{detail}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-700">{body}</p>
+                      <p className="mt-1 text-sm text-slate-600">{detail}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">{body}</p>
                       <div className="mt-4">
                         <Button variant="outline" size="sm" asChild>
                           <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noreferrer' : undefined}>
@@ -125,7 +125,7 @@ export default function ContactPage() {
           {CONTACT_SIGNALS.map(([title, body]) => (
             <div key={title} className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)]">
               <p className="text-sm font-semibold text-foreground">{title}</p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-700">{body}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{body}</p>
             </div>
           ))}
         </section>
@@ -133,11 +133,11 @@ export default function ContactPage() {
         <section className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)] sm:p-8">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">Book a diagnosis</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Book a diagnosis</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance text-foreground">
                 If you need a clearer path, we will help you decide what to build next.
               </h2>
-              <p className="mt-4 text-sm leading-relaxed text-slate-700">
+              <p className="mt-4 text-sm leading-relaxed text-slate-600">
                 The first conversation is not a sales pitch. It is a filter for fit, scope, and the right starting point.
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function ContactPage() {
                 'Partnership opportunities',
                 'Implementation questions',
               ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3 text-sm text-slate-700">
+                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
                   {item}
                 </div>
               ))}
