@@ -6,30 +6,55 @@ interface DivisionBadgeProps {
   className?: string
 }
 
-const DIVISION_STYLES: Record<string, string> = {
-  Engineering: 'bg-sky-100 text-sky-800 border border-sky-200',
-  Design: 'bg-rose-100 text-rose-800 border border-rose-200',
-  Product: 'bg-emerald-100 text-emerald-800 border border-emerald-200',
-  Sales: 'bg-orange-100 text-orange-800 border border-orange-200',
-  Security: 'bg-red-100 text-red-800 border border-red-200',
-  Strategy: 'bg-slate-200 text-slate-800 border border-slate-300',
-  Marketing: 'bg-cyan-100 text-cyan-800 border border-cyan-200',
-  Finance: 'bg-teal-100 text-teal-800 border border-teal-200',
-  Research: 'bg-indigo-100 text-indigo-800 border border-indigo-200',
-  Operations: 'bg-zinc-200 text-zinc-800 border border-zinc-300',
+// All divisions use the N3uralia sage-teal / border-light system
+// Dark variant for dark-bg contexts, light for light-bg
+const DIVISION_BASE = 'border-[#d8e5e2] bg-[#f1f6f4] text-[#52605d]'
+
+const DIVISION_DARK: Record<string, string> = {
+  Engineering: 'border-[#1e3431] bg-[#8fb2aa]/12 text-[#9db7b1]',
+  Design:      'border-[#1e3431] bg-[#8fb2aa]/10 text-[#9db7b1]',
+  Product:     'border-[#1e3431] bg-[#8fb2aa]/12 text-[#9db7b1]',
+  Sales:       'border-[#1e3431] bg-[#0d1f1d] text-[#a7b9b4]',
+  Security:    'border-[#1e3431] bg-[#0d1f1d] text-[#a7b9b4]',
+  Strategy:    'border-[#28413d] bg-[#102218] text-[#8fb2aa]',
+  Marketing:   'border-[#1e3431] bg-[#8fb2aa]/10 text-[#9db7b1]',
+  Finance:     'border-[#1e3431] bg-[#8fb2aa]/12 text-[#9db7b1]',
+  Research:    'border-[#28413d] bg-[#0d1f1d] text-[#a7b9b4]',
+  Operations:  'border-[#1e3431] bg-[#0d1f1d] text-[#a7b9b4]',
 }
 
-function getStyle(division: string): string {
-  return DIVISION_STYLES[division] || 'bg-slate-100 text-slate-700 border border-slate-200'
-}
-
-export function DivisionBadge({ division, size = 'default', className }: DivisionBadgeProps) {
+export function DivisionBadge({
+  division,
+  size = 'default',
+  className,
+}: DivisionBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full font-medium tracking-tight',
-        size === 'sm' ? 'px-2 py-0.5 text-[11px]' : 'px-2.5 py-0.5 text-xs',
-        getStyle(division),
+        'inline-flex items-center border font-semibold uppercase tracking-[0.18em]',
+        size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-2.5 py-1 text-[10px]',
+        DIVISION_BASE,
+        className
+      )}
+    >
+      {division}
+    </span>
+  )
+}
+
+/** Variant for dark-background panels (sidebar, dark hero sections) */
+export function DivisionBadgeDark({
+  division,
+  size = 'default',
+  className,
+}: DivisionBadgeProps) {
+  const style = DIVISION_DARK[division] || 'border-[#1e3431] bg-[#0d1f1d] text-[#a7b9b4]'
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center border font-semibold uppercase tracking-[0.18em]',
+        size === 'sm' ? 'px-2 py-0.5 text-[10px]' : 'px-2.5 py-1 text-[10px]',
+        style,
         className
       )}
     >

@@ -1,8 +1,5 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { CheckCircle2, Sparkles, Shield, ArrowRight } from 'lucide-react'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 const BENEFITS = [
   '5 free agent runs per month',
@@ -13,94 +10,122 @@ const BENEFITS = [
 
 export default function SignupPage() {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(15,23,42,0.08),_transparent_30%),linear-gradient(to_bottom,_#f8fafc,_#ffffff_22%,_#f8fafc_100%)]">
-      <div className="mx-auto grid min-h-screen max-w-6xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-10">
-        <aside className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8 lg:min-h-[640px] lg:p-10">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
-            <Sparkles size={15} className="text-primary" />
-            AgencyOS
-          </Link>
-          <div className="mt-10 max-w-md">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
-              <Shield size={12} className="text-primary" />
-              Free plan includes
+    <div className="min-h-screen" style={{ backgroundColor: '#060a10' }}>
+      <div className="mx-auto grid min-h-screen max-w-6xl gap-px px-0 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
+
+        {/* ── Left — dark brand panel ── */}
+        <aside
+          className="hidden flex-col justify-between border-r border-[#1e3431] px-10 py-14 lg:flex"
+          style={{ backgroundColor: '#060a10' }}
+        >
+          <Link href="/" className="inline-flex items-center gap-3">
+            <span className="flex h-8 w-8 items-center justify-center border border-[#28413d] bg-[#0d1f1d] text-[11px] font-semibold tracking-tight text-[#8fb2aa]">
+              AO
+            </span>
+            <div className="leading-tight">
+              <span className="block text-sm font-semibold text-[#f5fbfa]">AgencyOS</span>
+              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AI Workspace</span>
             </div>
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-balance text-foreground">
-              Create your workspace with a clean entry point.
+          </Link>
+
+          <div className="max-w-xs">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Free plan includes</p>
+            <h1 className="mt-4 text-4xl font-light leading-tight text-[#f5fbfa]">
+              Create your workspace. Start in minutes.
             </h1>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600">
-              The signup surface should feel fast, legible, and aligned with the rest of the product system.
+            <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
+              A clean entry point into specialist AI work — no credit card, no noise.
             </p>
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-8 space-y-3">
               {BENEFITS.map((benefit) => (
-                <li key={benefit} className="flex items-center gap-2.5 text-sm text-foreground">
-                  <CheckCircle2 size={15} className="shrink-0 text-primary" />
-                  {benefit}
+                <li key={benefit} className="flex items-center gap-2.5">
+                  <CheckCircle2 size={13} className="shrink-0 text-[#8fb2aa]" />
+                  <span className="text-sm text-[#d9e3e0]">{benefit}</span>
                 </li>
               ))}
             </ul>
           </div>
+
+          <p className="text-xs text-[#52605d]">&copy; {new Date().getFullYear()} AgencyOS</p>
         </aside>
 
-        <main className="flex items-center justify-center">
-          <div className="w-full max-w-md">
+        {/* ── Right — light form ── */}
+        <main
+          className="flex min-h-screen items-center justify-center px-6 py-16 lg:px-12"
+          style={{ backgroundColor: '#fbfbfa' }}
+        >
+          <div className="w-full max-w-sm">
+            {/* Mobile logo */}
+            <Link href="/" className="mb-8 flex items-center gap-3 lg:hidden">
+              <span className="flex h-8 w-8 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[11px] font-semibold tracking-tight text-[#173634]">
+                AO
+              </span>
+              <span className="text-sm font-semibold text-[#173634]">AgencyOS</span>
+            </Link>
+
             <div className="mb-8">
-              <Link href="/" className="mb-6 inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground lg:hidden">
-                <Sparkles size={15} className="text-primary" />
-                AgencyOS
-              </Link>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-sm">
-                <Shield size={12} className="text-primary" />
-                Create your workspace
+              <div className="mb-4 inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#f1f6f4] px-2.5 py-1">
+                <span className="h-1.5 w-1.5 bg-[#8fb2aa]" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#789b96]">Free to start</span>
               </div>
-              <h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground">
-                Create your account
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Already have an account?{' '}
-                <Link href="/login" className="font-medium text-foreground hover:underline">
-                  Sign in
-                </Link>
+              <h2 className="text-2xl font-semibold tracking-tight text-[#173634]">Create your account</h2>
+              <p className="mt-1.5 text-sm text-[#65706d]">
+                Already have one?{' '}
+                <Link href="/login" className="font-semibold text-[#173634] hover:underline">Sign in</Link>
               </p>
             </div>
 
-            <form className="space-y-4 rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+            <form className="space-y-4 border border-[#d8e5e2] bg-[#f1f6f4] p-6">
               <div className="space-y-1.5">
-                <Label htmlFor="name" className="text-sm font-medium">Full name</Label>
-                <Input id="name" type="text" placeholder="Your name" className="h-10 rounded-2xl" />
+                <label htmlFor="name" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
+                  Full name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Your name"
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="email" className="text-sm font-medium">Email</Label>
-                <Input id="email" type="email" placeholder="you@example.com" className="h-10 rounded-2xl" />
+                <label htmlFor="email" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
-                <Input id="password" type="password" placeholder="At least 8 characters" className="h-10 rounded-2xl" />
+                <label htmlFor="password" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                />
               </div>
-              <Button className="w-full" type="submit">
-                Create account <ArrowRight size={12} className="ml-1" />
-              </Button>
+              <button
+                type="submit"
+                className="inline-flex h-10 w-full items-center justify-center gap-2 bg-[#173634] text-sm font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
+              >
+                Create account <ArrowRight size={13} />
+              </button>
             </form>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {[
-                'A crisp signup surface that matches the product system',
-                'Quick path into the workspace without extra friction',
-              ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-                  {item}
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-6 text-center text-xs text-slate-600">
+            <p className="mt-6 text-center text-xs text-[#a7b9b4]">
               By creating an account you agree to our{' '}
-              <Link href="/terms" className="hover:text-slate-950 hover:underline">Terms</Link>
+              <Link href="/terms" className="hover:text-[#173634] hover:underline">Terms</Link>
               {' '}and{' '}
-              <Link href="/privacy" className="hover:text-slate-950 hover:underline">Privacy Policy</Link>.
+              <Link href="/privacy" className="hover:text-[#173634] hover:underline">Privacy Policy</Link>.
             </p>
           </div>
         </main>
+
       </div>
     </div>
   )

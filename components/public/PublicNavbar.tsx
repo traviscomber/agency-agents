@@ -3,15 +3,13 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Menu, Sparkles, X, ArrowRight } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
-  { href: '/agents', label: 'Agents' },
+  { href: '/agents',  label: 'Agents' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/contact', label: 'Contact' },
-  { href: '/app', label: 'Dashboard' },
+  { href: '/app',     label: 'Dashboard' },
 ]
 
 export function PublicNavbar() {
@@ -19,91 +17,102 @@ export function PublicNavbar() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.92))] backdrop-blur-xl supports-[backdrop-filter]:bg-white/84">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="flex h-16 items-center justify-between gap-4">
-          <Link href="/" className="group flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#0f172a,#1e293b_55%,#334155)] text-white shadow-[0_12px_30px_-14px_rgba(15,23,42,0.85)] transition-transform duration-200 group-hover:-translate-y-0.5">
-              <Sparkles size={15} />
-            </span>
-            <div className="leading-tight">
-              <span className="block text-sm font-semibold tracking-tight text-foreground">AgencyOS</span>
-              <span className="block text-[10px] uppercase tracking-[0.24em] text-slate-600">
-                AI specialist workspace
-              </span>
-            </div>
-          </Link>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[#1e3431] bg-[#060a10]/92 backdrop-blur-xl">
+      <div className="mx-auto flex h-[4.75rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
 
-          <nav className="hidden items-center gap-6 md:flex">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <span className="flex h-8 w-8 items-center justify-center border border-[#28413d] bg-[#0d1f1d] text-[11px] font-semibold tracking-tight text-[#8fb2aa]">
+            AO
+          </span>
+          <div className="leading-tight">
+            <span className="block text-sm font-semibold tracking-tight text-[#f5fbfa]">AgencyOS</span>
+            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AI Workspace</span>
+          </div>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 md:flex">
+          {NAV_ITEMS.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                'rounded-full px-4 py-2 text-sm font-medium transition-colors',
+                pathname === href
+                  ? 'bg-[#142522] text-[#f5fbfa]'
+                  : 'text-[#9db7b1] hover:bg-[#142522] hover:text-[#f5fbfa]'
+              )}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Desktop CTA */}
+        <div className="hidden items-center gap-3 md:flex">
+          <Link
+            href="/login"
+            className="text-sm font-medium text-[#9db7b1] transition-colors hover:text-[#f5fbfa]"
+          >
+            Log in
+          </Link>
+          <Link
+            href="/signup"
+            className="rounded-full bg-[#8fb2aa] px-5 py-2.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]"
+          >
+            Start free
+          </Link>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="flex items-center justify-center border border-[#1e3431] bg-[#0b1117] p-2 text-[#9db7b1] transition-colors hover:text-[#f5fbfa] md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="border-t border-[#1e3431] bg-[#060a10] px-5 py-5 md:hidden">
+          <nav className="flex flex-col gap-1">
             {NAV_ITEMS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
+                onClick={() => setMobileOpen(false)}
                 className={cn(
-                  'rounded-full px-3 py-1.5 text-xs font-medium uppercase tracking-[0.22em] transition-colors',
+                  'px-3 py-2.5 text-sm font-medium transition-colors',
                   pathname === href
-                    ? 'bg-slate-950 text-white shadow-[0_10px_26px_-18px_rgba(15,23,42,0.85)]'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                    ? 'bg-[#142522] text-[#f5fbfa]'
+                    : 'text-[#9db7b1] hover:bg-[#142522] hover:text-[#f5fbfa]'
                 )}
               >
                 {label}
               </Link>
             ))}
           </nav>
-
-          <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">Log in</Link>
-            </Button>
-            <Button size="sm" asChild className="shadow-sm shadow-primary/10">
-              <Link href="/signup">
-                Start free <ArrowRight size={12} className="ml-1" />
-              </Link>
-            </Button>
+          <div className="mt-4 flex flex-col gap-2 border-t border-[#1e3431] pt-4">
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="px-3 py-2.5 text-sm font-medium text-[#9db7b1] hover:text-[#f5fbfa]"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              onClick={() => setMobileOpen(false)}
+              className="bg-[#8fb2aa] px-4 py-2.5 text-sm font-semibold text-[#060a10] text-center"
+            >
+              Start free
+            </Link>
           </div>
-
-          <button
-            className={cn(
-              'inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition-colors hover:border-slate-300 hover:text-slate-950 md:hidden'
-            )}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
         </div>
-
-        {mobileOpen && (
-          <div className="border-t border-slate-200 py-4 md:hidden">
-            <nav className="flex flex-col gap-3">
-              {NAV_ITEMS.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    'rounded-2xl px-3 py-2 text-sm font-medium transition-colors',
-                    pathname === href
-                      ? 'bg-slate-950 text-white shadow-[0_10px_26px_-18px_rgba(15,23,42,0.85)]'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
-                  )}
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-            <div className="mt-4 flex gap-2">
-              <Button variant="outline" size="sm" asChild className="flex-1">
-                <Link href="/login">Log in</Link>
-              </Button>
-              <Button size="sm" asChild className="flex-1">
-                <Link href="/signup">
-                  Start free <ArrowRight size={12} className="ml-1" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </header>
   )
 }

@@ -7,107 +7,127 @@
 @theme inline {
   --font-sans: var(--font-geist-sans), 'Geist Fallback', system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), 'Geist Mono Fallback', monospace;
-  --font-heading: var(--font-geist-sans), 'Geist Fallback', system-ui, sans-serif;
 
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
+  /* N3uralia / AgencyOS token system */
+
+  /* Semantic aliases consumed by shadcn components */
+  --color-background:           var(--background);
+  --color-foreground:           var(--foreground);
+  --color-card:                 var(--card);
+  --color-card-foreground:      var(--card-foreground);
+  --color-popover:              var(--popover);
+  --color-popover-foreground:   var(--popover-foreground);
+  --color-primary:              var(--primary);
+  --color-primary-foreground:   var(--primary-foreground);
+  --color-secondary:            var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
-  --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --color-muted:                var(--muted);
+  --color-muted-foreground:     var(--muted-foreground);
+  --color-accent:               var(--accent);
+  --color-accent-foreground:    var(--accent-foreground);
+  --color-destructive:          var(--destructive);
+  --color-border:               var(--border);
+  --color-input:                var(--input);
+  --color-ring:                 var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-xl: calc(var(--radius) * 1.5);
+
+  /* N3 direct utility colors */
+  --color-n3-canvas:         #060a10;
+  --color-n3-canvas-mid:     #0b1117;
+  --color-n3-canvas-surface: #0d1f1d;
+  --color-n3-border-dark:    #1e3431;
+  --color-n3-border-mid:     #28413d;
+  --color-n3-border-light:   #d8e5e2;
+  --color-n3-accent:         #8fb2aa;
+  --color-n3-accent-hover:   #d9e3e0;
+  --color-n3-accent-dim:     #789b96;
+  --color-n3-accent-xdim:    #9db7b1;
+  --color-n3-text:           #f5fbfa;
+  --color-n3-text-body:      #d9e3e0;
+  --color-n3-text-sub:       #a7b9b4;
+  --color-n3-heading:        #173634;
+  --color-n3-text-light:     #52605d;
+  --color-n3-text-sub-light: #65706d;
+  --color-n3-surface:        #f1f6f4;
+  --color-n3-surface-white:  #fbfbfa;
+  --color-n3-surface-alt:    #edf4f1;
 }
 
 :root {
   color-scheme: light;
-  --background: oklch(0.992 0.002 247);
-  --foreground: oklch(0.12 0.015 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.12 0.015 250);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0.015 250);
-  --primary: oklch(0.22 0.045 258);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.95 0.01 247);
-  --secondary-foreground: oklch(0.18 0.045 258);
-  --muted: oklch(0.94 0.01 247);
-  --muted-foreground: oklch(0.26 0.012 250);
-  --accent: oklch(0.9 0.015 258);
-  --accent-foreground: oklch(0.22 0.045 258);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.81 0.008 250);
-  --input: oklch(0.81 0.008 250);
-  --ring: oklch(0.38 0.04 258);
-  --radius: 0.5rem;
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.14 0.015 250);
-  --sidebar-primary: oklch(0.24 0.05 258);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.945 0.01 247);
-  --sidebar-accent-foreground: oklch(0.24 0.05 258);
-  --sidebar-border: oklch(0.88 0.008 250);
-  --sidebar-ring: oklch(0.48 0.045 258);
+
+  /* Semantic tokens mapped to N3uralia palette */
+  --background:             #fbfbfa;
+  --foreground:             #173634;
+  --card:                   #fbfbfa;
+  --card-foreground:        #173634;
+  --popover:                #fbfbfa;
+  --popover-foreground:     #173634;
+  --primary:                #173634;
+  --primary-foreground:     #f5fbfa;
+  --secondary:              #f1f6f4;
+  --secondary-foreground:   #173634;
+  --muted:                  #f1f6f4;
+  --muted-foreground:       #65706d;
+  --accent:                 #edf4f1;
+  --accent-foreground:      #173634;
+  --destructive:            oklch(0.577 0.245 27.325);
+  --border:                 #d8e5e2;
+  --input:                  #d8e5e2;
+  --ring:                   #8fb2aa;
+  --radius:                 0px;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    box-sizing: border-box;
   }
-  body {
-    @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(circle at top left, color-mix(in oklch, var(--primary) 10%, transparent) 0, transparent 28%),
-      radial-gradient(circle at top right, color-mix(in oklch, var(--primary) 6%, transparent) 0, transparent 22%),
-      linear-gradient(to bottom, transparent, transparent 76%, color-mix(in oklch, var(--foreground) 4%, white) 100%);
-    background-attachment: fixed;
-    position: relative;
-    min-height: 100vh;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-  }
+
   html {
-    @apply font-sans bg-background;
+    background-color: #fbfbfa;
     scroll-behavior: smooth;
   }
-  ::selection {
-    background: color-mix(in oklch, var(--primary) 14%, white);
-    color: var(--foreground);
+
+  body {
+    background-color: #fbfbfa;
+    color: #173634;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
   }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(15, 23, 42, 0.028) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15, 23, 42, 0.028) 1px, transparent 1px),
-      radial-gradient(circle at top left, rgba(15, 23, 42, 0.045), transparent 30%),
-      radial-gradient(circle at top right, rgba(59, 130, 246, 0.045), transparent 24%);
-    background-size: 84px 84px, 84px 84px, auto, auto;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), transparent 96%);
-    opacity: 0.58;
+
+  ::selection {
+    background: #8fb2aa33;
+    color: #173634;
   }
 }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d8e5e2; }
+::-webkit-scrollbar-thumb:hover { background: #8fb2aa; }
+
+/* ── Hover accent top-bar utility (N3uralia card pattern) ──────────────────── */
+.n3-card {
+  position: relative;
+  overflow: hidden;
+}
+.n3-card::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: #8fb2aa;
+  opacity: 0;
+  transition: opacity 160ms ease;
+  pointer-events: none;
+}
+.n3-card:hover::before { opacity: 1; }
