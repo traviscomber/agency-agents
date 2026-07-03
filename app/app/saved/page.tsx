@@ -26,17 +26,17 @@ export default function SavedPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Knowledge Base</p>
-        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Saved outputs.</h1>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Deliverable archive</p>
+        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Saved deliverables.</h1>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          {MOCK_SAVED_OUTPUTS.length} deliverable{MOCK_SAVED_OUTPUTS.length !== 1 ? 's' : ''} saved across all runs.
+          {MOCK_SAVED_OUTPUTS.length} deliverable{MOCK_SAVED_OUTPUTS.length !== 1 ? 's' : ''} available across all runs.
         </p>
       </header>
 
       <div className="relative mb-6 w-full max-w-xs">
         <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8fb2aa]" />
         <Input
-          placeholder="Search outputs..."
+          placeholder="Search deliverables..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
@@ -45,9 +45,9 @@ export default function SavedPage() {
 
       {filtered.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
-          <p className="text-sm font-medium text-[#173634]">{search ? 'No results found' : 'No saved outputs yet'}</p>
+          <p className="text-sm font-medium text-[#173634]">{search ? 'No results found' : 'No deliverables saved yet'}</p>
           <p className="mt-1 text-xs text-[#173634]/45">
-            {search ? 'Try a different search term.' : 'Save an output from any completed run.'}
+            {search ? 'Try a different search term.' : 'Save a deliverable from any completed run.'}
           </p>
         </div>
       ) : (

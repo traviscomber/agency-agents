@@ -116,6 +116,9 @@ export default function RunAgentPage({ params }: Props) {
         </div>
         <h1 className="mt-3 text-3xl font-light tracking-tight text-[#173634]">{agent.name}</h1>
         <p className="mt-1 text-sm text-[#173634]/55">{agent.shortDescription}</p>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#173634]/70">
+          Give the specialist one clear objective, add the context that matters, and save the result into a project if it becomes part of the workflow.
+        </p>
       </header>
 
       {/* Stat bar */}
@@ -138,12 +141,12 @@ export default function RunAgentPage({ params }: Props) {
           {/* Config form */}
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Run configuration</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Execution brief</p>
             </div>
             <div className="space-y-5 p-5">
               <div className="space-y-1.5">
                 <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">
-                  Task <span className="text-red-400">*</span>
+                  Objective <span className="text-red-400">*</span>
                 </Label>
                 <Textarea
                   placeholder={`e.g. ${agent.suggestedPrompts[0]}`}
@@ -160,7 +163,7 @@ export default function RunAgentPage({ params }: Props) {
                   Context <span className="font-normal normal-case text-[#173634]/30">(optional)</span>
                 </Label>
                 <Textarea
-                  placeholder="Add background, constraints, or links."
+                  placeholder="Add background, constraints, source links, or prior decisions."
                   value={context}
                   onChange={(e) => setContext(e.target.value)}
                   rows={3}
@@ -171,7 +174,7 @@ export default function RunAgentPage({ params }: Props) {
 
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Output type</Label>
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Output shape</Label>
                   <Select value={desiredOutput} onValueChange={setDesiredOutput} disabled={status === 'running'}>
                     <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
@@ -184,7 +187,7 @@ export default function RunAgentPage({ params }: Props) {
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Detail</Label>
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Depth</Label>
                   <Select value={detailLevel} onValueChange={setDetailLevel} disabled={status === 'running'}>
                     <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
@@ -197,10 +200,10 @@ export default function RunAgentPage({ params }: Props) {
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Project</Label>
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Save to project</Label>
                   <Select value={projectId} onValueChange={setProjectId} disabled={status === 'running'}>
                     <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
-                      <SelectValue placeholder="Unassigned" />
+                    <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
                     <SelectContent>
                       {MOCK_PROJECTS.map((p) => (
@@ -218,10 +221,10 @@ export default function RunAgentPage({ params }: Props) {
                   className="h-9 rounded-none bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
                 >
                   {status === 'running' && <Loader2 size={13} className="mr-2 animate-spin" />}
-                  {status === 'running' ? 'Running…' : 'Run agent'}
+                  {status === 'running' ? 'Running…' : 'Run specialist'}
                 </Button>
                 <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-                  <Link href="/app/agents">Browse agents</Link>
+                  <Link href="/app/agents">Browse specialists</Link>
                 </Button>
               </div>
             </div>
@@ -239,7 +242,7 @@ export default function RunAgentPage({ params }: Props) {
           {status === 'done' && output && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Agent output</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Deliverable</p>
                 {saved ? (
                   <span className="inline-flex items-center gap-1.5 text-xs text-[#8fb2aa]">
                     <CheckCircle2 size={12} /> Saved
@@ -249,7 +252,7 @@ export default function RunAgentPage({ params }: Props) {
                     onClick={() => setSaved(true)}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[#173634]/55 hover:text-[#173634]"
                   >
-                    <Bookmark size={12} /> Save output
+                    <Bookmark size={12} /> Save deliverable
                   </button>
                 )}
               </div>
@@ -294,7 +297,7 @@ export default function RunAgentPage({ params }: Props) {
                 </Block>
               )}
 
-              <Block title="Suggested next step">
+              <Block title="What to do next">
                 <p>{output.suggestedNextStep}</p>
                 {output.relatedAgents.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -321,7 +324,7 @@ export default function RunAgentPage({ params }: Props) {
                   onClick={() => { setStatus('idle'); setOutput(null); setTask(''); setContext(''); setSaved(false) }}
                   className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
                 >
-                  Run another
+                  Run another specialist
                 </Button>
                 <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
                   <Link href="/app/history">View history</Link>
@@ -335,7 +338,7 @@ export default function RunAgentPage({ params }: Props) {
         <aside className="space-y-4">
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Agent context</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Specialist context</p>
             </div>
             <div className="px-5 py-5">
               <p className="text-sm font-medium text-[#173634]">{agent.name}</p>
@@ -349,13 +352,13 @@ export default function RunAgentPage({ params }: Props) {
 
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Checklist</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Run checklist</p>
             </div>
             <div className="divide-y divide-[#d8e5e2]">
               {[
                 'Write a task with a clear outcome.',
                 'Add context if the agent needs source material.',
-                'Save the output if it belongs to a project.',
+                'Save the deliverable if it belongs to a project.',
               ].map((item) => (
                 <div key={item} className="px-5 py-3 text-xs leading-relaxed text-[#173634]/60">{item}</div>
               ))}
