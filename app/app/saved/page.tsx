@@ -80,6 +80,7 @@ export default function SavedPage() {
             <div className="min-w-0 flex-1 bg-[#fbfbfa] p-6">
               <div className="mb-5 flex items-start justify-between gap-4">
                 <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Selected deliverable</p>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{active.agentName}</p>
                   <h2 className="mt-1 text-xl font-light text-[#173634]">{active.title}</h2>
                 </div>
@@ -89,7 +90,7 @@ export default function SavedPage() {
               </div>
 
               <div className="mb-5 flex flex-wrap items-center gap-4 border-y border-[#d8e5e2] py-3 text-[11px] text-[#173634]/40">
-                <span>Saved {formatDate(active.createdAt)}</span>
+                <span>Saved on {formatDate(active.createdAt)}</span>
                 {active.projectName && (
                   <span className="inline-flex items-center gap-1">
                     <FolderOpen size={10} />{active.projectName}

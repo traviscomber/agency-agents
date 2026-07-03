@@ -20,7 +20,6 @@ import { cn } from '@/lib/utils'
 interface Props {
   params: Promise<{ slug: string }>
 }
-
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="border border-[#d8e5e2]">

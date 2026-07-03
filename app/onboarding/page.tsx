@@ -37,7 +37,7 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Step 1: Workspace Name */}
+        {/* Step 1: Initiative Name */}
         {step === 1 && (
           <div className="space-y-6">
             <div>
