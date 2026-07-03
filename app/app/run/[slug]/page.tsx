@@ -213,6 +213,33 @@ export default function RunAgentPage({ params }: Props) {
                 </div>
               </div>
 
+              {selectedProject?.operatingBrief && (
+                <div className="border border-[#d8e5e2] bg-white px-4 py-4">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Project memory</p>
+                      <p className="mt-1 text-sm font-medium text-[#173634]">{selectedProject.name}</p>
+                    </div>
+                    <span className="rounded-full border border-[#d8e5e2] bg-[#f1f6f4] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#173634]/70">
+                      {selectedProject.workflow?.find((step) => step.status === 'active')?.name || 'No active step'}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-[#173634]/75">{selectedProject.operatingBrief.objective}</p>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Success definition</p>
+                      <p className="mt-1 text-xs leading-5 text-[#173634]/70">{selectedProject.operatingBrief.successDefinition}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Latest memory</p>
+                      <p className="mt-1 text-xs leading-5 text-[#173634]/70">
+                        {selectedProject.memory?.[0]?.note || 'No memory captured yet.'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Button
                   onClick={handleRun}
@@ -363,6 +390,25 @@ export default function RunAgentPage({ params }: Props) {
               ))}
             </div>
           </section>
+
+          {selectedProject?.workflow?.length ? (
+            <section className="border border-[#d8e5e2]">
+              <div className="border-b border-[#d8e5e2] px-5 py-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Project workflow</p>
+              </div>
+              <div className="divide-y divide-[#d8e5e2]">
+                {selectedProject.workflow.map((step) => (
+                  <div key={step.id} className="px-5 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs font-medium text-[#173634]">{step.name}</p>
+                      <span className="text-[10px] uppercase tracking-[0.16em] text-[#8fb2aa]">{step.status}</span>
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-[#173634]/60">{step.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </aside>
       </div>
     </div>

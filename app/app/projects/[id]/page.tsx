@@ -41,7 +41,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
               <Sparkles size={12} className="text-primary" />
-              Project workspace
+              Project operating record
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{project.name}</h1>
             {project.description && (
@@ -53,7 +53,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <Bot size={11} /> {runs.length} runs
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
-                <Bookmark size={11} /> {saved.length} saved
+                <Bookmark size={11} /> {saved.length} deliverables
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
                 <Calendar size={11} /> Updated {formatDate(project.updatedAt)}
@@ -65,27 +65,101 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div className="rounded-[1.25rem] border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_18px_40px_-24px_rgba(15,23,42,0.9)]">
               <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">Status</p>
               <p className="mt-3 text-2xl font-semibold capitalize">{project.status}</p>
-              <p className="mt-1 text-sm text-white/70">A project frame for run coordination and output review.</p>
+              <p className="mt-1 text-sm text-white/70">A working record for brief, memory, workflow, and deliverables.</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Last updated</p>
               <p className="mt-3 text-2xl font-semibold text-foreground">{formatDate(project.updatedAt)}</p>
-              <p className="mt-1 text-sm text-slate-700">See the run history and saved outputs for this initiative.</p>
+              <p className="mt-1 text-sm text-slate-700">See the brief, workflow, run history, and deliverables for this initiative.</p>
             </div>
           </div>
         </div>
       </section>
 
       <div className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
-        <Tabs defaultValue="runs">
-          <TabsList className="grid w-full grid-cols-2 rounded-2xl bg-slate-50 p-1">
+        <Tabs defaultValue="brief">
+          <TabsList className="grid w-full grid-cols-4 rounded-2xl bg-slate-50 p-1">
+            <TabsTrigger value="brief" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              Brief
+            </TabsTrigger>
+            <TabsTrigger value="workflow" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              Workflow
+            </TabsTrigger>
             <TabsTrigger value="runs" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
               Runs ({runs.length})
             </TabsTrigger>
             <TabsTrigger value="saved" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Saved ({saved.length})
+              Deliverables ({saved.length})
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="brief" className="mt-6">
+            {project.operatingBrief ? (
+              <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+                <article className="rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operating brief</p>
+                  <h2 className="mt-3 text-xl font-semibold text-foreground">{project.operatingBrief.objective}</h2>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Audience</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{project.operatingBrief.audience}</p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Tone</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{project.operatingBrief.tone}</p>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Success definition</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{project.operatingBrief.successDefinition}</p>
+                    </div>
+                  </div>
+                </article>
+                <article className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Constraints</p>
+                  <ul className="mt-4 space-y-3">
+                    {project.operatingBrief.constraints.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+            ) : null}
+          </TabsContent>
+
+          <TabsContent value="workflow" className="mt-6">
+            {project.workflow?.length ? (
+              <div className="grid gap-4 md:grid-cols-3">
+                {project.workflow.map((step, index) => (
+                  <article
+                    key={step.id}
+                    className="rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Step {index + 1}</p>
+                      <span
+                        className={cn(
+                          'rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]',
+                          step.status === 'done'
+                            ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
+                            : step.status === 'active'
+                              ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-200'
+                              : 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
+                        )}
+                      >
+                        {step.status}
+                      </span>
+                    </div>
+                    <h3 className="mt-3 text-base font-semibold text-foreground">{step.name}</h3>
+                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-700">{step.owner}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-700">{step.detail}</p>
+                  </article>
+                ))}
+              </div>
+            ) : null}
+          </TabsContent>
 
           <TabsContent value="runs" className="mt-6">
             {runs.length === 0 ? (
@@ -166,6 +240,34 @@ export default async function ProjectDetailPage({ params }: Props) {
           </TabsContent>
         </Tabs>
       </div>
+
+      {project.memory?.length ? (
+        <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Project memory</p>
+              <h2 className="mt-2 text-xl font-semibold text-foreground">Decisions and reusable context</h2>
+            </div>
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-700">
+              {project.memory.length} entries
+            </span>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {project.memory.map((entry) => (
+              <article key={entry.id} className="rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold text-foreground">{entry.title}</p>
+                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+                    {entry.source}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{entry.note}</p>
+                <p className="mt-4 text-xs text-slate-700">Captured {formatDate(entry.createdAt)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Button asChild size="sm">

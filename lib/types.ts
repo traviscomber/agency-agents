@@ -44,6 +44,33 @@ export interface Project {
   updatedAt: string
   runCount?: number
   savedCount?: number
+  operatingBrief?: ProjectOperatingBrief
+  memory?: ProjectMemoryEntry[]
+  workflow?: ProjectWorkflowStep[]
+}
+
+export interface ProjectOperatingBrief {
+  objective: string
+  audience: string
+  tone: string
+  successDefinition: string
+  constraints: string[]
+}
+
+export interface ProjectMemoryEntry {
+  id: string
+  title: string
+  note: string
+  source: 'decision' | 'research' | 'deliverable' | 'run'
+  createdAt: string
+}
+
+export interface ProjectWorkflowStep {
+  id: string
+  name: string
+  owner: string
+  status: 'next' | 'active' | 'done'
+  detail: string
 }
 
 export interface AgentRun {
