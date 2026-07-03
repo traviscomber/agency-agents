@@ -4,12 +4,13 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MOCK_USER } from '@/lib/data/mock-store'
-import { Sparkles } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
+type Tab = 'profile' | 'account' | 'notifications'
 
 export default function SettingsPage() {
+  const [tab, setTab] = useState<Tab>('profile')
   const [fullName, setFullName] = useState(MOCK_USER.fullName)
   const [email] = useState(MOCK_USER.email)
   const [company, setCompany] = useState(MOCK_USER.company || '')
@@ -21,164 +22,177 @@ export default function SettingsPage() {
     setTimeout(() => setSaved(false), 2500)
   }
 
+  const tabs: { id: Tab; label: string }[] = [
+    { id: 'profile', label: 'Profile' },
+    { id: 'account', label: 'Account' },
+    { id: 'notifications', label: 'Notifications' },
+  ]
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
-      <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_54%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
-        <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
-          <Sparkles size={12} className="text-primary" />
-          Brandbook aligned settings
-        </div>
-        <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-600">Preferences</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          Settings tuned for the workspace owner.
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
-          Update profile details, manage security, and keep the default experience aligned with how the team works.
+    <div className="mx-auto max-w-4xl px-6 py-10">
+      <header className="mb-10 border-b border-[#d8e5e2] pb-8">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Preferences</p>
+        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Settings.</h1>
+        <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
+          Profile, account security, and notification preferences.
         </p>
-      </section>
+      </header>
 
-      <div className="mt-6 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
-        <Tabs defaultValue="profile">
-          <TabsList className="mb-8 grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1">
-            <TabsTrigger value="profile" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
-              Profile
-            </TabsTrigger>
-            <TabsTrigger value="account" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
-              Account
-            </TabsTrigger>
-            <TabsTrigger value="notifications" className="rounded-xl text-xs text-slate-600 data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm">
-              Notifications
-            </TabsTrigger>
-          </TabsList>
+      {/* Tab bar */}
+      <div className="mb-8 flex border-b border-[#d8e5e2]">
+        {tabs.map(({ id, label }) => (
+          <button
+            key={id}
+            onClick={() => setTab(id)}
+            className={cn(
+              '-mb-px border-b-2 px-5 pb-3 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors',
+              tab === id
+                ? 'border-[#173634] text-[#173634]'
+                : 'border-transparent text-[#173634]/40 hover:text-[#173634]/70'
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
-          <TabsContent value="profile" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">Profile information</h2>
-              <div className="mt-4 space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="fullName" className="text-sm font-medium">Full name</Label>
-                    <Input
-                      id="fullName"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="h-10 bg-white text-sm"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="email" className="text-sm font-medium">Email</Label>
-                    <Input
-                      id="email"
-                      value={email}
-                      disabled
-                      className="h-10 bg-slate-100 text-sm"
-                    />
-                  </div>
+      {/* Profile tab */}
+      {tab === 'profile' && (
+        <div className="space-y-8">
+          <section className="border border-[#d8e5e2]">
+            <div className="border-b border-[#d8e5e2] px-5 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Profile information</p>
+            </div>
+            <div className="p-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="fullName" className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Full name</Label>
+                  <Input
+                    id="fullName"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                  />
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="company" className="text-sm font-medium">Company</Label>
-                    <Input
-                      id="company"
-                      value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      placeholder="Acme Inc."
-                      className="h-10 bg-white text-sm"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="role" className="text-sm font-medium">Role</Label>
-                    <Input
-                      id="role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      placeholder="Founder, Developer..."
-                      className="h-10 bg-white text-sm"
-                    />
-                  </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Email</Label>
+                  <Input
+                    id="email"
+                    value={email}
+                    disabled
+                    className="h-10 rounded-none border-[#d8e5e2] bg-[#f1f6f4] text-sm text-[#173634]/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="company" className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Company</Label>
+                  <Input
+                    id="company"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    placeholder="Acme Inc."
+                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="role" className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Role</Label>
+                  <Input
+                    id="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    placeholder="Founder, Developer..."
+                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                  />
                 </div>
               </div>
             </div>
+          </section>
 
-            <Separator />
-
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">Avatar</h2>
-              <div className="mt-4 flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-semibold text-foreground ring-1 ring-slate-200">
-                  {fullName.charAt(0)}
-                </div>
-                <div>
-                  <Button variant="outline" size="sm" className="h-9 bg-white text-xs">
-                    Upload image
-                  </Button>
-                  <p className="mt-1.5 text-xs text-slate-600">JPG, PNG or GIF. Max 2MB.</p>
-                </div>
+          <section className="border border-[#d8e5e2]">
+            <div className="border-b border-[#d8e5e2] px-5 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Avatar</p>
+            </div>
+            <div className="flex items-center gap-5 p-5">
+              <div className="flex h-14 w-14 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-lg font-semibold text-[#173634]">
+                {fullName.charAt(0)}
+              </div>
+              <div>
+                <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+                  Upload image
+                </Button>
+                <p className="mt-1.5 text-[10px] text-[#173634]/40">JPG, PNG or GIF. Max 2MB.</p>
               </div>
             </div>
+          </section>
 
-            <div className="flex items-center justify-between">
-              <p className={`text-xs ${saved ? 'text-emerald-700' : 'text-transparent'}`}>Changes saved.</p>
-              <Button size="sm" onClick={handleSave}>
-                Save changes
+          <div className="flex items-center justify-between">
+            <p className={cn('text-xs transition-opacity', saved ? 'text-[#8fb2aa] opacity-100' : 'opacity-0')}>Changes saved.</p>
+            <Button
+              onClick={handleSave}
+              className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
+            >
+              Save changes
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Account tab */}
+      {tab === 'account' && (
+        <div className="space-y-8">
+          <section className="border border-[#d8e5e2]">
+            <div className="border-b border-[#d8e5e2] px-5 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Password</p>
+            </div>
+            <div className="max-w-sm space-y-4 p-5">
+              {['Current password', 'New password', 'Confirm new password'].map((label) => (
+                <div key={label} className="space-y-1.5">
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">{label}</Label>
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
+                  />
+                </div>
+              ))}
+              <Button className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+                Update password
               </Button>
             </div>
-          </TabsContent>
+          </section>
 
-          <TabsContent value="account" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">Password</h2>
-              <div className="mt-4 max-w-sm space-y-3">
-                <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">Current password</Label>
-                  <Input type="password" placeholder="password" className="h-10 bg-white text-sm" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">New password</Label>
-                  <Input type="password" placeholder="password" className="h-10 bg-white text-sm" />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="text-sm font-medium">Confirm new password</Label>
-                  <Input type="password" placeholder="password" className="h-10 bg-white text-sm" />
-                </div>
-                <Button size="sm">Update password</Button>
-              </div>
+          <section className="border border-red-200">
+            <div className="border-b border-red-200 bg-red-50 px-5 py-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-red-500">Danger zone</p>
             </div>
-
-            <Separator />
-
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">Danger zone</h2>
-              <p className="mt-2 text-sm text-slate-700">
-                Permanently delete your account and all data. This cannot be undone.
-              </p>
-              <Button variant="outline" size="sm" className="mt-4 border-destructive/30 text-xs text-destructive hover:bg-destructive/5">
+            <div className="p-5">
+              <p className="text-sm text-[#173634]/60">Permanently delete your account and all data. This cannot be undone.</p>
+              <Button
+                variant="outline"
+                className="mt-4 h-9 rounded-none border-red-200 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-red-500 hover:bg-red-50"
+              >
                 Delete account
               </Button>
             </div>
-          </TabsContent>
+          </section>
+        </div>
+      )}
 
-          <TabsContent value="notifications" className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">Email notifications</h2>
-              <div className="mt-4 space-y-3 text-sm text-slate-700">
-                <label className="flex items-center gap-3">
-                  <input type="checkbox" defaultChecked className="accent-foreground" />
-                  Run completed
-                </label>
-                <label className="flex items-center gap-3">
-                  <input type="checkbox" defaultChecked className="accent-foreground" />
-                  Run failed
-                </label>
-                <label className="flex items-center gap-3">
-                  <input type="checkbox" defaultChecked className="accent-foreground" />
-                  Billing reminders
-                </label>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+      {/* Notifications tab */}
+      {tab === 'notifications' && (
+        <section className="border border-[#d8e5e2]">
+          <div className="border-b border-[#d8e5e2] px-5 py-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Email notifications</p>
+          </div>
+          <div className="divide-y divide-[#d8e5e2]">
+            {['Run completed', 'Run failed', 'Billing reminders', 'Product updates'].map((item) => (
+              <label key={item} className="flex items-center justify-between px-5 py-4 hover:bg-[#f1f6f4]">
+                <span className="text-sm text-[#173634]">{item}</span>
+                <input type="checkbox" defaultChecked className="accent-[#173634]" />
+              </label>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }
