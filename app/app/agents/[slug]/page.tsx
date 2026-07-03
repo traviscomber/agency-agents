@@ -27,7 +27,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <Link
         href="/app/agents"
-        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-700 transition-colors hover:text-slate-950"
+        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-600 transition-colors hover:text-slate-950"
       >
         <ArrowLeft size={13} /> Back to agents
       </Link>
@@ -56,8 +56,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
               ['What you get', 'Structured output with clear recommendations, not a generic conversation transcript.'],
               ['Next action', hasAccess ? 'Run the specialist in the workspace.' : 'Upgrade to unlock this specialist.'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">{title}</p>
+              <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">{title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
               </div>
             ))}
@@ -95,7 +95,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
               <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {agent.exampleTasks.map((task, index) => (
-                <div key={index} className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4 text-sm leading-relaxed text-foreground">
+                <div key={index} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-foreground">
                   {task}
                 </div>
               ))}
@@ -110,7 +110,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   <Link
                     key={prompt}
                     href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
-                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-slate-50 hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -131,8 +131,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
                 ? 'Describe your task and the workspace will guide you into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}
             </p>
-            <div className="mt-5 rounded-2xl border border-white/12 bg-white/10 p-4">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-white/88">Required plan</p>
+            <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>
