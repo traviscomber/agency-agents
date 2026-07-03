@@ -70,7 +70,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             <div className="rounded-[1.25rem] border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Last updated</p>
               <p className="mt-3 text-2xl font-semibold text-foreground">{formatDate(project.updatedAt)}</p>
-              <p className="mt-1 text-sm text-slate-700">Tracking work at a glance.</p>
+              <p className="mt-1 text-sm text-slate-700">See the run history and saved outputs for this initiative.</p>
             </div>
           </div>
         </div>
@@ -91,9 +91,9 @@ export default async function ProjectDetailPage({ params }: Props) {
             {runs.length === 0 ? (
               <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-gradient-to-b from-slate-50 to-white p-12 text-center">
                 <Bot size={28} className="mx-auto text-slate-700" />
-                <p className="mt-4 text-sm text-slate-700">No runs in this project yet.</p>
+                <p className="mt-4 text-sm text-slate-700">No runs captured yet.</p>
                 <Button size="sm" asChild className="mt-6">
-                  <Link href="/app/agents">Run an agent</Link>
+                  <Link href="/app/agents">Start a run</Link>
                 </Button>
               </div>
             ) : (
@@ -140,7 +140,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <TabsContent value="saved" className="mt-6">
             {saved.length === 0 ? (
               <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-gradient-to-b from-slate-50 to-white p-12 text-center">
-                <p className="text-sm text-slate-700">No saved outputs in this project yet.</p>
+                <p className="text-sm text-slate-700">No saved deliverables in this project yet.</p>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2">

@@ -48,18 +48,18 @@ export default function ProjectsPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Workspace</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Work index</p>
         <div className="mt-2 flex items-center justify-between gap-4">
           <h1 className="text-3xl font-light tracking-tight text-[#173634]">Projects.</h1>
           <Button
             onClick={() => setShowNew(true)}
             className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
           >
-            <Plus size={13} className="mr-1.5" /> New
+            <Plus size={13} className="mr-1.5" /> New project
           </Button>
         </div>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          Organize agent work by initiative. Track runs and save outputs in context.
+          Organize runs, context, and saved deliverables by initiative so each project reads like a compact working record.
         </p>
       </header>
 
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
       {projects.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
           <p className="text-sm font-medium text-[#173634]">No projects yet</p>
-          <p className="mt-1 text-xs text-[#173634]/45">Create a project to group runs and saved outputs.</p>
+          <p className="mt-1 text-xs text-[#173634]/45">Create a project to keep a run, its context, and its deliverables together.</p>
           <Button
             onClick={() => setShowNew(true)}
             className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
@@ -144,6 +144,9 @@ export default function ProjectsPage() {
             <DialogTitle className="text-base font-light text-[#173634]">New project</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
+            <p className="text-xs leading-relaxed text-[#173634]/55">
+              Give each initiative a home for the run, the source context, and the outputs that come out of it.
+            </p>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Name</Label>
               <Input
@@ -159,7 +162,7 @@ export default function ProjectsPage() {
                 Description <span className="normal-case font-normal text-[#173634]/35">(optional)</span>
               </Label>
               <Textarea
-                placeholder="What is this project about?"
+                placeholder="What work does this project collect?"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
@@ -172,7 +175,7 @@ export default function ProjectsPage() {
               Cancel
             </Button>
             <Button onClick={handleCreate} disabled={!name.trim()} className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-              Create
+              Create project
             </Button>
           </DialogFooter>
         </DialogContent>
