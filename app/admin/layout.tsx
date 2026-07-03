@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/84 transition-colors hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/90 transition-colors hover:bg-white/14 hover:text-white"
             >
               <Icon size={14} />
               {label}
@@ -44,7 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="border-t border-white/10 px-3 py-3">
           <Link
             href="/app"
-            className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs text-white/72 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-2 rounded-xl px-3 py-2 text-xs text-white/82 transition-colors hover:bg-white/14 hover:text-white"
           >
             &larr; Back to workspace
           </Link>

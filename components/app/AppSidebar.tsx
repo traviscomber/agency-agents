@@ -69,7 +69,7 @@ export function AppSidebar() {
       </div>
 
       <nav className="flex-1 space-y-1 px-3 py-4">
-        <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+        <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
           Navigation
         </p>
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
@@ -82,13 +82,13 @@ export function AppSidebar() {
                 'group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm transition-all duration-200',
                 isActive
                   ? 'bg-slate-950 text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.9)]'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                    : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950'
               )}
             >
               <span
                 className={cn(
                   'flex size-8 items-center justify-center rounded-xl transition-colors',
-                  isActive ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-white group-hover:text-slate-950'
+                      isActive ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-700 group-hover:bg-white group-hover:text-slate-950'
                 )}
               >
                 <Icon size={15} />
@@ -122,12 +122,12 @@ export function AppSidebar() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-foreground">{MOCK_USER.fullName}</p>
-              <p className="truncate text-xs text-slate-600">{MOCK_USER.email}</p>
+          <p className="truncate text-xs text-slate-700">{MOCK_USER.email}</p>
             </div>
           </div>
           <Link
             href="/login"
-            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950"
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-950"
           >
             <LogOut size={13} />
             Sign out

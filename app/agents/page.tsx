@@ -44,7 +44,7 @@ export default function PublicAgentsPage() {
               <h1 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
                 Find the right specialist for the job.
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
                 {SEED_AGENTS.length} specialized agents across {DIVISIONS.length} divisions. Browse, filter, and inspect
                 the work style of each agent before you sign up.
               </p>
@@ -72,7 +72,7 @@ export default function PublicAgentsPage() {
                   className="rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.5)]"
                 >
                   <p className="text-sm font-semibold text-foreground">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">{desc}</p>
                 </div>
               ))}
             </div>
@@ -82,7 +82,7 @@ export default function PublicAgentsPage() {
         <section className="mb-6 rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
             <div className="relative w-full max-w-md">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-700" />
               <Input
                 placeholder="Search by agent, division, or use case..."
                 value={search}
@@ -97,7 +97,7 @@ export default function PublicAgentsPage() {
                   'rounded-full border px-3 py-1.5 text-xs transition-colors',
                   !activeDivision
                     ? 'border-slate-950 bg-slate-950 text-white'
-                    : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-950'
                 )}
               >
                 All
@@ -110,7 +110,7 @@ export default function PublicAgentsPage() {
                     'rounded-full border px-3 py-1.5 text-xs transition-colors',
                     activeDivision === division
                       ? 'border-primary bg-primary text-primary-foreground'
-                      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-950'
                 )}
                 >
                   {division}
@@ -133,7 +133,7 @@ export default function PublicAgentsPage() {
                   key={agent.id}
                   className={cn(
                     'group relative flex flex-col overflow-hidden rounded-[1.35rem] border bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-34px_rgba(15,23,42,0.6)]',
-                    hasAccess ? 'border-slate-200 hover:border-primary/25' : 'border-slate-200/80 opacity-95'
+                  hasAccess ? 'border-slate-200 hover:border-primary/25' : 'border-slate-200/90'
                   )}
                 >
                   {!hasAccess && (
@@ -146,10 +146,10 @@ export default function PublicAgentsPage() {
                     <PlanBadge plan={agent.planRequired} size="sm" />
                   </div>
                   <h2 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">{agent.shortDescription}</p>
 
                   <div className="mt-4 space-y-2">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-500">Best for</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">Best for</p>
                     <p className="text-sm leading-relaxed text-foreground/90">{agent.whenToUse}</p>
                   </div>
 

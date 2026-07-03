@@ -23,7 +23,7 @@ export default function PricingPage() {
               <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
                 Simple pricing, presented like a serious product.
               </h1>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-700 sm:text-base">
                 Start free, then move up only when the workspace needs more runs, deeper access, or team coordination.
               </p>
 
@@ -51,7 +51,7 @@ export default function PricingPage() {
                     <Shield size={14} className="text-foreground" />
                   </div>
                   <p className="text-sm font-semibold text-foreground">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{desc}</p>
                 </div>
               ))}
             </div>
@@ -79,13 +79,13 @@ export default function PricingPage() {
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{plan.name}</h2>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className="text-3xl font-semibold tracking-tight text-foreground">{plan.priceLabel}</span>
-                  {plan.price !== null && <span className="text-xs text-slate-600">/month</span>}
+                  {plan.price !== null && <span className="text-xs text-slate-700">/month</span>}
                 </div>
               </div>
 
               <ul className="flex-1 space-y-2.5">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
+                  <li key={feature} className="flex items-start gap-2 text-sm text-slate-700">
                     <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-primary" />
                     {feature}
                   </li>
@@ -103,12 +103,12 @@ export default function PricingPage() {
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
               <Wand2 size={12} className="text-primary" />
               What pricing includes
             </div>
             <h3 className="mt-4 text-lg font-semibold text-foreground">A cleaner fit for specialist work.</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            <p className="mt-2 text-sm leading-relaxed text-slate-700">
               The product should feel easy to evaluate: every plan communicates value, limits, and the next step to upgrade.
             </p>
           </div>
@@ -121,7 +121,7 @@ export default function PricingPage() {
                 'Upgrade prompts appear only when useful',
                 'A polished path from free to team use',
               ].map((item) => (
-                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                <div key={item} className="rounded-[1.15rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] px-4 py-3 text-sm text-slate-700">
                   {item}
                 </div>
               ))}

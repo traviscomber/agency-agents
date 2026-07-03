@@ -105,15 +105,15 @@ export function AppHeader({ title }: AppHeaderProps) {
                     'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm transition-all duration-200',
                     isActive
                       ? 'bg-slate-950 text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.9)]'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+                      : 'text-slate-700 hover:bg-slate-100 hover:text-slate-950'
                   )}
                 >
                   <span
                     className={cn(
                       'flex size-8 items-center justify-center rounded-xl',
-                      isActive ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-600'
-                    )}
-                  >
+                      isActive ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-700'
+                  )}
+                >
                     <Icon size={15} />
                   </span>
                   {label}
@@ -125,7 +125,7 @@ export function AppHeader({ title }: AppHeaderProps) {
             <Link
               href="/login"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-3 text-sm text-slate-600 transition-colors hover:text-slate-950"
+              className="flex items-center gap-3 text-sm text-slate-700 transition-colors hover:text-slate-950"
             >
               <LogOut size={15} />
               Sign out
