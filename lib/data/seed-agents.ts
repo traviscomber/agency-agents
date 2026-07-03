@@ -484,6 +484,10 @@ export function getAgentBySlug(slug: string): Agent | undefined {
   return SEED_AGENTS.find((a) => a.slug === slug)
 }
 
+export function getAgentById(id: string): Agent | undefined {
+  return SEED_AGENTS.find((a) => a.id === id)
+}
+
 export function getAgentsByDivision(division: string): Agent[] {
   return SEED_AGENTS.filter((a) => a.division === division && a.isActive)
 }

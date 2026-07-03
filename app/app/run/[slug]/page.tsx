@@ -12,8 +12,15 @@ import { PlanBadge } from '@/components/shared/PlanBadge'
 import { getAgentBySlug } from '@/lib/data/seed-agents'
 import { MOCK_USER, MOCK_PROJECTS } from '@/lib/data/mock-store'
 import { runMockAgent } from '@/lib/ai/mock-provider'
+import {
+  advanceWorkflowAfterRun,
+  buildProjectContext,
+  captureDeliverableMemory,
+  getProjectOverlay,
+  saveProjectOverlay,
+} from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
-import type { AgentOutput } from '@/lib/types'
+import type { AgentOutput, AgentRun, SavedOutput } from '@/lib/types'
 import { ArrowLeft, ArrowRight, AlertCircle, Bookmark, CheckCircle2, Loader2, Lock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -47,10 +54,19 @@ export default function RunAgentPage({ params }: Props) {
   const [output, setOutput] = useState<AgentOutput | null>(null)
   const [saved, setSaved] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [prefilledProjectId, setPrefilledProjectId] = useState('')
 
   useEffect(() => {
     if (!projectId && MOCK_PROJECTS[0]) setProjectId(MOCK_PROJECTS[0].id)
   }, [projectId])
+
+  const selectedProject = MOCK_PROJECTS.find((p) => p.id === projectId)
+
+  useEffect(() => {
+    if (!selectedProject) return
+    setContext(buildProjectContext(selectedProject))
+    setPrefilledProjectId(selectedProject.id)
+  }, [selectedProject])
 
   if (!agent) {
     return (
@@ -96,7 +112,59 @@ export default function RunAgentPage({ params }: Props) {
     }
   }
 
-  const selectedProject = MOCK_PROJECTS.find((p) => p.id === projectId)
+  function handleSaveDeliverable() {
+    if (!output) return
+    setSaved(true)
+
+    if (!selectedProject) return
+
+    const createdAt = new Date().toISOString()
+    const runId = `run-local-${Date.now()}`
+    const runLabel = `${agent.name}: ${task.slice(0, 48)}`
+    const overlay = getProjectOverlay(selectedProject)
+
+    const runRecord: AgentRun = {
+      id: runId,
+      userId: MOCK_USER.id,
+      agentId: agent.id,
+      agentName: agent.name,
+      agentDivision: agent.division,
+      projectId: selectedProject.id,
+      projectName: selectedProject.name,
+      task,
+      context,
+      desiredOutput,
+      detailLevel,
+      output,
+      status: 'completed',
+      creditsUsed: 1,
+      createdAt,
+    }
+
+    const savedOutput: SavedOutput = {
+      id: `saved-${Date.now()}`,
+      userId: MOCK_USER.id,
+      projectId: selectedProject.id,
+      projectName: selectedProject.name,
+      agentRunId: runId,
+      agentName: agent.name,
+      title: `${agent.name} deliverable`,
+      content: output.mainResult,
+      format: 'text',
+      createdAt,
+      updatedAt: createdAt,
+    }
+
+    const memoryEntry = captureDeliverableMemory(agent.name, task, output.summary, createdAt)
+
+    saveProjectOverlay(selectedProject.id, {
+      ...overlay,
+      memory: [memoryEntry, ...overlay.memory],
+      runs: [runRecord, ...overlay.runs],
+      savedOutputs: [savedOutput, ...overlay.savedOutputs],
+      workflow: advanceWorkflowAfterRun(overlay.workflow, runId, runLabel, createdAt),
+    })
+  }
 
   const stateLabel = status === 'idle' ? 'Ready' : status === 'running' ? 'Running' : status === 'done' ? 'Complete' : 'Error'
 
@@ -164,7 +232,10 @@ export default function RunAgentPage({ params }: Props) {
                 <Textarea
                   placeholder="Add background, constraints, source links, or prior decisions."
                   value={context}
-                  onChange={(e) => setContext(e.target.value)}
+                  onChange={(e) => {
+                    setContext(e.target.value)
+                    if (selectedProject && prefilledProjectId === selectedProject.id) setPrefilledProjectId('')
+                  }}
                   rows={3}
                   disabled={status === 'running'}
                   className="resize-none rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
@@ -275,7 +346,7 @@ export default function RunAgentPage({ params }: Props) {
                   </span>
                 ) : (
                   <button
-                    onClick={() => setSaved(true)}
+                    onClick={handleSaveDeliverable}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[#173634]/55 hover:text-[#173634]"
                   >
                     <Bookmark size={12} /> Save deliverable
@@ -347,7 +418,7 @@ export default function RunAgentPage({ params }: Props) {
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button
                   variant="outline"
-                  onClick={() => { setStatus('idle'); setOutput(null); setTask(''); setContext(''); setSaved(false) }}
+                  onClick={() => { setStatus('idle'); setOutput(null); setTask(''); setContext(''); setPrefilledProjectId(''); setSaved(false) }}
                   className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
                 >
                   Run another specialist

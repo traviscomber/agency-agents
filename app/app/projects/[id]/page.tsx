@@ -1,11 +1,23 @@
+'use client'
+
+import { use, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { MOCK_PROJECTS, MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
+import { getAgentById } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { ArrowLeft, ArrowRight, Bot, Bookmark, Calendar, Sparkles } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
+import {
+  buildProjectOverlay,
+  getProjectOverlay,
+  mergeProjectMemory,
+  mergeProjectRuns,
+  mergeProjectSavedOutputs,
+  mergeProjectWorkflow,
+} from '@/lib/project-memory'
+import type { ProjectOverlayState } from '@/lib/types'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -19,13 +31,32 @@ function formatDate(date: string) {
   }).format(new Date(date))
 }
 
-export default async function ProjectDetailPage({ params }: Props) {
-  const { id } = await params
+export default function ProjectDetailPage({ params }: Props) {
+  const { id } = use(params)
   const project = MOCK_PROJECTS.find((p) => p.id === id)
-  if (!project) notFound()
+  const [overlay, setOverlay] = useState<ProjectOverlayState | null>(null)
 
-  const runs = MOCK_RUNS.filter((r) => r.projectId === id)
-  const saved = MOCK_SAVED_OUTPUTS.filter((s) => s.projectId === id)
+  useEffect(() => {
+    if (!project) return
+    setOverlay(getProjectOverlay(project))
+  }, [project])
+
+  if (!project) {
+    return (
+      <div className="mx-auto max-w-2xl px-6 py-20 text-center">
+        <p className="text-sm text-slate-700">Project not found.</p>
+        <Button asChild variant="outline" className="mt-4">
+          <Link href="/app/projects">Back to projects</Link>
+        </Button>
+      </div>
+    )
+  }
+
+  const projectOverlay = overlay ?? buildProjectOverlay(project)
+  const runs = mergeProjectRuns(MOCK_RUNS.filter((r) => r.projectId === id), projectOverlay)
+  const saved = mergeProjectSavedOutputs(MOCK_SAVED_OUTPUTS.filter((s) => s.projectId === id), projectOverlay)
+  const memory = mergeProjectMemory(project, projectOverlay)
+  const workflow = mergeProjectWorkflow(project, projectOverlay)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
@@ -130,9 +161,9 @@ export default async function ProjectDetailPage({ params }: Props) {
           </TabsContent>
 
           <TabsContent value="workflow" className="mt-6">
-            {project.workflow?.length ? (
+            {workflow.length ? (
               <div className="grid gap-4 md:grid-cols-3">
-                {project.workflow.map((step, index) => (
+                {workflow.map((step, index) => (
                   <article
                     key={step.id}
                     className="rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]"
@@ -155,6 +186,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <h3 className="mt-3 text-base font-semibold text-foreground">{step.name}</h3>
                     <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-700">{step.owner}</p>
                     <p className="mt-3 text-sm leading-6 text-slate-700">{step.detail}</p>
+                    {step.linkedRunLabel ? <p className="mt-4 text-xs text-slate-700">Linked run: {step.linkedRunLabel}</p> : null}
                   </article>
                 ))}
               </div>
@@ -172,10 +204,12 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
             ) : (
               <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
-                {runs.map((run, index) => (
+                {runs.map((run, index) => {
+                  const runAgent = getAgentById(run.agentId)
+                  return (
                   <Link
                     key={run.id}
-                    href={`/app/run/${run.agentId}`}
+                    href={runAgent ? `/app/run/${runAgent.slug}` : '/app/agents'}
                     className={cn(
                       'group flex items-start gap-3 p-4 transition-colors hover:bg-slate-50/70',
                       index < runs.length - 1 && 'border-b border-slate-200'
@@ -206,7 +240,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                       <ArrowRight size={13} />
                     </span>
                   </Link>
-                ))}
+                )})}
               </div>
             )}
           </TabsContent>
@@ -227,7 +261,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                       <div>
                         <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
                         <p className="mt-1 text-xs text-slate-700">
-                          {item.agentName} · {formatDate(item.createdAt)}
+                          {item.agentName} - {formatDate(item.createdAt)}
                         </p>
                       </div>
                       <Bookmark size={14} className="shrink-0 text-slate-700" />
@@ -241,7 +275,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </Tabs>
       </div>
 
-      {project.memory?.length ? (
+      {memory.length ? (
         <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -249,11 +283,11 @@ export default async function ProjectDetailPage({ params }: Props) {
               <h2 className="mt-2 text-xl font-semibold text-foreground">Decisions and reusable context</h2>
             </div>
             <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-700">
-              {project.memory.length} entries
+              {memory.length} entries
             </span>
           </div>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {project.memory.map((entry) => (
+            {memory.map((entry) => (
               <article key={entry.id} className="rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-sm font-semibold text-foreground">{entry.title}</p>

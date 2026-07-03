@@ -71,6 +71,9 @@ export interface ProjectWorkflowStep {
   owner: string
   status: 'next' | 'active' | 'done'
   detail: string
+  linkedRunId?: string
+  linkedRunLabel?: string
+  completedAt?: string
 }
 
 export interface AgentRun {
@@ -91,6 +94,14 @@ export interface AgentRun {
   modelUsed?: string
   creditsUsed: number
   createdAt: string
+}
+
+export interface ProjectOverlayState {
+  projectId: string
+  memory: ProjectMemoryEntry[]
+  workflow: ProjectWorkflowStep[]
+  runs: AgentRun[]
+  savedOutputs: SavedOutput[]
 }
 
 export interface AgentOutput {
