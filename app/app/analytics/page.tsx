@@ -1,4 +1,4 @@
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+'use client'
 
 const MONTHLY_DATA = [
   { month: 'Nov', runs: 120, cost: 58 },
@@ -42,36 +42,54 @@ export default function AnalyticsPage() {
         </div>
       </section>
 
-      {/* Monthly trends */}
+      {/* Monthly trends table */}
       <section className="border border-[#d8e5e2] bg-white px-6 py-6">
         <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Monthly Trends</p>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={MONTHLY_DATA} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#d8e5e2" />
-            <XAxis dataKey="month" stroke="#555a56" />
-            <YAxis stroke="#555a56" />
-            <Tooltip contentStyle={{ backgroundColor: '#fbfbfa', border: '1px solid #d8e5e2' }} />
-            <Legend />
-            <Line type="monotone" dataKey="runs" stroke="#8fb2aa" name="Runs" strokeWidth={2} />
-            <Line type="monotone" dataKey="cost" stroke="#555a56" name="Cost ($)" strokeWidth={2} />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Month</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Runs</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Cost ($)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#d8e5e2]">
+              {MONTHLY_DATA.map((row) => (
+                <tr key={row.month} className="hover:bg-[#f1f6f4]">
+                  <td className="px-4 py-3 text-[#173634]">{row.month}</td>
+                  <td className="px-4 py-3 text-[#173634]">{row.runs}</td>
+                  <td className="px-4 py-3 text-[#173634]">${row.cost}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
-      {/* Agent performance */}
+      {/* Agent performance table */}
       <section className="border border-[#d8e5e2] bg-white px-6 py-6">
         <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Agent Performance</p>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={AGENT_DATA} margin={{ top: 5, right: 30, left: 0, bottom: 80 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#d8e5e2" />
-            <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} stroke="#555a56" />
-            <YAxis stroke="#555a56" />
-            <Tooltip contentStyle={{ backgroundColor: '#fbfbfa', border: '1px solid #d8e5e2' }} />
-            <Legend />
-            <Bar dataKey="runs" fill="#8fb2aa" name="Total Runs" />
-            <Bar dataKey="time" fill="#d8e5e2" name="Avg Time (min)" />
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Agent</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Total Runs</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Avg Time (min)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#d8e5e2]">
+              {AGENT_DATA.map((agent) => (
+                <tr key={agent.name} className="hover:bg-[#f1f6f4]">
+                  <td className="px-4 py-3 text-[#173634]">{agent.name}</td>
+                  <td className="px-4 py-3 text-[#173634]">{agent.runs}</td>
+                  <td className="px-4 py-3 text-[#173634]">{agent.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       {/* CTA */}

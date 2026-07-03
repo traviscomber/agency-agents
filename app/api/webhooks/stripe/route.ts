@@ -2,9 +2,18 @@ import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { getStripe } from '@/lib/stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2023-10-16' })
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.SUPABASE_SERVICE_ROLE_KEY || '')
+function getSupabaseClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!url || !key) {
+    throw new Error('Supabase credentials not configured')
+  }
+
+  return createClient(url, key)
+}
 
 const PLAN_BY_PRICE: Record<string, string> = {
   [process.env.STRIPE_PRICE_STARTER || '']: 'starter',
@@ -21,13 +30,17 @@ export async function POST(req: Request) {
   let event: Stripe.Event
 
   try {
+    const stripe = getStripe()
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET || '')
   } catch (err: any) {
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
   }
 
   try {
+    const supabase = getSupabaseClient()
+
     if (event.type === 'checkout.session.completed') {
+      const stripe = getStripe()
       const session = event.data.object as Stripe.Checkout.Session
       const customerId = session.customer as string
       const sub = await stripe.subscriptions.retrieve(session.subscription as string)
