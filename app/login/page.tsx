@@ -23,7 +23,7 @@ export default function LoginPage() {
             <h1 className="mt-5 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
               Sign in to continue structured work.
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/78 sm:text-base">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/86 sm:text-base">
               Keep your agents, projects, and saved outputs in one place. The workspace is built to stay readable at a glance.
             </p>
           </div>
@@ -35,7 +35,7 @@ export default function LoginPage() {
             ].map(([title, desc]) => (
               <div key={title} className="rounded-[1.25rem] border border-white/12 bg-white/8 p-4">
                 <p className="text-sm font-semibold text-white">{title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-white/78">{desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/86">{desc}</p>
               </div>
             ))}
           </div>

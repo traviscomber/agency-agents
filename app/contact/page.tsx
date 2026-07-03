@@ -84,7 +84,7 @@ export default function ContactPage() {
                 ].map(({ icon: Icon, title, body }) => (
                   <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-950">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-800">
                         <Icon size={15} />
                       </div>
                       <p className="text-sm font-semibold text-foreground">{title}</p>

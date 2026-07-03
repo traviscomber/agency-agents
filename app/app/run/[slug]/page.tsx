@@ -23,7 +23,7 @@ interface Props {
 function HeaderStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-slate-600">{label}</p>
+      <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">{label}</p>
       <p className="mt-2 text-lg font-semibold text-foreground">{value}</p>
     </div>
   )
@@ -32,7 +32,7 @@ function HeaderStat({ label, value }: { label: string; value: string }) {
 function OutputBlock({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-      <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">{title}</h3>
+      <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-700">{title}</h3>
       <div className="mt-3 text-sm leading-relaxed text-foreground">{children}</div>
     </div>
   )
@@ -177,7 +177,7 @@ export default function RunAgentPage({ params }: Props) {
 
               <div className="space-y-1.5">
                 <Label htmlFor="context" className="text-sm font-medium">
-                  Context <span className="text-xs font-normal text-slate-600">(optional)</span>
+                  Context <span className="text-xs font-normal text-slate-700">(optional)</span>
                 </Label>
                 <Textarea
                   id="context"
@@ -264,7 +264,7 @@ export default function RunAgentPage({ params }: Props) {
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-foreground">Agent output</h2>
                 {saved ? (
-                  <span className="flex items-center gap-1.5 text-xs text-slate-600">
+                  <span className="flex items-center gap-1.5 text-xs text-slate-700">
                     <CheckCircle2 size={13} className="text-primary" /> Saved
                   </span>
                 ) : (
@@ -338,7 +338,7 @@ export default function RunAgentPage({ params }: Props) {
                         <Link
                           key={relSlug}
                           href={`/app/agents/${relSlug}`}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-foreground transition-colors hover:border-primary/30 hover:bg-white"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-gradient-to-br from-slate-50 to-white px-3 py-1.5 text-xs text-foreground transition-colors hover:border-primary/30 hover:bg-white"
                         >
                           {rel.name} <ArrowRight size={10} />
                         </Link>
@@ -377,24 +377,24 @@ export default function RunAgentPage({ params }: Props) {
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Agent context</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-700">Agent context</p>
                 <h2 className="mt-2 text-sm font-semibold text-foreground">{agent.name}</h2>
               </div>
-              <Bot size={16} className="text-slate-600" />
+              <Bot size={16} className="text-slate-700" />
             </div>
             <p className="mt-3 text-sm leading-relaxed text-slate-700">{agent.shortDescription}</p>
-            <div className="mt-4 rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs text-slate-600">Recommended use</p>
+            <div className="mt-4 rounded-[1.25rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4">
+              <p className="text-xs text-slate-700">Recommended use</p>
               <p className="mt-1 text-sm font-medium text-foreground">{agent.whenToUse}</p>
             </div>
           </div>
 
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">Checklist</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-700">Checklist</p>
             <div className="mt-4 space-y-3 text-sm text-slate-700">
-              <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Write a task with a clear outcome.</div>
-              <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Add context if the agent needs source material.</div>
-              <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">Save the output if it becomes part of your project history.</div>
+              <div className="rounded-[1.25rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4">Write a task with a clear outcome.</div>
+              <div className="rounded-[1.25rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4">Add context if the agent needs source material.</div>
+              <div className="rounded-[1.25rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-4">Save the output if it becomes part of your project history.</div>
             </div>
           </div>
         </aside>

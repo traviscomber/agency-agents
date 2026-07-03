@@ -142,7 +142,7 @@ export default function LandingPage() {
                             {index === 0 ? 'capture' : index === 1 ? 'structure' : index === 2 ? 'manage' : 'act'}
                           </span>
                         </div>
-                        <p className="mt-1 text-sm leading-relaxed text-white/78">{layer.desc}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-white/86">{layer.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -205,7 +205,7 @@ export default function LandingPage() {
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance">
                   The interface should feel like a method, not a collection of screens.
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-white/78">
+                <p className="mt-4 text-sm leading-relaxed text-white/86">
                   Four steps are enough when the language is clear and each section earns its place.
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function LandingPage() {
                   <div key={item.step} className="rounded-[1.35rem] border border-white/12 bg-white/7 p-5">
                     <span className="text-xs font-mono text-white/56">{item.step}</span>
                     <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/78">{item.desc}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-white/86">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -267,7 +267,7 @@ export default function LandingPage() {
                   <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance">
                     Start with one task. Turn it into a workspace that the team can actually use.
                   </h2>
-                  <p className="mt-4 text-sm leading-relaxed text-white/78">
+                  <p className="mt-4 text-sm leading-relaxed text-white/86">
                     Free to start. No credit card required. Upgrade when the workflow needs more structure.
                   </p>
                 </div>

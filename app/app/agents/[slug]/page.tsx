@@ -110,7 +110,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   <Link
                     key={prompt}
                     href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-slate-50 hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -131,8 +131,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
                 ? 'Describe your task and the workspace will guide you into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}
             </p>
-            <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
+            <div className="mt-5 rounded-2xl border border-white/12 bg-white/10 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/88">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>

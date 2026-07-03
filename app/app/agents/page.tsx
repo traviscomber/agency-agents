@@ -33,14 +33,14 @@ export default function AppAgentsPage() {
       <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:p-8">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
               <Sparkles size={12} className="text-primary" />
               Agent library
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Agents, organized as a workbench.
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
               {SEED_AGENTS.length} specialists available. You are on the{' '}
               <span className="font-medium text-foreground capitalize">{MOCK_USER.plan}</span> plan.
               Filter by division or search for a task-shaped fit.
@@ -54,9 +54,9 @@ export default function AppAgentsPage() {
               ['Task clarity', 'Each card shows when to use the specialist and what it produces.'],
               ['Workspace fit', 'The grid density matches the rest of the product dashboard.'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">
+              <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm">
                 <p className="text-sm font-semibold text-foreground">{title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{desc}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">{desc}</p>
               </div>
             ))}
           </div>
@@ -66,12 +66,12 @@ export default function AppAgentsPage() {
       <section className="mb-6 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <div className="relative w-full max-w-md">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-700" />
             <Input
               placeholder="Search agents..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-10 rounded-2xl border-slate-200 bg-slate-50 pl-9 text-sm"
+              className="h-10 rounded-2xl border-slate-200 bg-white pl-9 text-sm"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -81,7 +81,7 @@ export default function AppAgentsPage() {
                   'rounded-full border px-3 py-1.5 text-xs transition-colors',
                   !activeDivision
                     ? 'border-slate-950 bg-slate-950 text-white'
-                    : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
+                    : 'border-slate-200 bg-white text-slate-700 hover:text-slate-950'
                 )}
               >
                 All
@@ -94,7 +94,7 @@ export default function AppAgentsPage() {
                     'rounded-full border px-3 py-1.5 text-xs transition-colors',
                     activeDivision === division
                       ? 'border-primary bg-primary text-primary-foreground'
-                      : 'border-slate-200 bg-white text-slate-600 hover:text-slate-950'
+                      : 'border-slate-200 bg-white text-slate-700 hover:text-slate-950'
                   )}
                 >
                   {division}
@@ -106,7 +106,7 @@ export default function AppAgentsPage() {
 
       {filtered.length === 0 ? (
         <div className="rounded-[1.5rem] border border-slate-200 bg-white py-20 text-center shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-          <p className="text-sm text-slate-600">No agents match your search.</p>
+          <p className="text-sm text-slate-700">No agents match your search.</p>
         </div>
       ) : (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +121,7 @@ export default function AppAgentsPage() {
                 )}
               >
                 {!hasAccess && (
-                  <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600">
+                  <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-800 shadow-sm ring-1 ring-slate-200/80">
                     <Lock size={12} />
                   </div>
                 )}
@@ -130,10 +130,10 @@ export default function AppAgentsPage() {
                   <PlanBadge plan={agent.planRequired} size="sm" />
                 </div>
                 <h2 className="text-sm font-semibold tracking-tight text-foreground">{agent.name}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{agent.shortDescription}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">{agent.shortDescription}</p>
 
                 <div className="mt-4 space-y-2">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">Best for</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">Best for</p>
                   <p className="text-sm leading-relaxed text-foreground/90">{agent.whenToUse}</p>
                 </div>
 
