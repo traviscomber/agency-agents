@@ -8,10 +8,10 @@ import { HeroPanel } from '@/components/public/HeroPanel'
 import { ArrowRight, BarChart3, Shield, Workflow, Zap } from 'lucide-react'
 
 const WORKFLOW_STEPS = [
-  { step: '01', title: 'Select the specialist', desc: 'Choose by function, output type, or business problem.' },
-  { step: '02', title: 'Add operational context', desc: 'Give the agent the constraints that actually matter.' },
-  { step: '03', title: 'Review a concrete artifact', desc: 'Get a deliverable that can be stored, shared, or acted on.' },
-  { step: '04', title: 'Turn the run into a system', desc: 'Save outputs to a project and make the next step visible.' },
+  { step: '01', title: 'Choose the job', desc: 'Pick a specialist by function, output type, or the problem to solve.' },
+  { step: '02', title: 'Set the constraints', desc: 'Add the context, limits, and source material that shape the result.' },
+  { step: '03', title: 'Review the artifact', desc: 'Get a deliverable you can store, share, or send straight into work.' },
+  { step: '04', title: 'Operationalize the run', desc: 'Save outputs to a project so the next step stays visible.' },
 ]
 
 const VALUE_POINTS = [
@@ -76,7 +76,8 @@ export default function LandingPage() {
 
               <FadeInUp delay={0.16}>
                 <p className="mt-8 max-w-[26rem] text-base leading-8 text-[#9db7b1]">
-                  AgencyOS is a structured AI workspace — agents, projects, run history, deliverables, and plan control in one place. Built for teams that need results, not chat.
+                  AgencyOS turns specialist AI into a workflow your team can run, review, and reuse.
+                  Agents, projects, run history, deliverables, and plan control live in one place.
                 </p>
               </FadeInUp>
 
@@ -92,7 +93,7 @@ export default function LandingPage() {
                     href="/pricing"
                     className="inline-flex items-center gap-2 border border-[#28413d] bg-[#0b1117] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]"
                   >
-                    See pricing
+                    Compare plans
                   </Link>
                 </div>
               </FadeInUp>
@@ -206,7 +207,7 @@ export default function LandingPage() {
                   Specialists for every function.
                 </h2>
                 <p className="mt-4 max-w-xl text-sm leading-7 text-[#65706d]">
-                  Each specialist shows division, plan, output type, and next action — always visible, always structured.
+                  Each specialist shows division, plan, output type, and next action, so the path from selection to deliverable stays obvious.
                 </p>
               </div>
             </FadeInUp>
@@ -241,7 +242,7 @@ export default function LandingPage() {
                   href="/agents"
                   className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#fbfbfa] px-6 py-3 text-sm font-semibold text-[#173634] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1]"
                 >
-                  View all agents <ArrowRight size={13} />
+                  Browse specialists <ArrowRight size={13} />
                 </Link>
               </div>
             </FadeInUp>
@@ -259,7 +260,7 @@ export default function LandingPage() {
                     Start with one task. Turn it into a workspace the team can use.
                   </h2>
                   <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
-                    Free to start. No credit card required. Upgrade when the workflow needs more structure.
+                    No credit card required. Start small, then add structure as the workflow grows.
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
@@ -273,7 +274,7 @@ export default function LandingPage() {
                     href="/pricing"
                     className="inline-flex items-center gap-2 border border-[#28413d] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]"
                   >
-                    See pricing
+                    Compare plans
                   </Link>
                 </div>
               </div>
