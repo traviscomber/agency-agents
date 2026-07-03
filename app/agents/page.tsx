@@ -37,7 +37,7 @@ export default function PublicAgentsPage() {
         <section className="mb-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_38%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:p-8">
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
                 <Sparkles size={12} className="text-primary" />
                 Public agent library
               </div>
@@ -72,7 +72,7 @@ export default function PublicAgentsPage() {
                   className="rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.5)]"
                 >
                   <p className="text-sm font-semibold text-foreground">{title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-700">{desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{desc}</p>
                 </div>
               ))}
             </div>
@@ -149,7 +149,7 @@ export default function PublicAgentsPage() {
                 <p className="mt-2 text-sm leading-relaxed text-slate-700">{agent.shortDescription}</p>
 
                   <div className="mt-4 space-y-2">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">Best for</p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">Best for</p>
                     <p className="text-sm leading-relaxed text-foreground/90">{agent.whenToUse}</p>
                   </div>
 
