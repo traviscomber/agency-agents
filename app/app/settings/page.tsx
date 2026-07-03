@@ -7,7 +7,9 @@ import { Label } from '@/components/ui/label'
 import { MOCK_USER } from '@/lib/data/mock-store'
 import { cn } from '@/lib/utils'
 
-type Tab = 'profile' | 'account' | 'notifications'
+import { Users, Shield, Zap, Copy, Trash2 } from 'lucide-react'
+
+type Tab = 'profile' | 'account' | 'notifications' | 'team' | 'white-label'
 
 export default function SettingsPage() {
   const [tab, setTab] = useState<Tab>('profile')
@@ -16,6 +18,12 @@ export default function SettingsPage() {
   const [company, setCompany] = useState(MOCK_USER.company || '')
   const [role, setRole] = useState(MOCK_USER.role || '')
   const [saved, setSaved] = useState(false)
+
+  const teamMembers = [
+    { id: '1', email: 'sarah@acme.com', role: 'Admin', status: 'active', joinedAt: '2024-01-15' },
+    { id: '2', email: 'john@acme.com', role: 'Editor', status: 'active', joinedAt: '2024-02-20' },
+    { id: '3', email: 'emma@acme.com', role: 'Viewer', status: 'pending', joinedAt: 'invited' },
+  ]
 
   function handleSave() {
     setSaved(true)
@@ -26,6 +34,8 @@ export default function SettingsPage() {
     { id: 'profile', label: 'Profile' },
     { id: 'account', label: 'Account' },
     { id: 'notifications', label: 'Notifications' },
+    { id: 'team', label: 'Team' },
+    { id: 'white-label', label: 'White-Label' },
   ]
 
   return (
@@ -192,6 +202,109 @@ export default function SettingsPage() {
             ))}
           </div>
         </section>
+      )}
+
+      {/* Team tab */}
+      {tab === 'team' && (
+        <div className="space-y-8">
+          <section className="border border-[#d8e5e2]">
+            <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Users size={16} className="text-[#8fb2aa]" />
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Team members</p>
+              </div>
+              <Button className="h-7 rounded-none bg-[#173634] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+                Invite member
+              </Button>
+            </div>
+            <div className="divide-y divide-[#d8e5e2]">
+              {teamMembers.map((member) => (
+                <div key={member.id} className="flex items-center justify-between px-5 py-4 hover:bg-[#f1f6f4]">
+                  <div>
+                    <p className="font-medium text-[#173634]">{member.email}</p>
+                    <div className="mt-1 flex items-center gap-2 text-[10px] text-[#173634]/50">
+                      <span className="capitalize">{member.role}</span>
+                      <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] ${
+                        member.status === 'active'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-amber-100 text-amber-700'
+                      }`}>
+                        {member.status}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <select className="rounded-none border border-[#d8e5e2] bg-[#fbfbfa] px-2 py-1 text-[10px] font-semibold text-[#173634] focus:outline-none">
+                      <option>Admin</option>
+                      <option>Editor</option>
+                      <option>Viewer</option>
+                    </select>
+                    <Button variant="ghost" size="sm" className="h-6 rounded-none px-2 text-[#d8e5e2] hover:bg-red-50 hover:text-red-600">
+                      <Trash2 size={12} />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
+
+      {/* White-Label tab */}
+      {tab === 'white-label' && (
+        <div className="space-y-8">
+          <section className="border border-[#d8e5e2]">
+            <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3 flex items-center gap-2">
+              <Zap size={16} className="text-[#8fb2aa]" />
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">White-Label Program</p>
+            </div>
+            <div className="p-5 space-y-5">
+              <div>
+                <p className="text-sm font-semibold text-[#173634] mb-2">Custom Domain</p>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="agents.yourcompany.com"
+                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634]"
+                  />
+                  <Button className="h-10 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+                    Configure
+                  </Button>
+                </div>
+                <p className="mt-2 text-[10px] text-[#173634]/50">Requires $299-999/month white-label plan</p>
+              </div>
+
+              <div className="border-t border-[#d8e5e2] pt-5">
+                <p className="text-sm font-semibold text-[#173634] mb-3">Reseller Program</p>
+                <p className="text-xs text-[#173634]/60 mb-4">
+                  Enable reseller mode to sell AgencyOS instances to your customers. You&apos;ll receive 30-40% commission per sale.
+                </p>
+                <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+                  Enable Reseller Mode
+                </Button>
+              </div>
+
+              <div className="border-t border-[#d8e5e2] pt-5">
+                <p className="text-sm font-semibold text-[#173634] mb-3">Branding</p>
+                <div className="space-y-3">
+                  <div>
+                    <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Logo URL</Label>
+                    <Input
+                      placeholder="https://..."
+                      className="mt-1 h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Primary Color</Label>
+                    <div className="mt-1 flex items-center gap-2">
+                      <div className="h-10 w-16 rounded border border-[#d8e5e2]" style={{ backgroundColor: '#8fb2aa' }} />
+                      <Input placeholder="#8fb2aa" className="h-10 flex-1 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       )}
     </div>
   )
