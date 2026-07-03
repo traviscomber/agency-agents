@@ -1,4 +1,8 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 const BENEFITS = [
@@ -9,6 +13,39 @@ const BENEFITS = [
 ]
 
 export default function SignupPage() {
+  const router = useRouter()
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, fullName }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.error || 'Signup failed')
+        return
+      }
+
+      router.push('/onboarding')
+    } catch (err: any) {
+      setError(err.message || 'An error occurred')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#060a10' }}>
       <div className="mx-auto grid min-h-screen max-w-6xl gap-px px-0 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
@@ -75,7 +112,7 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <form className="space-y-4 border border-[#d8e5e2] bg-[#f1f6f4] p-6">
+            <form onSubmit={handleSignup} className="space-y-4 border border-[#d8e5e2] bg-[#f1f6f4] p-6">
               <div className="space-y-1.5">
                 <label htmlFor="name" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
                   Full name
@@ -84,7 +121,10 @@ export default function SignupPage() {
                   id="name"
                   type="text"
                   placeholder="Your name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                   className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  required
                 />
               </div>
               <div className="space-y-1.5">
@@ -95,7 +135,10 @@ export default function SignupPage() {
                   id="email"
                   type="email"
                   placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  required
                 />
               </div>
               <div className="space-y-1.5">
@@ -106,14 +149,19 @@ export default function SignupPage() {
                   id="password"
                   type="password"
                   placeholder="At least 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  required
                 />
               </div>
+              {error && <div className="rounded text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2">{error}</div>}
               <button
                 type="submit"
-                className="inline-flex h-10 w-full items-center justify-center gap-2 bg-[#173634] text-sm font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
+                disabled={loading}
+                className="inline-flex h-10 w-full items-center justify-center gap-2 bg-[#173634] text-sm font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d] disabled:opacity-50"
               >
-                Create account <ArrowRight size={13} />
+                {loading ? 'Creating account...' : <>Create account <ArrowRight size={13} /></>}
               </button>
             </form>
 
