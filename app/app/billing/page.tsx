@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 
 export default function BillingPage() {
   const currentPlan = getPlanById(MOCK_USER.plan)
+  const monthlyUsage = { runs_used: 45, runs_limit: 50, overage_runs: 0, overage_cost: 0 }
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -18,6 +19,31 @@ export default function BillingPage() {
           Review limits, compare plans, and move up or down without losing context.
         </p>
       </header>
+
+      {/* Usage & Overage */}
+      <section className="mb-10 border border-[#d8e5e2] px-6 py-5">
+        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">This month's usage</p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <p className="text-sm text-[#173634]/60">Runs used</p>
+            <p className="mt-1 text-2xl font-light text-[#173634]">{monthlyUsage.runs_used} / {monthlyUsage.runs_limit}</p>
+          </div>
+          <div>
+            <p className="text-sm text-[#173634]/60">Overage runs</p>
+            <p className="mt-1 text-2xl font-light text-[#173634]">{monthlyUsage.overage_runs}</p>
+          </div>
+          <div>
+            <p className="text-sm text-[#173634]/60">Overage cost</p>
+            <p className="mt-1 text-2xl font-light text-[#173634]">${monthlyUsage.overage_cost.toFixed(2)}</p>
+          </div>
+        </div>
+        {monthlyUsage.runs_used > monthlyUsage.runs_limit && (
+          <div className="mt-4 rounded-none border-l-2 border-[#8fb2aa] bg-[#f1f6f4] px-4 py-3">
+            <p className="text-xs font-semibold text-[#173634]">Overage pricing: $0.50 per additional run</p>
+            <p className="mt-1 text-xs text-[#173634]/70">You&apos;ve exceeded your monthly limit. Additional runs are automatically charged.</p>
+          </div>
+        )}
+      </section>
 
       {/* Current plan */}
       <section className="mb-10 border border-[#d8e5e2]">

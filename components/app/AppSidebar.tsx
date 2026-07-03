@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Bot, FolderOpen, History, Bookmark,
-  BarChart2, CreditCard, Settings, LogOut, ArrowUpRight,
+  BarChart2, CreditCard, Settings, LogOut, ArrowUpRight, Clock, TrendingUp,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UsageMeter } from '@/components/shared/UsageMeter'
@@ -16,6 +16,11 @@ const NAV_MAIN = [
   { href: '/app/projects', label: 'Projects',  icon: FolderOpen },
   { href: '/app/history',  label: 'History',   icon: History },
   { href: '/app/saved',    label: 'Saved',     icon: Bookmark },
+]
+
+const NAV_AUTOMATION = [
+  { href: '/app/scheduled-runs', label: 'Scheduled', icon: Clock },
+  { href: '/app/analytics',      label: 'Analytics', icon: TrendingUp },
 ]
 
 const NAV_ACCOUNT = [
@@ -83,6 +88,13 @@ export function AppSidebar() {
           Workspace
         </p>
         {NAV_MAIN.map((item) => <NavLink key={item.href} {...item} />)}
+
+        <div className="my-3 border-t border-[#d8e5e2]" />
+
+        <p className="mb-1 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#a7b9b4]">
+          Automation
+        </p>
+        {NAV_AUTOMATION.map((item) => <NavLink key={item.href} {...item} />)}
 
         <div className="my-3 border-t border-[#d8e5e2]" />
 

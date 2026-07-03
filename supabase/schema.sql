@@ -245,3 +245,45 @@ create index idx_saved_outputs_user_id on public.saved_outputs(user_id);
 create index idx_saved_outputs_project_id on public.saved_outputs(project_id);
 create index idx_projects_user_id on public.projects(user_id);
 create index idx_usage_periods_user_id on public.usage_periods(user_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- usage (monthly usage tracking)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.usage (
+  id           uuid primary key default uuid_generate_v4(),
+  user_id      uuid not null references public.users(id) on delete cascade,
+  month        text not null,
+  runs_used    int not null default 0,
+  runs_limit   int not null,
+  overage_runs int not null default 0,
+  overage_cost decimal(10,2) not null default 0,
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now(),
+  unique(user_id, month)
+);
+
+alter table public.usage enable row level security;
+create policy "usage: select own" on public.usage for select using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- scheduled_runs (cron scheduling)
+-- ─────────────────────────────────────────────────────────────────────
+create table public.scheduled_runs (
+  id           uuid primary key default uuid_generate_v4(),
+  user_id      uuid not null references public.users(id) on delete cascade,
+  agent_slug   text not null,
+  frequency    text not null check (frequency in ('daily', 'weekly', 'monthly', 'custom')),
+  cron_expr    text,
+  name         text not null,
+  is_active    boolean not null default true,
+  last_run_at  timestamptz,
+  next_run_at  timestamptz,
+  created_at   timestamptz not null default now(),
+  updated_at   timestamptz not null default now()
+);
+
+alter table public.scheduled_runs enable row level security;
+create policy "scheduled_runs: select own" on public.scheduled_runs for select using (auth.uid() = user_id);
+create policy "scheduled_runs: insert own" on public.scheduled_runs for insert with check (auth.uid() = user_id);
+create policy "scheduled_runs: update own" on public.scheduled_runs for update using (auth.uid() = user_id);
+create policy "scheduled_runs: delete own" on public.scheduled_runs for delete using (auth.uid() = user_id);
