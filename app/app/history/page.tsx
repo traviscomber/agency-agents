@@ -2,10 +2,14 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { MOCK_RUNS } from '@/lib/data/mock-store'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { ArrowRight, FolderOpen } from 'lucide-react'
+import { ArrowRight, FolderOpen, Search, Filter, Download, Copy } from 'lucide-react'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
+}
+
+function formatTime(date: string) {
+  return new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' }).format(new Date(date))
 }
 
 export default function HistoryPage() {
@@ -22,6 +26,7 @@ export default function HistoryPage() {
         </p>
       </header>
 
+      {/* Stats */}
       <div className="mb-10 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
         {[
           { label: 'Total runs', value: MOCK_RUNS.length },
@@ -35,6 +40,23 @@ export default function HistoryPage() {
         ))}
       </div>
 
+      {/* Search and filters */}
+      <div className="mb-8 flex gap-3">
+        <div className="flex-1 flex items-center gap-2 border border-[#d8e5e2] bg-white px-3 py-2 rounded-none">
+          <Search size={14} className="text-[#d8e5e2]" />
+          <input
+            placeholder="Search by agent name, task, or project..."
+            className="flex-1 bg-transparent text-sm text-[#173634] placeholder:text-[#173634]/30 focus:outline-none"
+          />
+        </div>
+        <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+          <Filter size={14} className="mr-2" /> Status
+        </Button>
+        <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+          <Download size={14} className="mr-2" /> Export
+        </Button>
+      </div>
+
       {MOCK_RUNS.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
           <p className="text-sm font-medium text-[#173634]">No runs yet</p>
@@ -46,15 +68,15 @@ export default function HistoryPage() {
       ) : (
         <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
           {MOCK_RUNS.map((run) => (
-            <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-5 hover:bg-[#f1f6f4]">
+            <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4] group">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="text-sm font-medium text-[#173634]">{run.agentName}</p>
                   <DivisionBadge division={run.division} size="sm" />
                 </div>
                 <p className="mt-1 max-w-2xl truncate text-xs leading-relaxed text-[#173634]/50">{run.task}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-3 text-[10px] text-[#173634]/38">
-                  <span>{formatDate(run.createdAt)}</span>
+                <div className="mt-2 flex flex-wrap items-center gap-4 text-[10px] text-[#173634]/40">
+                  <span>{formatDate(run.createdAt)} at {formatTime(run.createdAt)}</span>
                   {run.projectName && (
                     <span className="inline-flex items-center gap-1">
                       <FolderOpen size={10} />{run.projectName}
@@ -62,8 +84,13 @@ export default function HistoryPage() {
                   )}
                 </div>
               </div>
-              <div className="flex shrink-0 items-center gap-3">
-                <span className={`border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] ${
+              <div className="flex shrink-0 items-center gap-2">
+                {run.status === 'completed' && (
+                  <button className="hidden gap-1 items-center text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8fb2aa] hover:text-[#173634] group-hover:flex">
+                    <Copy size={12} /> Copy
+                  </button>
+                )}
+                <span className={`border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
                   run.status === 'completed'
                     ? 'border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]'
                     : run.status === 'failed'
