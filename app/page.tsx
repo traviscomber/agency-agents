@@ -7,30 +7,8 @@ import { PlanBadge } from '@/components/shared/PlanBadge'
 import { FadeInUp } from '@/components/animations/FadeInUp'
 import { ScaleIn } from '@/components/animations/ScaleIn'
 import { HoverCard } from '@/components/animations/HoverCard'
-import { ArrowRight, BarChart3, CheckCircle2, Layers3, Shield, Sparkles, Workflow, Zap } from 'lucide-react'
-
-const OPERATING_LAYERS = [
-  {
-    step: '01',
-    title: 'Evidence',
-    desc: 'Tasks begin with context, documents, and the real object of work instead of a blank prompt.',
-  },
-  {
-    step: '02',
-    title: 'Execution',
-    desc: 'Each run produces a structured deliverable, clear handoffs, and the next action the team can use.',
-  },
-  {
-    step: '03',
-    title: 'Management',
-    desc: 'Projects and history make progress visible, so work can be reviewed without rebuilding the story.',
-  },
-  {
-    step: '04',
-    title: 'Agents',
-    desc: 'Specialists work inside a controlled workspace with real division, plan, and output cues.',
-  },
-]
+import { HeroPanel } from '@/components/public/HeroPanel'
+import { ArrowRight, BarChart3, CheckCircle2, Shield, Sparkles, Workflow, Zap } from 'lucide-react'
 
 const WORKFLOW_STEPS = [
   { step: '01', title: 'Select the specialist', desc: 'Choose by function, output type, or business problem.' },
@@ -70,108 +48,79 @@ export default function LandingPage() {
       <PublicNavbar />
 
       <main>
-        <section className="relative overflow-hidden bg-slate-950">
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-x-0 top-0 h-[700px] bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.98),_rgba(15,23,42,0.94)_40%,_rgba(15,23,42,0.88)_100%)]" />
-            <div className="absolute inset-x-0 top-0 h-[700px] bg-[radial-gradient(circle_at_top_left,_rgba(148,163,184,0.15),_transparent_40%),radial-gradient(circle_at_top_right,_rgba(71,85,105,0.12),_transparent_35%)]" />
+        {/* ── HERO ── */}
+        <section className="relative min-h-[92vh] overflow-hidden bg-[#060a14]">
+          {/* Background grid + glow */}
+          <div className="pointer-events-none absolute inset-0 -z-10">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.028)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.028)_1px,transparent_1px)] bg-[size:64px_64px]" />
+            <div className="absolute left-0 top-0 h-[640px] w-[640px] -translate-x-1/3 -translate-y-1/4 rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.12),transparent_60%)]" />
+            <div className="absolute right-0 top-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/3 rounded-full bg-[radial-gradient(circle,rgba(148,163,184,0.08),transparent_58%)]" />
+            <div className="absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-gradient-to-r from-transparent via-white/12 to-transparent" />
           </div>
 
-          <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-24 pt-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pt-20">
-            <FadeInUp>
-              <div className="max-w-2xl text-white">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/84">
-                  <Sparkles size={12} className="text-white" />
-                  AI specialist workspace
+          <div className="mx-auto flex max-w-6xl flex-col items-center px-4 pb-28 pt-16 sm:px-6 lg:flex-row lg:items-center lg:gap-16 lg:pt-20">
+            {/* Left column */}
+            <div className="flex-1 text-white">
+              <FadeInUp>
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  AI Specialist Workspace
                 </div>
-                <h1 className="mt-5 max-w-xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-[68px] lg:leading-[0.98]">
-                  A specialist workspace for work that needs structure.
+              </FadeInUp>
+
+              <FadeInUp delay={0.08}>
+                <h1 className="mt-6 text-[clamp(2.6rem,6vw,5rem)] font-semibold leading-[0.96] tracking-[-0.02em] text-white text-balance">
+                  Specialists that&nbsp;work.<br />
+                  <span className="text-white/42">Not prompts that drift.</span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/82 sm:text-lg">
-                  AgencyOS turns scattered prompts into an operating layer: agents, projects, run history, saved
-                  deliverables, and plan control in one place.
+              </FadeInUp>
+
+              <FadeInUp delay={0.16}>
+                <p className="mt-6 max-w-md text-base leading-relaxed text-white/72 sm:text-[1.05rem]">
+                  AgencyOS is a structured AI workspace — agents, projects, run history, deliverables, and plan control in one place. Built for teams that need results, not chat.
                 </p>
+              </FadeInUp>
+
+              <FadeInUp delay={0.22}>
                 <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <Button size="default" asChild className="bg-white text-slate-950 hover:bg-slate-100">
+                  <Button
+                    asChild
+                    className="h-11 rounded-xl bg-white px-6 text-sm font-semibold text-slate-950 shadow-[0_4px_24px_rgba(255,255,255,0.18)] hover:bg-slate-100"
+                  >
                     <Link href="/signup">
                       Start free <ArrowRight size={14} className="ml-1.5" />
                     </Link>
                   </Button>
                   <Button
-                    variant="outline"
-                    size="default"
+                    variant="ghost"
                     asChild
-                    className="border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                    className="h-11 rounded-xl border border-white/12 px-6 text-sm font-semibold text-white/80 hover:bg-white/6 hover:text-white"
                   >
                     <Link href="/pricing">See pricing</Link>
                   </Button>
                 </div>
-                <div className="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
+              </FadeInUp>
+
+              <FadeInUp delay={0.3}>
+                <div className="mt-12 flex items-center gap-6 border-t border-white/8 pt-8">
                   {[
-                    ['10+', 'agent families'],
-                    ['1 workspace', 'for the whole team'],
-                    ['24/7', 'specialist availability'],
-                    ['4 layers', 'evidence to action'],
-                  ].map(([value, label], idx) => (
-                    <FadeInUp key={label} delay={0.1 * idx}>
-                      <div className="rounded-[1.25rem] border border-white/12 bg-white/8 p-4 backdrop-blur">
-                        <p className="text-2xl font-semibold tracking-tight text-white">{value}</p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-white/70">{label}</p>
-                      </div>
-                    </FadeInUp>
-                  ))}
-                </div>
-              </div>
-            </FadeInUp>
-
-            <ScaleIn delay={0.3}>
-              <div className="relative">
-              <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_transparent_55%)] blur-2xl" />
-              <div className="rounded-[2rem] border border-white/12 bg-slate-950 p-5 text-white shadow-[0_24px_90px_rgba(15,23,42,0.42)]">
-                <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-4">
-                  <div>
-                    <p className="text-[11px] uppercase tracking-[0.24em] text-white/58">Operating layer</p>
-                    <h2 className="mt-2 text-xl font-semibold tracking-tight">From scattered signals to accountable work.</h2>
-                  </div>
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
-                    <Layers3 size={18} />
-                  </div>
-                </div>
-
-                <div className="mt-5 space-y-3">
-                  {OPERATING_LAYERS.map((layer, index) => (
-                    <div key={layer.step} className="flex items-start gap-3 rounded-[1.25rem] border border-white/12 bg-white/7 p-4">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-xs font-semibold text-slate-950">
-                        {layer.step}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-sm font-semibold">{layer.title}</p>
-                          <span className="text-[10px] uppercase tracking-[0.2em] text-white/45">
-                            {index === 0 ? 'capture' : index === 1 ? 'structure' : index === 2 ? 'manage' : 'act'}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-sm leading-relaxed text-white/78">{layer.desc}</p>
-                      </div>
+                    ['10+', 'Agent specialists'],
+                    ['4', 'Business divisions'],
+                    ['100%', 'Structured output'],
+                  ].map(([val, lbl]) => (
+                    <div key={lbl}>
+                      <p className="text-2xl font-semibold tracking-tight text-white">{val}</p>
+                      <p className="mt-0.5 text-xs uppercase tracking-[0.18em] text-white/40">{lbl}</p>
                     </div>
                   ))}
                 </div>
-
-                <div className="mt-5 rounded-[1.25rem] border border-white/12 bg-white/7 p-4">
-                  <div className="flex items-center justify-between text-xs text-white/74">
-                    <span>Operational clarity</span>
-                    <span>86%</span>
-                  </div>
-                  <div className="mt-3 h-2 rounded-full bg-white/12">
-                    <div className="h-2 w-[86%] rounded-full bg-white" />
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <DivisionBadge division="Operations" size="sm" />
-                    <PlanBadge plan="team" size="sm" />
-                  </div>
-                </div>
-              </div>
+              </FadeInUp>
             </div>
-            </ScaleIn>
+
+            {/* Right column — animated panel */}
+            <FadeInUp delay={0.2} className="mt-14 w-full max-w-[520px] shrink-0 lg:mt-0">
+              <HeroPanel />
+            </FadeInUp>
           </div>
         </section>
 
