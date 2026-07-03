@@ -122,7 +122,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
 
         <aside className="space-y-5">
           <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/14 px-3 py-1 text-xs font-medium text-white/90">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/16 px-3 py-1 text-xs font-medium text-white/95">
               <Sparkles size={12} />
               {hasAccess ? 'Ready to run' : 'Locked specialist'}
             </div>
@@ -131,8 +131,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
                 ? 'Describe your task and the workspace will guide you into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}
             </p>
-            <div className="mt-5 rounded-2xl border border-white/14 bg-white/12 p-4">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-white/88">Required plan</p>
+            <div className="mt-5 rounded-2xl border border-white/16 bg-white/14 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/92">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>
@@ -145,14 +145,14 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   </Link>
                 </Button>
               ) : (
-                <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
+                <Button variant="outline" className="w-full border-white/24 bg-white/14 text-white hover:bg-white/18 hover:text-white" asChild>
                   <Link href="/app/billing">
                     <Lock size={13} className="mr-1.5" />
                     Upgrade to unlock
                   </Link>
                 </Button>
               )}
-              <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
+              <Button variant="outline" className="w-full border-white/24 bg-white/14 text-white hover:bg-white/18 hover:text-white" asChild>
                 <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse agents' : 'Sign up'}</Link>
               </Button>
             </div>

@@ -94,17 +94,17 @@ export function HeroPanel() {
       {/* Glow halo behind the card */}
       <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,_rgba(148,163,184,0.18),_transparent_66%)] blur-2xl" />
 
-      <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[rgba(8,12,28,0.92)] shadow-[0_32px_96px_rgba(0,0,0,0.52)] backdrop-blur-xl">
+      <div className="overflow-hidden rounded-[1.75rem] border border-white/12 bg-[rgba(8,12,28,0.94)] shadow-[0_32px_96px_rgba(0,0,0,0.52)] backdrop-blur-xl">
         {/* Header */}
-        <div className="border-b border-white/8 px-5 py-4">
+        <div className="border-b border-white/12 px-5 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-white/12" />
-                <span className="h-2.5 w-2.5 rounded-full bg-white/12" />
-                <span className="h-2.5 w-2.5 rounded-full bg-white/12" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
               </div>
-              <span className="ml-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/40">
+              <span className="ml-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/60">
                 AgencyOS Workspace
               </span>
             </div>
@@ -132,8 +132,8 @@ export function HeroPanel() {
                   transition={{ duration: 0.3 }}
                   className={`relative rounded-[1.1rem] border p-3.5 transition-colors ${
                     isActive
-                      ? 'border-white/16 bg-white/7'
-                      : 'border-white/6 bg-white/3'
+                      ? 'border-white/16 bg-white/10'
+                      : 'border-white/10 bg-white/5'
                   }`}
                 >
                   <div className="flex items-start gap-3">
@@ -142,7 +142,7 @@ export function HeroPanel() {
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
                         isActive && !isComplete
                           ? 'bg-amber-400/14 text-amber-400'
-                          : 'bg-white/8 text-white/60'
+                          : 'bg-white/10 text-white/72'
                       }`}
                     >
                       <Icon size={14} />
@@ -150,12 +150,12 @@ export function HeroPanel() {
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className={`text-xs font-semibold leading-none ${isActive ? 'text-white' : 'text-white/60'}`}>
+                        <p className={`text-xs font-semibold leading-none ${isActive ? 'text-white' : 'text-white/78'}`}>
                           {run.agent}
                         </p>
-                        <span className="shrink-0 text-[10px] text-white/32">{run.time}</span>
+                        <span className="shrink-0 text-[10px] text-white/50">{run.time}</span>
                       </div>
-                      <p className={`mt-1.5 text-xs leading-relaxed ${isActive ? 'text-white/78' : 'text-white/38'}`}>
+                      <p className={`mt-1.5 text-xs leading-relaxed ${isActive ? 'text-white/86' : 'text-white/50'}`}>
                         {isActive && idx === 1 ? (
                           <span className="inline-flex items-center gap-2">
                             {run.output} <RunningDots />
@@ -168,7 +168,7 @@ export function HeroPanel() {
                       {/* Division tag */}
                       <div className="mt-2 flex items-center gap-2">
                         <span className={`inline-block rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] ${
-                          isActive ? 'bg-white/10 text-white/70' : 'bg-white/5 text-white/30'
+                          isActive ? 'bg-white/10 text-white/78' : 'bg-white/6 text-white/40'
                         }`}>
                           {run.division}
                         </span>
@@ -188,7 +188,7 @@ export function HeroPanel() {
 
                   {/* Active progress bar */}
                   {isActive && !isComplete && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-b-[1.1rem] overflow-hidden bg-white/8">
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-b-[1.1rem] overflow-hidden bg-white/12">
                       <motion.div
                         className="h-full bg-amber-400"
                         style={{ width: `${progress * 100}%` }}
@@ -202,12 +202,12 @@ export function HeroPanel() {
         </div>
 
         {/* Stats footer */}
-        <div className="border-t border-white/8 px-4 py-3">
-          <div className="grid grid-cols-4 divide-x divide-white/8">
+        <div className="border-t border-white/12 px-4 py-3">
+          <div className="grid grid-cols-4 divide-x divide-white/12">
             {STATS.map(({ value, label }) => (
               <div key={label} className="px-2 text-center first:pl-0 last:pr-0">
                 <p className="text-sm font-semibold text-white">{value}</p>
-                <p className="mt-0.5 text-[9px] uppercase tracking-[0.16em] text-white/38">{label}</p>
+                <p className="mt-0.5 text-[9px] uppercase tracking-[0.16em] text-white/50">{label}</p>
               </div>
             ))}
           </div>
@@ -216,7 +216,7 @@ export function HeroPanel() {
 
       {/* Floating badge */}
       <motion.div
-        className="absolute -bottom-4 -left-4 flex items-center gap-2.5 rounded-2xl border border-white/12 bg-[rgba(8,12,28,0.88)] px-4 py-3 shadow-[0_12px_36px_rgba(0,0,0,0.4)] backdrop-blur-xl"
+        className="absolute -bottom-4 -left-4 flex items-center gap-2.5 rounded-2xl border border-white/14 bg-[rgba(8,12,28,0.92)] px-4 py-3 shadow-[0_12px_36px_rgba(0,0,0,0.4)] backdrop-blur-xl"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.5 }}

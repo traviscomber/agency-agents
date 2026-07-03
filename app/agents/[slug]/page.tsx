@@ -140,14 +140,14 @@ export default async function PublicAgentDetailPage({
 
           <aside className="space-y-5">
             <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-[linear-gradient(135deg,#0f172a,#111827_55%,#334155)] p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/14 px-3 py-1 text-xs font-medium text-white/90">
                 <Sparkles size={12} />
                 Ready to run
               </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-200">
                 Sign up to run this specialist and receive a structured deliverable saved to your workspace.
               </p>
-              <div className="mt-5 rounded-2xl border border-white/14 bg-white/12 p-4">
+              <div className="mt-5 rounded-2xl border border-white/14 bg-white/14 p-4">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-white/88">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
@@ -161,7 +161,7 @@ export default async function PublicAgentDetailPage({
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+                  className="w-full border-white/24 bg-white/14 text-white hover:bg-white/18 hover:text-white"
                   asChild
                 >
                   <Link href="/signup">Sign in</Link>
