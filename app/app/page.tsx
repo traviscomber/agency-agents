@@ -28,7 +28,7 @@ export default function AppDashboard() {
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
           <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-            <Link href="/app/agents">Run agent <ArrowRight size={12} className="ml-1.5" /></Link>
+            <Link href="/app/agents">Run specialist <ArrowRight size={12} className="ml-1.5" /></Link>
           </Button>
           <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#173634] hover:bg-[#f1f6f4]">
             <Link href="/app/projects"><Plus size={12} className="mr-1.5" />New project</Link>
@@ -75,7 +75,7 @@ export default function AppDashboard() {
         {[
           { label: 'Total runs', value: MOCK_RUNS.length, sub: 'this cycle', trend: '+12%' },
           { label: 'Projects', value: MOCK_PROJECTS.length, sub: 'active', trend: '+3' },
-          { label: 'Saved outputs', value: MOCK_SAVED_OUTPUTS.length, sub: 'in library', trend: '+8' },
+          { label: 'Saved deliverables', value: MOCK_SAVED_OUTPUTS.length, sub: 'in library', trend: '+8' },
           { label: 'Specialists', value: getFeaturedAgents().length, sub: 'on your plan', trend: 'all' },
         ].map(({ label, value, sub, trend }) => (
           <div key={label} className="bg-[#fbfbfa] px-5 py-6">
@@ -186,7 +186,7 @@ export default function AppDashboard() {
 
           <section>
             <div className="mb-4 flex items-center justify-between">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Saved outputs</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Saved deliverables</p>
               <Link href="/app/saved" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">View all</Link>
             </div>
             <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">

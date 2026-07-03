@@ -170,7 +170,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       <div className="mt-6 flex flex-wrap gap-3">
         <Button asChild size="sm">
           <Link href="/app/agents">
-            <Bot size={13} className="mr-1.5" /> Run agent
+            <Bot size={13} className="mr-1.5" /> Run specialist
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>

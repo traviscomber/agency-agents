@@ -62,7 +62,7 @@ export default function HistoryPage() {
           <p className="text-sm font-medium text-[#173634]">No runs yet</p>
           <p className="mt-1 text-xs text-[#173634]/45">Run an agent to populate this timeline.</p>
           <Button asChild className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-            <Link href="/app/agents">Browse agents</Link>
+            <Link href="/app/agents">Browse specialists</Link>
           </Button>
         </div>
       ) : (

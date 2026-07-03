@@ -20,7 +20,7 @@ export default function AdminDashboard() {
     { label: 'Total runs', value: MOCK_RUNS.length, icon: History },
     { label: 'Active agents', value: activeAgents, icon: Bot },
     { label: 'Projects', value: MOCK_PROJECTS.length, icon: FolderOpen },
-    { label: 'Saved outputs', value: MOCK_SAVED_OUTPUTS.length, icon: Bookmark },
+    { label: 'Saved deliverables', value: MOCK_SAVED_OUTPUTS.length, icon: Bookmark },
     { label: 'MRR (mock)', value: `$${MOCK_MRR.toLocaleString()}`, icon: TrendingUp },
   ]
 

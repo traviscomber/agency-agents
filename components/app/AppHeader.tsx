@@ -94,7 +94,7 @@ export function AppHeader({ title }: AppHeaderProps) {
             href="/app/agents"
             className="inline-flex items-center gap-1.5 border border-[#1e3431] bg-[#173634] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
           >
-            Run agent <ArrowUpRight size={11} />
+            Run specialist <ArrowUpRight size={11} />
           </Link>
         </div>
       </div>
