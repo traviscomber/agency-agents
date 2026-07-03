@@ -1,21 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import type { SavedOutput } from '@/lib/types'
 import { Bookmark, FolderOpen, Search, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { getAllSavedOutputs } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
 }
 
 export default function SavedPage() {
+  const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>(MOCK_SAVED_OUTPUTS)
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<SavedOutput | null>(null)
 
-  const filtered = MOCK_SAVED_OUTPUTS.filter((item) =>
+  useEffect(() => {
+    setSavedOutputs(getAllSavedOutputs(MOCK_SAVED_OUTPUTS))
+  }, [])
+
+  const filtered = savedOutputs.filter((item) =>
     !search ||
     item.title.toLowerCase().includes(search.toLowerCase()) ||
     item.agentName.toLowerCase().includes(search.toLowerCase())
@@ -29,7 +35,7 @@ export default function SavedPage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Deliverable archive</p>
         <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Saved deliverables.</h1>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          {MOCK_SAVED_OUTPUTS.length} deliverable{MOCK_SAVED_OUTPUTS.length !== 1 ? 's' : ''} available across all runs.
+          {savedOutputs.length} deliverable{savedOutputs.length !== 1 ? 's' : ''} available across all runs.
         </p>
       </header>
 

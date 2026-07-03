@@ -1,8 +1,13 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { MOCK_RUNS } from '@/lib/data/mock-store'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { ArrowRight, FolderOpen, Search, Filter, Download, Copy } from 'lucide-react'
+import type { AgentRun } from '@/lib/types'
+import { getAllRuns } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
@@ -13,8 +18,14 @@ function formatTime(date: string) {
 }
 
 export default function HistoryPage() {
-  const completedRuns = MOCK_RUNS.filter((r) => r.status === 'completed').length
-  const failedRuns = MOCK_RUNS.filter((r) => r.status === 'failed').length
+  const [runs, setRuns] = useState<AgentRun[]>(MOCK_RUNS)
+
+  useEffect(() => {
+    setRuns(getAllRuns(MOCK_RUNS))
+  }, [])
+
+  const completedRuns = runs.filter((r) => r.status === 'completed').length
+  const failedRuns = runs.filter((r) => r.status === 'failed').length
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -29,7 +40,7 @@ export default function HistoryPage() {
       {/* Stats */}
       <div className="mb-10 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
         {[
-          { label: 'Total runs', value: MOCK_RUNS.length },
+          { label: 'Total runs', value: runs.length },
           { label: 'Completed', value: completedRuns },
           { label: 'Failed', value: failedRuns },
         ].map(({ label, value }) => (
@@ -57,7 +68,7 @@ export default function HistoryPage() {
         </Button>
       </div>
 
-      {MOCK_RUNS.length === 0 ? (
+      {runs.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
           <p className="text-sm font-medium text-[#173634]">No runs yet</p>
           <p className="mt-1 text-xs text-[#173634]/45">Run an agent to populate this timeline.</p>
@@ -67,12 +78,12 @@ export default function HistoryPage() {
         </div>
       ) : (
         <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
-          {MOCK_RUNS.map((run) => (
+          {runs.map((run) => (
             <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4] group">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="text-sm font-medium text-[#173634]">{run.agentName}</p>
-                  <DivisionBadge division={run.division} size="sm" />
+                  <DivisionBadge division={run.agentDivision} size="sm" />
                 </div>
                 <p className="mt-1 max-w-2xl truncate text-xs leading-relaxed text-[#173634]/50">{run.task}</p>
                 <div className="mt-2 flex flex-wrap items-center gap-4 text-[10px] text-[#173634]/40">

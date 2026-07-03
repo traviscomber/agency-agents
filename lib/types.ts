@@ -98,6 +98,7 @@ export interface AgentRun {
 
 export interface ProjectOverlayState {
   projectId: string
+  operatingBrief?: ProjectOperatingBrief
   memory: ProjectMemoryEntry[]
   workflow: ProjectWorkflowStep[]
   runs: AgentRun[]

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type { Project } from '@/lib/types'
 import { ArrowRight, Calendar, FolderOpen, Plus } from 'lucide-react'
+import { createStoredProject, getMergedProjects } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
@@ -21,23 +22,14 @@ export default function ProjectsPage() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
+  useEffect(() => {
+    setProjects(getMergedProjects(MOCK_PROJECTS))
+  }, [])
+
   function handleCreate() {
     if (!name.trim()) return
-    const now = new Date().toISOString()
-    setProjects((prev) => [
-      {
-        id: `proj-${Date.now()}`,
-        userId: 'user-demo-001',
-        name: name.trim(),
-        description: description.trim(),
-        status: 'active',
-        createdAt: now,
-        updatedAt: now,
-        runCount: 0,
-        savedCount: 0,
-      },
-      ...prev,
-    ])
+    const project = createStoredProject(name.trim(), description.trim())
+    setProjects((prev) => [project, ...prev])
     setName('')
     setDescription('')
     setShowNew(false)

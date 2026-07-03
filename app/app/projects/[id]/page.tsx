@@ -3,6 +3,9 @@
 import { use, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { MOCK_PROJECTS, MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { getAgentById } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
@@ -11,13 +14,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import {
   buildProjectOverlay,
+  getMergedProjects,
   getProjectOverlay,
+  mergeProjectBrief,
   mergeProjectMemory,
   mergeProjectRuns,
   mergeProjectSavedOutputs,
   mergeProjectWorkflow,
+  updateProjectBrief,
 } from '@/lib/project-memory'
-import type { ProjectOverlayState } from '@/lib/types'
+import type { ProjectOperatingBrief, ProjectOverlayState } from '@/lib/types'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -33,8 +39,15 @@ function formatDate(date: string) {
 
 export default function ProjectDetailPage({ params }: Props) {
   const { id } = use(params)
-  const project = MOCK_PROJECTS.find((p) => p.id === id)
+  const [projects, setProjects] = useState(MOCK_PROJECTS)
+  const project = projects.find((p) => p.id === id)
   const [overlay, setOverlay] = useState<ProjectOverlayState | null>(null)
+  const [isEditingBrief, setIsEditingBrief] = useState(false)
+  const [briefDraft, setBriefDraft] = useState<ProjectOperatingBrief | null>(null)
+
+  useEffect(() => {
+    setProjects(getMergedProjects(MOCK_PROJECTS))
+  }, [])
 
   useEffect(() => {
     if (!project) return
@@ -53,10 +66,30 @@ export default function ProjectDetailPage({ params }: Props) {
   }
 
   const projectOverlay = overlay ?? buildProjectOverlay(project)
+  const operatingBrief = mergeProjectBrief(project, projectOverlay)
   const runs = mergeProjectRuns(MOCK_RUNS.filter((r) => r.projectId === id), projectOverlay)
   const saved = mergeProjectSavedOutputs(MOCK_SAVED_OUTPUTS.filter((s) => s.projectId === id), projectOverlay)
   const memory = mergeProjectMemory(project, projectOverlay)
   const workflow = mergeProjectWorkflow(project, projectOverlay)
+
+  function startBriefEdit() {
+    if (!operatingBrief) return
+    setBriefDraft({
+      ...operatingBrief,
+      constraints: [...operatingBrief.constraints],
+    })
+    setIsEditingBrief(true)
+  }
+
+  function saveBrief() {
+    if (!briefDraft) return
+    updateProjectBrief(project, {
+      ...briefDraft,
+      constraints: briefDraft.constraints.map((item) => item.trim()).filter(Boolean),
+    })
+    setOverlay(getProjectOverlay(project))
+    setIsEditingBrief(false)
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
@@ -107,6 +140,79 @@ export default function ProjectDetailPage({ params }: Props) {
         </div>
       </section>
 
+      {isEditingBrief && briefDraft ? (
+        <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Edit operating brief</p>
+              <h2 className="mt-2 text-xl font-semibold text-foreground">Update the reusable project context</h2>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => setIsEditingBrief(false)}>
+                Cancel
+              </Button>
+              <Button size="sm" onClick={saveBrief}>
+                Save brief
+              </Button>
+            </div>
+          </div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <Label>Objective</Label>
+              <Textarea
+                value={briefDraft.objective}
+                onChange={(e) => setBriefDraft((prev) => (prev ? { ...prev, objective: e.target.value } : prev))}
+                className="mt-2"
+                rows={3}
+              />
+            </div>
+            <div>
+              <Label>Audience</Label>
+              <Input
+                value={briefDraft.audience}
+                onChange={(e) => setBriefDraft((prev) => (prev ? { ...prev, audience: e.target.value } : prev))}
+                className="mt-2"
+              />
+            </div>
+            <div>
+              <Label>Tone</Label>
+              <Input
+                value={briefDraft.tone}
+                onChange={(e) => setBriefDraft((prev) => (prev ? { ...prev, tone: e.target.value } : prev))}
+                className="mt-2"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <Label>Success definition</Label>
+              <Textarea
+                value={briefDraft.successDefinition}
+                onChange={(e) => setBriefDraft((prev) => (prev ? { ...prev, successDefinition: e.target.value } : prev))}
+                className="mt-2"
+                rows={3}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <Label>Constraints</Label>
+              <Textarea
+                value={briefDraft.constraints.join('\n')}
+                onChange={(e) =>
+                  setBriefDraft((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          constraints: e.target.value.split('\n'),
+                        }
+                      : prev,
+                  )
+                }
+                className="mt-2"
+                rows={4}
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <div className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
         <Tabs defaultValue="brief">
           <TabsList className="grid w-full grid-cols-4 rounded-2xl bg-slate-50 p-1">
@@ -125,30 +231,37 @@ export default function ProjectDetailPage({ params }: Props) {
           </TabsList>
 
           <TabsContent value="brief" className="mt-6">
-            {project.operatingBrief ? (
+            {operatingBrief ? (
               <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
                 <article className="rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-6 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operating brief</p>
-                  <h2 className="mt-3 text-xl font-semibold text-foreground">{project.operatingBrief.objective}</h2>
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operating brief</p>
+                      <h2 className="mt-3 text-xl font-semibold text-foreground">{operatingBrief.objective}</h2>
+                    </div>
+                    <Button variant="outline" size="sm" onClick={startBriefEdit}>
+                      Edit brief
+                    </Button>
+                  </div>
                   <div className="mt-5 grid gap-4 sm:grid-cols-2">
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Audience</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{project.operatingBrief.audience}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{operatingBrief.audience}</p>
                     </div>
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Tone</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{project.operatingBrief.tone}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{operatingBrief.tone}</p>
                     </div>
                     <div className="sm:col-span-2">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Success definition</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{project.operatingBrief.successDefinition}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{operatingBrief.successDefinition}</p>
                     </div>
                   </div>
                 </article>
                 <article className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Constraints</p>
                   <ul className="mt-4 space-y-3">
-                    {project.operatingBrief.constraints.map((item) => (
+                    {operatingBrief.constraints.map((item) => (
                       <li key={item} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         {item}

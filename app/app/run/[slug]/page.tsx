@@ -16,6 +16,7 @@ import {
   advanceWorkflowAfterRun,
   buildProjectContext,
   captureDeliverableMemory,
+  getMergedProjects,
   getProjectOverlay,
   saveProjectOverlay,
 } from '@/lib/project-memory'
@@ -55,12 +56,15 @@ export default function RunAgentPage({ params }: Props) {
   const [saved, setSaved] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [prefilledProjectId, setPrefilledProjectId] = useState('')
+  const [projects, setProjects] = useState(MOCK_PROJECTS)
 
   useEffect(() => {
-    if (!projectId && MOCK_PROJECTS[0]) setProjectId(MOCK_PROJECTS[0].id)
+    const mergedProjects = getMergedProjects(MOCK_PROJECTS)
+    setProjects(mergedProjects)
+    if (!projectId && mergedProjects[0]) setProjectId(mergedProjects[0].id)
   }, [projectId])
 
-  const selectedProject = MOCK_PROJECTS.find((p) => p.id === projectId)
+  const selectedProject = projects.find((p) => p.id === projectId)
 
   useEffect(() => {
     if (!selectedProject) return
@@ -276,7 +280,7 @@ export default function RunAgentPage({ params }: Props) {
                     <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
                     <SelectContent>
-                      {MOCK_PROJECTS.map((p) => (
+                      {projects.map((p) => (
                         <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
                       ))}
                     </SelectContent>
