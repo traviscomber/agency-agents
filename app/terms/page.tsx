@@ -30,10 +30,10 @@ export default function TermsPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
         <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_56%,#f8fafc_100%)] p-6 shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)] sm:p-8">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">Legal</p>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">Terms</p>
           <h1 className="text-4xl font-semibold tracking-tight text-balance text-foreground">Terms of service</h1>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700">
-            These terms describe the basic rules for using the AgencyOS website and product demo.
+            These terms describe the basic rules for using the AgencyOS website, account features, and product demo.
           </p>
         </section>
 

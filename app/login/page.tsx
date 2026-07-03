@@ -17,17 +17,17 @@ export default function LoginPage() {
             </span>
             <div className="leading-tight">
               <span className="block text-sm font-semibold text-[#f5fbfa]">AgencyOS</span>
-              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AI Workspace</span>
+              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AgencyOS</span>
             </div>
           </Link>
 
           <div className="max-w-xs">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Workspace login</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Command access</p>
             <h1 className="mt-4 text-4xl font-light leading-tight text-[#f5fbfa]">
-              Sign in to continue structured work.
+              Sign in to resume the next specialist run.
             </h1>
             <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
-              Agents, projects, and saved outputs — all in one place.
+              Agents, projects, and deliverables stay linked so your team can pick up work without re-explaining it.
             </p>
 
             <div className="mt-10 space-y-3">

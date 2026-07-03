@@ -39,7 +39,7 @@ export function AppHeader({ title }: AppHeaderProps) {
   const [open, setOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
   const pathname = usePathname()
-  const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'Workspace', [pathname, title])
+  const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'AgencyOS', [pathname, title])
 
   const toggleTheme = () => {
     setIsDark(!isDark)
@@ -75,7 +75,7 @@ export function AppHeader({ title }: AppHeaderProps) {
               AO
             </span>
             <div className="leading-tight">
-              <p className="text-[9px] uppercase tracking-[0.26em] text-[#a7b9b4]">Workspace</p>
+              <p className="text-[9px] uppercase tracking-[0.26em] text-[#a7b9b4]">AgencyOS</p>
               <p className="text-xs font-semibold text-[#173634]">{currentTitle}</p>
             </div>
           </div>

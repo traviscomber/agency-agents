@@ -61,17 +61,17 @@ export default function SignupPage() {
             </span>
             <div className="leading-tight">
               <span className="block text-sm font-semibold text-[#f5fbfa]">AgencyOS</span>
-              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AI Workspace</span>
+              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AgencyOS</span>
             </div>
           </Link>
 
           <div className="max-w-xs">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Free plan includes</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Start a workspace</p>
             <h1 className="mt-4 text-4xl font-light leading-tight text-[#f5fbfa]">
-              Create your workspace. Start in minutes.
+              Create your AgencyOS account and begin with structure.
             </h1>
             <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
-              A clean entry point into specialist AI work — no credit card, no noise.
+              Set up a workspace for specialist agents, shared context, and outputs your team can reuse.
             </p>
             <ul className="mt-8 space-y-3">
               {BENEFITS.map((benefit) => (
