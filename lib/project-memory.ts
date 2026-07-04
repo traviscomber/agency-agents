@@ -12,6 +12,19 @@ import type {
 const STORAGE_PREFIX = 'agencyos.project-overlay.'
 const STORED_PROJECTS_KEY = 'agencyos.projects'
 
+interface PersistedProjectState {
+  projects: Project[]
+  overlays: Record<string, ProjectOverlayState>
+}
+
+interface PersistRunResultArgs {
+  project: Project
+  run: AgentRun
+  savedOutput: SavedOutput
+  memoryEntry: ProjectMemoryEntry
+  workflow: ProjectWorkflowStep[]
+}
+
 function getStorageKey(projectId: string) {
   return `${STORAGE_PREFIX}${projectId}`
 }
@@ -76,7 +89,7 @@ export function buildProjectContext(project?: Project) {
     .join('\n')
 }
 
-export function loadProjectOverlay(projectId: string): ProjectOverlayState | null {
+function loadProjectOverlay(projectId: string): ProjectOverlayState | null {
   if (!canUseStorage()) return null
   const raw = window.localStorage.getItem(getStorageKey(projectId))
   if (!raw) return null
@@ -88,7 +101,7 @@ export function loadProjectOverlay(projectId: string): ProjectOverlayState | nul
   }
 }
 
-export function saveProjectOverlay(projectId: string, overlay: ProjectOverlayState) {
+function saveProjectOverlay(projectId: string, overlay: ProjectOverlayState) {
   if (!canUseStorage()) return
   window.localStorage.setItem(getStorageKey(projectId), JSON.stringify(overlay))
 }
@@ -104,7 +117,7 @@ export function buildProjectOverlay(project: Project): ProjectOverlayState {
   }
 }
 
-export function getProjectOverlay(project: Project): ProjectOverlayState {
+function getLocalProjectOverlay(project: Project): ProjectOverlayState {
   return loadProjectOverlay(project.id) ?? buildProjectOverlay(project)
 }
 
@@ -170,7 +183,7 @@ export function advanceWorkflowAfterRun(workflow: ProjectWorkflowStep[], runId: 
   })
 }
 
-export function loadStoredProjects(): Project[] {
+function loadStoredProjects(): Project[] {
   if (!canUseStorage()) return []
   const raw = window.localStorage.getItem(STORED_PROJECTS_KEY)
   if (!raw) return []
@@ -182,31 +195,114 @@ export function loadStoredProjects(): Project[] {
   }
 }
 
-export function saveStoredProjects(projects: Project[]) {
+function saveStoredProjects(projects: Project[]) {
   if (!canUseStorage()) return
   window.localStorage.setItem(STORED_PROJECTS_KEY, JSON.stringify(projects))
 }
 
-export function getMergedProjects(baseProjects: Project[] = MOCK_PROJECTS) {
-  const storedProjects = loadStoredProjects()
-  const mergedBaseProjects = baseProjects.map((project) => {
-    const overlay = getProjectOverlay(project)
-    const overlayRuns = mergeProjectRuns([], overlay).length
-    const overlaySavedOutputs = mergeProjectSavedOutputs([], overlay).length
-    return {
-      ...project,
-      operatingBrief: mergeProjectBrief(project, overlay),
-      memory: mergeProjectMemory(project, overlay),
-      workflow: mergeProjectWorkflow(project, overlay),
-      runCount: (project.runCount ?? 0) + overlayRuns,
-      savedCount: (project.savedCount ?? 0) + overlaySavedOutputs,
-    }
-  })
+function buildLocalPersistedState(): PersistedProjectState {
+  const projects = loadStoredProjects()
+  const overlays = Object.fromEntries(projects.map((project) => [project.id, getLocalProjectOverlay(project)]))
 
-  return [...storedProjects, ...mergedBaseProjects]
+  for (const project of MOCK_PROJECTS) {
+    const overlay = loadProjectOverlay(project.id)
+    if (overlay) {
+      overlays[project.id] = overlay
+    }
+  }
+
+  return { projects, overlays }
 }
 
-export function createStoredProject(name: string, description: string): Project {
+async function fetchPersistedProjectState(): Promise<PersistedProjectState> {
+  if (typeof window === 'undefined') {
+    return { projects: [], overlays: {} }
+  }
+
+  try {
+    const response = await fetch('/api/project-state', {
+      method: 'GET',
+      cache: 'no-store',
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to load project state: ${response.status}`)
+    }
+
+    return (await response.json()) as PersistedProjectState
+  } catch {
+    return buildLocalPersistedState()
+  }
+}
+
+async function postProjectState<T>(body: Record<string, unknown>, fallback: () => T | Promise<T>): Promise<T> {
+  if (typeof window === 'undefined') {
+    return fallback()
+  }
+
+  try {
+    const response = await fetch('/api/project-state', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to persist project state: ${response.status}`)
+    }
+
+    const data = (await response.json()) as { result: T }
+    return data.result
+  } catch {
+    return fallback()
+  }
+}
+
+function mergeProjectWithOverlay(project: Project, overlay: ProjectOverlayState | undefined): Project {
+  const resolvedOverlay = overlay ?? buildProjectOverlay(project)
+  const latestOverlayTimestamp = [
+    resolvedOverlay.memory[0]?.createdAt,
+    resolvedOverlay.runs[0]?.createdAt,
+    resolvedOverlay.savedOutputs[0]?.updatedAt,
+  ]
+    .filter((value): value is string => Boolean(value))
+    .sort()
+    .at(-1)
+
+  return {
+    ...project,
+    operatingBrief: mergeProjectBrief(project, resolvedOverlay),
+    memory: mergeProjectMemory(project, resolvedOverlay),
+    workflow: mergeProjectWorkflow(project, resolvedOverlay),
+    runCount: (project.runCount ?? 0) + resolvedOverlay.runs.length,
+    savedCount: (project.savedCount ?? 0) + resolvedOverlay.savedOutputs.length,
+    updatedAt: latestOverlayTimestamp && latestOverlayTimestamp > project.updatedAt ? latestOverlayTimestamp : project.updatedAt,
+  }
+}
+
+export async function getProjectOverlay(project: Project): Promise<ProjectOverlayState> {
+  const state = await fetchPersistedProjectState()
+  return state.overlays[project.id] ?? getLocalProjectOverlay(project)
+}
+
+export async function getMergedProjects(baseProjects: Project[] = MOCK_PROJECTS) {
+  const state = await fetchPersistedProjectState()
+  const mergedProjects = new Map<string, Project>()
+
+  for (const project of baseProjects) {
+    mergedProjects.set(project.id, mergeProjectWithOverlay(project, state.overlays[project.id]))
+  }
+
+  for (const project of state.projects) {
+    mergedProjects.set(project.id, mergeProjectWithOverlay(project, state.overlays[project.id]))
+  }
+
+  return Array.from(mergedProjects.values()).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
+}
+
+export async function createStoredProject(name: string, description: string): Promise<Project> {
   const now = new Date().toISOString()
   const project: Project = {
     id: `proj-${Date.now()}`,
@@ -223,29 +319,107 @@ export function createStoredProject(name: string, description: string): Project 
     workflow: defaultWorkflow(name),
   }
 
-  const stored = loadStoredProjects()
-  saveStoredProjects([project, ...stored])
-  saveProjectOverlay(project.id, buildProjectOverlay(project))
-
-  return project
+  return postProjectState<Project>(
+    {
+      action: 'create_project',
+      project,
+    },
+    () => {
+      const stored = loadStoredProjects()
+      saveStoredProjects([project, ...stored.filter((item) => item.id !== project.id)])
+      saveProjectOverlay(project.id, buildProjectOverlay(project))
+      return project
+    },
+  )
 }
 
-export function updateProjectBrief(project: Project, brief: ProjectOperatingBrief) {
-  const overlay = getProjectOverlay(project)
-  saveProjectOverlay(project.id, {
-    ...overlay,
-    operatingBrief: brief,
-  })
+export async function updateProjectBrief(project: Project, brief: ProjectOperatingBrief) {
+  return postProjectState<ProjectOverlayState | null>(
+    {
+      action: 'update_brief',
+      projectId: project.id,
+      project,
+      brief,
+    },
+    () => {
+      const overlay = getLocalProjectOverlay(project)
+      const nextOverlay: ProjectOverlayState = {
+        ...overlay,
+        operatingBrief: brief,
+      }
+
+      saveProjectOverlay(project.id, nextOverlay)
+
+      const storedProjects = loadStoredProjects()
+      if (storedProjects.some((item) => item.id === project.id)) {
+        saveStoredProjects(
+          storedProjects.map((item) =>
+            item.id === project.id
+              ? {
+                  ...item,
+                  operatingBrief: brief,
+                  updatedAt: new Date().toISOString(),
+                }
+              : item,
+          ),
+        )
+      }
+
+      return nextOverlay
+    },
+  )
 }
 
-export function getAllRuns(baseRuns: AgentRun[]) {
-  const projects = getMergedProjects()
-  const overlayRuns = projects.flatMap((project) => getProjectOverlay(project).runs)
+export async function persistProjectRunResult(args: PersistRunResultArgs) {
+  return postProjectState<ProjectOverlayState>(
+    {
+      action: 'save_run_result',
+      project: args.project,
+      run: args.run,
+      savedOutput: args.savedOutput,
+      memoryEntry: args.memoryEntry,
+      workflow: args.workflow,
+    },
+    () => {
+      const overlay = getLocalProjectOverlay(args.project)
+      const nextOverlay: ProjectOverlayState = {
+        ...overlay,
+        operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
+        memory: [args.memoryEntry, ...overlay.memory],
+        runs: [args.run, ...overlay.runs],
+        savedOutputs: [args.savedOutput, ...overlay.savedOutputs],
+        workflow: args.workflow,
+      }
+
+      saveProjectOverlay(args.project.id, nextOverlay)
+
+      const storedProjects = loadStoredProjects()
+      if (storedProjects.some((item) => item.id === args.project.id)) {
+        saveStoredProjects(
+          storedProjects.map((item) =>
+            item.id === args.project.id
+              ? {
+                  ...item,
+                  updatedAt: args.run.createdAt,
+                }
+              : item,
+          ),
+        )
+      }
+
+      return nextOverlay
+    },
+  )
+}
+
+export async function getAllRuns(baseRuns: AgentRun[]) {
+  const state = await fetchPersistedProjectState()
+  const overlayRuns = Object.values(state.overlays).flatMap((overlay) => overlay.runs)
   return [...overlayRuns, ...baseRuns]
 }
 
-export function getAllSavedOutputs(baseSavedOutputs: SavedOutput[]) {
-  const projects = getMergedProjects()
-  const overlaySavedOutputs = projects.flatMap((project) => getProjectOverlay(project).savedOutputs)
+export async function getAllSavedOutputs(baseSavedOutputs: SavedOutput[]) {
+  const state = await fetchPersistedProjectState()
+  const overlaySavedOutputs = Object.values(state.overlays).flatMap((overlay) => overlay.savedOutputs)
   return [...overlaySavedOutputs, ...baseSavedOutputs]
 }

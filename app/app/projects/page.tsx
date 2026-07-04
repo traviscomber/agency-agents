@@ -23,13 +23,15 @@ export default function ProjectsPage() {
   const [description, setDescription] = useState('')
 
   useEffect(() => {
-    setProjects(getMergedProjects(MOCK_PROJECTS))
+    void (async () => {
+      setProjects(await getMergedProjects(MOCK_PROJECTS))
+    })()
   }, [])
 
-  function handleCreate() {
+  async function handleCreate() {
     if (!name.trim()) return
-    const project = createStoredProject(name.trim(), description.trim())
-    setProjects((prev) => [project, ...prev])
+    const project = await createStoredProject(name.trim(), description.trim())
+    setProjects((prev) => [project, ...prev.filter((item) => item.id !== project.id)])
     setName('')
     setDescription('')
     setShowNew(false)

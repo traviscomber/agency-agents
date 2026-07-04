@@ -46,12 +46,16 @@ export default function ProjectDetailPage({ params }: Props) {
   const [briefDraft, setBriefDraft] = useState<ProjectOperatingBrief | null>(null)
 
   useEffect(() => {
-    setProjects(getMergedProjects(MOCK_PROJECTS))
+    void (async () => {
+      setProjects(await getMergedProjects(MOCK_PROJECTS))
+    })()
   }, [])
 
   useEffect(() => {
     if (!project) return
-    setOverlay(getProjectOverlay(project))
+    void (async () => {
+      setOverlay(await getProjectOverlay(project))
+    })()
   }, [project])
 
   if (!project) {
@@ -81,13 +85,25 @@ export default function ProjectDetailPage({ params }: Props) {
     setIsEditingBrief(true)
   }
 
-  function saveBrief() {
+  async function saveBrief() {
     if (!briefDraft) return
-    updateProjectBrief(project, {
+    const nextBrief = {
       ...briefDraft,
       constraints: briefDraft.constraints.map((item) => item.trim()).filter(Boolean),
-    })
-    setOverlay(getProjectOverlay(project))
+    }
+    const nextOverlay = await updateProjectBrief(project, nextBrief)
+    setOverlay(nextOverlay)
+    setProjects((prev) =>
+      prev.map((item) =>
+        item.id === project.id
+          ? {
+              ...item,
+              operatingBrief: nextBrief,
+              updatedAt: new Date().toISOString(),
+            }
+          : item,
+      ),
+    )
     setIsEditingBrief(false)
   }
 

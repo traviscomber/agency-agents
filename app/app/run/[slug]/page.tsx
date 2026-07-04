@@ -17,8 +17,7 @@ import {
   buildProjectContext,
   captureDeliverableMemory,
   getMergedProjects,
-  getProjectOverlay,
-  saveProjectOverlay,
+  persistProjectRunResult,
 } from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
 import type { AgentOutput, AgentRun, SavedOutput } from '@/lib/types'
@@ -28,6 +27,7 @@ import { cn } from '@/lib/utils'
 interface Props {
   params: Promise<{ slug: string }>
 }
+
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="border border-[#d8e5e2]">
@@ -59,9 +59,11 @@ export default function RunAgentPage({ params }: Props) {
   const [projects, setProjects] = useState(MOCK_PROJECTS)
 
   useEffect(() => {
-    const mergedProjects = getMergedProjects(MOCK_PROJECTS)
-    setProjects(mergedProjects)
-    if (!projectId && mergedProjects[0]) setProjectId(mergedProjects[0].id)
+    void (async () => {
+      const mergedProjects = await getMergedProjects(MOCK_PROJECTS)
+      setProjects(mergedProjects)
+      if (!projectId && mergedProjects[0]) setProjectId(mergedProjects[0].id)
+    })()
   }, [projectId])
 
   const selectedProject = projects.find((p) => p.id === projectId)
@@ -106,8 +108,9 @@ export default function RunAgentPage({ params }: Props) {
     setOutput(null)
     setErrorMsg('')
     setSaved(false)
+
     try {
-      const result = await runMockAgent(agent!, { task, context, desiredOutput, detailLevel })
+      const result = await runMockAgent(agent, { task, context, desiredOutput, detailLevel })
       setOutput(result)
       setStatus('done')
     } catch {
@@ -116,16 +119,13 @@ export default function RunAgentPage({ params }: Props) {
     }
   }
 
-  function handleSaveDeliverable() {
-    if (!output) return
-    setSaved(true)
-
-    if (!selectedProject) return
+  async function handleSaveDeliverable() {
+    if (!output || !selectedProject) return
 
     const createdAt = new Date().toISOString()
     const runId = `run-local-${Date.now()}`
     const runLabel = `${agent.name}: ${task.slice(0, 48)}`
-    const overlay = getProjectOverlay(selectedProject)
+    const nextWorkflow = advanceWorkflowAfterRun(selectedProject.workflow ?? [], runId, runLabel, createdAt)
 
     const runRecord: AgentRun = {
       id: runId,
@@ -161,25 +161,42 @@ export default function RunAgentPage({ params }: Props) {
 
     const memoryEntry = captureDeliverableMemory(agent.name, task, output.summary, createdAt)
 
-    saveProjectOverlay(selectedProject.id, {
-      ...overlay,
-      memory: [memoryEntry, ...overlay.memory],
-      runs: [runRecord, ...overlay.runs],
-      savedOutputs: [savedOutput, ...overlay.savedOutputs],
-      workflow: advanceWorkflowAfterRun(overlay.workflow, runId, runLabel, createdAt),
+    await persistProjectRunResult({
+      project: {
+        ...selectedProject,
+        workflow: nextWorkflow,
+      },
+      run: runRecord,
+      savedOutput,
+      memoryEntry,
+      workflow: nextWorkflow,
     })
+
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === selectedProject.id
+          ? {
+              ...project,
+              workflow: nextWorkflow,
+              memory: [memoryEntry, ...(project.memory ?? [])],
+              runCount: (project.runCount ?? 0) + 1,
+              savedCount: (project.savedCount ?? 0) + 1,
+              updatedAt: createdAt,
+            }
+          : project,
+      ),
+    )
+    setSaved(true)
   }
 
   const stateLabel = status === 'idle' ? 'Ready' : status === 'running' ? 'Running' : status === 'done' ? 'Complete' : 'Error'
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
-      {/* Back */}
       <Link href={`/app/agents/${slug}`} className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
         <ArrowLeft size={12} /> {agent.name}
       </Link>
 
-      {/* Header */}
       <header className="mb-8 mt-5 border-b border-[#d8e5e2] pb-8">
         <div className="flex flex-wrap items-center gap-2">
           <DivisionBadge division={agent.division} size="sm" />
@@ -192,7 +209,6 @@ export default function RunAgentPage({ params }: Props) {
         </p>
       </header>
 
-      {/* Stat bar */}
       <div className="mb-8 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
         {[
           { label: 'Plan', value: MOCK_USER.plan, cap: true },
@@ -207,9 +223,7 @@ export default function RunAgentPage({ params }: Props) {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-        {/* Left: form + output */}
         <div className="space-y-6">
-          {/* Config form */}
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] px-5 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Execution brief</p>
@@ -277,7 +291,7 @@ export default function RunAgentPage({ params }: Props) {
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Save to project</Label>
                   <Select value={projectId} onValueChange={setProjectId} disabled={status === 'running'}>
                     <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
-                    <SelectValue placeholder="Keep unassigned" />
+                      <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
                     <SelectContent>
                       {projects.map((p) => (
@@ -322,7 +336,7 @@ export default function RunAgentPage({ params }: Props) {
                   className="h-9 rounded-none bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
                 >
                   {status === 'running' && <Loader2 size={13} className="mr-2 animate-spin" />}
-                  {status === 'running' ? 'Running…' : 'Run specialist'}
+                  {status === 'running' ? 'Running...' : 'Run specialist'}
                 </Button>
                 <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
                   <Link href="/app/agents">Browse specialists</Link>
@@ -331,7 +345,6 @@ export default function RunAgentPage({ params }: Props) {
             </div>
           </section>
 
-          {/* Error */}
           {status === 'error' && (
             <div className="flex items-start gap-3 border border-red-200 bg-red-50 px-5 py-4">
               <AlertCircle size={14} className="mt-0.5 shrink-0 text-red-500" />
@@ -339,7 +352,6 @@ export default function RunAgentPage({ params }: Props) {
             </div>
           )}
 
-          {/* Output */}
           {status === 'done' && output && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -422,7 +434,14 @@ export default function RunAgentPage({ params }: Props) {
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button
                   variant="outline"
-                  onClick={() => { setStatus('idle'); setOutput(null); setTask(''); setContext(''); setPrefilledProjectId(''); setSaved(false) }}
+                  onClick={() => {
+                    setStatus('idle')
+                    setOutput(null)
+                    setTask('')
+                    setContext('')
+                    setPrefilledProjectId('')
+                    setSaved(false)
+                  }}
                   className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
                 >
                   Run another specialist
@@ -435,7 +454,6 @@ export default function RunAgentPage({ params }: Props) {
           )}
         </div>
 
-        {/* Sidebar */}
         <aside className="space-y-4">
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] px-5 py-3">

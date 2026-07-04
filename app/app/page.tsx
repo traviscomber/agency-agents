@@ -20,9 +20,17 @@ export default function AppDashboard() {
   const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>(MOCK_SAVED_OUTPUTS)
 
   useEffect(() => {
-    setRuns(getAllRuns(MOCK_RUNS))
-    setProjects(getMergedProjects(MOCK_PROJECTS))
-    setSavedOutputs(getAllSavedOutputs(MOCK_SAVED_OUTPUTS))
+    void (async () => {
+      const [allRuns, mergedProjects, allSavedOutputs] = await Promise.all([
+        getAllRuns(MOCK_RUNS),
+        getMergedProjects(MOCK_PROJECTS),
+        getAllSavedOutputs(MOCK_SAVED_OUTPUTS),
+      ])
+
+      setRuns(allRuns)
+      setProjects(mergedProjects)
+      setSavedOutputs(allSavedOutputs)
+    })()
   }, [])
 
   const recentRuns = runs.slice(0, 4)

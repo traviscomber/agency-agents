@@ -18,7 +18,9 @@ export default function SavedPage() {
   const [selected, setSelected] = useState<SavedOutput | null>(null)
 
   useEffect(() => {
-    setSavedOutputs(getAllSavedOutputs(MOCK_SAVED_OUTPUTS))
+    void (async () => {
+      setSavedOutputs(await getAllSavedOutputs(MOCK_SAVED_OUTPUTS))
+    })()
   }, [])
 
   const filtered = savedOutputs.filter((item) =>

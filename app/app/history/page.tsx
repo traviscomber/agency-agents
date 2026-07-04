@@ -21,7 +21,9 @@ export default function HistoryPage() {
   const [runs, setRuns] = useState<AgentRun[]>(MOCK_RUNS)
 
   useEffect(() => {
-    setRuns(getAllRuns(MOCK_RUNS))
+    void (async () => {
+      setRuns(await getAllRuns(MOCK_RUNS))
+    })()
   }, [])
 
   const completedRuns = runs.filter((r) => r.status === 'completed').length
