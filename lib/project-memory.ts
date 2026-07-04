@@ -34,6 +34,18 @@ interface PersistRunArgs {
   run: AgentRun
 }
 
+function upsertRun(runs: AgentRun[], nextRun: AgentRun) {
+  return [nextRun, ...runs.filter((item) => item.id !== nextRun.id)]
+}
+
+function upsertSavedOutput(savedOutputs: SavedOutput[], nextSavedOutput: SavedOutput) {
+  return [nextSavedOutput, ...savedOutputs.filter((item) => item.id !== nextSavedOutput.id)]
+}
+
+function upsertMemoryEntry(entries: ProjectMemoryEntry[], nextEntry: ProjectMemoryEntry) {
+  return [nextEntry, ...entries.filter((item) => item.id !== nextEntry.id)]
+}
+
 function getStorageKey(projectId: string) {
   return `${STORAGE_PREFIX}${projectId}`
 }
@@ -264,7 +276,7 @@ function saveGlobalSavedOutputs(savedOutputs: SavedOutput[]) {
 
 async function fetchPersistedProjectState(): Promise<PersistedProjectState> {
   if (typeof window === 'undefined') {
-    return { projects: [], overlays: {} }
+    return { projects: [], overlays: {}, runs: [], savedOutputs: [] }
   }
 
   try {
@@ -314,7 +326,7 @@ function saveProjectRunLocally(args: PersistRunArgs) {
     ...overlay,
     operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
     workflow: args.project.workflow ?? overlay.workflow,
-    runs: [args.run, ...overlay.runs.filter((item) => item.id !== args.run.id)],
+    runs: upsertRun(overlay.runs, args.run),
   }
 
   saveProjectOverlay(args.project.id, nextOverlay)
@@ -461,9 +473,9 @@ export async function persistProjectRunResult(args: PersistRunResultArgs) {
       const nextOverlay: ProjectOverlayState = {
         ...overlay,
         operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
-        memory: [args.memoryEntry, ...overlay.memory],
-        runs: [args.run, ...overlay.runs],
-        savedOutputs: [args.savedOutput, ...overlay.savedOutputs],
+        memory: upsertMemoryEntry(overlay.memory, args.memoryEntry),
+        runs: upsertRun(overlay.runs, args.run),
+        savedOutputs: upsertSavedOutput(overlay.savedOutputs, args.savedOutput),
         workflow: args.workflow,
       }
 
@@ -511,7 +523,7 @@ export async function persistRun(run: AgentRun, project?: Project) {
         return saveProjectRunLocally({ project, run })
       }
 
-      const nextRuns = [run, ...loadGlobalRuns().filter((item) => item.id !== run.id)]
+      const nextRuns = upsertRun(loadGlobalRuns(), run)
       saveGlobalRuns(nextRuns)
       return nextRuns
     },
@@ -525,7 +537,7 @@ export async function persistSavedOutput(savedOutput: SavedOutput) {
       savedOutput,
     },
     () => {
-      const nextSavedOutputs = [savedOutput, ...loadGlobalSavedOutputs().filter((item) => item.id !== savedOutput.id)]
+      const nextSavedOutputs = upsertSavedOutput(loadGlobalSavedOutputs(), savedOutput)
       saveGlobalSavedOutputs(nextSavedOutputs)
       return nextSavedOutputs
     },
