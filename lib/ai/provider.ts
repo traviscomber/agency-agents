@@ -25,6 +25,28 @@ interface OpenAIResponsePayload {
 }
 
 const DEFAULT_OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-5.5'
+const OUTPUT_SCHEMA = {
+  type: 'object',
+  properties: {
+    summary: { type: 'string' },
+    mainResult: { type: 'string' },
+    actionSteps: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    risksNotes: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    suggestedNextStep: { type: 'string' },
+    relatedAgents: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+  },
+  required: ['summary', 'mainResult', 'actionSteps', 'risksNotes', 'suggestedNextStep', 'relatedAgents'],
+  additionalProperties: false,
+} as const
 
 function buildUserPrompt(agent: Agent, input: RunInput) {
   return [
@@ -88,43 +110,80 @@ async function runOpenAIAgent(agent: Agent, input: RunInput): Promise<RunResult>
     throw new Error('OPENAI_API_KEY is not configured')
   }
 
-  const response = await fetch('https://api.openai.com/v1/responses', {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+  }
+
+  const baseBody = {
+    model: DEFAULT_OPENAI_MODEL,
+    store: false,
+    input: [
+      {
+        role: 'system',
+        content: [
+          {
+            type: 'input_text',
+            text: `${agent.systemPrompt}\nYou are operating inside AgencyOS. Return only the requested data structure.`,
+          },
+        ],
+      },
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'input_text',
+            text: buildUserPrompt(agent, input),
+          },
+        ],
+      },
+    ],
+  }
+
+  const structuredResponse = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers,
     body: JSON.stringify({
-      model: DEFAULT_OPENAI_MODEL,
-      input: [
-        {
-          role: 'system',
-          content: [
-            {
-              type: 'input_text',
-              text: `${agent.systemPrompt}\nYou are operating inside AgencyOS. Return strictly valid JSON with no markdown wrapper.`,
-            },
-          ],
+      ...baseBody,
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'agency_agent_output',
+          strict: true,
+          schema: OUTPUT_SCHEMA,
         },
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'input_text',
-              text: buildUserPrompt(agent, input),
-            },
-          ],
-        },
-      ],
+      },
     }),
   })
 
-  if (!response.ok) {
-    const errorText = await response.text()
-    throw new Error(`OpenAI request failed (${response.status}): ${errorText}`)
+  if (structuredResponse.ok) {
+    const payload = (await structuredResponse.json()) as OpenAIResponsePayload
+    const rawText = extractTextResponse(payload)
+    if (!rawText) {
+      throw new Error('OpenAI returned an empty structured response')
+    }
+
+    return {
+      output: parseAgentOutput(rawText),
+      modelUsed: DEFAULT_OPENAI_MODEL,
+    }
   }
 
-  const payload = (await response.json()) as OpenAIResponsePayload
+  const structuredErrorText = await structuredResponse.text()
+  console.error('[AIProvider] Structured output request failed, retrying with free-form parsing:', structuredErrorText)
+
+  const fallbackResponse = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(baseBody),
+  })
+
+  if (!fallbackResponse.ok) {
+    const errorText = await fallbackResponse.text()
+    throw new Error(`OpenAI request failed (${fallbackResponse.status}): ${errorText}`)
+  }
+
+  const payload = (await fallbackResponse.json()) as OpenAIResponsePayload
   const rawText = extractTextResponse(payload)
   if (!rawText) {
     throw new Error('OpenAI returned an empty response')
