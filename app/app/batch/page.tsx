@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Batch Processing | N3uralia',
+  title: 'Batch Processing | N3uralia Studio',
   description: 'Process large batches of data with agents at scale.',
 }
 

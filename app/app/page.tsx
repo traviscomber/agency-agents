@@ -5,7 +5,7 @@ import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { MOCK_USER, MOCK_RUNS, MOCK_PROJECTS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { getFeaturedAgents } from '@/lib/data/seed-agents'
 import { getPlanById } from '@/lib/data/plans'
-import { ArrowRight, Bookmark, FolderOpen, Plus } from 'lucide-react'
+import { ArrowRight, Bookmark, FolderOpen, Plus, Zap, GitBranch, Cpu } from 'lucide-react'
 
 export default function AppDashboard() {
   const plan = getPlanById(MOCK_USER.plan)
@@ -13,7 +13,7 @@ export default function AppDashboard() {
   const recentRuns = MOCK_RUNS.slice(0, 4)
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <div className="mx-auto max-w-6xl px-6 py-10">
 
       {/* Page header */}
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
@@ -36,21 +36,85 @@ export default function AppDashboard() {
         </div>
       </header>
 
-      {/* Stats row */}
+      {/* Quick action panels */}
+      <div className="mb-10 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] md:grid-cols-3">
+        <Link href="/app/agents" className="flex items-center gap-4 bg-[#fbfbfa] px-6 py-5 hover:bg-[#f1f6f4]">
+          <div className="flex h-10 w-10 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4]">
+            <Zap size={16} className="text-[#8fb2aa]" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">Execute</p>
+            <p className="text-[10px] text-[#173634]/50">Run single agent</p>
+          </div>
+          <ArrowRight size={12} className="shrink-0 text-[#d8e5e2]" />
+        </Link>
+        <Link href="/app/chains" className="flex items-center gap-4 bg-[#fbfbfa] px-6 py-5 hover:bg-[#f1f6f4]">
+          <div className="flex h-10 w-10 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4]">
+            <GitBranch size={16} className="text-[#8fb2aa]" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">Chain</p>
+            <p className="text-[10px] text-[#173634]/50">Orchestrate workflows</p>
+          </div>
+          <ArrowRight size={12} className="shrink-0 text-[#d8e5e2]" />
+        </Link>
+        <Link href="/app/fine-tuning" className="flex items-center gap-4 bg-[#fbfbfa] px-6 py-5 hover:bg-[#f1f6f4]">
+          <div className="flex h-10 w-10 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4]">
+            <Cpu size={16} className="text-[#8fb2aa]" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">Train</p>
+            <p className="text-[10px] text-[#173634]/50">Fine-tune models</p>
+          </div>
+          <ArrowRight size={12} className="shrink-0 text-[#d8e5e2]" />
+        </Link>
+      </div>
+
+      {/* Stats row with trends */}
       <div className="mb-10 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-4">
         {[
-          { label: 'Total runs', value: MOCK_RUNS.length, sub: 'this cycle' },
-          { label: 'Projects', value: MOCK_PROJECTS.length, sub: 'active' },
-          { label: 'Saved outputs', value: MOCK_SAVED_OUTPUTS.length, sub: 'in library' },
-          { label: 'Specialists', value: getFeaturedAgents().length, sub: 'on your plan' },
-        ].map(({ label, value, sub }) => (
+          { label: 'Total runs', value: MOCK_RUNS.length, sub: 'this cycle', trend: '+12%' },
+          { label: 'Projects', value: MOCK_PROJECTS.length, sub: 'active', trend: '+3' },
+          { label: 'Saved outputs', value: MOCK_SAVED_OUTPUTS.length, sub: 'in library', trend: '+8' },
+          { label: 'Specialists', value: getFeaturedAgents().length, sub: 'on your plan', trend: 'all' },
+        ].map(({ label, value, sub, trend }) => (
           <div key={label} className="bg-[#fbfbfa] px-5 py-6">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
+              <span className="text-[9px] font-semibold text-[#8fb2aa]">{trend}</span>
+            </div>
             <p className="mt-2 text-4xl font-light tracking-tight text-[#173634]">{value}</p>
             <p className="mt-1 text-xs text-[#173634]/45">{sub}</p>
           </div>
         ))}
       </div>
+
+      {/* Split-view execution canvas */}
+      <section className="mb-10 border border-[#d8e5e2]">
+        <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-6 py-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Agent Execution Canvas</p>
+        </div>
+        <div className="grid h-80 gap-px bg-[#d8e5e2] sm:grid-cols-2">
+          {/* Input pane */}
+          <div className="flex flex-col bg-[#fbfbfa] p-6">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">Input</p>
+            <textarea placeholder="Define your task, data, or prompt here..." className="flex-1 resize-none border border-[#d8e5e2] bg-white p-3 text-sm text-[#173634] placeholder:text-[#173634]/30 focus:outline-none focus:ring-1 focus:ring-[#8fb2aa]" />
+            <Button className="mt-3 h-8 rounded-none bg-[#173634] text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+              Execute
+            </Button>
+          </div>
+          {/* Output pane */}
+          <div className="flex flex-col bg-[#fbfbfa] p-6">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">Output</p>
+            <div className="flex-1 border border-[#d8e5e2] bg-white p-3 overflow-auto">
+              <p className="text-xs text-[#173634]/40">Results will appear here after execution...</p>
+            </div>
+            <Button variant="outline" className="mt-3 h-8 rounded-none border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+              Copy Output
+            </Button>
+          </div>
+        </div>
+      </section>
 
       <div className="grid gap-10 lg:grid-cols-[1fr_300px]">
 

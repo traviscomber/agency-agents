@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'White Label Program | N3uralia',
+  title: 'White Label Program | N3uralia Studio',
   description: 'Resell N3uralia under your own brand.',
 }
 
