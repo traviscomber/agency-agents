@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   createProjectState,
   readProjectState,
+  saveProjectRunState,
   saveProjectRunResultState,
   updateProjectBriefState,
 } from '@/lib/server/project-state-store'
@@ -69,6 +70,22 @@ export async function POST(req: NextRequest) {
           savedOutput,
           memoryEntry,
           workflow,
+        })
+
+        return NextResponse.json({ success: true, result })
+      }
+
+      case 'save_run': {
+        const project = body.project as Project | undefined
+        const run = body.run as AgentRun | undefined
+
+        if (!project || !run) {
+          return NextResponse.json({ error: 'project and run are required' }, { status: 400 })
+        }
+
+        const result = await saveProjectRunState({
+          project,
+          run,
         })
 
         return NextResponse.json({ success: true, result })

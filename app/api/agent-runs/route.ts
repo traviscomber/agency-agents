@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAgentBySlug } from '@/lib/data/seed-agents'
 import { runMockAgent } from '@/lib/ai/mock-provider'
-import { PLAN_RUN_LIMITS } from '@/lib/data/plans'
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,7 +35,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       agentId: agent.id,
+      agentSlug: agent.slug,
       agentName: agent.name,
+      agentDivision: agent.division,
       output,
       creditsUsed: 1,
       modelUsed: 'mock-provider',

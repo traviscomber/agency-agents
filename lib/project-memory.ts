@@ -25,6 +25,11 @@ interface PersistRunResultArgs {
   workflow: ProjectWorkflowStep[]
 }
 
+interface PersistRunArgs {
+  project: Project
+  run: AgentRun
+}
+
 function getStorageKey(projectId: string) {
   return `${STORAGE_PREFIX}${projectId}`
 }
@@ -389,6 +394,43 @@ export async function persistProjectRunResult(args: PersistRunResultArgs) {
         runs: [args.run, ...overlay.runs],
         savedOutputs: [args.savedOutput, ...overlay.savedOutputs],
         workflow: args.workflow,
+      }
+
+      saveProjectOverlay(args.project.id, nextOverlay)
+
+      const storedProjects = loadStoredProjects()
+      if (storedProjects.some((item) => item.id === args.project.id)) {
+        saveStoredProjects(
+          storedProjects.map((item) =>
+            item.id === args.project.id
+              ? {
+                  ...item,
+                  updatedAt: args.run.createdAt,
+                }
+              : item,
+          ),
+        )
+      }
+
+      return nextOverlay
+    },
+  )
+}
+
+export async function persistProjectRun(args: PersistRunArgs) {
+  return postProjectState<ProjectOverlayState>(
+    {
+      action: 'save_run',
+      project: args.project,
+      run: args.run,
+    },
+    () => {
+      const overlay = getLocalProjectOverlay(args.project)
+      const nextOverlay: ProjectOverlayState = {
+        ...overlay,
+        operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
+        workflow: args.project.workflow ?? overlay.workflow,
+        runs: [args.run, ...overlay.runs.filter((item) => item.id !== args.run.id)],
       }
 
       saveProjectOverlay(args.project.id, nextOverlay)

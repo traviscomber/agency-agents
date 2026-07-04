@@ -11,12 +11,12 @@ import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
 import { getAgentBySlug } from '@/lib/data/seed-agents'
 import { MOCK_USER, MOCK_PROJECTS } from '@/lib/data/mock-store'
-import { runMockAgent } from '@/lib/ai/mock-provider'
 import {
   advanceWorkflowAfterRun,
   buildProjectContext,
   captureDeliverableMemory,
   getMergedProjects,
+  persistProjectRun,
   persistProjectRunResult,
 } from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
@@ -53,6 +53,7 @@ export default function RunAgentPage({ params }: Props) {
   const [projectId, setProjectId] = useState('')
   const [status, setStatus] = useState<'idle' | 'running' | 'done' | 'error'>('idle')
   const [output, setOutput] = useState<AgentOutput | null>(null)
+  const [latestRun, setLatestRun] = useState<AgentRun | null>(null)
   const [saved, setSaved] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [prefilledProjectId, setPrefilledProjectId] = useState('')
@@ -106,67 +107,115 @@ export default function RunAgentPage({ params }: Props) {
     if (!task.trim()) return
     setStatus('running')
     setOutput(null)
+    setLatestRun(null)
     setErrorMsg('')
     setSaved(false)
 
     try {
-      const result = await runMockAgent(agent, { task, context, desiredOutput, detailLevel })
-      setOutput(result)
+      const response = await fetch('/api/agent-runs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          agentSlug: agent.slug,
+          task,
+          context,
+          desiredOutput,
+          detailLevel,
+          userPlan: MOCK_USER.plan,
+        }),
+      })
+
+      const payload = await response.json()
+      if (!response.ok || !payload.success) {
+        if (payload.error === 'upgrade_required' && payload.requiredPlan) {
+          throw new Error(`This specialist requires the ${payload.requiredPlan} plan.`)
+        }
+
+        throw new Error(payload.error || 'Agent execution failed')
+      }
+
+      const createdAt = new Date().toISOString()
+      const runRecord: AgentRun = {
+        id: `run-${Date.now()}`,
+        userId: MOCK_USER.id,
+        agentId: payload.agentId,
+        agentName: payload.agentName,
+        agentDivision: payload.agentDivision,
+        projectId: selectedProject?.id,
+        projectName: selectedProject?.name,
+        task,
+        context,
+        desiredOutput,
+        detailLevel,
+        output: payload.output,
+        status: 'completed',
+        modelUsed: payload.modelUsed,
+        creditsUsed: payload.creditsUsed,
+        createdAt,
+      }
+
+      if (selectedProject) {
+        await persistProjectRun({
+          project: selectedProject,
+          run: runRecord,
+        })
+
+        setProjects((prev) =>
+          prev.map((project) =>
+            project.id === selectedProject.id
+              ? {
+                  ...project,
+                  runCount: Math.max(project.runCount ?? 0, 0) + 1,
+                  updatedAt: createdAt,
+                }
+              : project,
+          ),
+        )
+      }
+
+      setLatestRun(runRecord)
+      setOutput(payload.output)
       setStatus('done')
-    } catch {
-      setErrorMsg('Something went wrong. Please try again.')
+    } catch (error) {
+      setErrorMsg(error instanceof Error ? error.message : 'Something went wrong. Please try again.')
       setStatus('error')
     }
   }
 
   async function handleSaveDeliverable() {
-    if (!output || !selectedProject) return
+    if (!output || !selectedProject || !latestRun) return
 
-    const createdAt = new Date().toISOString()
-    const runId = `run-local-${Date.now()}`
     const runLabel = `${agent.name}: ${task.slice(0, 48)}`
-    const nextWorkflow = advanceWorkflowAfterRun(selectedProject.workflow ?? [], runId, runLabel, createdAt)
-
-    const runRecord: AgentRun = {
-      id: runId,
-      userId: MOCK_USER.id,
-      agentId: agent.id,
-      agentName: agent.name,
-      agentDivision: agent.division,
-      projectId: selectedProject.id,
-      projectName: selectedProject.name,
-      task,
-      context,
-      desiredOutput,
-      detailLevel,
-      output,
-      status: 'completed',
-      creditsUsed: 1,
-      createdAt,
-    }
+    const nextWorkflow = advanceWorkflowAfterRun(selectedProject.workflow ?? [], latestRun.id, runLabel, latestRun.createdAt)
 
     const savedOutput: SavedOutput = {
       id: `saved-${Date.now()}`,
       userId: MOCK_USER.id,
       projectId: selectedProject.id,
       projectName: selectedProject.name,
-      agentRunId: runId,
+      agentRunId: latestRun.id,
       agentName: agent.name,
       title: `${agent.name} deliverable`,
       content: output.mainResult,
       format: 'text',
-      createdAt,
-      updatedAt: createdAt,
+      createdAt: latestRun.createdAt,
+      updatedAt: latestRun.createdAt,
     }
 
-    const memoryEntry = captureDeliverableMemory(agent.name, task, output.summary, createdAt)
+    const memoryEntry = captureDeliverableMemory(agent.name, task, output.summary, latestRun.createdAt)
 
     await persistProjectRunResult({
       project: {
         ...selectedProject,
         workflow: nextWorkflow,
       },
-      run: runRecord,
+      run: {
+        ...latestRun,
+        projectId: selectedProject.id,
+        projectName: selectedProject.name,
+      },
       savedOutput,
       memoryEntry,
       workflow: nextWorkflow,
@@ -179,9 +228,8 @@ export default function RunAgentPage({ params }: Props) {
               ...project,
               workflow: nextWorkflow,
               memory: [memoryEntry, ...(project.memory ?? [])],
-              runCount: (project.runCount ?? 0) + 1,
               savedCount: (project.savedCount ?? 0) + 1,
-              updatedAt: createdAt,
+              updatedAt: latestRun.createdAt,
             }
           : project,
       ),
@@ -437,6 +485,7 @@ export default function RunAgentPage({ params }: Props) {
                   onClick={() => {
                     setStatus('idle')
                     setOutput(null)
+                    setLatestRun(null)
                     setTask('')
                     setContext('')
                     setPrefilledProjectId('')

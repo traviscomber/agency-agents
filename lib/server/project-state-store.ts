@@ -21,6 +21,18 @@ function upsertProject(projects: Project[], nextProject: Project) {
   return [nextProject, ...projects.filter((item) => item.id !== nextProject.id)]
 }
 
+function upsertRun(runs: AgentRun[], nextRun: AgentRun) {
+  return [nextRun, ...runs.filter((item) => item.id !== nextRun.id)]
+}
+
+function upsertSavedOutput(savedOutputs: SavedOutput[], nextSavedOutput: SavedOutput) {
+  return [nextSavedOutput, ...savedOutputs.filter((item) => item.id !== nextSavedOutput.id)]
+}
+
+function upsertMemoryEntry(entries: ProjectMemoryEntry[], nextEntry: ProjectMemoryEntry) {
+  return [nextEntry, ...entries.filter((item) => item.id !== nextEntry.id)]
+}
+
 function buildOverlay(project: Project): ProjectOverlayState {
   return {
     projectId: project.id,
@@ -107,9 +119,9 @@ export async function saveProjectRunResultState(args: {
 
   state.overlays[args.project.id] = {
     ...overlay,
-    memory: [args.memoryEntry, ...overlay.memory],
-    runs: [args.run, ...overlay.runs],
-    savedOutputs: [args.savedOutput, ...overlay.savedOutputs],
+    memory: upsertMemoryEntry(overlay.memory, args.memoryEntry),
+    runs: upsertRun(overlay.runs, args.run),
+    savedOutputs: upsertSavedOutput(overlay.savedOutputs, args.savedOutput),
     workflow: args.workflow,
     operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
   }
@@ -117,6 +129,29 @@ export async function saveProjectRunResultState(args: {
   state.projects = upsertProject(state.projects, {
     ...args.project,
     updatedAt,
+  })
+
+  await writeProjectState(state)
+  return state.overlays[args.project.id]
+}
+
+export async function saveProjectRunState(args: {
+  project: Project
+  run: AgentRun
+}) {
+  const state = await readProjectState()
+  const overlay = state.overlays[args.project.id] ?? buildOverlay(args.project)
+
+  state.overlays[args.project.id] = {
+    ...overlay,
+    runs: upsertRun(overlay.runs, args.run),
+    operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
+    workflow: args.project.workflow ?? overlay.workflow,
+  }
+
+  state.projects = upsertProject(state.projects, {
+    ...args.project,
+    updatedAt: args.run.createdAt,
   })
 
   await writeProjectState(state)
