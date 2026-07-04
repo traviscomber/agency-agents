@@ -76,12 +76,10 @@ export function AppSidebar() {
       {/* Logo */}
       <div className="border-b border-[#d8e5e2] px-5 py-4">
         <Link href="/app" className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center border border-[#d8e5e2] bg-[#edf4f1] text-[11px] font-semibold tracking-tight text-[#173634]">
-            AO
-          </span>
+          <img src="/logo-n3uralia.png" alt="N3uralia" className="h-8 w-8" />
           <div className="leading-tight">
-            <span className="block text-sm font-semibold text-[#173634]">AgencyOS</span>
-            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Workspace</span>
+            <span className="block text-sm font-semibold text-[#173634]">N3uralia</span>
+            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Nano Factory</span>
           </div>
         </Link>
 

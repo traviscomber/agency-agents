@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Agent Chains | AgencyOS',
+  title: 'Agent Chains | N3uralia',
   description: 'Create automated workflows by chaining agents together.',
 }
 

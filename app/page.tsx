@@ -58,15 +58,15 @@ export default function LandingPage() {
                 <div className="inline-flex items-center gap-2.5 border border-[#1e3431] bg-[#0d1f1d] px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#8fb2aa]" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">
-                    AI Specialist Workspace
+                    Nano Agent Factory
                   </span>
                 </div>
               </FadeInUp>
 
               <FadeInUp delay={0.08}>
                 <h1 className="mt-7 text-5xl font-semibold leading-[0.94] tracking-[-0.025em] text-[#f5fbfa] md:text-7xl lg:text-[5.5rem]">
-                  Specialists<br />
-                  that&nbsp;work.
+                  Nano agents<br />
+                  that work.
                 </h1>
                 <p className="mt-2 text-5xl font-light leading-[0.94] tracking-[-0.02em] text-[#789b96] md:text-7xl lg:text-[5.5rem]">
                   Not prompts<br />
@@ -76,7 +76,7 @@ export default function LandingPage() {
 
               <FadeInUp delay={0.16}>
                 <p className="mt-8 max-w-[26rem] text-base leading-8 text-[#9db7b1]">
-                  AgencyOS is a structured AI workspace — agents, projects, run history, deliverables, and plan control in one place. Built for teams that need results, not chat.
+                  N3uralia is a structured AI workspace — lightweight nano agents, projects, run history, deliverables, and plan control in one place. Built for teams that need results, not chat.
                 </p>
               </FadeInUp>
 

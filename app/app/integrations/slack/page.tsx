@@ -2,7 +2,7 @@ import { Zap, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Slack Integration | AgencyOS',
+  title: 'Slack Integration | N3uralia',
   description: 'Run agents directly from Slack.',
 }
 
