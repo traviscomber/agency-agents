@@ -8,7 +8,7 @@ import { MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { getAgentById } from '@/lib/data/seed-agents'
 import { getRunById, getSavedOutputsForRun } from '@/lib/project-memory'
 import type { AgentRun, SavedOutput } from '@/lib/types'
-import { ArrowLeft, ArrowRight, Bookmark, FolderOpen } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Bookmark, Copy, FolderOpen } from 'lucide-react'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -43,6 +43,7 @@ export default function RunDetailPage({ params }: Props) {
   const { id } = use(params)
   const [run, setRun] = useState<AgentRun | null>(null)
   const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>([])
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     void (async () => {
@@ -71,6 +72,27 @@ export default function RunDetailPage({ params }: Props) {
   }
 
   const runAgent = getAgentById(run.agentId)
+  const rerunHref = runAgent
+    ? `/app/run/${runAgent.slug}?task=${encodeURIComponent(run.task)}&context=${encodeURIComponent(run.context || '')}&desiredOutput=${encodeURIComponent(run.desiredOutput || 'analysis')}&detailLevel=${encodeURIComponent(run.detailLevel || 'standard')}&projectId=${encodeURIComponent(run.projectId || 'unassigned')}`
+    : null
+
+  async function handleCopyOutput() {
+    if (!run.output) return
+
+    const copyPayload = [
+      `Summary:\n${run.output.summary}`,
+      `Main result:\n${run.output.mainResult}`,
+      run.output.actionSteps.length ? `Action steps:\n${run.output.actionSteps.map((step, index) => `${index + 1}. ${step}`).join('\n')}` : '',
+      run.output.risksNotes.length ? `Risks and notes:\n${run.output.risksNotes.join('\n')}` : '',
+      `Suggested next step:\n${run.output.suggestedNextStep}`,
+    ]
+      .filter(Boolean)
+      .join('\n\n')
+
+    await navigator.clipboard.writeText(copyPayload)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -96,6 +118,18 @@ export default function RunDetailPage({ params }: Props) {
           ) : (
             <span>Unassigned run</span>
           )}
+        </div>
+        <div className="mt-5 flex flex-wrap gap-3">
+          {run.output ? (
+            <Button variant="outline" onClick={handleCopyOutput} className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+              <Copy size={12} className="mr-1.5" /> {copied ? 'Copied' : 'Copy output'}
+            </Button>
+          ) : null}
+          {rerunHref ? (
+            <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+              <Link href={rerunHref}>Run this brief again</Link>
+            </Button>
+          ) : null}
         </div>
       </header>
 
@@ -195,8 +229,8 @@ export default function RunDetailPage({ params }: Props) {
           ) : null}
 
           {runAgent ? (
-            <Button asChild className="h-9 w-full rounded-none bg-[#173634] text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-              <Link href={`/app/run/${runAgent.slug}`}>Run this specialist again</Link>
+            <Button asChild variant="outline" className="h-9 w-full rounded-none border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]">
+              <Link href={`/app/run/${runAgent.slug}`}>Open specialist</Link>
             </Button>
           ) : null}
         </aside>

@@ -47,11 +47,11 @@ export default function RunAgentPage({ params }: Props) {
   const agent = getAgentBySlug(slug)
   const hasAccess = agent ? canAccessAgent(MOCK_USER.plan, agent.planRequired) : false
 
-const [task, setTask] = useState(searchParams.get('task') || '')
-  const [context, setContext] = useState('')
-  const [desiredOutput, setDesiredOutput] = useState('analysis')
-  const [detailLevel, setDetailLevel] = useState('standard')
-  const [projectId, setProjectId] = useState('unassigned')
+  const [task, setTask] = useState(searchParams.get('task') || '')
+  const [context, setContext] = useState(searchParams.get('context') || '')
+  const [desiredOutput, setDesiredOutput] = useState(searchParams.get('desiredOutput') || 'analysis')
+  const [detailLevel, setDetailLevel] = useState(searchParams.get('detailLevel') || 'standard')
+  const [projectId, setProjectId] = useState(searchParams.get('projectId') || 'unassigned')
   const [status, setStatus] = useState<'idle' | 'running' | 'done' | 'error'>('idle')
   const [output, setOutput] = useState<AgentOutput | null>(null)
   const [latestRun, setLatestRun] = useState<AgentRun | null>(null)
@@ -59,6 +59,19 @@ const [task, setTask] = useState(searchParams.get('task') || '')
   const [errorMsg, setErrorMsg] = useState('')
   const [prefilledProjectId, setPrefilledProjectId] = useState('')
   const [projects, setProjects] = useState(MOCK_PROJECTS)
+
+  useEffect(() => {
+    if (searchParams.get('context') || searchParams.get('desiredOutput') || searchParams.get('detailLevel') || searchParams.get('projectId')) {
+      setContext(searchParams.get('context') || '')
+      setDesiredOutput(searchParams.get('desiredOutput') || 'analysis')
+      setDetailLevel(searchParams.get('detailLevel') || 'standard')
+      setProjectId(searchParams.get('projectId') || 'unassigned')
+    }
+
+    if (searchParams.get('task')) {
+      setTask(searchParams.get('task') || '')
+    }
+  }, [searchParams])
 
   useEffect(() => {
     void (async () => {
