@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { getAgentById } from '@/lib/data/seed-agents'
-import { getRunById, getSavedOutputsForRun } from '@/lib/project-memory'
+import { getRunById, getSavedOutputsForRun, persistSavedOutput } from '@/lib/project-memory'
 import type { AgentRun, SavedOutput } from '@/lib/types'
 import { ArrowLeft, ArrowRight, Bookmark, Copy, FolderOpen } from 'lucide-react'
 
@@ -44,6 +44,7 @@ export default function RunDetailPage({ params }: Props) {
   const [run, setRun] = useState<AgentRun | null>(null)
   const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>([])
   const [copied, setCopied] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     void (async () => {
@@ -94,6 +95,32 @@ export default function RunDetailPage({ params }: Props) {
     window.setTimeout(() => setCopied(false), 2000)
   }
 
+  async function handleSaveToLibrary() {
+    if (!run?.output || savedOutputs.length > 0) return
+
+    setIsSaving(true)
+    try {
+      const savedOutput: SavedOutput = {
+        id: `saved-${Date.now()}`,
+        userId: run.userId,
+        projectId: run.projectId,
+        projectName: run.projectName,
+        agentRunId: run.id,
+        agentName: run.agentName,
+        title: `${run.agentName} deliverable`,
+        content: run.output.mainResult,
+        format: 'text',
+        createdAt: run.createdAt,
+        updatedAt: run.createdAt,
+      }
+
+      await persistSavedOutput(savedOutput)
+      setSavedOutputs([savedOutput])
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <Link href="/app/history" className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
@@ -128,6 +155,11 @@ export default function RunDetailPage({ params }: Props) {
           {rerunHref ? (
             <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
               <Link href={rerunHref}>Run this brief again</Link>
+            </Button>
+          ) : null}
+          {run.output && savedOutputs.length === 0 ? (
+            <Button variant="outline" onClick={handleSaveToLibrary} disabled={isSaving} className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+              <Bookmark size={12} className="mr-1.5" /> {isSaving ? 'Saving...' : 'Save to library'}
             </Button>
           ) : null}
         </div>
