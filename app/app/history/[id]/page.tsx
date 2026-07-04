@@ -12,11 +12,13 @@ import {
   getMergedProjects,
   getRunById,
   getSavedOutputsForRun,
+  getWorkflowStatusMeta,
   persistProjectRunResult,
   persistSavedOutput,
 } from '@/lib/project-memory'
 import type { AgentRun, SavedOutput } from '@/lib/types'
 import { ArrowLeft, ArrowRight, Bookmark, Copy, FolderOpen } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -81,9 +83,27 @@ export default function RunDetailPage({ params }: Props) {
   }
 
   const runAgent = getAgentById(run.agentId)
-  const rerunHref = runAgent
-    ? `/app/run/${runAgent.slug}?task=${encodeURIComponent(run.task)}&context=${encodeURIComponent(run.context || '')}&desiredOutput=${encodeURIComponent(run.desiredOutput || 'analysis')}&detailLevel=${encodeURIComponent(run.detailLevel || 'standard')}&projectId=${encodeURIComponent(run.projectId || 'unassigned')}`
-    : null
+  const rerunHref = (() => {
+    if (!runAgent) return null
+
+    const params = new URLSearchParams({
+      task: run.task,
+      context: run.context || '',
+      desiredOutput: run.desiredOutput || 'analysis',
+      detailLevel: run.detailLevel || 'standard',
+      projectId: run.projectId || 'unassigned',
+      presetStepId: run.presetStepId || '',
+      presetStepName: run.presetStepName || '',
+      presetStepOwner: run.presetStepOwner || '',
+      presetProjectName: run.projectName || '',
+    })
+
+    if (run.handoffPacket) {
+      params.set('presetPacket', JSON.stringify(run.handoffPacket))
+    }
+
+    return `/app/run/${runAgent.slug}?${params.toString()}`
+  })()
 
   async function handleCopyOutput() {
     if (!run.output) return
@@ -129,7 +149,17 @@ export default function RunDetailPage({ params }: Props) {
         if (project) {
           const runLabel = `${run.agentName}: ${run.task.slice(0, 48)}`
           const memoryEntry = captureDeliverableMemory(run.agentName, run.task, run.output.summary, run.createdAt)
-          const nextWorkflow = advanceWorkflowAfterRun(project.workflow ?? [], run.id, runLabel, run.createdAt)
+          const nextWorkflow = advanceWorkflowAfterRun(
+            project.workflow ?? [],
+            run.id,
+            runLabel,
+            run.createdAt,
+            {
+              run,
+              output: run.output,
+              projectType: project.projectType,
+            },
+          )
 
           await persistProjectRunResult({
             project: {
@@ -180,6 +210,12 @@ export default function RunDetailPage({ params }: Props) {
           <span className="border border-[#d8e5e2] bg-[#f1f6f4] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8fb2aa]">
             {run.status}
           </span>
+          {run.presetStepName ? (
+            <span className="n3-chip inline-flex items-center gap-1">
+              <FolderOpen size={10} />
+              Workflow preset
+            </span>
+          ) : null}
         </div>
         <h1 className="mt-3 text-3xl font-light tracking-tight text-[#173634]">{run.agentName}</h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[#173634]/70">{run.task}</p>
@@ -214,6 +250,74 @@ export default function RunDetailPage({ params }: Props) {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
         <div className="space-y-5">
+          {run.presetStepName ? (
+            <section className="n3-panel">
+              <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Execution origin</p>
+              </div>
+              <div className="space-y-3 px-5 py-5 text-sm text-[#173634]/80">
+                <p className="font-medium text-[#173634]">This run came from a workflow preset, not an isolated prompt.</p>
+                <p>
+                  Project: <span className="font-medium">{run.projectName || 'Unassigned project'}</span>
+                </p>
+                <p>
+                  Step: <span className="font-medium">{run.presetStepName}</span>
+                  {run.presetStepOwner ? ` · Owner: ${run.presetStepOwner}` : ''}
+                </p>
+                <p className="text-[#52605d]">
+                  Use this detail view to inspect what the system asked for, then rerun or save the output without losing the workflow lineage.
+                </p>
+              </div>
+            </section>
+          ) : null}
+
+          {run.handoffPacket ? (
+            <section className="n3-panel">
+              <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Inherited operating packet</p>
+              </div>
+              <div className="space-y-4 px-5 py-5 text-sm text-[#173634]/80">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="n3-chip-soft">{run.handoffPacket.projectTypeLabel}</span>
+                  <span className="n3-chip-soft">{run.handoffPacket.executionMode}</span>
+                  <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]', getWorkflowStatusMeta(run.handoffPacket.currentStepStatus).tone)}>
+                    {getWorkflowStatusMeta(run.handoffPacket.currentStepStatus).label}
+                  </span>
+                  {run.handoffPacket.currentStepStatusSource ? (
+                    <span className="rounded-full border border-[#d8e5e2] bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">
+                      {run.handoffPacket.currentStepStatusSource === 'auto' ? 'Auto inferred' : run.handoffPacket.currentStepStatusSource === 'manual' ? 'Manual' : 'Default'}
+                    </span>
+                  ) : null}
+                </div>
+                <p className="font-medium text-[#173634]">{run.handoffPacket.summary}</p>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                    <p className="mt-1 leading-6 text-[#52605d]">{run.handoffPacket.outputExpectation}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Risk note</p>
+                    <p className="mt-1 leading-6 text-[#52605d]">{run.handoffPacket.riskNote}</p>
+                  </div>
+                </div>
+                {run.handoffPacket.currentStepStatusReason ? (
+                  <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-4 py-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Why this state</p>
+                    <p className="mt-1 leading-6 text-[#52605d]">{run.handoffPacket.currentStepStatusReason}</p>
+                  </div>
+                ) : null}
+                <div className="grid gap-3">
+                  {run.handoffPacket.handoffChecklist.map((item) => (
+                    <div key={item} className="flex items-start gap-2 rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-2.5">
+                      <Bookmark size={12} className="mt-0.5 shrink-0 text-[#8fb2aa]" />
+                      <span className="leading-6 text-[#52605d]">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : null}
+
           {run.output ? (
             <>
               <OutputBlock title="Summary" content={run.output.summary} />
@@ -266,6 +370,22 @@ export default function RunDetailPage({ params }: Props) {
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Execution metadata</p>
             </div>
             <div className="space-y-3 px-5 py-5 text-sm text-[#173634]/70">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Execution type</p>
+                <p className="mt-1">{run.presetStepName ? 'Workflow preset' : 'Direct run'}</p>
+              </div>
+              {run.handoffPacket ? (
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Execution mode</p>
+                  <p className="mt-1">{run.handoffPacket.executionMode}</p>
+                </div>
+              ) : null}
+              {run.presetStepName ? (
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Workflow step</p>
+                  <p className="mt-1">{run.presetStepName}</p>
+                </div>
+              ) : null}
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Output shape</p>
                 <p className="mt-1 capitalize">{run.desiredOutput || 'Not specified'}</p>

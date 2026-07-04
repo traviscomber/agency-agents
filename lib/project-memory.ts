@@ -1,11 +1,16 @@
 import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type {
+  AgentOutput,
   AgentRun,
   Project,
+  ProjectHandoffPacket,
+  ProjectRunPreset,
   ProjectMemoryEntry,
   ProjectOperatingBrief,
   ProjectOverlayState,
   ProjectType,
+  ProjectWorkflowStatus,
+  ProjectWorkflowStatusSource,
   ProjectWorkflowStep,
   SavedOutput,
 } from '@/lib/types'
@@ -53,6 +58,58 @@ function getStorageKey(projectId: string) {
 
 function canUseStorage() {
   return typeof window !== 'undefined'
+}
+
+export function resolveWorkflowRecommendedAgentSlug(step?: ProjectWorkflowStep | null) {
+  if (!step) return null
+  if (step.recommendedAgentSlug) return step.recommendedAgentSlug
+
+  const ownerMap: Record<string, string> = {
+    Strategy: 'product-strategist',
+    Operations: 'operations-strategist',
+    Lead: 'proposal-strategist',
+    Product: 'product-strategist',
+    Marketing: 'technical-writer',
+    Research: 'ux-researcher',
+    Growth: 'sales-strategist',
+    Sales: 'proposal-strategist',
+    Accounts: 'product-strategist',
+    Delivery: 'proposal-strategist',
+    Creative: 'proposal-strategist',
+  }
+
+  return ownerMap[step.owner] ?? null
+}
+
+const WORKFLOW_STATUS_PRIORITY: ProjectWorkflowStatus[] = ['active', 'at-risk', 'blocked', 'awaiting-decision', 'ready']
+
+export function getProjectCurrentWorkflowStep(workflow?: ProjectWorkflowStep[] | null) {
+  if (!workflow?.length) return null
+
+  for (const status of WORKFLOW_STATUS_PRIORITY) {
+    const step = workflow.find((item) => item.status === status)
+    if (step) return step
+  }
+
+  return workflow.find((item) => item.status !== 'done') ?? null
+}
+
+export function getWorkflowStatusMeta(status: ProjectWorkflowStatus) {
+  switch (status) {
+    case 'active':
+      return { label: 'Active', description: 'Currently being executed.', tone: 'bg-blue-50 text-blue-700 ring-1 ring-blue-200' }
+    case 'ready':
+      return { label: 'Ready', description: 'Clear enough to execute next.', tone: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200' }
+    case 'awaiting-decision':
+      return { label: 'Awaiting decision', description: 'Needs explicit approval or choice.', tone: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200' }
+    case 'at-risk':
+      return { label: 'At risk', description: 'Work can continue, but a constraint is degrading confidence.', tone: 'bg-orange-50 text-orange-700 ring-1 ring-orange-200' }
+    case 'blocked':
+      return { label: 'Blocked', description: 'Cannot progress until the blocker is resolved.', tone: 'bg-rose-50 text-rose-700 ring-1 ring-rose-200' }
+    case 'done':
+    default:
+      return { label: 'Done', description: 'Completed and captured.', tone: 'bg-slate-100 text-slate-700 ring-1 ring-slate-200' }
+  }
 }
 
 export const PROJECT_TYPE_OPTIONS: Array<{
@@ -131,6 +188,7 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           name: 'Lock the launch narrative',
           owner: 'Strategy',
           status: 'active',
+          statusSource: 'default',
           detail: 'Clarify the offer, audience, and proof so every later run inherits the same positioning.',
           recommendedAgentSlug: 'product-strategist',
         },
@@ -138,7 +196,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-2`,
           name: 'Build launch assets',
           owner: 'Creative',
-          status: 'next',
+          status: 'ready',
+          statusSource: 'default',
           detail: 'Generate the core launch deliverables and document what must stay consistent across channels.',
           recommendedAgentSlug: 'proposal-strategist',
         },
@@ -146,7 +205,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-3`,
           name: 'Sequence rollout',
           owner: 'Operations',
-          status: 'next',
+          status: 'awaiting-decision',
+          statusSource: 'default',
           detail: 'Turn the narrative and assets into a timed rollout with explicit owners and dependencies.',
           recommendedAgentSlug: 'operations-strategist',
         },
@@ -158,6 +218,7 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           name: 'Map growth levers',
           owner: 'Strategy',
           status: 'active',
+          statusSource: 'default',
           detail: 'Define the metric, channel, and buyer signals that matter before drafting experiments.',
           recommendedAgentSlug: 'product-strategist',
         },
@@ -165,7 +226,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-2`,
           name: 'Design the next experiment',
           owner: 'Growth',
-          status: 'next',
+          status: 'ready',
+          statusSource: 'default',
           detail: 'Create a focused experiment with hypothesis, execution notes, and expected signal.',
           recommendedAgentSlug: 'operations-strategist',
         },
@@ -173,7 +235,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-3`,
           name: 'Capture learning loop',
           owner: 'Lead',
-          status: 'next',
+          status: 'awaiting-decision',
+          statusSource: 'default',
           detail: 'Log outcomes, extract reusable insight, and queue the next experiment without losing momentum.',
           recommendedAgentSlug: 'proposal-strategist',
         },
@@ -185,6 +248,7 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           name: 'Frame the client brief',
           owner: 'Accounts',
           status: 'active',
+          statusSource: 'default',
           detail: 'Align objective, stakeholders, and non-negotiables before production work starts.',
           recommendedAgentSlug: 'product-strategist',
         },
@@ -192,7 +256,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-2`,
           name: 'Produce the current deliverable',
           owner: 'Delivery',
-          status: 'next',
+          status: 'ready',
+          statusSource: 'default',
           detail: 'Generate the asset or plan, then preserve the rationale so revisions do not reset context.',
           recommendedAgentSlug: 'proposal-strategist',
         },
@@ -200,7 +265,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-3`,
           name: 'Prepare approval and handoff',
           owner: 'Operations',
-          status: 'next',
+          status: 'awaiting-decision',
+          statusSource: 'default',
           detail: 'Package what changed, what was approved, and what the next operator needs to continue cleanly.',
           recommendedAgentSlug: 'operations-strategist',
         },
@@ -213,6 +279,7 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           name: 'Clarify the brief',
           owner: 'Strategy',
           status: 'active',
+          statusSource: 'default',
           detail: 'Define the objective, audience, and success definition before the first run.',
           recommendedAgentSlug: 'product-strategist',
         },
@@ -220,7 +287,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-2`,
           name: 'Run the first specialist',
           owner: 'Operations',
-          status: 'next',
+          status: 'ready',
+          statusSource: 'default',
           detail: 'Create the first deliverable and capture reusable context from the result.',
           recommendedAgentSlug: 'operations-strategist',
         },
@@ -228,7 +296,8 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
           id: `wf-${projectName}-3`,
           name: 'Review and operationalize',
           owner: 'Lead',
-          status: 'next',
+          status: 'awaiting-decision',
+          statusSource: 'default',
           detail: 'Approve the deliverable, extract memory, and queue the next workflow step.',
           recommendedAgentSlug: 'proposal-strategist',
         },
@@ -245,7 +314,7 @@ export function buildProjectContext(project?: Project) {
 
   const brief = project.operatingBrief
   const latestMemory = project.memory?.[0]
-  const activeStep = project.workflow?.find((step) => step.status === 'active') ?? project.workflow?.find((step) => step.status === 'next')
+  const activeStep = getProjectCurrentWorkflowStep(project.workflow)
 
   return [
     `Project objective: ${brief.objective}`,
@@ -258,6 +327,238 @@ export function buildProjectContext(project?: Project) {
   ]
     .filter(Boolean)
     .join('\n')
+}
+
+export function buildProjectHandoffPacket(
+  project: Project,
+  latestDeliverable?: SavedOutput | null,
+  stepOverride?: ProjectWorkflowStep,
+): ProjectHandoffPacket | null {
+  const brief = project.operatingBrief
+  const activeStep = stepOverride ?? getProjectCurrentWorkflowStep(project.workflow)
+  if (!brief || !activeStep) return null
+
+  const latestMemory = project.memory?.[0]
+  const currentStepIndex = project.workflow?.findIndex((item) => item.id === activeStep.id) ?? -1
+  const nextStep = currentStepIndex >= 0 ? project.workflow?.[currentStepIndex + 1] : undefined
+  const recommendedAgentSlug = resolveWorkflowRecommendedAgentSlug(activeStep)
+  const projectTypeLabel = getProjectTypeLabel(project.projectType)
+
+  const profile = (() => {
+    if (project.projectType === 'launch') {
+      return {
+        summary: `Package the current launch decision so the next specialist can move from strategy into production without re-briefing.`,
+        outputExpectation: 'A launch-ready artifact, decision memo, or sequence recommendation with positioning intact.',
+        executionMode: 'Narrative-to-asset handoff',
+        handoffChecklist: [
+          'Clarify the offer or positioning being protected.',
+          'State what must be produced or approved next.',
+          'Preserve the most recent strategic decision so asset work stays aligned.',
+        ],
+        riskNote: 'Launch work degrades quickly when the next operator has to infer positioning from partial context.',
+      }
+    }
+
+    if (project.projectType === 'growth') {
+      return {
+        summary: `Translate the current growth step into a testable operating handoff with explicit signal, constraint, and next experiment.`,
+        outputExpectation: 'A growth plan, experiment brief, or diagnostic readout tied to a measurable signal.',
+        executionMode: 'Signal-to-experiment handoff',
+        handoffChecklist: [
+          'Name the active growth question or bottleneck.',
+          'Keep the key metric or signal visible.',
+          'Specify the next experiment, review, or execution owner.',
+        ],
+        riskNote: 'Growth loops stall when signal, owner, or next experiment criteria are left implicit.',
+      }
+    }
+
+    if (project.projectType === 'client-delivery') {
+      return {
+        summary: `Package client context, delivery constraints, and approval logic so production can continue cleanly across revisions.`,
+        outputExpectation: 'A client-safe summary, deliverable draft, or revision-ready production note.',
+        executionMode: 'Delivery-to-approval handoff',
+        handoffChecklist: [
+          'Preserve the client objective and approval constraint.',
+          'State the current production or revision status.',
+          'Make the next deliverable or review action explicit.',
+        ],
+        riskNote: 'Client delivery breaks trust when rationale and approval constraints are not carried into the next pass.',
+      }
+    }
+
+    return {
+      summary: `Compress the current operating state into a reusable handoff so the next specialist can execute without rediscovering context.`,
+      outputExpectation: 'A structured next-action plan, execution brief, or operating summary.',
+      executionMode: 'Operating continuity handoff',
+      handoffChecklist: [
+        'State the objective being advanced.',
+        'Define the active step and its owner.',
+        'Carry forward the latest decision or memory that should shape execution.',
+      ],
+      riskNote: 'Operational work loses compounding value when context is scattered across runs instead of preserved as operator-ready state.',
+    }
+  })()
+
+  return {
+    projectId: project.id,
+    projectName: project.name,
+    projectType: project.projectType,
+    projectTypeLabel,
+    summary: profile.summary,
+    objective: brief.objective,
+    audience: brief.audience,
+    currentStep: activeStep.name,
+    currentStepStatus: activeStep.status,
+    currentStepStatusReason: activeStep.statusReason,
+    currentStepStatusSource: activeStep.statusSource,
+    currentStepOwner: activeStep.owner,
+    currentStepDetail: activeStep.detail,
+    nextStep: nextStep?.name,
+    recommendedAgentSlug,
+    recommendedAgentName: recommendedAgentSlug ? getAgentLabelFromSlug(recommendedAgentSlug) : null,
+    latestMemory: latestMemory?.note,
+    latestDeliverable: latestDeliverable?.title,
+    outputExpectation: profile.outputExpectation,
+    executionMode: profile.executionMode,
+    handoffChecklist: profile.handoffChecklist,
+    riskNote: profile.riskNote,
+  }
+}
+
+export function buildProjectHandoffText(packet: ProjectHandoffPacket) {
+  return [
+    `Project: ${packet.projectName} (${packet.projectTypeLabel})`,
+    `Summary: ${packet.summary}`,
+    `Objective: ${packet.objective}`,
+    packet.audience ? `Audience: ${packet.audience}` : null,
+    `Current step: ${packet.currentStep} owned by ${packet.currentStepOwner}.`,
+    `Step detail: ${packet.currentStepDetail}`,
+    packet.recommendedAgentName ? `Recommended specialist: ${packet.recommendedAgentName}.` : null,
+    packet.latestMemory ? `Latest memory: ${packet.latestMemory}` : 'Latest memory: no explicit memory captured yet.',
+    packet.latestDeliverable ? `Latest deliverable: ${packet.latestDeliverable}.` : 'Latest deliverable: no deliverables saved yet.',
+    packet.nextStep ? `Next step after this: ${packet.nextStep}.` : 'Next step after this: no further step defined.',
+    `Execution mode: ${packet.executionMode}`,
+    `Expected output: ${packet.outputExpectation}`,
+    `Risk note: ${packet.riskNote}`,
+    `Checklist: ${packet.handoffChecklist.join(' | ')}`,
+  ]
+    .filter(Boolean)
+    .join('\n')
+}
+
+function getAgentLabelFromSlug(agentSlug: string) {
+  const formatted = agentSlug
+    .split('-')
+    .filter(Boolean)
+    .map((part) => part[0]?.toUpperCase() + part.slice(1))
+    .join(' ')
+
+  return formatted || agentSlug
+}
+
+export function buildProjectRunPreset(project: Project): ProjectRunPreset | null {
+  const activeStep = getProjectCurrentWorkflowStep(project.workflow)
+  if (!activeStep) return null
+  return buildProjectRunPresetForStep(project, activeStep)
+}
+
+export function buildProjectRunPresetForStep(project: Project, step: ProjectWorkflowStep): ProjectRunPreset | null {
+  const activeStep = step
+  const agentSlug = resolveWorkflowRecommendedAgentSlug(activeStep)
+  if (!activeStep || !agentSlug) return null
+
+  const latestMemory = project.memory?.[0]
+  const nextStep = project.workflow?.[project.workflow.findIndex((item) => item.id === activeStep.id) + 1]
+  const handoffPacket = buildProjectHandoffPacket(project, undefined, activeStep)
+  const outputProfile = (() => {
+    if (project.projectType === 'launch') {
+      if (/narrative|brief|position/i.test(activeStep.name)) {
+        return { desiredOutput: 'analysis', detailLevel: 'deep', rationale: 'Clarify positioning before any asset production starts.' }
+      }
+      if (/asset|deliverable|produce/i.test(activeStep.name)) {
+        return { desiredOutput: 'draft', detailLevel: 'deep', rationale: 'Produce launch-ready material with reusable framing intact.' }
+      }
+      return { desiredOutput: 'plan', detailLevel: 'deep', rationale: 'Sequence launch work into an explicit rollout motion.' }
+    }
+
+    if (project.projectType === 'growth') {
+      if (/experiment|growth|signal/i.test(activeStep.name)) {
+        return { desiredOutput: 'plan', detailLevel: 'deep', rationale: 'Translate the current step into a testable growth execution plan.' }
+      }
+      return { desiredOutput: 'analysis', detailLevel: 'standard', rationale: 'Map the signal, metric, and decision criteria before executing.' }
+    }
+
+    if (project.projectType === 'client-delivery') {
+      if (/deliverable|produce/i.test(activeStep.name)) {
+        return { desiredOutput: 'draft', detailLevel: 'deep', rationale: 'Generate client-facing material while preserving rationale for revisions.' }
+      }
+      return { desiredOutput: 'summary', detailLevel: 'standard', rationale: 'Package client context and handoff constraints with minimal ambiguity.' }
+    }
+
+    if (/review|handoff|operationalize/i.test(activeStep.name)) {
+      return { desiredOutput: 'summary', detailLevel: 'standard', rationale: 'Compress what happened into reusable operator context.' }
+    }
+
+    return { desiredOutput: 'plan', detailLevel: 'deep', rationale: 'Convert the current workflow step into a structured next action.' }
+  })()
+  const context = [
+    project.operatingBrief?.objective ? `Objective: ${project.operatingBrief.objective}` : null,
+    `Current step: ${activeStep.name} owned by ${activeStep.owner}.`,
+    `Step detail: ${activeStep.detail}`,
+    latestMemory ? `Latest memory: ${latestMemory.note}` : 'Latest memory: no explicit memory captured yet.',
+    nextStep ? `Next step after this: ${nextStep.name}.` : 'Next step after this: no further step defined.',
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  return {
+    agentSlug,
+    projectId: project.id,
+    projectName: project.name,
+    projectType: project.projectType,
+    stepId: activeStep.id,
+    stepName: activeStep.name,
+    stepOwner: activeStep.owner,
+    task: `${activeStep.name}: ${activeStep.detail}`,
+    context,
+    desiredOutput: outputProfile.desiredOutput,
+    detailLevel: outputProfile.detailLevel,
+    rationale: outputProfile.rationale,
+    handoffPacket,
+  }
+}
+
+export function buildProjectRunHref(project: Project) {
+  const preset = buildProjectRunPreset(project)
+  if (!preset) return null
+  return buildProjectRunHrefForPreset(preset)
+}
+
+export function buildProjectRunHrefForStep(project: Project, step: ProjectWorkflowStep) {
+  const preset = buildProjectRunPresetForStep(project, step)
+  if (!preset) return null
+  return buildProjectRunHrefForPreset(preset)
+}
+
+function buildProjectRunHrefForPreset(preset: ProjectRunPreset) {
+  const params = new URLSearchParams({
+    task: preset.task,
+    context: preset.context,
+    desiredOutput: preset.desiredOutput,
+    detailLevel: preset.detailLevel,
+    projectId: preset.projectId,
+    presetStepId: preset.stepId,
+    presetStepName: preset.stepName,
+    presetStepOwner: preset.stepOwner,
+    presetProjectName: preset.projectName,
+  })
+
+  if (preset.handoffPacket) {
+    params.set('presetPacket', JSON.stringify(preset.handoffPacket))
+  }
+
+  return `/app/run/${preset.agentSlug}?${params.toString()}`
 }
 
 function loadProjectOverlay(projectId: string): ProjectOverlayState | null {
@@ -327,26 +628,88 @@ export function captureDeliverableMemory(
   }
 }
 
-export function advanceWorkflowAfterRun(workflow: ProjectWorkflowStep[], runId: string, runLabel: string, completedAt: string) {
-  const activeIndex = workflow.findIndex((step) => step.status === 'active')
-  const nextIndex = activeIndex >= 0 ? activeIndex : workflow.findIndex((step) => step.status === 'next')
+function inferNextWorkflowStateAfterRun(
+  run?: AgentRun,
+  output?: AgentOutput,
+  projectType?: ProjectType,
+): { status: ProjectWorkflowStatus; reason: string; source: ProjectWorkflowStatusSource } {
+  const outputText = [
+    output?.summary ?? '',
+    output?.suggestedNextStep ?? '',
+    ...(output?.risksNotes ?? []),
+  ]
+    .join(' ')
+    .toLowerCase()
+
+  if (/\bblocked\b|\bblocker\b|\bcannot\b|\bcan\'t\b|\bwaiting on\b|\bdependency\b/.test(outputText)) {
+    return { status: 'blocked', reason: 'The output signaled a blocker or dependency before the next step can continue.', source: 'auto' }
+  }
+
+  if (/\bapproval\b|\bapprove\b|\bdecision\b|\bsign-?off\b|\breview\b/.test(outputText)) {
+    return { status: 'awaiting-decision', reason: 'The output suggests review, approval, or an explicit decision before continuing.', source: 'auto' }
+  }
+
+  if ((output?.risksNotes.length ?? 0) >= 2 || /\brisk\b|\bunclear\b|\bunknown\b|\bconstraint\b|\balignment\b/.test(outputText)) {
+    return { status: 'at-risk', reason: 'The run surfaced multiple risks or unresolved constraints that weaken execution confidence.', source: 'auto' }
+  }
+
+  if (projectType === 'client-delivery' && run?.desiredOutput === 'draft') {
+    return { status: 'awaiting-decision', reason: 'Client-delivery drafts usually need approval or revision before the next handoff.', source: 'auto' }
+  }
+
+  if (projectType === 'launch' && run?.desiredOutput === 'draft') {
+    return { status: 'awaiting-decision', reason: 'Launch drafts usually need positioning or asset review before rollout continues.', source: 'auto' }
+  }
+
+  if (projectType === 'growth' && run?.desiredOutput === 'plan') {
+    return { status: 'ready', reason: 'The run produced an execution plan that leaves the next experiment ready to launch.', source: 'auto' }
+  }
+
+  if (projectType === 'operations' && run?.desiredOutput === 'summary') {
+    return { status: 'awaiting-decision', reason: 'Operational summaries usually need an explicit owner decision before progressing.', source: 'auto' }
+  }
+
+  if (run?.desiredOutput === 'summary') {
+    return { status: 'awaiting-decision', reason: 'Summary-style outputs usually need an operator decision before the workflow advances.', source: 'auto' }
+  }
+
+  return { status: 'ready', reason: 'The run produced enough context to queue the next step as ready for execution.', source: 'auto' }
+}
+
+export function advanceWorkflowAfterRun(
+  workflow: ProjectWorkflowStep[],
+  runId: string,
+  runLabel: string,
+  completedAt: string,
+  options?: {
+    run?: AgentRun
+    output?: AgentOutput
+    projectType?: ProjectType
+  },
+) {
+  const activeStep = getProjectCurrentWorkflowStep(workflow)
+  const nextIndex = activeStep ? workflow.findIndex((step) => step.id === activeStep.id) : -1
   if (nextIndex < 0) return workflow
+  const inferredNextState = inferNextWorkflowStateAfterRun(options?.run, options?.output, options?.projectType)
 
   return workflow.map((step, index) => {
     if (index === nextIndex) {
       return {
         ...step,
         status: 'done',
+        statusSource: options?.run ? 'auto' : 'manual',
         linkedRunId: runId,
         linkedRunLabel: runLabel,
         completedAt,
       }
     }
 
-    if (index === nextIndex + 1 && step.status === 'next') {
+    if (index === nextIndex + 1 && step.status !== 'done') {
       return {
         ...step,
-        status: 'active',
+        status: inferredNextState.status,
+        statusReason: inferredNextState.reason,
+        statusSource: inferredNextState.source,
       }
     }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, use, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, use, type ReactNode } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -15,14 +15,17 @@ import { MOCK_USER, MOCK_PROJECTS } from '@/lib/data/mock-store'
 import {
   advanceWorkflowAfterRun,
   buildProjectContext,
+  buildProjectHandoffPacket,
+  buildProjectHandoffText,
   captureDeliverableMemory,
+  getProjectCurrentWorkflowStep,
   getMergedProjects,
   persistRun,
   persistProjectRunResult,
   persistSavedOutput,
 } from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
-import type { AgentOutput, AgentRun, SavedOutput } from '@/lib/types'
+import type { AgentOutput, AgentRun, ProjectHandoffPacket, SavedOutput } from '@/lib/types'
 import {
   ArrowLeft,
   ArrowRight,
@@ -50,6 +53,16 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
   )
 }
 
+function parsePresetPacket(rawValue: string | null): ProjectHandoffPacket | null {
+  if (!rawValue) return null
+
+  try {
+    return JSON.parse(rawValue) as ProjectHandoffPacket
+  } catch {
+    return null
+  }
+}
+
 function RunAgentPageContent({ params }: Props) {
   const { slug } = use(params)
   const searchParams = useSearchParams()
@@ -62,6 +75,11 @@ function RunAgentPageContent({ params }: Props) {
   const [desiredOutput, setDesiredOutput] = useState(searchParams.get('desiredOutput') || 'analysis')
   const [detailLevel, setDetailLevel] = useState(searchParams.get('detailLevel') || 'standard')
   const [projectId, setProjectId] = useState(searchParams.get('projectId') || 'unassigned')
+  const [presetStepId, setPresetStepId] = useState(searchParams.get('presetStepId') || '')
+  const [presetStepName, setPresetStepName] = useState(searchParams.get('presetStepName') || '')
+  const [presetStepOwner, setPresetStepOwner] = useState(searchParams.get('presetStepOwner') || '')
+  const [presetProjectName, setPresetProjectName] = useState(searchParams.get('presetProjectName') || '')
+  const [presetPacket, setPresetPacket] = useState<ProjectHandoffPacket | null>(parsePresetPacket(searchParams.get('presetPacket')))
   const [status, setStatus] = useState<'idle' | 'running' | 'done' | 'error'>('idle')
   const [output, setOutput] = useState<AgentOutput | null>(null)
   const [latestRun, setLatestRun] = useState<AgentRun | null>(null)
@@ -76,11 +94,18 @@ function RunAgentPageContent({ params }: Props) {
       setDesiredOutput(searchParams.get('desiredOutput') || 'analysis')
       setDetailLevel(searchParams.get('detailLevel') || 'standard')
       setProjectId(searchParams.get('projectId') || 'unassigned')
+      setPrefilledProjectId(searchParams.get('projectId') || '')
     }
 
     if (searchParams.get('task')) {
       setTask(searchParams.get('task') || '')
     }
+
+    setPresetStepId(searchParams.get('presetStepId') || '')
+    setPresetStepName(searchParams.get('presetStepName') || '')
+    setPresetStepOwner(searchParams.get('presetStepOwner') || '')
+    setPresetProjectName(searchParams.get('presetProjectName') || '')
+    setPresetPacket(parsePresetPacket(searchParams.get('presetPacket')))
   }, [searchParams])
 
   useEffect(() => {
@@ -91,6 +116,16 @@ function RunAgentPageContent({ params }: Props) {
   }, [])
 
   const selectedProject = projectId === 'unassigned' ? undefined : projects.find((project) => project.id === projectId)
+  const hasProjectPreset = Boolean(presetStepName && presetProjectName)
+  const liveProjectHandoff = useMemo(() => (selectedProject ? buildProjectHandoffPacket(selectedProject) : null), [selectedProject])
+  const inheritedHandoffPacket = presetPacket ?? liveProjectHandoff
+  const executionContext = useMemo(() => {
+    if (!inheritedHandoffPacket) return context
+
+    return [context.trim(), 'Operating handoff:', buildProjectHandoffText(inheritedHandoffPacket)]
+      .filter(Boolean)
+      .join('\n\n')
+  }, [context, inheritedHandoffPacket])
 
   useEffect(() => {
     if (!selectedProject) {
@@ -101,9 +136,12 @@ function RunAgentPageContent({ params }: Props) {
       return
     }
 
+    const keepPresetContext = prefilledProjectId === selectedProject.id && Boolean(searchParams.get('context') || presetPacket)
+    if (keepPresetContext) return
+
     setContext(buildProjectContext(selectedProject))
     setPrefilledProjectId(selectedProject.id)
-  }, [prefilledProjectId, selectedProject])
+  }, [prefilledProjectId, presetPacket, searchParams, selectedProject])
 
   if (!agent) {
     return (
@@ -150,7 +188,7 @@ function RunAgentPageContent({ params }: Props) {
         body: JSON.stringify({
           agentSlug: agent.slug,
           task,
-          context,
+          context: executionContext,
           desiredOutput,
           detailLevel,
           userPlan: MOCK_USER.plan,
@@ -175,8 +213,12 @@ function RunAgentPageContent({ params }: Props) {
         agentDivision: payload.agentDivision,
         projectId: selectedProject?.id,
         projectName: selectedProject?.name,
+        presetStepId: presetStepId || undefined,
+        presetStepName: presetStepName || undefined,
+        presetStepOwner: presetStepOwner || undefined,
+        handoffPacket: inheritedHandoffPacket || undefined,
         task,
-        context,
+        context: executionContext,
         desiredOutput,
         detailLevel,
         status: 'completed',
@@ -232,7 +274,17 @@ function RunAgentPageContent({ params }: Props) {
     }
 
     const runLabel = `${agent.name}: ${task.slice(0, 48)}`
-    const nextWorkflow = advanceWorkflowAfterRun(selectedProject.workflow ?? [], latestRun.id, runLabel, latestRun.createdAt)
+    const nextWorkflow = advanceWorkflowAfterRun(
+      selectedProject.workflow ?? [],
+      latestRun.id,
+      runLabel,
+      latestRun.createdAt,
+      {
+        run: latestRun,
+        output,
+        projectType: selectedProject.projectType,
+      },
+    )
 
     const savedOutput: SavedOutput = {
       id: `saved-${Date.now()}`,
@@ -302,6 +354,29 @@ function RunAgentPageContent({ params }: Props) {
               Frame one precise objective, inherit project context when needed, then save the deliverable back into the
               operating record instead of leaving it as an isolated prompt result.
             </p>
+            {hasProjectPreset ? (
+              <div className="mt-5 border border-white/10 bg-[#102826] px-4 py-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9db7b1]">Workflow preset loaded</p>
+                <p className="mt-2 text-sm font-semibold text-white">{presetProjectName}</p>
+                <p className="mt-1 text-sm text-[#d9e3e0]">
+                  Step: {presetStepName}
+                  {presetStepOwner ? ` · Owner: ${presetStepOwner}` : ''}
+                </p>
+                <p className="mt-2 text-xs leading-6 text-[#c3d3cf]">
+                  This run was preconfigured from the project workflow so the specialist inherits the intended task and context.
+                </p>
+              </div>
+            ) : null}
+            {inheritedHandoffPacket ? (
+              <div className="mt-4 border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-4 py-4">
+                <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">
+                  <span>{inheritedHandoffPacket.projectTypeLabel}</span>
+                  <span>{inheritedHandoffPacket.executionMode}</span>
+                </div>
+                <p className="mt-3 text-sm font-semibold text-white">{inheritedHandoffPacket.summary}</p>
+                <p className="mt-2 text-xs leading-6 text-[#d9e3e0]">{inheritedHandoffPacket.outputExpectation}</p>
+              </div>
+            ) : null}
           </div>
 
           <div className="grid gap-px bg-[#28413d] sm:grid-cols-3 lg:grid-cols-1">
@@ -408,26 +483,54 @@ function RunAgentPageContent({ params }: Props) {
                 <div className="border border-[#d8e5e2] bg-[#f1f6f4] px-4 py-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Inherited project memory</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
+                        {inheritedHandoffPacket ? 'Operating packet in scope' : 'Inherited project memory'}
+                      </p>
                       <p className="mt-1 text-sm font-medium text-[#173634]">{selectedProject.name}</p>
                     </div>
                     <span className="border border-[#d8e5e2] bg-[#fbfbfa] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#173634]/70">
-                      {selectedProject.workflow?.find((step) => step.status === 'active')?.name || 'No active step'}
+                      {getProjectCurrentWorkflowStep(selectedProject.workflow)?.name || 'No active step'}
                     </span>
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-[#173634]/75">{selectedProject.operatingBrief.objective}</p>
-                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Success definition</p>
-                      <p className="mt-1 text-xs leading-5 text-[#173634]/70">{selectedProject.operatingBrief.successDefinition}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Latest memory</p>
-                      <p className="mt-1 text-xs leading-5 text-[#173634]/70">
-                        {selectedProject.memory?.[0]?.note || 'No memory captured yet.'}
-                      </p>
-                    </div>
-                  </div>
+                  {inheritedHandoffPacket ? (
+                    <>
+                      <p className="mt-3 text-sm leading-6 text-[#173634]/75">{inheritedHandoffPacket.objective}</p>
+                      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                          <p className="mt-1 text-xs leading-5 text-[#173634]/70">{inheritedHandoffPacket.outputExpectation}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Risk note</p>
+                          <p className="mt-1 text-xs leading-5 text-[#173634]/70">{inheritedHandoffPacket.riskNote}</p>
+                        </div>
+                      </div>
+                      <div className="mt-4 grid gap-3">
+                        {inheritedHandoffPacket.handoffChecklist.map((item) => (
+                          <div key={item} className="flex items-start gap-2 border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2.5 text-xs leading-5 text-[#173634]/75">
+                            <Bookmark size={12} className="mt-0.5 shrink-0 text-[#8fb2aa]" />
+                            <span>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mt-3 text-sm leading-6 text-[#173634]/75">{selectedProject.operatingBrief.objective}</p>
+                      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Success definition</p>
+                          <p className="mt-1 text-xs leading-5 text-[#173634]/70">{selectedProject.operatingBrief.successDefinition}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Latest memory</p>
+                          <p className="mt-1 text-xs leading-5 text-[#173634]/70">
+                            {selectedProject.memory?.[0]?.note || 'No memory captured yet.'}
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 
@@ -573,6 +676,12 @@ function RunAgentPageContent({ params }: Props) {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Suggested prompt starter</p>
                 <p className="mt-1 text-xs leading-5 text-[#173634]/70">{agent.suggestedPrompts[0]}</p>
               </div>
+              {inheritedHandoffPacket ? (
+                <div className="mt-4 border border-[#d8e5e2] bg-[#f1f6f4] px-4 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Inherited operating packet</p>
+                  <p className="mt-1 text-xs leading-5 text-[#173634]/70">{inheritedHandoffPacket.summary}</p>
+                </div>
+              ) : null}
             </div>
           </section>
 
@@ -583,7 +692,7 @@ function RunAgentPageContent({ params }: Props) {
             <div className="divide-y divide-[#d8e5e2]">
               {[
                 'Write a task with an explicit output.',
-                'Use project context when this work belongs to a larger initiative.',
+                inheritedHandoffPacket ? 'Keep the inherited operating packet intact unless the brief genuinely changed.' : 'Use project context when this work belongs to a larger initiative.',
                 'Save the result so the next run starts from memory instead of zero.',
               ].map((item) => (
                 <div key={item} className="px-5 py-3 text-xs leading-6 text-[#52605d]">{item}</div>

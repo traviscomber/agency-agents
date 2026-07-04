@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Mail, MessageCircle, Phone, ShieldCheck, Sparkles, Workflow, Shield } from 'lucide-react'
+import { ArrowRight, Mail, MessageCircle, Phone, ShieldCheck, Workflow, Shield } from 'lucide-react'
 
 const CONTACT_CHANNELS = [
   {
     icon: Mail,
     title: 'Email',
-    detail: 'hello@agencyos.app',
-    body: 'Best for product questions, partnerships, and general support.',
-    href: 'mailto:hello@agencyos.app',
+    detail: 'hello@n3uralia.com',
+    body: 'Best for product questions, partnership requests, and implementation follow-up.',
+    href: 'mailto:hello@n3uralia.com',
     cta: 'Send email',
   },
   {
@@ -22,19 +22,19 @@ const CONTACT_CHANNELS = [
   },
   {
     icon: Phone,
-    title: 'Sales',
-    detail: 'Book a call',
-    body: 'Use this if you want a guided walkthrough for your team or a scoped implementation conversation.',
-    href: 'mailto:hello@agencyos.app?subject=AgencyOS%20sales%20conversation',
-    cta: 'Start a conversation',
+    title: 'Diagnosis',
+    detail: 'Book an operating review',
+    body: 'Use this if you want a guided walkthrough, fit check, or a scoped conversation around the first workflow to build.',
+    href: 'mailto:hello@n3uralia.com?subject=N3uralia%20operating%20diagnosis',
+    cta: 'Request diagnosis',
   },
 ]
 
 const CONTACT_SIGNALS = [
   ['Response time', 'We aim to answer in under 24 business hours.'],
-  ['Best for', 'Product questions, onboarding, pricing, and partnership requests.'],
+  ['Best for', 'Diagnosis, onboarding, implementation questions, and partnership requests.'],
   ['Privacy', 'We only use your message to respond and handle the request.'],
-  ['Fit check', 'If needed, we will route you to the right specialist.'],
+  ['Fit check', 'If needed, we route the conversation to the right specialist path.'],
 ]
 
 export default function ContactPage() {
@@ -48,19 +48,19 @@ export default function ContactPage() {
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
                 <ShieldCheck size={12} className="text-primary" />
-                Contact AgencyOS
+                Contact N3uralia
               </div>
               <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
-                Reach the team without hunting through the app.
+                Reach the team through the channel that matches the operational pressure.
               </h1>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-700 sm:text-base">
-                Use the direct channel that fits your request. Product, billing, and partnership questions all land in the
-                same place so we can route them quickly.
+                N3uralia is built around diagnosis, build, and operating continuity. Reach out with the problem, and we
+                route the conversation to the right specialist path quickly.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <Button asChild>
-                  <Link href="mailto:hello@agencyos.app">
+                  <Link href="mailto:hello@n3uralia.com">
                     Email us <ArrowRight size={12} className="ml-1" />
                   </Link>
                 </Button>
@@ -73,13 +73,13 @@ export default function ContactPage() {
                 {[
                   {
                     icon: Workflow,
-                    title: 'Route by intent',
-                    body: 'Product, billing, and partnership questions are directed to the right place.',
+                    title: 'Route by pressure',
+                    body: 'Product, diagnosis, and implementation requests are directed to the right starting point.',
                   },
                   {
                     icon: Shield,
-                    title: 'No friction loops',
-                    body: 'You do not need to chase the app to find the correct contact path.',
+                    title: 'Operational fit first',
+                    body: 'The first conversation is scoped around risk, ownership, and the next useful layer to build.',
                   },
                 ].map(({ icon: Icon, title, body }) => (
                   <div key={title} className="rounded-[1.25rem] border border-slate-200 bg-white p-4 shadow-sm">

@@ -4,12 +4,12 @@ import type { UserProfile, PlanId } from '@/lib/types'
 import { Mail, Building2 } from 'lucide-react'
 
 const MOCK_USERS: UserProfile[] = [
-  { id: 'u1', email: 'demo@agencyos.app', fullName: 'Demo User', company: 'Acme Inc.', role: 'Founder', plan: 'free', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-15T10:00:00Z' },
+  { id: 'u1', email: 'demo@n3uralia.com', fullName: 'Demo User', company: 'Acme Inc.', role: 'Founder', plan: 'free', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-15T10:00:00Z' },
   { id: 'u2', email: 'alex@buildfast.co', fullName: 'Alex Chen', company: 'BuildFast', role: 'CTO', plan: 'pro', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-10T08:00:00Z' },
   { id: 'u3', email: 'sarah@launchpad.io', fullName: 'Sarah Kim', company: 'Launchpad', role: 'Product Lead', plan: 'starter', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-12T14:00:00Z' },
   { id: 'u4', email: 'james@consultco.com', fullName: 'James Owens', company: 'Consult Co.', role: 'Consultant', plan: 'pro', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-14T11:30:00Z' },
   { id: 'u5', email: 'nina@studio23.design', fullName: 'Nina Park', company: 'Studio 23', role: 'Designer', plan: 'starter', isAdmin: false, onboardingCompleted: false, createdAt: '2024-01-18T09:00:00Z' },
-  { id: 'admin', email: 'admin@agencyos.app', fullName: 'Admin User', plan: 'enterprise', isAdmin: true, onboardingCompleted: true, createdAt: '2024-01-01T00:00:00Z' },
+  { id: 'admin', email: 'admin@n3uralia.com', fullName: 'Admin User', plan: 'enterprise', isAdmin: true, onboardingCompleted: true, createdAt: '2024-01-01T00:00:00Z' },
 ]
 
 const planCounts: Record<PlanId, number> = { free: 0, starter: 0, pro: 0, team: 0, enterprise: 0 }

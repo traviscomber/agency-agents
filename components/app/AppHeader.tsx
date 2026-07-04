@@ -39,7 +39,7 @@ export function AppHeader({ title }: AppHeaderProps) {
   const [open, setOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
   const pathname = usePathname()
-  const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'AgencyOS', [pathname, title])
+  const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'N3uralia Studio', [pathname, title])
 
   const toggleTheme = () => {
     setIsDark(!isDark)
@@ -72,10 +72,10 @@ export function AppHeader({ title }: AppHeaderProps) {
 
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center border border-[#d8e5e2] bg-[#edf4f1] text-[10px] font-semibold text-[#173634]">
-              AO
+              N3
             </span>
             <div className="leading-tight">
-              <p className="text-[9px] uppercase tracking-[0.26em] text-[#a7b9b4]">AgencyOS</p>
+              <p className="text-[9px] uppercase tracking-[0.26em] text-[#a7b9b4]">N3uralia Studio</p>
               <p className="text-xs font-semibold text-[#173634]">{currentTitle}</p>
             </div>
           </div>

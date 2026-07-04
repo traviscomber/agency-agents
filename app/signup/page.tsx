@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 const BENEFITS = [
-  '5 free agent runs per month',
-  'Access to core specialist agents',
-  'Save outputs to projects',
+  '5 free specialist runs per month',
+  'Project memory and workflow continuity',
+  'Save deliverables into reusable workstreams',
   'No credit card required',
 ]
 
@@ -57,21 +57,21 @@ export default function SignupPage() {
         >
           <Link href="/" className="inline-flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center border border-[#28413d] bg-[#0d1f1d] text-[11px] font-semibold tracking-tight text-[#8fb2aa]">
-              AO
+              N3
             </span>
             <div className="leading-tight">
-              <span className="block text-sm font-semibold text-[#f5fbfa]">AgencyOS</span>
-              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">AgencyOS</span>
+              <span className="block text-sm font-semibold text-[#f5fbfa]">N3uralia Studio</span>
+              <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Operating workspace</span>
             </div>
           </Link>
 
           <div className="max-w-xs">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Start a workspace</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Start the operating system</p>
             <h1 className="mt-4 text-4xl font-light leading-tight text-[#f5fbfa]">
-              Create your AgencyOS account and begin with structure.
+              Create your account and begin with continuity.
             </h1>
             <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
-              Set up a workspace for specialist agents, shared context, and outputs your team can reuse.
+              Set up a workspace for specialist execution, inherited context, workflow state, and outputs your team can reuse.
             </p>
             <ul className="mt-8 space-y-3">
               {BENEFITS.map((benefit) => (
@@ -83,7 +83,7 @@ export default function SignupPage() {
             </ul>
           </div>
 
-          <p className="text-xs text-[#52605d]">&copy; {new Date().getFullYear()} AgencyOS</p>
+          <p className="text-xs text-[#52605d]">&copy; {new Date().getFullYear()} N3uralia Studio</p>
         </aside>
 
         {/* ── Right — light form ── */}
@@ -95,9 +95,9 @@ export default function SignupPage() {
             {/* Mobile logo */}
             <Link href="/" className="mb-8 flex items-center gap-3 lg:hidden">
               <span className="flex h-8 w-8 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[11px] font-semibold tracking-tight text-[#173634]">
-                AO
+                N3
               </span>
-              <span className="text-sm font-semibold text-[#173634]">AgencyOS</span>
+              <span className="text-sm font-semibold text-[#173634]">N3uralia Studio</span>
             </Link>
 
             <div className="mb-8">

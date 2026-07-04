@@ -124,7 +124,7 @@ async function runOpenAIAgent(agent: Agent, input: RunInput): Promise<RunResult>
         content: [
           {
             type: 'input_text',
-            text: `${agent.systemPrompt}\nYou are operating inside AgencyOS. Return only the requested data structure.`,
+            text: `${agent.systemPrompt}\nYou are operating inside N3uralia Studio. Return only the requested data structure.`,
           },
         ],
       },

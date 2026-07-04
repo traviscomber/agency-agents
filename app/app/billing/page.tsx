@@ -138,7 +138,7 @@ export default function BillingPage() {
             <p className="mt-0.5 text-xs text-[#173634]/50">Private agents, white-label, custom limits, dedicated onboarding.</p>
           </div>
           <Link
-            href="mailto:hello@agencyos.app"
+            href="mailto:hello@n3uralia.com"
             className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]"
           >
             Contact sales <ArrowRight size={10} />

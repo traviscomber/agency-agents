@@ -1,5 +1,5 @@
 /**
- * AgencyOS Brandbook
+ * N3uralia Studio Brandbook
  * Design system tokens — derived from the N3uralia visual language.
  * Single source of truth for all color, typography, and spacing decisions.
  */

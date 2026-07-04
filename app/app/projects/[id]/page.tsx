@@ -14,9 +14,17 @@ import { ArrowLeft, ArrowRight, Bot, Bookmark, Calendar, Sparkles } from 'lucide
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import {
+  buildProjectHandoffPacket,
+  buildProjectHandoffText,
   buildProjectOverlay,
+  getProjectCurrentWorkflowStep,
+  getWorkflowStatusMeta,
+  buildProjectRunHrefForStep,
+  buildProjectRunPresetForStep,
+  buildProjectRunHref,
   getMergedProjects,
   getProjectOverlay,
+  getProjectTypeLabel,
   mergeProjectBrief,
   mergeProjectMemory,
   mergeProjectRuns,
@@ -25,7 +33,7 @@ import {
   persistProjectOperatingState,
   updateProjectBrief,
 } from '@/lib/project-memory'
-import type { ProjectMemoryEntry, ProjectOperatingBrief, ProjectOverlayState, ProjectWorkflowStep } from '@/lib/types'
+import type { ProjectMemoryEntry, ProjectOperatingBrief, ProjectOverlayState, ProjectWorkflowStatus, ProjectWorkflowStep } from '@/lib/types'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -185,8 +193,8 @@ export default function ProjectDetailPage({ params }: Props) {
   }
 
   async function advanceWorkflowManually() {
-    const activeIndex = workflow.findIndex((step) => step.status === 'active')
-    const nextIndex = activeIndex >= 0 ? activeIndex : workflow.findIndex((step) => step.status === 'next')
+    const currentStep = getProjectCurrentWorkflowStep(workflow)
+    const nextIndex = currentStep ? workflow.findIndex((step) => step.id === currentStep.id) : -1
     if (nextIndex < 0) return
 
     const createdAt = new Date().toISOString()
@@ -195,15 +203,17 @@ export default function ProjectDetailPage({ params }: Props) {
         return {
           ...step,
           status: 'done' as const,
+          statusSource: 'manual' as const,
           linkedRunLabel: step.linkedRunLabel ?? 'Manual progression',
           completedAt: step.completedAt ?? createdAt,
         }
       }
 
-      if (index === nextIndex + 1 && step.status === 'next') {
+      if (index === nextIndex + 1 && step.status !== 'done') {
         return {
           ...step,
           status: 'active' as const,
+          statusSource: 'manual' as const,
         }
       }
 
@@ -250,36 +260,65 @@ export default function ProjectDetailPage({ params }: Props) {
     })
   }
 
-  const activeStep = workflow.find((step) => step.status === 'active') ?? workflow.find((step) => step.status === 'next')
+  async function updateWorkflowStatus(stepId: string, nextStatus: ProjectWorkflowStatus) {
+    const nextWorkflow = workflow.map((step) =>
+      step.id === stepId
+        ? {
+            ...step,
+            status: nextStatus,
+            statusReason: `Status manually set to ${getWorkflowStatusMeta(nextStatus).label.toLowerCase()} by the operator.`,
+            statusSource: 'manual',
+            completedAt: nextStatus === 'done' ? step.completedAt ?? new Date().toISOString() : undefined,
+          }
+        : step,
+    )
+
+    const step = workflow.find((item) => item.id === stepId)
+    const createdAt = new Date().toISOString()
+
+    await saveOperatingUpdate({
+      workflow: nextWorkflow,
+      memoryEntry: {
+        id: `mem-${Date.now()}`,
+        title: 'Workflow status updated',
+        note: step
+          ? `Marked workflow step "${step.name}" as ${getWorkflowStatusMeta(nextStatus).label.toLowerCase()}.`
+          : 'Updated the workflow status.',
+        source: 'decision',
+        createdAt,
+      },
+    })
+  }
+
+  const activeStep = getProjectCurrentWorkflowStep(workflow)
   const nextStep = activeStep ? workflow[workflow.findIndex((step) => step.id === activeStep.id) + 1] : undefined
   const recommendedAgentSlug = resolveRecommendedAgentSlug(activeStep)
   const recommendedAgent = recommendedAgentSlug ? getAgentBySlug(recommendedAgentSlug) : null
   const selectableAgents = SEED_AGENTS.filter((agent) => agent.isActive)
   const latestMemory = memory[0]
   const latestDeliverable = saved[0]
-  const handoffNote = operatingBrief && activeStep
-    ? [
-        `Objective: ${operatingBrief.objective}`,
-        `Current step: ${activeStep.name} owned by ${activeStep.owner}.`,
-        `Step detail: ${activeStep.detail}`,
-        latestMemory ? `Latest memory: ${latestMemory.note}` : 'Latest memory: no explicit memory captured yet.',
-        latestDeliverable ? `Latest deliverable: ${latestDeliverable.title}.` : 'Latest deliverable: no deliverables saved yet.',
-        nextStep ? `Next step after this: ${nextStep.name}.` : 'Next step after this: no further step defined.',
-      ].join('\n')
-    : null
-  const recommendedRunHref = useMemo(() => {
-    if (!recommendedAgent || !activeStep || !handoffNote) return null
-
-    const params = new URLSearchParams({
-      task: `${activeStep.name}: ${activeStep.detail}`,
-      context: handoffNote,
-      desiredOutput: 'plan',
-      detailLevel: 'deep',
-      projectId: project.id,
-    })
-
-    return `/app/run/${recommendedAgent.slug}?${params.toString()}`
-  }, [activeStep, handoffNote, project.id, recommendedAgent])
+  const projectTypeLabel = getProjectTypeLabel(project.projectType)
+  const activeStepMeta = activeStep ? getWorkflowStatusMeta(activeStep.status) : null
+  const operatingHealth = activeStep
+    ? activeStep.status === 'blocked'
+      ? 'Blocked pending unblock action'
+      : activeStep.status === 'at-risk'
+        ? 'Execution at risk'
+        : activeStep.status === 'awaiting-decision'
+          ? 'Waiting on explicit decision'
+          : recommendedAgent
+            ? 'Ready for the next specialist'
+            : 'Needs specialist assignment'
+    : 'Needs workflow definition'
+  const handoffPacket = useMemo(
+    () => buildProjectHandoffPacket(project, latestDeliverable),
+    [latestDeliverable, project],
+  )
+  const handoffText = useMemo(
+    () => (handoffPacket ? buildProjectHandoffText(handoffPacket) : null),
+    [handoffPacket],
+  )
+  const recommendedRunHref = useMemo(() => buildProjectRunHref(project), [project])
   const timelineItems = useMemo(() => {
     const items: Array<{
       id: string
@@ -340,6 +379,23 @@ export default function ProjectDetailPage({ params }: Props) {
       .sort((left, right) => right.date.localeCompare(left.date))
       .slice(0, 12)
   }, [memory, operatingBrief, project.id, project.updatedAt, runs, saved])
+  const continuitySignals = [
+    {
+      label: 'Continuity depth',
+      value: `${memory.length + saved.length + runs.length}`,
+      note: 'combined notes, deliverables, and runs linked to this initiative',
+    },
+    {
+      label: 'Packet readiness',
+      value: handoffPacket ? 'Ready' : 'Missing',
+      note: handoffPacket ? 'the next operator can inherit a generated packet now' : 'define brief and active workflow to create a packet',
+    },
+    {
+      label: 'Timeline coverage',
+      value: `${timelineItems.length}`,
+      note: 'recent operating events available for recovery',
+    },
+  ]
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
@@ -350,17 +406,26 @@ export default function ProjectDetailPage({ params }: Props) {
         <ArrowLeft size={13} /> Back to projects
       </Link>
 
-      <section className="mt-5 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_48%,#f8fafc_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+      <section className="n3-panel-soft mt-5 overflow-hidden rounded-[2rem] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700">
-              <Sparkles size={12} className="text-primary" />
-              Project operating record
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="n3-chip">
+                <Sparkles size={12} className="text-primary" />
+                Project operating record
+              </div>
+              <div className="n3-chip-soft">
+                {projectTypeLabel}
+              </div>
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{project.name}</h1>
             {project.description && (
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">{project.description}</p>
             )}
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-700">
+              This project view should function as the live operating layer for the initiative: brief, decision trail, workflow ownership,
+              execution history, and reusable deliverables in one recoverable surface.
+            </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-700">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
@@ -376,30 +441,46 @@ export default function ProjectDetailPage({ params }: Props) {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="rounded-[1.25rem] border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_18px_40px_-24px_rgba(15,23,42,0.9)]">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">Status</p>
-              <p className="mt-3 text-2xl font-semibold capitalize">{project.status}</p>
-              <p className="mt-1 text-sm text-white/70">A working record for brief, memory, workflow, and deliverables.</p>
+            <div className="n3-dark-panel rounded-[1.25rem] p-5">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">Operating health</p>
+              <p className="mt-3 text-2xl font-semibold">{operatingHealth}</p>
+              <p className="mt-1 text-sm text-white/70">The next move should remain explicit so the project never drops back into prompt chaos.</p>
             </div>
-            <div className="rounded-[1.25rem] border border-slate-200 bg-white p-5 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Last updated</p>
-              <p className="mt-3 text-2xl font-semibold text-foreground">{formatDate(project.updatedAt)}</p>
-              <p className="mt-1 text-sm text-slate-700">See the brief, workflow, run history, and deliverables for this initiative.</p>
+            <div className="n3-subpanel rounded-[1.25rem] p-5 shadow-sm">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Project status</p>
+              <p className="mt-3 text-2xl font-semibold capitalize text-foreground">{project.status}</p>
+              <p className="mt-1 text-sm text-slate-700">Last updated {formatDate(project.updatedAt)} with brief, workflow, runs, and saved state attached.</p>
             </div>
           </div>
         </div>
       </section>
 
       <section className="mt-6 grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
-        <article className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+        <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operating cockpit</p>
-              <h2 className="mt-2 text-xl font-semibold text-foreground">Move the project forward without leaving the record</h2>
+              <h2 className="mt-2 text-xl font-semibold text-foreground">Advance the initiative without leaving the operating record</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
+                The operator should be able to see what matters now, which context to inherit, and who should run next without switching screens.
+              </p>
             </div>
-            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-700">
-              {activeStep ? activeStep.status : 'no step'}
-            </span>
+            {activeStepMeta ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={cn('rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em]', activeStepMeta.tone)}>
+                  {activeStepMeta.label}
+                </span>
+                {activeStep?.statusSource ? (
+                  <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-600">
+                    {activeStep.statusSource === 'auto' ? 'Auto inferred' : activeStep.statusSource === 'manual' ? 'Manual' : 'Default'}
+                  </span>
+                ) : null}
+              </div>
+            ) : (
+              <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-700">
+                No step
+              </span>
+            )}
           </div>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -407,6 +488,8 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Active step</p>
               <p className="mt-2 text-sm font-semibold text-foreground">{activeStep?.name || 'No active step'}</p>
               <p className="mt-1 text-xs leading-5 text-slate-700">{activeStep?.owner || 'Unassigned'}</p>
+              <p className="mt-2 text-[11px] leading-5 text-slate-600">{activeStep?.statusReason || activeStepMeta?.description || 'Define the workflow so this project has a visible next move.'}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-700">{activeStep?.detail || 'Define the workflow so this project has a visible next move.'}</p>
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Latest memory</p>
@@ -417,6 +500,23 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Latest deliverable</p>
               <p className="mt-2 text-sm font-semibold text-foreground">{latestDeliverable?.title || 'No deliverable yet'}</p>
               <p className="mt-1 text-xs leading-5 text-slate-700">{latestDeliverable ? formatDate(latestDeliverable.createdAt) : 'Save a run result to build continuity.'}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[1.25rem] border border-slate-200 bg-[#f8fafc] p-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Next operator</p>
+              <p className="mt-2 text-sm font-semibold text-foreground">{recommendedAgent?.name || 'No specialist mapped yet'}</p>
+              <p className="mt-1 text-xs leading-5 text-slate-700">
+                {recommendedAgent?.shortDescription || 'Assign a recommended specialist so the next run can inherit the right context.'}
+              </p>
+            </div>
+            <div className="rounded-[1.25rem] border border-slate-200 bg-[#f8fafc] p-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Next step after this</p>
+              <p className="mt-2 text-sm font-semibold text-foreground">{nextStep?.name || 'No later step defined'}</p>
+              <p className="mt-1 text-xs leading-5 text-slate-700">
+                {nextStep?.detail || 'Add or refine workflow steps so the project can continue without improvising the next phase.'}
+              </p>
             </div>
           </div>
 
@@ -435,27 +535,94 @@ export default function ProjectDetailPage({ params }: Props) {
           </div>
         </article>
 
-        <article className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+        <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Handoff package</p>
-              <h2 className="mt-2 text-xl font-semibold text-foreground">Generated from the live project state</h2>
+              <h2 className="mt-2 text-xl font-semibold text-foreground">Generated from the live operating state</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
+                This package should let the next specialist or human operator continue the work without asking what happened before.
+              </p>
             </div>
-            {handoffNote ? (
+            {handoffText ? (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => void navigator.clipboard.writeText(handoffNote)}
+                onClick={() => void navigator.clipboard.writeText(handoffText)}
               >
                 Copy handoff
               </Button>
             ) : null}
           </div>
-          <div className="mt-5 rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
-            <pre className="whitespace-pre-wrap font-sans text-sm leading-6 text-slate-700">
-              {handoffNote || 'Add an operating brief and activate a workflow step to generate a reusable handoff.'}
-            </pre>
-          </div>
+          {handoffPacket ? (
+            <div className="mt-5 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+              <div className="rounded-[1.4rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="n3-chip-soft">{handoffPacket.projectTypeLabel}</div>
+                  <div className="n3-chip-soft">{handoffPacket.executionMode}</div>
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-foreground">{handoffPacket.summary}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{handoffPacket.outputExpectation}</p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <div className="n3-subpanel">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Objective</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-800">{handoffPacket.objective}</p>
+                  </div>
+                  <div className="n3-subpanel">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Current operator state</p>
+                    <p className="mt-2 text-sm font-semibold text-slate-900">{handoffPacket.currentStep}</p>
+                    <p className="mt-1 text-xs text-slate-700">{handoffPacket.currentStepOwner}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{handoffPacket.currentStepDetail}</p>
+                  </div>
+                  <div className="n3-subpanel">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Latest inherited memory</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                      {handoffPacket.latestMemory || 'No explicit memory captured yet.'}
+                    </p>
+                  </div>
+                  <div className="n3-subpanel">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Latest deliverable</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                      {handoffPacket.latestDeliverable || 'No deliverables saved yet.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="n3-subpanel rounded-[1.4rem]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Next movement</p>
+                  <div className="mt-3 flex items-start gap-3">
+                    <div className="mt-0.5 rounded-full bg-primary/10 p-2 text-primary">
+                      <ArrowRight size={14} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">{handoffPacket.nextStep || 'No further step defined yet'}</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-700">{handoffPacket.riskNote}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="n3-subpanel rounded-[1.4rem]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Handoff checklist</p>
+                  <div className="mt-3 space-y-2">
+                    {handoffPacket.handoffChecklist.map((item) => (
+                      <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/70 bg-white/85 px-3 py-2.5">
+                        <Bookmark size={14} className="mt-0.5 text-primary" />
+                        <p className="text-sm leading-6 text-slate-700">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-5 rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
+              <p className="text-sm leading-6 text-slate-700">
+                Add an operating brief and activate a workflow step to generate a reusable handoff.
+              </p>
+            </div>
+          )}
           {recommendedAgent ? (
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[1.25rem] border border-slate-200 bg-white p-4">
               <div>
@@ -471,6 +638,16 @@ export default function ProjectDetailPage({ params }: Props) {
             </div>
           ) : null}
         </article>
+      </section>
+
+      <section className="mt-6 grid gap-4 md:grid-cols-3">
+        {continuitySignals.map((item) => (
+          <article key={item.label} className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.35)]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">{item.label}</p>
+            <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-foreground">{item.value}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-700">{item.note}</p>
+          </article>
+        ))}
       </section>
 
       {isEditingBrief && briefDraft ? (
@@ -616,27 +793,73 @@ export default function ProjectDetailPage({ params }: Props) {
                   >
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Step {index + 1}</p>
-                      <span
-                        className={cn(
-                          'rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]',
-                          step.status === 'done'
-                            ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
-                            : step.status === 'active'
-                              ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-200'
-                              : 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
-                        )}
-                      >
-                        {step.status}
+                      <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]', getWorkflowStatusMeta(step.status).tone)}>
+                        {getWorkflowStatusMeta(step.status).label}
                       </span>
                     </div>
                     <h3 className="mt-3 text-base font-semibold text-foreground">{step.name}</h3>
                     <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-700">{step.owner}</p>
+                    <p className="mt-2 text-[11px] leading-5 text-slate-600">{getWorkflowStatusMeta(step.status).description}</p>
+                    {step.statusSource ? <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">{step.statusSource === 'auto' ? 'Auto inferred' : step.statusSource === 'manual' ? 'Manual override' : 'Default state'}</p> : null}
+                    {step.statusReason ? <p className="mt-2 text-[11px] leading-5 text-slate-600">{step.statusReason}</p> : null}
                     <p className="mt-3 text-sm leading-6 text-slate-700">{step.detail}</p>
-                    {resolveRecommendedAgentSlug(step) ? (
-                      <p className="mt-3 text-xs font-medium text-slate-700">
-                        Recommended specialist: {getAgentBySlug(resolveRecommendedAgentSlug(step) ?? '')?.name ?? 'Mapped specialist'}
-                      </p>
-                    ) : null}
+                    {(() => {
+                      const workflowProject = {
+                        ...project,
+                        operatingBrief,
+                        memory,
+                        workflow,
+                      }
+                      const preset = buildProjectRunPresetForStep(
+                        workflowProject,
+                        step,
+                      )
+                      const presetHref = buildProjectRunHrefForStep(workflowProject, step)
+
+                      return preset ? (
+                        <div className="mt-4 rounded-[1rem] border border-slate-200 bg-white p-4">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Run preview</p>
+                          <p className="mt-2 text-sm font-semibold text-foreground">
+                            {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped specialist'}
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-slate-700">
+                            Output: {preset.desiredOutput} · Depth: {preset.detailLevel}
+                          </p>
+                          <p className="mt-2 text-xs leading-5 text-slate-700">{preset.rationale}</p>
+                          {presetHref ? (
+                            <div className="mt-3">
+                              <Link
+                                href={presetHref}
+                                className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-700 hover:text-foreground"
+                              >
+                                Open preset run <ArrowRight size={11} />
+                              </Link>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : null
+                    })()}
+                    <div className="mt-4">
+                      <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
+                        Operating status
+                      </Label>
+                      <Select
+                        value={step.status}
+                        onValueChange={(value) => void updateWorkflowStatus(step.id, value as ProjectWorkflowStatus)}
+                      >
+                        <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="ready">Ready</SelectItem>
+                          <SelectItem value="active">Active</SelectItem>
+                          <SelectItem value="awaiting-decision">Awaiting decision</SelectItem>
+                          <SelectItem value="at-risk">At risk</SelectItem>
+                          <SelectItem value="blocked">Blocked</SelectItem>
+                          <SelectItem value="done">Done</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <div className="mt-4">
                       <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
                         Recommended specialist
@@ -747,13 +970,13 @@ export default function ProjectDetailPage({ params }: Props) {
         </Tabs>
       </div>
 
-      <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+      <section className="n3-panel mt-6 rounded-[1.75rem] p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operational timeline</p>
-            <h2 className="mt-2 text-xl font-semibold text-foreground">Brief, memory, runs, and deliverables in one sequence</h2>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Brief, memory, execution, and artifacts in one sequence</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
-              This is the project thread the next specialist should be able to recover in seconds.
+              This should read like a recoverable project thread so the next operator can re-enter the work in seconds.
             </p>
           </div>
           <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold text-slate-700">
@@ -808,10 +1031,13 @@ export default function ProjectDetailPage({ params }: Props) {
       </section>
 
       <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-        <article className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+        <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Quick capture</p>
             <h2 className="mt-2 text-xl font-semibold text-foreground">Turn decisions into reusable memory</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              Use this when something important happened outside a run but still needs to shape the next execution, review, or handoff.
+            </p>
           </div>
           <div className="mt-5 space-y-4">
             <div>

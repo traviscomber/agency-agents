@@ -14,20 +14,21 @@ import {
   Bot,
   FolderOpen,
   Plus,
-  Zap,
-  GitBranch,
-  Cpu,
   Sparkles,
   Orbit,
   Radar,
   ShieldCheck,
   Workflow,
+  Zap,
+  Clock3,
+  Binary,
 } from 'lucide-react'
 import type { AgentRun, Project, SavedOutput } from '@/lib/types'
-import { getAllRuns, getAllSavedOutputs, getMergedProjects } from '@/lib/project-memory'
+import { buildProjectHandoffPacket, buildProjectRunHref, getAllRuns, getAllSavedOutputs, getMergedProjects, getProjectCurrentWorkflowStep, getWorkflowStatusMeta } from '@/lib/project-memory'
+import { cn } from '@/lib/utils'
 
 function resolveRecommendedAgentSlug(project: Project) {
-  const activeStep = project.workflow?.find((step) => step.status === 'active') ?? project.workflow?.find((step) => step.status === 'next')
+  const activeStep = getProjectCurrentWorkflowStep(project.workflow)
   if (!activeStep) return null
   if (activeStep.recommendedAgentSlug) return activeStep.recommendedAgentSlug
 
@@ -40,9 +41,20 @@ function resolveRecommendedAgentSlug(project: Project) {
     Research: 'ux-researcher',
     Growth: 'sales-strategist',
     Sales: 'proposal-strategist',
+    Accounts: 'product-strategist',
+    Delivery: 'proposal-strategist',
+    Creative: 'proposal-strategist',
   }
 
   return ownerMap[activeStep.owner] ?? null
+}
+
+function getProjectActiveStep(project: Project) {
+  return getProjectCurrentWorkflowStep(project.workflow)
+}
+
+function formatShortDate(date: string) {
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(new Date(date))
 }
 
 export default function AppDashboard() {
@@ -66,149 +78,341 @@ export default function AppDashboard() {
     })()
   }, [])
 
+  const activeProjects = projects.filter((project) => project.status === 'active')
+  const leadProject = activeProjects[0] ?? projects[0] ?? null
   const recentRuns = runs.slice(0, 4)
-  const topProjects = projects.slice(0, 3)
   const latestSaved = savedOutputs.slice(0, 3)
-  const activeProjects = projects.filter((project) => project.status === 'active').slice(0, 4)
-  const divisionsInUse = new Set(runs.map((run) => run.agentDivision)).size
   const completionRate = runs.length === 0
     ? 0
     : Math.round((runs.filter((run) => run.status === 'completed').length / runs.length) * 100)
-  const workflowHealth = projects.length === 0
-    ? 'No active workstreams yet'
-    : `${projects.filter((project) => project.status === 'active').length} active workstreams`
+  const divisionsInUse = new Set(runs.map((run) => run.agentDivision)).size
+  const leadStep = leadProject ? getProjectActiveStep(leadProject) : null
+  const leadStepMeta = leadStep ? getWorkflowStatusMeta(leadStep.status) : null
+  const leadAgent = leadProject ? getAgentBySlug(resolveRecommendedAgentSlug(leadProject) ?? '') : null
+  const latestRun = runs[0] ?? null
+  const latestSavedArtifact = savedOutputs[0] ?? null
+  const leadPacket = leadProject ? buildProjectHandoffPacket(leadProject, latestSavedArtifact?.projectId === leadProject.id ? latestSavedArtifact : undefined) : null
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-      <section className="n3-glow-ring overflow-hidden border border-[#1e3431] bg-[#173634] text-[#f5fbfa]">
-        <div className="n3-hero-grid relative grid gap-8 px-6 py-8 lg:grid-cols-[1.35fr_0.85fr] lg:px-8 lg:py-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(143,178,170,0.18),_transparent_34%),linear-gradient(135deg,_rgba(6,10,16,0.14),_transparent_56%)]" />
-          <div className="relative">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9db7b1]">Autonomous Operating Layer</p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-light leading-none tracking-[-0.04em] text-white sm:text-5xl">
-              Build launches, delivery systems, and agent workflows from one deliberate command surface.
-            </h1>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#d9e3e0] sm:text-[15px]">
-              The current plan should feel less like a generic dashboard and more like an operating system for agency work:
-              brief first, specialist execution second, reusable outputs always retained.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Button asChild className="h-10 rounded-none border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#d9e3e0]">
-                <Link href="/app/agents">Launch specialist <ArrowRight size={12} className="ml-1.5" /></Link>
-              </Button>
-              <Button asChild variant="outline" className="h-10 rounded-none border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
-                <Link href="/app/projects"><Plus size={12} className="mr-1.5" />Open work ledger</Link>
-              </Button>
-            </div>
-            <div className="mt-8 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-3">
-              {[
-                { label: 'Projects in motion', value: projects.length, note: workflowHealth },
-                { label: 'Completion rate', value: `${completionRate}%`, note: 'recent execution quality' },
-                { label: 'Divisions active', value: divisionsInUse || 0, note: 'specialist coverage' },
-              ].map(({ label, value, note }) => (
-                <div key={label} className="n3-metric-card bg-[#102826]/90 px-4 py-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9db7b1]">{label}</p>
-                  <p className="mt-3 text-3xl font-light tracking-[-0.04em] text-white">{value}</p>
-                  <p className="mt-1 text-xs text-[#c3d3cf]">{note}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      <section className="n3-glow-ring overflow-hidden border border-[#173634] bg-[#173634] text-[#f5fbfa]">
+        <div className="n3-hero-grid relative overflow-hidden px-6 py-8 sm:px-8 sm:py-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(143,178,170,0.2),_transparent_30%),radial-gradient(circle_at_85%_15%,_rgba(255,255,255,0.08),_transparent_24%),linear-gradient(135deg,_rgba(8,16,18,0.3),_transparent_60%)]" />
+          <div className="relative grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9db7b1]">Studio command surface</p>
+              <h1 className="mt-4 max-w-4xl text-4xl font-light leading-none tracking-[-0.05em] text-white sm:text-5xl">
+                Turn strategy, execution, and reusable memory into one operating rhythm.
+              </h1>
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-[#d9e3e0] sm:text-[15px]">
+                N3uralia Studio should not read like a collection of agent pages. It should behave like the control layer for launches,
+                delivery systems, and internal workflows where every run leaves usable state behind.
+              </p>
 
-          <div className="relative grid gap-4">
-            <div className="border border-white/10 bg-[#0d1f1d]/90 p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9db7b1]">System brief</p>
-                  <p className="mt-3 text-2xl font-light tracking-[-0.04em] text-white">
-                    {plan?.name ?? 'Professional'} plan
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button asChild className="h-10 rounded-none border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#dce8e4]">
+                  <Link href="/app/projects">
+                    Open active work <ArrowRight size={12} className="ml-1.5" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="h-10 rounded-none border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
+                  <Link href="/app/agents">
+                    <Bot size={12} className="mr-1.5" />
+                    Run specialist
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="h-10 rounded-none border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
+                  <Link href="/app/saved">
+                    <Bookmark size={12} className="mr-1.5" />
+                    Inspect artifacts
+                  </Link>
+                </Button>
+              </div>
+
+              <div className="mt-8 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-3">
+                {[
+                  { label: 'Active workstreams', value: activeProjects.length, note: `${projects.length} total projects tracked` },
+                  { label: 'Completion rate', value: `${completionRate}%`, note: 'recent execution quality' },
+                  { label: 'Specialist coverage', value: divisionsInUse || 0, note: 'divisions used in active system' },
+                ].map(({ label, value, note }) => (
+                  <div key={label} className="bg-[#102826]/90 px-4 py-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9db7b1]">{label}</p>
+                    <p className="mt-3 text-3xl font-light tracking-[-0.04em] text-white">{value}</p>
+                    <p className="mt-1 text-xs text-[#c3d3cf]">{note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              <div className="border border-white/10 bg-[#0d1f1d]/90 p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9db7b1]">Priority program</p>
+                    <p className="mt-3 text-2xl font-light tracking-[-0.04em] text-white">
+                      {leadProject?.name ?? 'No active project yet'}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-1 border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0]">
+                    <Sparkles size={11} />
+                    {plan?.name ?? 'Professional'}
+                  </span>
+                </div>
+
+                <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-white/5 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">Operator brief</p>
+                  <p className="mt-2 text-sm leading-6 text-[#d9e3e0]">
+                    {leadPacket?.summary || leadProject?.operatingBrief?.objective || 'Create one active project with a workflow so the studio can expose operator-ready state.'}
+                  </p>
+                  <p className="mt-3 text-xs leading-6 text-[#c3d3cf]">
+                    {leadPacket?.riskNote || 'The differentiator is keeping the next move and the key constraint visible before the next execution starts.'}
                   </p>
                 </div>
-                <span className="inline-flex items-center gap-1 border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0]">
-                  <Sparkles size={11} />
-                  Live
-                </span>
-              </div>
-              <div className="mt-5 grid gap-3 text-sm text-[#d9e3e0]">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span>Runs used this cycle</span>
-                  <span className="font-medium text-white">{MOCK_USER.runsUsed} / {MOCK_USER.runsLimit}</span>
-                </div>
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span>Saved deliverables</span>
-                  <span className="font-medium text-white">{savedOutputs.length}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Suggested next move</span>
-                  <span className="font-medium text-white">Tighten project briefs</span>
+
+                <div className="mt-5 grid gap-3 text-sm text-[#d9e3e0]">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span>Current step</span>
+                    <span className="font-medium text-white">{leadStep?.name ?? 'Define the first workflow'}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span>Recommended specialist</span>
+                    <span className="font-medium text-white">{leadAgent?.name ?? 'Assign inside project'}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Next movement</span>
+                    <span className="max-w-[58%] text-right font-medium text-white">{leadPacket?.nextStep ?? 'No further step defined'}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2">
-              {[
-                { href: '/app/agents', icon: Zap, label: 'Direct execution', copy: 'Run one specialist against a focused task.' },
-                { href: '/app/chains', icon: GitBranch, label: 'Workflow chain', copy: 'Move from isolated prompts to orchestrated delivery.' },
-                { href: '/app/fine-tuning', icon: Cpu, label: 'Training track', copy: 'Prepare reusable patterns and model refinement.' },
-                { href: '/app/saved', icon: Bookmark, label: 'Output library', copy: 'Recover artifacts instead of restarting from zero.' },
-              ].map(({ href, icon: Icon, label, copy }) => (
-                <Link key={href} href={href} className="group bg-[#102826]/90 p-4 transition-colors hover:bg-[#163230]">
-                  <div className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-[#9db7b1]">
-                    <Icon size={15} />
+
+              <div className="grid gap-px border border-white/10 bg-white/10 sm:grid-cols-3">
+                {[
+                  {
+                    icon: Orbit,
+                    label: 'Brief first',
+                    copy: 'Projects start from an operating brief, not a blank prompt box.',
+                  },
+                  {
+                    icon: Radar,
+                    label: 'State retained',
+                    copy: 'Memory, runs, and deliverables stay attached to the workstream.',
+                  },
+                  {
+                    icon: ShieldCheck,
+                    label: 'Next move visible',
+                    copy: 'Each project exposes the next step and the recommended operator.',
+                  },
+                ].map(({ icon: Icon, label, copy }) => (
+                  <div key={label} className="bg-[#102826]/90 px-4 py-4">
+                    <div className="flex h-10 w-10 items-center justify-center border border-white/10 bg-white/5 text-[#9db7b1]">
+                      <Icon size={16} />
+                    </div>
+                    <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">{label}</p>
+                    <p className="mt-2 text-sm leading-6 text-[#d9e3e0]">{copy}</p>
                   </div>
-                  <p className="mt-4 text-sm font-medium text-white">{label}</p>
-                  <p className="mt-1 text-xs leading-6 text-[#c3d3cf]">{copy}</p>
-                  <div className="mt-4 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1] group-hover:text-white">
-                    Open <ArrowRight size={10} />
-                  </div>
-                </Link>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="mt-8 grid gap-8 xl:grid-cols-[1.1fr_0.9fr]">
+      <section className="mt-6 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+        <div className="n3-panel p-5">
+          <p className="n3-eyebrow">Decision cockpit</p>
+          <p className="n3-section-title">
+            {leadProject ? `Advance ${leadProject.name} without losing context.` : 'Create the first project to start the operating loop.'}
+          </p>
+          <p className="mt-3 text-sm leading-7 text-[#52605d]">
+            The product becomes differentiable when the operator can see the brief, the active step, the next specialist, and the latest
+            artifact in one surface.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Button asChild className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
+              <Link href={leadProject ? `/app/projects/${leadProject.id}` : '/app/projects'}>
+                <Workflow size={12} className="mr-1.5" />
+                Open priority project
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+              <Link href="/app/projects">
+                <Plus size={12} className="mr-1.5" />
+                New workstream
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        <div className="n3-subpanel bg-[#f1f6f4] p-5">
+          <div className="flex items-center gap-2 text-[#8fb2aa]">
+            <Clock3 size={14} />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest run</p>
+          </div>
+          <p className="mt-4 text-sm font-medium text-[#173634]">{latestRun?.agentName ?? 'No execution yet'}</p>
+          <p className="mt-2 text-sm leading-6 text-[#52605d]">{latestRun?.task ?? 'Run the first specialist to create a persistent execution record.'}</p>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">
+            {latestRun ? `${formatShortDate(latestRun.createdAt)} / ${latestRun.status}` : 'waiting for first run'}
+          </p>
+        </div>
+
+        <div className="n3-subpanel bg-[#f1f6f4] p-5">
+          <div className="flex items-center gap-2 text-[#8fb2aa]">
+            <Binary size={14} />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest artifact</p>
+          </div>
+          <p className="mt-4 text-sm font-medium text-[#173634]">{latestSavedArtifact?.title ?? 'No saved output yet'}</p>
+          <p className="mt-2 text-sm leading-6 text-[#52605d]">
+            {latestSavedArtifact ? 'Saved outputs should become reusable operating material, not dead exports.' : 'Save the first output to start the reusable artifact library.'}
+          </p>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">
+            {latestSavedArtifact ? formatShortDate(latestSavedArtifact.createdAt) : 'artifact queue empty'}
+          </p>
+        </div>
+      </section>
+
+      {leadPacket ? (
+        <section className="mt-6 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+          <article className="n3-panel p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="n3-eyebrow">Live handoff packet</p>
+                <p className="mt-2 text-xl font-semibold text-[#173634]">The next operator can inherit real state immediately.</p>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-[#52605d]">
+                  This is the differentiator in product form: a visible packet with current step, output expectation, and risk note already attached.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span className="n3-chip-soft">{leadPacket.projectTypeLabel}</span>
+                <span className="n3-chip-soft">{leadPacket.executionMode}</span>
+                {leadStepMeta ? <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]', leadStepMeta.tone)}>{leadStepMeta.label}</span> : null}
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              <div className="n3-subpanel">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Current step</p>
+                <p className="mt-1 text-sm font-medium text-[#173634]">{leadPacket.currentStep}</p>
+                <p className="mt-1 text-xs leading-5 text-[#52605d]">{leadPacket.currentStepOwner}</p>
+              </div>
+              <div className="n3-subpanel">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                <p className="mt-1 text-sm leading-6 text-[#52605d]">{leadPacket.outputExpectation}</p>
+              </div>
+              <div className="n3-subpanel">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Risk note</p>
+                <p className="mt-1 text-sm leading-6 text-[#52605d]">{leadPacket.riskNote}</p>
+              </div>
+            </div>
+          </article>
+
+          <article className="n3-panel p-5">
+            <p className="n3-eyebrow">Continuity signal</p>
+            <p className="mt-2 text-xl font-semibold text-[#173634]">The workstream is becoming reusable.</p>
+            <div className="mt-5 grid gap-3">
+              {[
+                ['Memory attached', `${leadProject?.memory?.length ?? 0} project notes linked to the current workstream.`],
+                ['Deliverables retained', `${leadProject?.savedCount ?? 0} saved artifacts remain attached to this initiative.`],
+                ['Next movement visible', leadPacket.nextStep || 'Define the next movement so the system can route execution cleanly.'],
+              ].map(([title, body]) => (
+                <div key={title} className="rounded-[1rem] border border-[#d8e5e2] bg-white px-4 py-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">{title}</p>
+                  <p className="mt-1 text-sm leading-6 text-[#52605d]">{body}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
+      ) : null}
+
+      <section className="mt-6 grid gap-4 lg:grid-cols-3">
+        {activeProjects.slice(0, 3).map((project) => {
+          const packet = buildProjectHandoffPacket(project, savedOutputs.find((item) => item.projectId === project.id))
+          if (!packet) return null
+
+          return (
+            <article key={project.id} className="n3-panel p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="n3-eyebrow">Operating pressure</p>
+                  <p className="mt-2 text-lg font-semibold text-[#173634]">{project.name}</p>
+                </div>
+                <span className="n3-chip-soft">{packet.projectTypeLabel}</span>
+              </div>
+              <p className="mt-3 text-sm leading-6 text-[#52605d]">{packet.riskNote}</p>
+              <div className="mt-4 space-y-3">
+                <div className="n3-subpanel">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Next move</p>
+                  <p className="mt-1 text-sm font-medium text-[#173634]">{packet.nextStep || packet.currentStep}</p>
+                </div>
+                <div className="n3-subpanel">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                  <p className="mt-1 text-sm leading-6 text-[#52605d]">{packet.outputExpectation}</p>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center justify-between text-[11px] text-[#52605d]">
+                <span>Updated {formatShortDate(project.updatedAt)}</span>
+                <Link href={`/app/projects/${project.id}`} className="inline-flex items-center gap-1 font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
+                  Inspect <ArrowRight size={10} />
+                </Link>
+              </div>
+            </article>
+          )
+        })}
+      </section>
+
+      <div className="mt-8 grid gap-8 xl:grid-cols-[1.25fr_0.75fr]">
         <section className="space-y-8">
-          <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
+          <section className="n3-panel">
             <div className="flex items-center justify-between border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Control room</p>
-                <p className="mt-1 text-sm text-[#52605d]">Active projects, current step, and the next recommended specialist.</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Projects requiring decisions</p>
+                <p className="mt-1 text-sm text-[#52605d]">Active workstreams with a visible next step and reusable state attached.</p>
               </div>
               <Link href="/app/projects" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
-                Open ledger
+                Full ledger
               </Link>
             </div>
             <div className="grid gap-px bg-[#d8e5e2]">
-              {activeProjects.map((project) => {
-                const activeStep = project.workflow?.find((step) => step.status === 'active') ?? project.workflow?.find((step) => step.status === 'next')
-                const recommendedAgentSlug = resolveRecommendedAgentSlug(project)
-                const recommendedAgent = recommendedAgentSlug ? getAgentBySlug(recommendedAgentSlug) : null
+              {activeProjects.slice(0, 4).map((project) => {
+                const activeStep = getProjectActiveStep(project)
+                const recommendedAgent = getAgentBySlug(resolveRecommendedAgentSlug(project) ?? '')
+                const packet = buildProjectHandoffPacket(project, savedOutputs.find((item) => item.projectId === project.id))
+                const stepMeta = activeStep ? getWorkflowStatusMeta(activeStep.status) : null
 
                 return (
-                  <div key={project.id} className="grid gap-4 bg-[#fbfbfa] px-5 py-5 lg:grid-cols-[1fr_auto] lg:items-center">
-                    <div className="min-w-0">
+                  <div key={project.id} className="n3-card grid gap-4 bg-[#fbfbfa] px-5 py-5 lg:grid-cols-[1fr_auto] lg:items-center">
+                    <div>
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="text-sm font-semibold text-[#173634]">{project.name}</p>
-                        <span className="rounded-full bg-[#f1f6f4] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
-                          {activeStep?.status ?? 'idle'}
+                        <span className="n3-chip-soft">
+                          {project.projectType ?? 'operations'}
                         </span>
+                        {packet ? <span className="n3-chip-soft">{packet.executionMode}</span> : null}
+                        {stepMeta ? <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]', stepMeta.tone)}>{stepMeta.label}</span> : null}
                       </div>
-                      <div className="mt-3 grid gap-3 md:grid-cols-3">
+                      <p className="mt-2 max-w-3xl text-sm leading-6 text-[#52605d]">
+                        {packet?.summary || project.description || 'Tighten the brief so future runs inherit stronger context and fewer assumptions.'}
+                      </p>
+
+                      <div className="mt-4 grid gap-3 md:grid-cols-3">
                         <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-3">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Current step</p>
-                          <p className="mt-1 text-sm font-medium text-[#173634]">{activeStep?.name ?? 'No step set'}</p>
-                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{activeStep?.owner ?? 'No owner'}</p>
+                          <p className="mt-1 text-sm font-medium text-[#173634]">{activeStep?.name ?? 'No step configured'}</p>
+                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{activeStep?.owner ?? 'Assign an owner inside the project'}</p>
                         </div>
                         <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-3">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Recommended specialist</p>
-                          <p className="mt-1 text-sm font-medium text-[#173634]">{recommendedAgent?.name ?? 'No recommendation'}</p>
-                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{recommendedAgent?.division ?? 'Choose one inside the project'}</p>
+                          <p className="mt-1 text-sm font-medium text-[#173634]">{recommendedAgent?.name ?? 'No recommendation yet'}</p>
+                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{recommendedAgent?.division ?? 'Choose one inside the workflow editor'}</p>
                         </div>
                         <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-3">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Reusable state</p>
-                          <p className="mt-1 text-sm font-medium text-[#173634]">{project.memory?.length ?? 0} memory · {project.savedCount ?? 0} saved</p>
-                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{project.runCount ?? 0} runs linked to the record</p>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Risk note</p>
+                          <p className="mt-1 text-sm font-medium text-[#173634]">
+                            {packet?.nextStep ?? `${project.memory?.length ?? 0} memory / ${project.savedCount ?? 0} saved`}
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-[#52605d]">
+                            {packet?.riskNote ?? `${project.runCount ?? 0} runs linked to this workstream`}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -216,13 +420,15 @@ export default function AppDashboard() {
                     <div className="flex flex-wrap gap-2 lg:justify-end">
                       <Button variant="outline" asChild className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
                         <Link href={`/app/projects/${project.id}`}>
-                          <Workflow size={12} className="mr-1.5" /> Open project
+                          <Workflow size={12} className="mr-1.5" />
+                          Open project
                         </Link>
                       </Button>
-                      {recommendedAgent ? (
+                      {recommendedAgent && buildProjectRunHref(project) ? (
                         <Button asChild className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
-                          <Link href={`/app/run/${recommendedAgent.slug}?projectId=${project.id}`}>
-                            <Bot size={12} className="mr-1.5" /> Run next
+                          <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`}>
+                            <Zap size={12} className="mr-1.5" />
+                            Run next
                           </Link>
                         </Button>
                       ) : null}
@@ -235,9 +441,24 @@ export default function AppDashboard() {
 
           <div className="grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] md:grid-cols-3">
             {[
-              { icon: Orbit, label: 'Agent surface', value: `${getFeaturedAgents().length} specialists`, copy: 'Ready to route work by division and depth.' },
-              { icon: Radar, label: 'Operational memory', value: `${savedOutputs.length} reusable outputs`, copy: 'Briefs, runs, and deliverables stay connected.' },
-              { icon: ShieldCheck, label: 'Delivery posture', value: `${recentRuns.length} recent runs`, copy: 'Use history to re-run, save, and inspect decisions.' },
+              {
+                icon: Orbit,
+                label: 'System memory',
+                value: `${savedOutputs.length} artifacts retained`,
+                copy: 'Outputs should become reusable material for the next operator, not a dead appendix.',
+              },
+              {
+                icon: Radar,
+                label: 'Execution flow',
+                value: `${recentRuns.length} recent runs`,
+                copy: 'Operators need to inspect what was attempted, what succeeded, and what should happen next.',
+              },
+              {
+                icon: ShieldCheck,
+                label: 'Delivery posture',
+                value: `${activeProjects.length} active workstreams`,
+                copy: 'A healthy system keeps the next decision visible inside each project.',
+              },
             ].map(({ icon: Icon, label, value, copy }) => (
               <div key={label} className="bg-[#fbfbfa] p-5">
                 <div className="flex h-10 w-10 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#789b96]">
@@ -253,8 +474,8 @@ export default function AppDashboard() {
           <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
             <div className="flex items-center justify-between border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Recent execution</p>
-                <p className="mt-1 text-sm text-[#52605d]">What the system has produced most recently.</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Execution stream</p>
+                <p className="mt-1 text-sm text-[#52605d]">The latest runs should read like a working record, not anonymous activity.</p>
               </div>
               <Link href="/app/history" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
                 Full history
@@ -272,17 +493,17 @@ export default function AppDashboard() {
                       <DivisionBadge division={run.agentDivision} size="sm" />
                     </div>
                     <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#52605d]">{run.task}</p>
-                    <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">
-                      {new Date(run.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </p>
+                    <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">{formatShortDate(run.createdAt)}</p>
                   </div>
-                  <span className={`inline-flex h-fit shrink-0 border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${
-                    run.status === 'completed'
-                      ? 'border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]'
-                      : run.status === 'failed'
-                      ? 'border-red-200 bg-red-50 text-red-500'
-                      : 'border-amber-200 bg-amber-50 text-amber-600'
-                  }`}>
+                  <span
+                    className={`inline-flex h-fit shrink-0 border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${
+                      run.status === 'completed'
+                        ? 'border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]'
+                        : run.status === 'failed'
+                          ? 'border-red-200 bg-red-50 text-red-500'
+                          : 'border-amber-200 bg-amber-50 text-amber-600'
+                    }`}
+                  >
                     {run.status}
                   </span>
                 </Link>
@@ -293,9 +514,10 @@ export default function AppDashboard() {
 
         <aside className="space-y-8">
           <section className="border border-[#d8e5e2] bg-[#fbfbfa] p-5">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Plan pressure</p>
-            <p className="mt-2 max-w-xs text-sm leading-6 text-[#52605d]">
-              Keep the operating rhythm visible so the product feels intentional, not like disconnected screens.
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Plan posture</p>
+            <p className="mt-2 text-2xl font-light tracking-[-0.04em] text-[#173634]">{plan?.name ?? 'Professional'} capacity</p>
+            <p className="mt-3 text-sm leading-7 text-[#52605d]">
+              Keep the operating rhythm visible so the product feels intentional, financially bounded, and ready for a real team workflow.
             </p>
             <div className="mt-5">
               <UsageMeter used={MOCK_USER.runsUsed} limit={MOCK_USER.runsLimit} plan={MOCK_USER.plan} />
@@ -304,20 +526,24 @@ export default function AppDashboard() {
 
           <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
             <div className="flex items-center justify-between border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Projects in motion</p>
-              <Link href="/app/projects" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">View all</Link>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Priority ledger</p>
+              <Link href="/app/projects" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
+                View all
+              </Link>
             </div>
             <div className="divide-y divide-[#d8e5e2]">
-              {topProjects.map((proj) => (
-                <Link key={proj.id} href={`/app/projects/${proj.id}`} className="block px-5 py-4 transition-colors hover:bg-[#f1f6f4]">
+              {projects.slice(0, 3).map((project) => (
+                <Link key={project.id} href={`/app/projects/${project.id}`} className="block px-5 py-4 transition-colors hover:bg-[#f1f6f4]">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="flex h-9 w-9 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]">
                         <FolderOpen size={14} />
                       </div>
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-[#173634]">{proj.name}</p>
-                        <p className="text-[11px] text-[#52605d]">{proj.runCount} runs · {proj.savedCount} saved</p>
+                        <p className="truncate text-sm font-medium text-[#173634]">{project.name}</p>
+                        <p className="text-[11px] text-[#52605d]">
+                          {project.runCount ?? 0} runs / {project.savedCount ?? 0} saved
+                        </p>
                       </div>
                     </div>
                     <ArrowRight size={12} className="shrink-0 text-[#8fb2aa]" />
@@ -329,8 +555,10 @@ export default function AppDashboard() {
 
           <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
             <div className="flex items-center justify-between border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Output library</p>
-              <Link href="/app/saved" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">View all</Link>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Artifact library</p>
+              <Link href="/app/saved" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
+                View all
+              </Link>
             </div>
             <div className="divide-y divide-[#d8e5e2]">
               {latestSaved.map((saved) => (
@@ -340,7 +568,7 @@ export default function AppDashboard() {
                   </div>
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-[#173634]">{saved.title}</p>
-                    <p className="text-[11px] text-[#52605d]">Saved artifact linked to a run.</p>
+                    <p className="text-[11px] text-[#52605d]">Reusable output linked back to execution history.</p>
                   </div>
                 </Link>
               ))}
@@ -352,8 +580,8 @@ export default function AppDashboard() {
       <section className="mt-8 border border-[#d8e5e2] bg-[#fbfbfa]">
         <div className="flex items-center justify-between border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Specialist roster</p>
-            <p className="mt-1 text-sm text-[#52605d]">Recommended starting points for the next cycle of work.</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Recommended specialists</p>
+            <p className="mt-1 text-sm text-[#52605d]">Start from operators that fit the current system state, not from a generic library wall.</p>
           </div>
           <Link href="/app/agents" className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
             Browse all <ArrowRight size={11} />

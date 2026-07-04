@@ -34,7 +34,7 @@ export default function PrivacyPage() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-700">Privacy</p>
           <h1 className="text-4xl font-semibold tracking-tight text-balance text-foreground">Privacy policy</h1>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700">
-            This page explains how AgencyOS handles information across the website, account flow, and product demo.
+            This page explains how N3uralia Studio handles information across the website, account flow, and operating workspace.
           </p>
         </section>
 
@@ -54,8 +54,8 @@ export default function PrivacyPage() {
           <h2 className="text-sm font-semibold text-foreground">Contact</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">
             For privacy questions, email{' '}
-            <a href="mailto:hello@agencyos.app" className="font-medium text-foreground hover:underline">
-              hello@agencyos.app
+            <a href="mailto:hello@n3uralia.com" className="font-medium text-foreground hover:underline">
+              hello@n3uralia.com
             </a>
             {' '}or use the{' '}
             <Link href="/contact" className="font-medium text-foreground hover:underline">

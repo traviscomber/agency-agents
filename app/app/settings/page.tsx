@@ -276,7 +276,7 @@ export default function SettingsPage() {
               <div className="border-t border-[#d8e5e2] pt-5">
                 <p className="text-sm font-semibold text-[#173634] mb-3">Reseller Program</p>
                 <p className="text-xs text-[#173634]/60 mb-4">
-                  Enable reseller mode to sell AgencyOS instances to your customers. You&apos;ll receive 30-40% commission per sale.
+                  Enable reseller mode to sell N3uralia Studio instances to your customers. You&apos;ll receive 30-40% commission per sale.
                 </p>
                 <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
                   Enable Reseller Mode

@@ -105,7 +105,7 @@ export function HeroPanel() {
                 <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
               </div>
               <span className="ml-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/60">
-                AgencyOS Command Center
+                N3uralia Operating Layer
               </span>
             </div>
             <div className="flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/8 px-2.5 py-1">

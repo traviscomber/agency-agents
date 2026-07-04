@@ -20,7 +20,7 @@ export default function SlackIntegrationPage() {
         <div className="space-y-6">
           <div className="rounded-none border border-[#d8e5e2] bg-white px-6 py-10 text-center">
             <Zap size={32} className="mx-auto mb-4 text-[#8fb2aa]" />
-            <h2 className="text-lg font-semibold text-[#173634]">Connect Slack to AgencyOS</h2>
+            <h2 className="text-lg font-semibold text-[#173634]">Connect Slack to N3uralia Studio</h2>
             <p className="mt-2 text-sm text-[#173634]/60">
               Trigger specialists from Slack messages, slash commands, or app mentions and keep the result tied to the same workspace.
             </p>

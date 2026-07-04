@@ -11,7 +11,7 @@ export default function ForgotPasswordPage() {
         <div className="w-full">
           <Link href="/" className="mb-6 inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground">
             <Sparkles size={15} className="text-primary" />
-            AgencyOS
+            N3uralia Studio
           </Link>
           <div className="mb-8">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700 shadow-sm">

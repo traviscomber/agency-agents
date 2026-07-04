@@ -9,8 +9,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type { Project, ProjectType } from '@/lib/types'
-import { ArrowRight, Calendar, FolderOpen, Plus } from 'lucide-react'
-import { createStoredProject, getMergedProjects, getProjectTypeLabel, PROJECT_TYPE_OPTIONS } from '@/lib/project-memory'
+import { ArrowRight, Bookmark, Calendar, FolderOpen, Plus } from 'lucide-react'
+import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectTypeLabel, PROJECT_TYPE_OPTIONS } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
@@ -43,7 +43,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="overflow-hidden border border-[#d8e5e2] bg-[#fbfbfa]">
+      <header className="n3-panel overflow-hidden">
         <div className="grid gap-px bg-[#d8e5e2] lg:grid-cols-[1.2fr_0.8fr]">
           <div className="bg-[linear-gradient(135deg,_rgba(23,54,52,0.05),_rgba(143,178,170,0.02))] px-6 py-8 sm:px-8">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Work ledger</p>
@@ -83,7 +83,7 @@ export default function ProjectsPage() {
 
       <div className="mt-8 flex items-center justify-between gap-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Portfolio view</p>
+          <p className="n3-eyebrow">Portfolio view</p>
           <p className="mt-1 text-sm text-[#52605d]">A cleaner reading of active work, run density, and saved output volume.</p>
         </div>
         <Button
@@ -108,58 +108,90 @@ export default function ProjectsPage() {
       ) : (
         <div className="mt-6 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, index) => (
-            <article key={project.id} className="n3-card flex flex-col bg-[#fbfbfa] p-5 transition-colors hover:bg-[#f1f6f4]">
-              <div className="mb-4 flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]">
-                    <FolderOpen size={15} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">
-                      {getProjectTypeLabel(project.projectType)}
-                    </p>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#173634]/38">
-                      Workstream {String(index + 1).padStart(2, '0')}
-                    </p>
-                    <p className="mt-1 text-sm font-medium text-[#173634]">{project.name}</p>
-                  </div>
-                </div>
-                <span className="border border-[#d8e5e2] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#8fb2aa]">
-                  {project.status}
-                </span>
-              </div>
+            (() => {
+              const packet = buildProjectHandoffPacket(project)
 
-              <p className="line-clamp-3 flex-1 text-sm leading-6 text-[#52605d]">
-                {project.description || 'No description yet. Tighten the brief so future runs inherit stronger context.'}
-              </p>
-
-              <div className="mt-5 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
-                {[
-                  { label: 'Runs', value: project.runCount },
-                  { label: 'Saved', value: project.savedCount },
-                ].map(({ label, value }) => (
-                  <div key={label} className="bg-[#f1f6f4] px-4 py-3">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{label}</p>
-                    <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">{value}</p>
+              return (
+                <article key={project.id} className="n3-card n3-panel flex flex-col p-5 transition-colors hover:bg-[#f1f6f4]">
+                  <div className="mb-4 flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]">
+                        <FolderOpen size={15} />
+                      </div>
+                      <div>
+                        <p className="n3-eyebrow">
+                          {getProjectTypeLabel(project.projectType)}
+                        </p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#173634]/38">
+                          Workstream {String(index + 1).padStart(2, '0')}
+                        </p>
+                        <p className="mt-1 text-sm font-medium text-[#173634]">{project.name}</p>
+                      </div>
+                    </div>
+                    <span className="n3-chip-soft">
+                      {project.status}
+                    </span>
                   </div>
-                ))}
-              </div>
 
-              <div className="mt-4 flex items-center justify-between gap-3 text-[11px] text-[#52605d]">
-                <span className="inline-flex items-center gap-1">
-                  <Calendar size={10} /> Updated {formatDate(project.updatedAt)}
-                </span>
-                <Link href={`/app/projects/${project.id}`} className="inline-flex items-center gap-1 font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
-                  Open <ArrowRight size={10} />
-                </Link>
-              </div>
-            </article>
+                  <p className="line-clamp-3 text-sm leading-6 text-[#52605d]">
+                    {packet?.summary || project.description || 'No description yet. Tighten the brief so future runs inherit stronger context.'}
+                  </p>
+
+                  <div className="mt-4 grid gap-3">
+                    <div className="n3-subpanel">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Operator brief</p>
+                        {packet ? <span className="n3-chip-soft">{packet.executionMode}</span> : null}
+                      </div>
+                      <p className="mt-2 text-sm font-medium text-[#173634]">{packet?.currentStep || 'No step configured yet'}</p>
+                      <p className="mt-1 text-xs leading-5 text-[#52605d]">{packet?.currentStepDetail || 'Define the current operator state so the next run is not guesswork.'}</p>
+                    </div>
+
+                    <div className="n3-subpanel">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Risk note</p>
+                      <p className="mt-2 text-sm leading-6 text-[#52605d]">
+                        {packet?.riskNote || 'This project still needs a stronger operating packet to preserve continuity.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
+                    {[
+                      { label: 'Runs', value: project.runCount },
+                      { label: 'Saved', value: project.savedCount },
+                    ].map(({ label, value }) => (
+                      <div key={label} className="n3-subpanel bg-[#f1f6f4] px-4 py-3">
+                        <p className="n3-eyebrow">{label}</p>
+                        <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">{value}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex items-start justify-between gap-3 text-[11px] text-[#52605d]">
+                    <div className="space-y-1">
+                      <span className="inline-flex items-center gap-1">
+                        <Calendar size={10} /> Updated {formatDate(project.updatedAt)}
+                      </span>
+                      {packet?.nextStep ? (
+                        <span className="flex items-start gap-1.5">
+                          <Bookmark size={10} className="mt-0.5 text-[#8fb2aa]" />
+                          Next: {packet.nextStep}
+                        </span>
+                      ) : null}
+                    </div>
+                    <Link href={`/app/projects/${project.id}`} className="inline-flex items-center gap-1 font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
+                      Open <ArrowRight size={10} />
+                    </Link>
+                  </div>
+                </article>
+              )
+            })()
           ))}
         </div>
       )}
 
       <Dialog open={showNew} onOpenChange={setShowNew}>
-        <DialogContent className="rounded-none border-[#d8e5e2] sm:max-w-md">
+        <DialogContent className="n3-panel rounded-none sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-base font-light text-[#173634]">New project</DialogTitle>
           </DialogHeader>

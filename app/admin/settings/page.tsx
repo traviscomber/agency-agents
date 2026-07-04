@@ -8,7 +8,7 @@ export default function AdminSettingsPage() {
   const auditLogs = [
     { id: '1', action: 'User login', user: 'sarah@acme.com', timestamp: '2024-01-15 14:23', ip: '192.168.1.100' },
     { id: '2', action: 'Agent deployed', user: 'john@acme.com', timestamp: '2024-01-15 13:45', ip: '192.168.1.102' },
-    { id: '3', action: 'Settings changed', user: 'admin@agencyos.app', timestamp: '2024-01-15 12:10', ip: '203.0.113.5' },
+    { id: '3', action: 'Settings changed', user: 'admin@n3uralia.com', timestamp: '2024-01-15 12:10', ip: '203.0.113.5' },
   ]
   
   const ipWhitelist = ['192.168.1.0/24', '203.0.113.0/24']
@@ -51,11 +51,11 @@ export default function AdminSettingsPage() {
           <div className="space-y-4">
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Platform Name</Label>
-              <Input defaultValue="AgencyOS" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm" />
+              <Input defaultValue="N3uralia Studio" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Support Email</Label>
-              <Input defaultValue="hello@agencyos.app" type="email" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm" />
+              <Input defaultValue="hello@n3uralia.com" type="email" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm" />
             </div>
             <div className="flex items-center justify-between gap-4 rounded-none border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
               <div>

@@ -1,20 +1,16 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { PublicFooter } from '@/components/public/PublicFooter'
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
-
 export const metadata: Metadata = {
-  title: 'N3uralia Studio — Agent Factory & Workspace',
+  title: 'N3uralia Studio | Operating System For Specialist Work',
   description:
-    'Build, deploy, and manage specialized AI agents. Agent studio with project management, fine-tuning, marketplace, team collaboration, and enterprise controls.',
-  keywords: ['AI agents', 'agent factory', 'agent studio', 'AI workspace', 'agent builder', 'N3uralia'],
+    'N3uralia Studio turns specialist runs, workflow state, project memory, and reusable deliverables into one recoverable operating system for execution teams.',
+  keywords: ['AI workspace', 'specialist work', 'operating system', 'workflow continuity', 'project memory', 'N3uralia'],
   authors: [{ name: 'N3uralia' }],
   openGraph: {
-    title: 'N3uralia Studio — Agent Factory & Workspace',
-    description: 'Build and manage AI agents with N3uralia Studio.',
+    title: 'N3uralia Studio | Operating System For Specialist Work',
+    description: 'Runs, handoffs, workflow state, and reusable deliverables in one operating layer.',
     type: 'website',
   },
 }
@@ -28,7 +24,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} style={{ backgroundColor: '#fbfbfa' }}>
+    <html lang="en" style={{ backgroundColor: '#fbfbfa' }}>
       <body className="font-sans antialiased" style={{ backgroundColor: '#fbfbfa', color: '#173634' }}>
         {children}
         <PublicFooter />

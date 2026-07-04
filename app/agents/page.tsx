@@ -6,10 +6,28 @@ import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { SEED_AGENTS, DIVISIONS } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
-import { ArrowRight, Lock, Search } from 'lucide-react'
+import { ArrowRight, Lock, Search, ShieldCheck, Workflow, Layers3 } from 'lucide-react'
 import { canAccessAgent } from '@/lib/types'
 import { MOCK_USER } from '@/lib/data/mock-store'
 import { cn } from '@/lib/utils'
+
+const CURATION_SIGNALS = [
+  {
+    icon: Workflow,
+    title: 'Built for workflow',
+    desc: 'Every specialist should make the next move clearer, not just generate a document.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Built for trust',
+    desc: 'The system favors output shape, handoff clarity, and recoverable state over raw novelty.',
+  },
+  {
+    icon: Layers3,
+    title: 'Built for systems',
+    desc: 'Specialists live inside project memory, workflow condition, and saved deliverables.',
+  },
+]
 
 export default function PublicAgentsPage() {
   const [search, setSearch] = useState('')
@@ -28,46 +46,77 @@ export default function PublicAgentsPage() {
   }, [search, activeDivision])
 
   return (
-    <div style={{ backgroundColor: '#fbfbfa' }} className="min-h-screen">
+    <div className="min-h-screen bg-[#fbfbfa]">
       <PublicNavbar />
 
       <main>
-        {/* ── Header dark ── */}
-        <section className="border-b border-[#1e3431] pt-[4.75rem]" style={{ backgroundColor: '#060a10' }}>
+        <section className="relative overflow-hidden border-b border-[#1e3431] pt-[4.75rem]" style={{ backgroundColor: '#060a10' }}>
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(143,178,170,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(143,178,170,0.04) 1px, transparent 1px)',
+              backgroundSize: '80px 80px',
+            }}
+          />
+          <div className="pointer-events-none absolute left-0 top-0 h-[560px] w-[560px]" style={{ background: 'radial-gradient(circle, rgba(143,178,170,0.14) 0%, transparent 62%)' }} />
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Agent library</p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.02em] text-[#f5fbfa] text-balance md:text-6xl">
-              Find the right<br />
-              <span className="font-light text-[#789b96]">specialist for the job.</span>
-            </h1>
-            <p className="mt-5 max-w-lg text-sm leading-7 text-[#9db7b1]">
-              {SEED_AGENTS.filter(a => a.isActive).length} specialist agents across {DIVISIONS.length} divisions. Browse, filter, and inspect each agent before signing up.
-            </p>
+            <div className="grid gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-end">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Specialist system</p>
+                <h1 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.03em] text-[#f5fbfa] md:text-6xl">
+                  Choose the right operator
+                  <br />
+                  <span className="font-light text-[#789b96]">for the current workstream.</span>
+                </h1>
+                <p className="mt-5 max-w-xl text-sm leading-7 text-[#9db7b1]">
+                  {SEED_AGENTS.filter((agent) => agent.isActive).length} specialists across {DIVISIONS.length} divisions.
+                  This surface is designed to help you route pressure correctly, not just browse profiles.
+                </p>
+              </div>
+
+              <div className="grid gap-3">
+                {CURATION_SIGNALS.map(({ icon: Icon, title, desc }) => (
+                  <div key={title} className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-[#8fb2aa]">
+                        <Icon size={15} />
+                      </div>
+                      <p className="text-sm font-semibold text-white">{title}</p>
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-[#d9e3e0]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ── Filter bar ── */}
         <section className="sticky top-[4.75rem] z-30 border-b border-[#d8e5e2] bg-[#fbfbfa]/90 backdrop-blur-xl">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
-              {/* Search */}
-              <div className="relative w-full max-w-xs">
-                <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#789b96]" />
-                <input
-                  type="text"
-                  placeholder="Search agents..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="h-9 w-full border border-[#d8e5e2] bg-[#f1f6f4] pl-8 pr-4 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
-                />
+            <div className="flex flex-col gap-3 py-4">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div className="relative w-full max-w-sm">
+                  <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#789b96]" />
+                  <input
+                    type="text"
+                    placeholder="Search specialists..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="h-10 w-full rounded-full border border-[#d8e5e2] bg-[#f1f6f4] pl-9 pr-4 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  />
+                </div>
+
+                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">
+                  {filtered.length} specialist{filtered.length === 1 ? '' : 's'} visible
+                </div>
               </div>
 
-              {/* Division chips */}
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setActiveDivision(null)}
                   className={cn(
-                    'px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] border transition-colors',
+                    'rounded-full px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] border transition-colors',
                     !activeDivision
                       ? 'border-[#173634] bg-[#173634] text-[#f5fbfa]'
                       : 'border-[#d8e5e2] bg-[#f1f6f4] text-[#65706d] hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]'
@@ -80,7 +129,7 @@ export default function PublicAgentsPage() {
                     key={division}
                     onClick={() => setActiveDivision(activeDivision === division ? null : division)}
                     className={cn(
-                      'px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] border transition-colors',
+                      'rounded-full px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] border transition-colors',
                       activeDivision === division
                         ? 'border-[#173634] bg-[#173634] text-[#f5fbfa]'
                         : 'border-[#d8e5e2] bg-[#f1f6f4] text-[#65706d] hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]'
@@ -94,66 +143,71 @@ export default function PublicAgentsPage() {
           </div>
         </section>
 
-        {/* ── Agents grid ── */}
-        <section style={{ backgroundColor: '#f1f6f4' }} className="border-b border-[#d8e5e2]">
+        <section className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
           <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
             {filtered.length === 0 ? (
-              <div className="border border-[#d8e5e2] bg-[#fbfbfa] py-24 text-center">
-                <p className="text-sm text-[#65706d]">No agents match your search.</p>
+              <div className="rounded-[1.7rem] border border-[#d8e5e2] bg-[#fbfbfa] py-24 text-center shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
+                <p className="text-sm text-[#65706d]">No specialists match your search.</p>
               </div>
             ) : (
-              <div className="border border-[#d8e5e2] bg-[#d8e5e2]">
-                <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
-                  {filtered.map((agent) => {
-                    const hasAccess = canAccessAgent(MOCK_USER.plan, agent.planRequired)
-                    return (
-                      <article key={agent.id} className="n3-card relative flex flex-col bg-[#fbfbfa] p-6 transition-colors hover:bg-[#f1f6f4]">
-                        {!hasAccess && (
-                          <div className="absolute right-5 top-5 flex h-7 w-7 items-center justify-center bg-[#173634] text-[#d9e3e0]">
-                            <Lock size={11} />
-                          </div>
-                        )}
-                        <div className="mb-4 flex items-start justify-between gap-3">
-                          <DivisionBadge division={agent.division} size="sm" />
-                          <PlanBadge plan={agent.planRequired} size="sm" />
-                        </div>
-                        <h2 className="text-sm font-semibold text-[#173634]">{agent.name}</h2>
-                        <p className="mt-2 text-sm leading-7 text-[#65706d]">{agent.shortDescription}</p>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {filtered.map((agent) => {
+                  const hasAccess = canAccessAgent(MOCK_USER.plan, agent.planRequired)
 
-                        <div className="mt-4">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a7b9b4]">Best for</p>
-                          <p className="mt-1.5 text-sm leading-6 text-[#52605d]">{agent.whenToUse}</p>
+                  return (
+                    <article key={agent.id} className="relative flex flex-col rounded-[1.65rem] border border-[#d8e5e2] bg-white p-6 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1">
+                      {!hasAccess && (
+                        <div className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-[#173634] text-[#d9e3e0]">
+                          <Lock size={11} />
                         </div>
+                      )}
 
-                        <div className="mt-6 flex items-center gap-2">
-                          {hasAccess ? (
-                            <>
-                              <Link
-                                href={`/agents/${agent.slug}`}
-                                className="flex-1 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2 text-center text-xs font-semibold text-[#52605d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
-                              >
-                                Details
-                              </Link>
-                              <Link
-                                href={`/app/run/${agent.slug}`}
-                                className="flex flex-1 items-center justify-center gap-1 bg-[#173634] px-3 py-2 text-xs font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
-                              >
-                                Run <ArrowRight size={11} />
-                              </Link>
-                            </>
-                          ) : (
+                      <div className="mb-4 flex items-start justify-between gap-3">
+                        <DivisionBadge division={agent.division} size="sm" />
+                        <PlanBadge plan={agent.planRequired} size="sm" />
+                      </div>
+
+                      <h2 className="text-lg font-semibold text-[#173634]">{agent.name}</h2>
+                      <p className="mt-2 text-sm leading-7 text-[#65706d]">{agent.shortDescription}</p>
+
+                      <div className="mt-4 rounded-[1.15rem] border border-[#d8e5e2] bg-[#f8fbfa] p-4">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">Best used when</p>
+                        <p className="mt-1.5 text-sm leading-6 text-[#52605d]">{agent.whenToUse}</p>
+                      </div>
+
+                      <div className="mt-4">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">Primary output</p>
+                        <p className="mt-2 text-sm text-[#173634]">{agent.outputFormat[0]}</p>
+                      </div>
+
+                      <div className="mt-6 flex items-center gap-2">
+                        {hasAccess ? (
+                          <>
                             <Link
-                              href="/app/billing"
-                              className="flex w-full items-center justify-center gap-1.5 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2 text-xs font-semibold text-[#65706d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
+                              href={`/agents/${agent.slug}`}
+                              className="flex-1 rounded-full border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-center text-xs font-semibold text-[#52605d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
                             >
-                              Upgrade to unlock <ArrowRight size={11} />
+                              Inspect
                             </Link>
-                          )}
-                        </div>
-                      </article>
-                    )
-                  })}
-                </div>
+                            <Link
+                              href={`/app/run/${agent.slug}`}
+                              className="flex flex-1 items-center justify-center gap-1 rounded-full bg-[#173634] px-3 py-2.5 text-xs font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
+                            >
+                              Open run <ArrowRight size={11} />
+                            </Link>
+                          </>
+                        ) : (
+                          <Link
+                            href="/app/billing"
+                            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-xs font-semibold text-[#65706d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
+                          >
+                            Upgrade to unlock <ArrowRight size={11} />
+                          </Link>
+                        )}
+                      </div>
+                    </article>
+                  )
+                })}
               </div>
             )}
           </div>

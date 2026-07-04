@@ -23,8 +23,8 @@ export default function OnboardingPage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to AgencyOS</h1>
-          <p className="mt-2 text-sm text-[#173634]/60">Set up your operating space in 3 steps</p>
+          <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to N3uralia Studio</h1>
+          <p className="mt-2 text-sm text-[#173634]/60">Set up the operating layer in 3 steps</p>
           <div className="mt-6 flex items-center justify-center gap-2">
             {[1, 2, 3].map((s) => (
               <div
@@ -41,8 +41,8 @@ export default function OnboardingPage() {
         {step === 1 && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold text-[#173634]">Step 1: Name the initiative</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Give the workstream a clear name</p>
+              <h2 className="text-2xl font-semibold text-[#173634]">Step 1: Name the workstream</h2>
+              <p className="mt-2 text-sm text-[#173634]/60">Give the initiative a clear operating record</p>
             </div>
 
             <div className="space-y-3 border border-[#d8e5e2] bg-white p-6">
@@ -70,7 +70,7 @@ export default function OnboardingPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">Step 2: Pick the operating plan</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">You can upgrade anytime</p>
+              <p className="mt-2 text-sm text-[#173634]/60">Choose the level of volume and continuity you need now</p>
             </div>
 
             <div className="space-y-3">
@@ -132,14 +132,14 @@ export default function OnboardingPage() {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">You&apos;re all set!</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Your operating space is ready. Start with the specialist directory and run history.</p>
+              <p className="mt-2 text-sm text-[#173634]/60">Your operating space is ready. Start with the dashboard, the project record, and the next specialist run.</p>
             </div>
 
             <button
               onClick={handleNext}
               className="w-full h-10 bg-[#8fb2aa] text-white font-semibold hover:bg-[#7a9a91] flex items-center justify-center gap-2"
             >
-              Start exploring <ArrowRight size={14} />
+              Open workspace <ArrowRight size={14} />
             </button>
           </div>
         )}

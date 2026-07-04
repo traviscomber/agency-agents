@@ -68,16 +68,62 @@ export interface ProjectMemoryEntry {
   createdAt: string
 }
 
+export type ProjectWorkflowStatus = 'ready' | 'active' | 'awaiting-decision' | 'at-risk' | 'blocked' | 'done'
+export type ProjectWorkflowStatusSource = 'default' | 'auto' | 'manual'
+
 export interface ProjectWorkflowStep {
   id: string
   name: string
   owner: string
-  status: 'next' | 'active' | 'done'
+  status: ProjectWorkflowStatus
+  statusReason?: string
+  statusSource?: ProjectWorkflowStatusSource
   detail: string
   recommendedAgentSlug?: string
   linkedRunId?: string
   linkedRunLabel?: string
   completedAt?: string
+}
+
+export interface ProjectRunPreset {
+  agentSlug: string
+  projectId: string
+  projectName: string
+  projectType?: ProjectType
+  stepId: string
+  stepName: string
+  stepOwner: string
+  task: string
+  context: string
+  desiredOutput: string
+  detailLevel: string
+  rationale: string
+  handoffPacket?: ProjectHandoffPacket | null
+}
+
+export interface ProjectHandoffPacket {
+  projectId: string
+  projectName: string
+  projectType?: ProjectType
+  projectTypeLabel: string
+  summary: string
+  objective: string
+  audience?: string
+  currentStep: string
+  currentStepStatus: ProjectWorkflowStatus
+  currentStepStatusReason?: string
+  currentStepStatusSource?: ProjectWorkflowStatusSource
+  currentStepOwner: string
+  currentStepDetail: string
+  nextStep?: string
+  recommendedAgentSlug?: string | null
+  recommendedAgentName?: string | null
+  latestMemory?: string
+  latestDeliverable?: string
+  outputExpectation: string
+  executionMode: string
+  handoffChecklist: string[]
+  riskNote: string
 }
 
 export interface AgentRun {
@@ -88,10 +134,15 @@ export interface AgentRun {
   agentDivision: string
   projectId?: string
   projectName?: string
+  presetStepId?: string
+  presetStepName?: string
+  presetStepOwner?: string
+  handoffPacket?: ProjectHandoffPacket
   task: string
   context?: string
   desiredOutput?: string
   detailLevel?: string
+  outputSummary?: string
   output?: AgentOutput
   status: 'pending' | 'running' | 'completed' | 'failed'
   errorMessage?: string
