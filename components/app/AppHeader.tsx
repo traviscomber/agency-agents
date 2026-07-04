@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Bot, FolderOpen, History, Bookmark,
-  BarChart2, CreditCard, Settings, LogOut, Menu, X, ArrowUpRight, Moon, Sun,
+  BarChart2, CreditCard, Settings, LogOut, Menu, X, ArrowUpRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -37,20 +37,8 @@ interface AppHeaderProps {
 
 export function AppHeader({ title }: AppHeaderProps) {
   const [open, setOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
   const pathname = usePathname()
   const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'Workspace', [pathname, title])
-
-  const toggleTheme = () => {
-    setIsDark(!isDark)
-    if (isDark) {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    } else {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    }
-  }
 
   const isActive = (href: string) => href === '/app' ? pathname === href : pathname.startsWith(href)
 
@@ -81,22 +69,13 @@ export function AppHeader({ title }: AppHeaderProps) {
           </div>
         </div>
 
-        {/* Right: theme toggle + quick action */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="flex h-8 w-8 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa] transition-colors hover:bg-[#edf4f1]"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
-          <Link
-            href="/app/agents"
-            className="inline-flex items-center gap-1.5 border border-[#1e3431] bg-[#173634] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
-          >
-            Run agent <ArrowUpRight size={11} />
-          </Link>
-        </div>
+        {/* Right: quick action */}
+        <Link
+          href="/app/agents"
+          className="inline-flex items-center gap-1.5 border border-[#1e3431] bg-[#173634] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
+        >
+          Run agent <ArrowUpRight size={11} />
+        </Link>
       </div>
 
       {/* Mobile nav drawer */}
