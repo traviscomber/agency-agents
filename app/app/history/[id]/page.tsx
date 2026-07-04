@@ -4,9 +4,17 @@ import { use, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
+import { MOCK_PROJECTS, MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { getAgentById } from '@/lib/data/seed-agents'
-import { getRunById, getSavedOutputsForRun, persistSavedOutput } from '@/lib/project-memory'
+import {
+  advanceWorkflowAfterRun,
+  captureDeliverableMemory,
+  getMergedProjects,
+  getRunById,
+  getSavedOutputsForRun,
+  persistProjectRunResult,
+  persistSavedOutput,
+} from '@/lib/project-memory'
 import type { AgentRun, SavedOutput } from '@/lib/types'
 import { ArrowLeft, ArrowRight, Bookmark, Copy, FolderOpen } from 'lucide-react'
 
@@ -112,6 +120,45 @@ export default function RunDetailPage({ params }: Props) {
         format: 'text',
         createdAt: run.createdAt,
         updatedAt: run.createdAt,
+      }
+
+      if (run.projectId) {
+        const projects = await getMergedProjects(MOCK_PROJECTS)
+        const project = projects.find((item) => item.id === run.projectId)
+
+        if (project) {
+          const runLabel = `${run.agentName}: ${run.task.slice(0, 48)}`
+          const memoryEntry = captureDeliverableMemory(run.agentName, run.task, run.output.summary, run.createdAt)
+          const nextWorkflow = advanceWorkflowAfterRun(project.workflow ?? [], run.id, runLabel, run.createdAt)
+
+          await persistProjectRunResult({
+            project: {
+              ...project,
+              workflow: nextWorkflow,
+            },
+            run: {
+              ...run,
+              projectId: project.id,
+              projectName: project.name,
+            },
+            savedOutput: {
+              ...savedOutput,
+              projectId: project.id,
+              projectName: project.name,
+            },
+            memoryEntry,
+            workflow: nextWorkflow,
+          })
+
+          setSavedOutputs([
+            {
+              ...savedOutput,
+              projectId: project.id,
+              projectName: project.name,
+            },
+          ])
+          return
+        }
       }
 
       await persistSavedOutput(savedOutput)
