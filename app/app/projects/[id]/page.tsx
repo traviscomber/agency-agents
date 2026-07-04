@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { MOCK_PROJECTS, MOCK_RUNS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
-import { getAgentById } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { ArrowLeft, ArrowRight, Bot, Bookmark, Calendar, Sparkles } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -334,11 +333,10 @@ export default function ProjectDetailPage({ params }: Props) {
             ) : (
               <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
                 {runs.map((run, index) => {
-                  const runAgent = getAgentById(run.agentId)
                   return (
                   <Link
                     key={run.id}
-                    href={runAgent ? `/app/run/${runAgent.slug}` : '/app/agents'}
+                    href={`/app/history/${run.id}`}
                     className={cn(
                       'group flex items-start gap-3 p-4 transition-colors hover:bg-slate-50/70',
                       index < runs.length - 1 && 'border-b border-slate-200'
@@ -382,8 +380,9 @@ export default function ProjectDetailPage({ params }: Props) {
             ) : (
               <div className="grid gap-4 md:grid-cols-2">
                 {saved.map((item) => (
-                  <article
+                  <Link
                     key={item.id}
+                    href={`/app/saved?selected=${item.id}`}
                     className="rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]"
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -396,7 +395,7 @@ export default function ProjectDetailPage({ params }: Props) {
                       <Bookmark size={14} className="shrink-0 text-slate-700" />
                     </div>
                     <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-700">{item.content}</p>
-                  </article>
+                  </Link>
                 ))}
               </div>
             )}

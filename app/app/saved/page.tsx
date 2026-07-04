@@ -1,5 +1,6 @@
 'use client'
 
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
@@ -13,15 +14,22 @@ function formatDate(date: string) {
 }
 
 export default function SavedPage() {
+  const searchParams = useSearchParams()
   const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>(MOCK_SAVED_OUTPUTS)
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<SavedOutput | null>(null)
 
   useEffect(() => {
     void (async () => {
-      setSavedOutputs(await getAllSavedOutputs(MOCK_SAVED_OUTPUTS))
+      const allSavedOutputs = await getAllSavedOutputs(MOCK_SAVED_OUTPUTS)
+      setSavedOutputs(allSavedOutputs)
+
+      const selectedId = searchParams.get('selected')
+      if (selectedId) {
+        setSelected(allSavedOutputs.find((item) => item.id === selectedId) ?? null)
+      }
     })()
-  }, [])
+  }, [searchParams])
 
   const filtered = savedOutputs.filter((item) =>
     !search ||

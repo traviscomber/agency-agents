@@ -292,7 +292,7 @@ export default function RunDetailPage({ params }: Props) {
               </div>
               <div className="divide-y divide-[#d8e5e2]">
                 {savedOutputs.map((savedOutput) => (
-                  <Link key={savedOutput.id} href="/app/saved" className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-[#f1f6f4]">
+                  <Link key={savedOutput.id} href={`/app/saved?selected=${savedOutput.id}`} className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-[#f1f6f4]">
                     <div className="min-w-0">
                       <div className="inline-flex items-center gap-2 text-[#8fb2aa]">
                         <Bookmark size={12} />
