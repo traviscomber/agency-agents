@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAgentBySlug } from '@/lib/data/seed-agents'
-import { runMockAgent } from '@/lib/ai/mock-provider'
+import { runAgent } from '@/lib/ai/provider'
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,8 +29,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Run the agent (mock or real provider)
-    const output = await runMockAgent(agent, { task, context, desiredOutput, detailLevel })
+    const result = await runAgent(agent, { task, context, desiredOutput, detailLevel })
 
     return NextResponse.json({
       success: true,
@@ -38,9 +37,9 @@ export async function POST(req: NextRequest) {
       agentSlug: agent.slug,
       agentName: agent.name,
       agentDivision: agent.division,
-      output,
+      output: result.output,
       creditsUsed: 1,
-      modelUsed: 'mock-provider',
+      modelUsed: result.modelUsed,
     })
   } catch (error) {
     console.error('[AgentRuns] Error:', error)
