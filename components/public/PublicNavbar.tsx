@@ -22,10 +22,10 @@ export function PublicNavbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 shrink-0">
-          <img src="/logo-n3uralia.png" alt="N3uralia Studio" className="h-8 w-8" />
+          <img src="/logo-n3uralia.png" alt="N3uralia" className="h-8 w-8" />
           <div className="leading-tight">
             <span className="block text-sm font-semibold tracking-tight text-[#f5fbfa]">N3uralia</span>
-            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Studio</span>
+            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Nano Agent Factory</span>
           </div>
         </Link>
 
