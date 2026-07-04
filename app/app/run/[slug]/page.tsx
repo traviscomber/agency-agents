@@ -16,8 +16,9 @@ import {
   buildProjectContext,
   captureDeliverableMemory,
   getMergedProjects,
-  persistProjectRun,
+  persistRun,
   persistProjectRunResult,
+  persistSavedOutput,
 } from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
 import type { AgentOutput, AgentRun, SavedOutput } from '@/lib/types'
@@ -46,11 +47,11 @@ export default function RunAgentPage({ params }: Props) {
   const agent = getAgentBySlug(slug)
   const hasAccess = agent ? canAccessAgent(MOCK_USER.plan, agent.planRequired) : false
 
-  const [task, setTask] = useState(searchParams.get('task') || '')
+const [task, setTask] = useState(searchParams.get('task') || '')
   const [context, setContext] = useState('')
   const [desiredOutput, setDesiredOutput] = useState('analysis')
   const [detailLevel, setDetailLevel] = useState('standard')
-  const [projectId, setProjectId] = useState('')
+  const [projectId, setProjectId] = useState('unassigned')
   const [status, setStatus] = useState<'idle' | 'running' | 'done' | 'error'>('idle')
   const [output, setOutput] = useState<AgentOutput | null>(null)
   const [latestRun, setLatestRun] = useState<AgentRun | null>(null)
@@ -63,17 +64,23 @@ export default function RunAgentPage({ params }: Props) {
     void (async () => {
       const mergedProjects = await getMergedProjects(MOCK_PROJECTS)
       setProjects(mergedProjects)
-      if (!projectId && mergedProjects[0]) setProjectId(mergedProjects[0].id)
     })()
-  }, [projectId])
+  }, [])
 
-  const selectedProject = projects.find((p) => p.id === projectId)
+  const selectedProject = projectId === 'unassigned' ? undefined : projects.find((p) => p.id === projectId)
 
   useEffect(() => {
-    if (!selectedProject) return
+    if (!selectedProject) {
+      if (prefilledProjectId) {
+        setContext('')
+        setPrefilledProjectId('')
+      }
+      return
+    }
+
     setContext(buildProjectContext(selectedProject))
     setPrefilledProjectId(selectedProject.id)
-  }, [selectedProject])
+  }, [prefilledProjectId, selectedProject])
 
   if (!agent) {
     return (
@@ -156,12 +163,9 @@ export default function RunAgentPage({ params }: Props) {
         createdAt,
       }
 
-      if (selectedProject) {
-        await persistProjectRun({
-          project: selectedProject,
-          run: runRecord,
-        })
+      await persistRun(runRecord, selectedProject)
 
+      if (selectedProject) {
         setProjects((prev) =>
           prev.map((project) =>
             project.id === selectedProject.id
@@ -185,7 +189,25 @@ export default function RunAgentPage({ params }: Props) {
   }
 
   async function handleSaveDeliverable() {
-    if (!output || !selectedProject || !latestRun) return
+    if (!output || !latestRun) return
+
+    if (!selectedProject) {
+      const savedOutput: SavedOutput = {
+        id: `saved-${Date.now()}`,
+        userId: MOCK_USER.id,
+        agentRunId: latestRun.id,
+        agentName: agent.name,
+        title: `${agent.name} deliverable`,
+        content: output.mainResult,
+        format: 'text',
+        createdAt: latestRun.createdAt,
+        updatedAt: latestRun.createdAt,
+      }
+
+      await persistSavedOutput(savedOutput)
+      setSaved(true)
+      return
+    }
 
     const runLabel = `${agent.name}: ${task.slice(0, 48)}`
     const nextWorkflow = advanceWorkflowAfterRun(selectedProject.workflow ?? [], latestRun.id, runLabel, latestRun.createdAt)
@@ -342,6 +364,7 @@ export default function RunAgentPage({ params }: Props) {
                       <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="unassigned">Keep unassigned</SelectItem>
                       {projects.map((p) => (
                         <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
                       ))}
@@ -413,7 +436,7 @@ export default function RunAgentPage({ params }: Props) {
                     onClick={handleSaveDeliverable}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-[#173634]/55 hover:text-[#173634]"
                   >
-                    <Bookmark size={12} /> Save deliverable
+                    <Bookmark size={12} /> {selectedProject ? 'Save deliverable' : 'Save to library'}
                   </button>
                 )}
               </div>

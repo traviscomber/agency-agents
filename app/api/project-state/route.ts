@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   createProjectState,
   readProjectState,
+  saveGlobalRunState,
+  saveGlobalSavedOutputState,
   saveProjectRunState,
   saveProjectRunResultState,
   updateProjectBriefState,
@@ -76,18 +78,31 @@ export async function POST(req: NextRequest) {
       }
 
       case 'save_run': {
-        const project = body.project as Project | undefined
         const run = body.run as AgentRun | undefined
+        const project = body.project as Project | undefined
 
-        if (!project || !run) {
-          return NextResponse.json({ error: 'project and run are required' }, { status: 400 })
+        if (!run) {
+          return NextResponse.json({ error: 'run is required' }, { status: 400 })
         }
 
-        const result = await saveProjectRunState({
-          project,
-          run,
-        })
+        const result = project
+          ? await saveProjectRunState({
+              project,
+              run,
+            })
+          : await saveGlobalRunState(run)
 
+        return NextResponse.json({ success: true, result })
+      }
+
+      case 'save_saved_output': {
+        const savedOutput = body.savedOutput as SavedOutput | undefined
+
+        if (!savedOutput) {
+          return NextResponse.json({ error: 'savedOutput is required' }, { status: 400 })
+        }
+
+        const result = await saveGlobalSavedOutputState(savedOutput)
         return NextResponse.json({ success: true, result })
       }
 

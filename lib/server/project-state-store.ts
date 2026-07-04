@@ -12,6 +12,8 @@ import type {
 interface PersistedProjectState {
   projects: Project[]
   overlays: Record<string, ProjectOverlayState>
+  runs: AgentRun[]
+  savedOutputs: SavedOutput[]
 }
 
 const DATA_DIR = path.join(process.cwd(), '.data')
@@ -44,12 +46,16 @@ function buildOverlay(project: Project): ProjectOverlayState {
   }
 }
 
+function buildInitialState(): PersistedProjectState {
+  return { projects: [], overlays: {}, runs: [], savedOutputs: [] }
+}
+
 async function ensureStateFile() {
   await mkdir(DATA_DIR, { recursive: true })
   try {
     await readFile(DATA_FILE, 'utf8')
   } catch {
-    const initialState: PersistedProjectState = { projects: [], overlays: {} }
+    const initialState = buildInitialState()
     await writeFile(DATA_FILE, JSON.stringify(initialState, null, 2), 'utf8')
   }
 }
@@ -57,7 +63,14 @@ async function ensureStateFile() {
 export async function readProjectState(): Promise<PersistedProjectState> {
   await ensureStateFile()
   const raw = await readFile(DATA_FILE, 'utf8')
-  return JSON.parse(raw) as PersistedProjectState
+  const parsed = JSON.parse(raw) as Partial<PersistedProjectState>
+
+  return {
+    projects: parsed.projects ?? [],
+    overlays: parsed.overlays ?? {},
+    runs: parsed.runs ?? [],
+    savedOutputs: parsed.savedOutputs ?? [],
+  }
 }
 
 async function writeProjectState(state: PersistedProjectState) {
@@ -156,4 +169,18 @@ export async function saveProjectRunState(args: {
 
   await writeProjectState(state)
   return state.overlays[args.project.id]
+}
+
+export async function saveGlobalRunState(run: AgentRun) {
+  const state = await readProjectState()
+  state.runs = upsertRun(state.runs, run)
+  await writeProjectState(state)
+  return state.runs
+}
+
+export async function saveGlobalSavedOutputState(savedOutput: SavedOutput) {
+  const state = await readProjectState()
+  state.savedOutputs = upsertSavedOutput(state.savedOutputs, savedOutput)
+  await writeProjectState(state)
+  return state.savedOutputs
 }

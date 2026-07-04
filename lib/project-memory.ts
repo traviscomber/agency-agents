@@ -11,10 +11,14 @@ import type {
 
 const STORAGE_PREFIX = 'agencyos.project-overlay.'
 const STORED_PROJECTS_KEY = 'agencyos.projects'
+const GLOBAL_RUNS_KEY = 'agencyos.runs'
+const GLOBAL_SAVED_OUTPUTS_KEY = 'agencyos.saved-outputs'
 
 interface PersistedProjectState {
   projects: Project[]
   overlays: Record<string, ProjectOverlayState>
+  runs: AgentRun[]
+  savedOutputs: SavedOutput[]
 }
 
 interface PersistRunResultArgs {
@@ -216,7 +220,46 @@ function buildLocalPersistedState(): PersistedProjectState {
     }
   }
 
-  return { projects, overlays }
+  return {
+    projects,
+    overlays,
+    runs: loadGlobalRuns(),
+    savedOutputs: loadGlobalSavedOutputs(),
+  }
+}
+
+function loadGlobalRuns() {
+  if (!canUseStorage()) return []
+  const raw = window.localStorage.getItem(GLOBAL_RUNS_KEY)
+  if (!raw) return []
+
+  try {
+    return JSON.parse(raw) as AgentRun[]
+  } catch {
+    return []
+  }
+}
+
+function saveGlobalRuns(runs: AgentRun[]) {
+  if (!canUseStorage()) return
+  window.localStorage.setItem(GLOBAL_RUNS_KEY, JSON.stringify(runs))
+}
+
+function loadGlobalSavedOutputs() {
+  if (!canUseStorage()) return []
+  const raw = window.localStorage.getItem(GLOBAL_SAVED_OUTPUTS_KEY)
+  if (!raw) return []
+
+  try {
+    return JSON.parse(raw) as SavedOutput[]
+  } catch {
+    return []
+  }
+}
+
+function saveGlobalSavedOutputs(savedOutputs: SavedOutput[]) {
+  if (!canUseStorage()) return
+  window.localStorage.setItem(GLOBAL_SAVED_OUTPUTS_KEY, JSON.stringify(savedOutputs))
 }
 
 async function fetchPersistedProjectState(): Promise<PersistedProjectState> {
@@ -263,6 +306,34 @@ async function postProjectState<T>(body: Record<string, unknown>, fallback: () =
   } catch {
     return fallback()
   }
+}
+
+function saveProjectRunLocally(args: PersistRunArgs) {
+  const overlay = getLocalProjectOverlay(args.project)
+  const nextOverlay: ProjectOverlayState = {
+    ...overlay,
+    operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
+    workflow: args.project.workflow ?? overlay.workflow,
+    runs: [args.run, ...overlay.runs.filter((item) => item.id !== args.run.id)],
+  }
+
+  saveProjectOverlay(args.project.id, nextOverlay)
+
+  const storedProjects = loadStoredProjects()
+  if (storedProjects.some((item) => item.id === args.project.id)) {
+    saveStoredProjects(
+      storedProjects.map((item) =>
+        item.id === args.project.id
+          ? {
+              ...item,
+              updatedAt: args.run.createdAt,
+            }
+          : item,
+      ),
+    )
+  }
+
+  return nextOverlay
 }
 
 function mergeProjectWithOverlay(project: Project, overlay: ProjectOverlayState | undefined): Project {
@@ -421,35 +492,42 @@ export async function persistProjectRun(args: PersistRunArgs) {
   return postProjectState<ProjectOverlayState>(
     {
       action: 'save_run',
-      project: args.project,
       run: args.run,
+      project: args.project,
+    },
+    () => saveProjectRunLocally(args),
+  )
+}
+
+export async function persistRun(run: AgentRun, project?: Project) {
+  return postProjectState<ProjectOverlayState | AgentRun[]>(
+    {
+      action: 'save_run',
+      run,
+      project,
     },
     () => {
-      const overlay = getLocalProjectOverlay(args.project)
-      const nextOverlay: ProjectOverlayState = {
-        ...overlay,
-        operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
-        workflow: args.project.workflow ?? overlay.workflow,
-        runs: [args.run, ...overlay.runs.filter((item) => item.id !== args.run.id)],
+      if (project) {
+        return saveProjectRunLocally({ project, run })
       }
 
-      saveProjectOverlay(args.project.id, nextOverlay)
+      const nextRuns = [run, ...loadGlobalRuns().filter((item) => item.id !== run.id)]
+      saveGlobalRuns(nextRuns)
+      return nextRuns
+    },
+  )
+}
 
-      const storedProjects = loadStoredProjects()
-      if (storedProjects.some((item) => item.id === args.project.id)) {
-        saveStoredProjects(
-          storedProjects.map((item) =>
-            item.id === args.project.id
-              ? {
-                  ...item,
-                  updatedAt: args.run.createdAt,
-                }
-              : item,
-          ),
-        )
-      }
-
-      return nextOverlay
+export async function persistSavedOutput(savedOutput: SavedOutput) {
+  return postProjectState<SavedOutput[]>(
+    {
+      action: 'save_saved_output',
+      savedOutput,
+    },
+    () => {
+      const nextSavedOutputs = [savedOutput, ...loadGlobalSavedOutputs().filter((item) => item.id !== savedOutput.id)]
+      saveGlobalSavedOutputs(nextSavedOutputs)
+      return nextSavedOutputs
     },
   )
 }
@@ -457,11 +535,15 @@ export async function persistProjectRun(args: PersistRunArgs) {
 export async function getAllRuns(baseRuns: AgentRun[]) {
   const state = await fetchPersistedProjectState()
   const overlayRuns = Object.values(state.overlays).flatMap((overlay) => overlay.runs)
-  return [...overlayRuns, ...baseRuns]
+  return [...state.runs, ...overlayRuns, ...baseRuns]
+    .filter((run, index, collection) => collection.findIndex((item) => item.id === run.id) === index)
+    .sort((left, right) => right.createdAt.localeCompare(left.createdAt))
 }
 
 export async function getAllSavedOutputs(baseSavedOutputs: SavedOutput[]) {
   const state = await fetchPersistedProjectState()
   const overlaySavedOutputs = Object.values(state.overlays).flatMap((overlay) => overlay.savedOutputs)
-  return [...overlaySavedOutputs, ...baseSavedOutputs]
+  return [...state.savedOutputs, ...overlaySavedOutputs, ...baseSavedOutputs]
+    .filter((savedOutput, index, collection) => collection.findIndex((item) => item.id === savedOutput.id) === index)
+    .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
 }
