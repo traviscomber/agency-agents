@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Agent Marketplace | N3uralia',
+  title: 'Agent Marketplace | N3uralia Studio',
   description: 'Discover and use specialized agents built by the community.',
 }
 

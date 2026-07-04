@@ -7,14 +7,14 @@ const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'N3uralia Nano Agent Factory — AI Specialist Platform',
+  title: 'N3uralia Studio — Agent Factory & Workspace',
   description:
-    'Access specialized nano AI agents for product, code, design, sales, strategy, security, and operations. Run tasks, save outputs, and organize your work from one professional dashboard.',
-  keywords: ['AI agents', 'nano agents', 'agent factory', 'AI workspace', 'productivity', 'N3uralia'],
+    'Build, deploy, and manage specialized AI agents. Agent studio with project management, fine-tuning, marketplace, team collaboration, and enterprise controls.',
+  keywords: ['AI agents', 'agent factory', 'agent studio', 'AI workspace', 'agent builder', 'N3uralia'],
   authors: [{ name: 'N3uralia' }],
   openGraph: {
-    title: 'N3uralia Nano Agent Factory — AI Specialist Platform',
-    description: 'Run specialized nano agents from one professional workspace.',
+    title: 'N3uralia Studio — Agent Factory & Workspace',
+    description: 'Build and manage AI agents with N3uralia Studio.',
     type: 'website',
   },
 }
