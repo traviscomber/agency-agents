@@ -1,11 +1,12 @@
 'use client'
 
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import type { SavedOutput } from '@/lib/types'
-import { Bookmark, FolderOpen, Search, X } from 'lucide-react'
+import { ArrowRight, Bookmark, FolderOpen, Search, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getAllSavedOutputs } from '@/lib/project-memory'
 
@@ -112,6 +113,9 @@ export default function SavedPage() {
                     <FolderOpen size={10} />{active.projectName}
                   </span>
                 )}
+                <Link href={`/app/history/${active.agentRunId}`} className="inline-flex items-center gap-1 text-[#8fb2aa] transition-colors hover:text-[#173634]">
+                  Source run <ArrowRight size={10} />
+                </Link>
               </div>
 
               <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#173634]/75">{active.content}</p>
