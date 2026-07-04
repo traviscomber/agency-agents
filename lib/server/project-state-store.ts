@@ -119,6 +119,37 @@ export async function updateProjectBriefState(projectId: string, brief: ProjectO
   return state.overlays[projectId]
 }
 
+export async function updateProjectOperatingState(args: {
+  projectId: string
+  project?: Project
+  memoryEntry?: ProjectMemoryEntry
+  workflow?: ProjectOverlayState['workflow']
+}) {
+  const state = await readProjectState()
+  const existingProject = args.project ?? state.projects.find((item) => item.id === args.projectId)
+  const existingOverlay = state.overlays[args.projectId] ?? (existingProject ? buildOverlay(existingProject) : null)
+  if (!existingOverlay) return null
+
+  const updatedAt = args.memoryEntry?.createdAt ?? new Date().toISOString()
+
+  state.overlays[args.projectId] = {
+    ...existingOverlay,
+    memory: args.memoryEntry ? upsertMemoryEntry(existingOverlay.memory, args.memoryEntry) : existingOverlay.memory,
+    workflow: args.workflow ?? existingOverlay.workflow,
+    operatingBrief: existingProject?.operatingBrief ?? existingOverlay.operatingBrief,
+  }
+
+  if (existingProject) {
+    state.projects = upsertProject(state.projects, {
+      ...existingProject,
+      updatedAt,
+    })
+  }
+
+  await writeProjectState(state)
+  return state.overlays[args.projectId]
+}
+
 export async function saveProjectRunResultState(args: {
   project: Project
   run: AgentRun

@@ -5,6 +5,7 @@ import type {
   ProjectMemoryEntry,
   ProjectOperatingBrief,
   ProjectOverlayState,
+  ProjectType,
   ProjectWorkflowStep,
   SavedOutput,
 } from '@/lib/types'
@@ -54,40 +55,189 @@ function canUseStorage() {
   return typeof window !== 'undefined'
 }
 
-function defaultOperatingBrief(projectName: string): ProjectOperatingBrief {
-  return {
-    objective: `Define the core objective for ${projectName}.`,
-    audience: 'Name the audience this project serves.',
-    tone: 'Precise, operational, and high-trust.',
-    successDefinition: 'Describe what a completed workflow should produce.',
-    constraints: ['Keep the scope explicit.', 'Capture reusable decisions.', 'Turn outputs into deliverables.'],
+export const PROJECT_TYPE_OPTIONS: Array<{
+  value: ProjectType
+  label: string
+  description: string
+}> = [
+  {
+    value: 'launch',
+    label: 'Launch',
+    description: 'Narrative, offer, and launch assets coordinated as one operating motion.',
+  },
+  {
+    value: 'growth',
+    label: 'Growth',
+    description: 'Acquisition loops, experimentation, and channel decisions that need tight iteration.',
+  },
+  {
+    value: 'operations',
+    label: 'Operations',
+    description: 'Internal systems, workflows, and execution hygiene that compound over time.',
+  },
+  {
+    value: 'client-delivery',
+    label: 'Client delivery',
+    description: 'Service delivery, approvals, and handoffs that need a reusable production rhythm.',
+  },
+]
+
+const PROJECT_TYPE_LABELS = new Map(PROJECT_TYPE_OPTIONS.map((option) => [option.value, option.label]))
+
+function defaultOperatingBrief(projectName: string, projectType: ProjectType): ProjectOperatingBrief {
+  switch (projectType) {
+    case 'launch':
+      return {
+        objective: `Prepare ${projectName} for launch with a clear offer, proof, and execution plan.`,
+        audience: 'Define the primary buyer or market segment the launch needs to convert.',
+        tone: 'Decisive, sharp, and commercially credible.',
+        successDefinition: 'Launch assets, positioning, and rollout sequencing are ready for execution without ambiguity.',
+        constraints: ['Keep the offer explicit.', 'Document proof points.', 'Sequence channels before production starts.'],
+      }
+    case 'growth':
+      return {
+        objective: `Turn ${projectName} into a measurable growth engine with clear bets and learning loops.`,
+        audience: 'Specify the segment, channel audience, or pipeline cohort this work should influence.',
+        tone: 'Analytical, focused, and experiment-driven.',
+        successDefinition: 'The team has prioritized experiments, decision criteria, and a repeatable review cadence.',
+        constraints: ['Tie work to a growth signal.', 'Capture learning after every run.', 'Keep next experiments queue-ready.'],
+      }
+    case 'client-delivery':
+      return {
+        objective: `Systematize ${projectName} so delivery stays consistent across approvals, production, and handoff.`,
+        audience: 'Define the client stakeholders, operators, and approvers the workflow must satisfy.',
+        tone: 'High-trust, explicit, and service-oriented.',
+        successDefinition: 'Deliverables, approvals, and handoff materials can move without dropped context.',
+        constraints: ['Track owner by step.', 'Store reusable delivery decisions.', 'Leave a clean handoff package after every milestone.'],
+      }
+    case 'operations':
+    default:
+      return {
+        objective: `Define the core objective for ${projectName}.`,
+        audience: 'Name the audience this project serves.',
+        tone: 'Precise, operational, and high-trust.',
+        successDefinition: 'Describe what a completed workflow should produce.',
+        constraints: ['Keep the scope explicit.', 'Capture reusable decisions.', 'Turn outputs into deliverables.'],
+      }
   }
 }
 
-function defaultWorkflow(projectName: string): ProjectWorkflowStep[] {
-  return [
-    {
-      id: `wf-${projectName}-1`,
-      name: 'Clarify the brief',
-      owner: 'Strategy',
-      status: 'active',
-      detail: 'Define the objective, audience, and success definition before the first run.',
-    },
-    {
-      id: `wf-${projectName}-2`,
-      name: 'Run the first specialist',
-      owner: 'Operations',
-      status: 'next',
-      detail: 'Create the first deliverable and capture reusable context from the result.',
-    },
-    {
-      id: `wf-${projectName}-3`,
-      name: 'Review and operationalize',
-      owner: 'Lead',
-      status: 'next',
-      detail: 'Approve the deliverable, extract memory, and queue the next workflow step.',
-    },
-  ]
+function defaultWorkflow(projectName: string, projectType: ProjectType): ProjectWorkflowStep[] {
+  switch (projectType) {
+    case 'launch':
+      return [
+        {
+          id: `wf-${projectName}-1`,
+          name: 'Lock the launch narrative',
+          owner: 'Strategy',
+          status: 'active',
+          detail: 'Clarify the offer, audience, and proof so every later run inherits the same positioning.',
+          recommendedAgentSlug: 'product-strategist',
+        },
+        {
+          id: `wf-${projectName}-2`,
+          name: 'Build launch assets',
+          owner: 'Creative',
+          status: 'next',
+          detail: 'Generate the core launch deliverables and document what must stay consistent across channels.',
+          recommendedAgentSlug: 'proposal-strategist',
+        },
+        {
+          id: `wf-${projectName}-3`,
+          name: 'Sequence rollout',
+          owner: 'Operations',
+          status: 'next',
+          detail: 'Turn the narrative and assets into a timed rollout with explicit owners and dependencies.',
+          recommendedAgentSlug: 'operations-strategist',
+        },
+      ]
+    case 'growth':
+      return [
+        {
+          id: `wf-${projectName}-1`,
+          name: 'Map growth levers',
+          owner: 'Strategy',
+          status: 'active',
+          detail: 'Define the metric, channel, and buyer signals that matter before drafting experiments.',
+          recommendedAgentSlug: 'product-strategist',
+        },
+        {
+          id: `wf-${projectName}-2`,
+          name: 'Design the next experiment',
+          owner: 'Growth',
+          status: 'next',
+          detail: 'Create a focused experiment with hypothesis, execution notes, and expected signal.',
+          recommendedAgentSlug: 'operations-strategist',
+        },
+        {
+          id: `wf-${projectName}-3`,
+          name: 'Capture learning loop',
+          owner: 'Lead',
+          status: 'next',
+          detail: 'Log outcomes, extract reusable insight, and queue the next experiment without losing momentum.',
+          recommendedAgentSlug: 'proposal-strategist',
+        },
+      ]
+    case 'client-delivery':
+      return [
+        {
+          id: `wf-${projectName}-1`,
+          name: 'Frame the client brief',
+          owner: 'Accounts',
+          status: 'active',
+          detail: 'Align objective, stakeholders, and non-negotiables before production work starts.',
+          recommendedAgentSlug: 'product-strategist',
+        },
+        {
+          id: `wf-${projectName}-2`,
+          name: 'Produce the current deliverable',
+          owner: 'Delivery',
+          status: 'next',
+          detail: 'Generate the asset or plan, then preserve the rationale so revisions do not reset context.',
+          recommendedAgentSlug: 'proposal-strategist',
+        },
+        {
+          id: `wf-${projectName}-3`,
+          name: 'Prepare approval and handoff',
+          owner: 'Operations',
+          status: 'next',
+          detail: 'Package what changed, what was approved, and what the next operator needs to continue cleanly.',
+          recommendedAgentSlug: 'operations-strategist',
+        },
+      ]
+    case 'operations':
+    default:
+      return [
+        {
+          id: `wf-${projectName}-1`,
+          name: 'Clarify the brief',
+          owner: 'Strategy',
+          status: 'active',
+          detail: 'Define the objective, audience, and success definition before the first run.',
+          recommendedAgentSlug: 'product-strategist',
+        },
+        {
+          id: `wf-${projectName}-2`,
+          name: 'Run the first specialist',
+          owner: 'Operations',
+          status: 'next',
+          detail: 'Create the first deliverable and capture reusable context from the result.',
+          recommendedAgentSlug: 'operations-strategist',
+        },
+        {
+          id: `wf-${projectName}-3`,
+          name: 'Review and operationalize',
+          owner: 'Lead',
+          status: 'next',
+          detail: 'Approve the deliverable, extract memory, and queue the next workflow step.',
+          recommendedAgentSlug: 'proposal-strategist',
+        },
+      ]
+  }
+}
+
+export function getProjectTypeLabel(projectType?: ProjectType) {
+  return PROJECT_TYPE_LABELS.get(projectType ?? 'operations') ?? 'Operations'
 }
 
 export function buildProjectContext(project?: Project) {
@@ -390,21 +540,22 @@ export async function getMergedProjects(baseProjects: Project[] = MOCK_PROJECTS)
   return Array.from(mergedProjects.values()).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
 }
 
-export async function createStoredProject(name: string, description: string): Promise<Project> {
+export async function createStoredProject(name: string, description: string, projectType: ProjectType = 'operations'): Promise<Project> {
   const now = new Date().toISOString()
   const project: Project = {
     id: `proj-${Date.now()}`,
     userId: 'user-demo-001',
     name,
     description,
+    projectType,
     status: 'active',
     createdAt: now,
     updatedAt: now,
     runCount: 0,
     savedCount: 0,
-    operatingBrief: defaultOperatingBrief(name),
+    operatingBrief: defaultOperatingBrief(name, projectType),
     memory: [],
-    workflow: defaultWorkflow(name),
+    workflow: defaultWorkflow(name, projectType),
   }
 
   return postProjectState<Project>(
@@ -447,6 +598,50 @@ export async function updateProjectBrief(project: Project, brief: ProjectOperati
                   ...item,
                   operatingBrief: brief,
                   updatedAt: new Date().toISOString(),
+                }
+              : item,
+          ),
+        )
+      }
+
+      return nextOverlay
+    },
+  )
+}
+
+export async function persistProjectOperatingState(args: {
+  project: Project
+  memoryEntry?: ProjectMemoryEntry
+  workflow?: ProjectWorkflowStep[]
+}) {
+  return postProjectState<ProjectOverlayState | null>(
+    {
+      action: 'update_operating_state',
+      projectId: args.project.id,
+      project: args.project,
+      memoryEntry: args.memoryEntry,
+      workflow: args.workflow,
+    },
+    () => {
+      const overlay = getLocalProjectOverlay(args.project)
+      const nextOverlay: ProjectOverlayState = {
+        ...overlay,
+        memory: args.memoryEntry ? upsertMemoryEntry(overlay.memory, args.memoryEntry) : overlay.memory,
+        workflow: args.workflow ?? overlay.workflow,
+        operatingBrief: args.project.operatingBrief ?? overlay.operatingBrief,
+      }
+
+      saveProjectOverlay(args.project.id, nextOverlay)
+
+      const storedProjects = loadStoredProjects()
+      if (storedProjects.some((item) => item.id === args.project.id)) {
+        const updatedAt = args.memoryEntry?.createdAt ?? new Date().toISOString()
+        saveStoredProjects(
+          storedProjects.map((item) =>
+            item.id === args.project.id
+              ? {
+                  ...item,
+                  updatedAt,
                 }
               : item,
           ),

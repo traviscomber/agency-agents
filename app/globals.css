@@ -131,3 +131,42 @@
   pointer-events: none;
 }
 .n3-card:hover::before { opacity: 1; }
+
+.n3-app-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(23, 54, 52, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 54, 52, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent 85%);
+  pointer-events: none;
+}
+
+.n3-hero-grid {
+  background-image:
+    linear-gradient(rgba(216, 229, 226, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(216, 229, 226, 0.1) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.n3-metric-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.n3-metric-card::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #8fb2aa, transparent);
+  opacity: 0.7;
+}
+
+.n3-glow-ring {
+  box-shadow:
+    0 0 0 1px rgba(143, 178, 170, 0.16),
+    0 18px 40px rgba(23, 54, 52, 0.1);
+}

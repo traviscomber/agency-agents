@@ -21,6 +21,7 @@ export const MOCK_PROJECTS: Project[] = [
     userId: 'user-demo-001',
     name: 'AgencyOS MVP',
     description: 'Building the initial product launch for AgencyOS SaaS platform.',
+    projectType: 'launch',
     status: 'active',
     createdAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-20T15:30:00Z',
@@ -56,6 +57,7 @@ export const MOCK_PROJECTS: Project[] = [
         owner: 'Strategy',
         status: 'done',
         detail: 'Clarify the promise, surface specialist categories, and tighten CTAs.',
+        recommendedAgentSlug: 'product-strategist',
       },
       {
         id: 'wf-002',
@@ -63,6 +65,7 @@ export const MOCK_PROJECTS: Project[] = [
         owner: 'Product',
         status: 'active',
         detail: 'Make execution brief, deliverable save, and project linkage feel like one workflow.',
+        recommendedAgentSlug: 'frontend-developer',
       },
       {
         id: 'wf-003',
@@ -70,6 +73,7 @@ export const MOCK_PROJECTS: Project[] = [
         owner: 'Marketing',
         status: 'next',
         detail: 'Turn saved deliverables and project memory into launch-ready proof points.',
+        recommendedAgentSlug: 'technical-writer',
       },
     ],
   },
@@ -78,6 +82,7 @@ export const MOCK_PROJECTS: Project[] = [
     userId: 'user-demo-001',
     name: 'Q1 Sales Strategy',
     description: 'Outreach strategy and ICP definition for Q1 pipeline.',
+    projectType: 'growth',
     status: 'active',
     createdAt: '2024-01-18T09:00:00Z',
     updatedAt: '2024-01-22T11:00:00Z',
@@ -113,6 +118,7 @@ export const MOCK_PROJECTS: Project[] = [
         owner: 'Research',
         status: 'done',
         detail: 'Refresh vertical filters and buying triggers.',
+        recommendedAgentSlug: 'ux-researcher',
       },
       {
         id: 'wf-005',
@@ -120,6 +126,7 @@ export const MOCK_PROJECTS: Project[] = [
         owner: 'Growth',
         status: 'active',
         detail: 'Translate the ICP into a three-touch sequence with differentiated proof points.',
+        recommendedAgentSlug: 'sales-strategist',
       },
       {
         id: 'wf-006',
@@ -127,6 +134,7 @@ export const MOCK_PROJECTS: Project[] = [
         owner: 'Sales',
         status: 'next',
         detail: 'Package the messaging, objections, and snippets into a reusable playbook.',
+        recommendedAgentSlug: 'proposal-strategist',
       },
     ],
   },

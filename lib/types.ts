@@ -34,11 +34,14 @@ export interface Agent {
   isActive: boolean
 }
 
+export type ProjectType = 'launch' | 'growth' | 'operations' | 'client-delivery'
+
 export interface Project {
   id: string
   userId: string
   name: string
   description: string
+  projectType?: ProjectType
   status: 'active' | 'archived'
   createdAt: string
   updatedAt: string
@@ -61,7 +64,7 @@ export interface ProjectMemoryEntry {
   id: string
   title: string
   note: string
-  source: 'decision' | 'research' | 'deliverable' | 'run'
+  source: 'decision' | 'research' | 'deliverable' | 'run' | 'handoff'
   createdAt: string
 }
 
@@ -71,6 +74,7 @@ export interface ProjectWorkflowStep {
   owner: string
   status: 'next' | 'active' | 'done'
   detail: string
+  recommendedAgentSlug?: string
   linkedRunId?: string
   linkedRunLabel?: string
   completedAt?: string

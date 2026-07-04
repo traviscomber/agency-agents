@@ -6,6 +6,7 @@ import {
   saveGlobalSavedOutputState,
   saveProjectRunState,
   saveProjectRunResultState,
+  updateProjectOperatingState,
   updateProjectBriefState,
 } from '@/lib/server/project-state-store'
 import type { AgentRun, Project, ProjectMemoryEntry, ProjectOperatingBrief, ProjectWorkflowStep, SavedOutput } from '@/lib/types'
@@ -103,6 +104,30 @@ export async function POST(req: NextRequest) {
         }
 
         const result = await saveGlobalSavedOutputState(savedOutput)
+        return NextResponse.json({ success: true, result })
+      }
+
+      case 'update_operating_state': {
+        const projectId = body.projectId as string | undefined
+        const project = body.project as Project | undefined
+        const memoryEntry = body.memoryEntry as ProjectMemoryEntry | undefined
+        const workflow = body.workflow as ProjectWorkflowStep[] | undefined
+
+        if (!projectId) {
+          return NextResponse.json({ error: 'projectId is required' }, { status: 400 })
+        }
+
+        const result = await updateProjectOperatingState({
+          projectId,
+          project,
+          memoryEntry,
+          workflow,
+        })
+
+        if (!result) {
+          return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+        }
+
         return NextResponse.json({ success: true, result })
       }
 

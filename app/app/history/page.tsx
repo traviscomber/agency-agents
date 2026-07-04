@@ -1,11 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { MOCK_RUNS } from '@/lib/data/mock-store'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { ArrowRight, FolderOpen, Search, Filter, Download, Copy } from 'lucide-react'
+import { ArrowRight, FolderOpen, Search, Sparkles } from 'lucide-react'
 import type { AgentRun } from '@/lib/types'
 import { getAllRuns } from '@/lib/project-memory'
 
@@ -19,6 +20,7 @@ function formatTime(date: string) {
 
 export default function HistoryPage() {
   const [runs, setRuns] = useState<AgentRun[]>(MOCK_RUNS)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     void (async () => {
@@ -26,85 +28,121 @@ export default function HistoryPage() {
     })()
   }, [])
 
-  const completedRuns = runs.filter((r) => r.status === 'completed').length
-  const failedRuns = runs.filter((r) => r.status === 'failed').length
+  const completedRuns = runs.filter((run) => run.status === 'completed').length
+  const failedRuns = runs.filter((run) => run.status === 'failed').length
+  const activeProjects = new Set(runs.map((run) => run.projectId).filter(Boolean)).size
+
+  const filteredRuns = useMemo(() => {
+    const query = search.trim().toLowerCase()
+    if (!query) return runs
+
+    return runs.filter((run) =>
+      run.agentName.toLowerCase().includes(query) ||
+      run.task.toLowerCase().includes(query) ||
+      run.projectName?.toLowerCase().includes(query),
+    )
+  }, [runs, search])
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
-      <header className="mb-10 border-b border-[#d8e5e2] pb-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Activity</p>
-        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Run history.</h1>
-        <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          Every agent execution, result, and project link in one chronological view.
-        </p>
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      <header className="overflow-hidden border border-[#d8e5e2] bg-[#fbfbfa]">
+        <div className="grid gap-px bg-[#d8e5e2] lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="bg-[linear-gradient(135deg,_rgba(23,54,52,0.05),_rgba(143,178,170,0.02))] px-6 py-8 sm:px-8">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Execution ledger</p>
+            <h1 className="mt-3 max-w-3xl text-4xl font-light tracking-[-0.04em] text-[#173634]">
+              Every run should read like a traceable production event.
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d]">
+              This view should help you audit output quality, inspect project linkage, and re-open the right run without
+              scanning a generic activity list.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild className="h-10 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]">
+                <Link href="/app/agents">Run specialist</Link>
+              </Button>
+              <Button asChild variant="outline" className="h-10 rounded-none border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
+                <Link href="/app/projects">Open project ledger</Link>
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid gap-px bg-[#d8e5e2] sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              { label: 'Total runs', value: runs.length, note: 'persisted executions' },
+              { label: 'Completed', value: completedRuns, note: 'successful outputs' },
+              { label: 'Projects linked', value: activeProjects, note: 'active workstreams' },
+            ].map(({ label, value, note }) => (
+              <div key={label} className="bg-[#f1f6f4] px-5 py-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
+                <p className="mt-2 text-3xl font-light tracking-[-0.04em] text-[#173634]">{value}</p>
+                <p className="mt-1 text-xs text-[#52605d]">{note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </header>
 
-      {/* Stats */}
-      <div className="mb-10 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
-        {[
-          { label: 'Total runs', value: runs.length },
-          { label: 'Completed', value: completedRuns },
-          { label: 'Failed', value: failedRuns },
-        ].map(({ label, value }) => (
-          <div key={label} className="bg-[#fbfbfa] px-5 py-5">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
-            <p className="mt-2 text-3xl font-light text-[#173634]">{value}</p>
+      <section className="mt-8 border border-[#d8e5e2] bg-[#fbfbfa]">
+        <div className="flex flex-col gap-4 border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Run index</p>
+            <p className="mt-1 text-sm text-[#52605d]">Search by specialist, task, or linked project.</p>
           </div>
-        ))}
-      </div>
-
-      {/* Search and filters */}
-      <div className="mb-8 flex gap-3">
-        <div className="flex-1 flex items-center gap-2 border border-[#d8e5e2] bg-white px-3 py-2 rounded-none">
-          <Search size={14} className="text-[#d8e5e2]" />
-          <input
-            placeholder="Search by agent name, task, or project..."
-            className="flex-1 bg-transparent text-sm text-[#173634] placeholder:text-[#173634]/30 focus:outline-none"
-          />
+          <div className="relative w-full max-w-md">
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8fb2aa]" />
+            <Input
+              placeholder="Search execution history..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
+            />
+          </div>
         </div>
-        <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
-          <Filter size={14} className="mr-2" /> Status
-        </Button>
-        <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
-          <Download size={14} className="mr-2" /> Export
-        </Button>
-      </div>
 
-      {runs.length === 0 ? (
-        <div className="border border-[#d8e5e2] px-8 py-16 text-center">
-          <p className="text-sm font-medium text-[#173634]">No runs yet</p>
-          <p className="mt-1 text-xs text-[#173634]/45">Run an agent to populate this timeline.</p>
-          <Button asChild className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-            <Link href="/app/agents">Browse specialists</Link>
-          </Button>
-        </div>
-      ) : (
-        <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
-          {runs.map((run) => {
-            return (
-              <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4] group">
-                <div className="min-w-0 flex-1">
+        {filteredRuns.length === 0 ? (
+          <div className="px-8 py-16 text-center">
+            <p className="text-sm font-medium text-[#173634]">{search ? 'No matching runs' : 'No runs yet'}</p>
+            <p className="mt-1 text-xs text-[#52605d]">
+              {search ? 'Try a different search term.' : 'Run an agent to populate this timeline.'}
+            </p>
+          </div>
+        ) : (
+          <div className="divide-y divide-[#d8e5e2]">
+            {filteredRuns.map((run, index) => (
+              <Link
+                key={run.id}
+                href={`/app/history/${run.id}`}
+                className="grid gap-4 px-5 py-5 transition-colors hover:bg-[#f1f6f4] lg:grid-cols-[42px_1fr_auto] lg:items-start"
+              >
+                <div className="flex h-10 w-10 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[11px] font-semibold text-[#8fb2aa]">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="text-sm font-medium text-[#173634]">{run.agentName}</p>
                     <DivisionBadge division={run.agentDivision} size="sm" />
+                    {run.status === 'completed' && (
+                      <span className="inline-flex items-center gap-1 border border-[#d8e5e2] bg-[#f1f6f4] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
+                        <Sparkles size={10} />
+                        Output ready
+                      </span>
+                    )}
                   </div>
-                  <p className="mt-1 max-w-2xl truncate text-xs leading-relaxed text-[#173634]/50">{run.task}</p>
-                  <div className="mt-2 flex flex-wrap items-center gap-4 text-[10px] text-[#173634]/40">
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-[#52605d]">{run.task}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-4 text-[11px] text-[#52605d]">
                     <span>{formatDate(run.createdAt)} at {formatTime(run.createdAt)}</span>
                     {run.projectName && (
                       <span className="inline-flex items-center gap-1">
-                        <FolderOpen size={10} />{run.projectName}
+                        <FolderOpen size={10} />
+                        {run.projectName}
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="flex shrink-0 items-center gap-2">
-                  {run.status === 'completed' && (
-                    <button className="hidden gap-1 items-center text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8fb2aa] hover:text-[#173634] group-hover:flex">
-                      <Copy size={12} /> Copy
-                    </button>
-                  )}
-                  <span className={`border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
+
+                <div className="flex items-center gap-3 lg:flex-col lg:items-end">
+                  <span className={`inline-flex border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${
                     run.status === 'completed'
                       ? 'border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]'
                       : run.status === 'failed'
@@ -113,15 +151,15 @@ export default function HistoryPage() {
                   }`}>
                     {run.status}
                   </span>
-                  <Link href={`/app/history/${run.id}`} className="text-[#d8e5e2] transition-colors hover:text-[#8fb2aa]">
-                    <ArrowRight size={13} />
-                  </Link>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
+                    Inspect <ArrowRight size={11} />
+                  </span>
                 </div>
-              </div>
-            )
-          })}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   )
 }
