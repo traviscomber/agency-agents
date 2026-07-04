@@ -58,26 +58,25 @@ export default function LandingPage() {
                 <div className="inline-flex items-center gap-2.5 border border-[#1e3431] bg-[#0d1f1d] px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#8fb2aa]" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">
-                    AgencyOS command center
+                    Agent Studio
                   </span>
                 </div>
               </FadeInUp>
 
               <FadeInUp delay={0.08}>
                 <h1 className="mt-7 text-5xl font-semibold leading-[0.94] tracking-[-0.025em] text-[#f5fbfa] md:text-7xl lg:text-[5.5rem]">
-                  Specialists<br />
-                  that&nbsp;work.
+                  Build agents<br />
+                  that scale.
                 </h1>
                 <p className="mt-2 text-5xl font-light leading-[0.94] tracking-[-0.02em] text-[#789b96] md:text-7xl lg:text-[5.5rem]">
-                  Not prompts<br />
-                  that drift.
+                  Deploy to production<br />
+                  instantly.
                 </p>
               </FadeInUp>
 
               <FadeInUp delay={0.16}>
                 <p className="mt-8 max-w-[26rem] text-base leading-8 text-[#9db7b1]">
-                  AgencyOS turns specialist AI into a workflow your team can run, review, and reuse.
-                  Agents, projects, run history, deliverables, and plan control live in one place.
+                  N3uralia Studio is where you build, fine-tune, and deploy specialized AI agents. Manage the full lifecycle with projects, run history, team collaboration, and enterprise controls.
                 </p>
               </FadeInUp>
 

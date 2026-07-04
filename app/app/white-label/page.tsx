@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'White Label Program | AgencyOS',
-  description: 'Resell AgencyOS under your own brand.',
+  title: 'White Label Program | N3uralia Studio',
+  description: 'Resell N3uralia under your own brand.',
 }
 
 export default function WhiteLabelPage() {
@@ -20,7 +20,7 @@ export default function WhiteLabelPage() {
       {!hasPartnership ? (
         <div className="space-y-8">
           <div className="rounded-none border border-[#d8e5e2] bg-[#f1f6f4] p-8">
-            <h2 className="text-lg font-semibold text-[#173634]">Resell AgencyOS under your brand</h2>
+            <h2 className="text-lg font-semibold text-[#173634]">Resell N3uralia under your brand</h2>
             <p className="mt-2 text-sm text-[#173634]/70">
               Custom domain, branded interface, and $0.30 per transaction. Minimum $299/month.
             </p>

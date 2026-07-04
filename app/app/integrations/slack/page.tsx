@@ -2,8 +2,8 @@ import { Zap, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Slack Integration | AgencyOS',
-  description: 'Trigger AgencyOS specialists directly from Slack.',
+  title: 'Slack Integration | N3uralia Studio',
+  description: 'Run agents directly from Slack.',
 }
 
 export default function SlackIntegrationPage() {

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Fine-Tuning | AgencyOS',
+  title: 'Fine-Tuning | N3uralia Studio',
   description: 'Train custom models on your proprietary data.',
 }
 
