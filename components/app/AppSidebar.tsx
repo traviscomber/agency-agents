@@ -96,7 +96,7 @@ export function AppSidebar() {
       {/* Main nav */}
       <nav className="flex-1 overflow-y-auto px-2 py-3">
         <p className="mb-1 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#a7b9b4]">
-          Workspace
+          Command center
         </p>
         {NAV_MAIN.map((item) => <NavLink key={item.href} {...item} />)}
 

@@ -14,14 +14,14 @@ export default function ForgotPasswordPage() {
             AgencyOS
           </Link>
           <div className="mb-8">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-sm">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-700 shadow-sm">
               <Mail size={12} className="text-primary" />
               Password reset
             </div>
             <h1 className="text-3xl font-semibold tracking-tight text-balance text-foreground">
               Reset your password
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            <p className="mt-2 text-sm leading-relaxed text-slate-700">
               Enter your email and we will send you a link to reset your password.
             </p>
           </div>
@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
             </Button>
           </form>
           <p className="mt-6 text-center text-sm">
-            <Link href="/login" className="text-slate-600 transition-colors hover:text-slate-950">
+            <Link href="/login" className="text-slate-700 transition-colors hover:text-slate-950">
               Back to sign in
             </Link>
           </p>

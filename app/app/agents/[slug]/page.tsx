@@ -27,7 +27,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
     <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <Link
         href="/app/agents"
-        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-600 transition-colors hover:text-slate-950"
+        className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-700 transition-colors hover:text-slate-950"
       >
         <ArrowLeft size={13} /> Back to agents
       </Link>
@@ -53,11 +53,11 @@ export default async function AppAgentDetailPage({ params }: Props) {
             {[
               ['When to use', agent.whenToUse],
               ['What you provide', 'Context, constraints, and any source material the specialist should use.'],
-              ['What you get', 'Structured output with clear recommendations, not a generic conversation transcript.'],
-              ['Next action', hasAccess ? 'Run the specialist in the workspace.' : 'Upgrade to unlock this specialist.'],
+              ['Deliverable shape', 'Structured output with clear recommendations, not a generic conversation transcript.'],
+              ['Next action', hasAccess ? 'Open a run in the workspace.' : 'Upgrade to unlock this specialist.'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-600">{title}</p>
+              <div key={title} className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">{title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
               </div>
             ))}
@@ -80,7 +80,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
             </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h2 className="text-sm font-semibold text-foreground">What you get</h2>
+              <h2 className="text-sm font-semibold text-foreground">Deliverable shape</h2>
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
                   <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
@@ -95,7 +95,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
               <h2 className="text-sm font-semibold text-foreground">Example tasks</h2>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {agent.exampleTasks.map((task, index) => (
-                <div key={index} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-foreground">
+                <div key={index} className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 text-sm leading-relaxed text-foreground">
                   {task}
                 </div>
               ))}
@@ -110,7 +110,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   <Link
                     key={prompt}
                     href={`/app/run/${agent.slug}?task=${encodeURIComponent(prompt)}`}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-white hover:text-slate-950"
+                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 transition-colors hover:border-primary/25 hover:bg-slate-50 hover:text-slate-950"
                   >
                     {prompt}
                   </Link>
@@ -122,17 +122,17 @@ export default async function AppAgentDetailPage({ params }: Props) {
 
         <aside className="space-y-5">
           <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-medium text-slate-100">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/16 px-3 py-1 text-xs font-medium text-white/95">
               <Sparkles size={12} />
               {hasAccess ? 'Ready to run' : 'Locked specialist'}
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-slate-200">
+            <p className="mt-4 text-sm leading-relaxed text-white/86">
               {hasAccess
-                ? 'Describe your task and the workspace will guide you into a structured run.'
+                ? 'Describe the target, context, and constraints. The workspace will turn that into a structured run.'
                 : `This specialist requires the ${agent.planRequired} plan or higher.`}
             </p>
-            <div className="mt-5 rounded-2xl border border-white/12 bg-white/8 p-4">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-slate-300">Required plan</p>
+            <div className="mt-5 rounded-2xl border border-white/16 bg-white/14 p-4">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-white/92">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>
@@ -145,15 +145,15 @@ export default async function AppAgentDetailPage({ params }: Props) {
                   </Link>
                 </Button>
               ) : (
-                <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
+                <Button variant="outline" className="w-full border-white/24 bg-white/14 text-white hover:bg-white/18 hover:text-white" asChild>
                   <Link href="/app/billing">
                     <Lock size={13} className="mr-1.5" />
                     Upgrade to unlock
                   </Link>
                 </Button>
               )}
-              <Button variant="outline" className="w-full border-white/24 bg-white/8 text-white hover:bg-white/12 hover:text-white" asChild>
-                <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse agents' : 'Sign up'}</Link>
+              <Button variant="outline" className="w-full border-white/24 bg-white/14 text-white hover:bg-white/18 hover:text-white" asChild>
+                  <Link href={hasAccess ? '/app/agents' : '/signup'}>{hasAccess ? 'Browse specialists' : 'Sign up'}</Link>
               </Button>
             </div>
           </div>

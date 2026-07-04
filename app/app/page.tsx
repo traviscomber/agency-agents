@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { UsageMeter } from '@/components/shared/UsageMeter'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
@@ -6,11 +9,31 @@ import { MOCK_USER, MOCK_RUNS, MOCK_PROJECTS, MOCK_SAVED_OUTPUTS } from '@/lib/d
 import { getFeaturedAgents } from '@/lib/data/seed-agents'
 import { getPlanById } from '@/lib/data/plans'
 import { ArrowRight, Bookmark, FolderOpen, Plus, Zap, GitBranch, Cpu } from 'lucide-react'
+import type { AgentRun, Project, SavedOutput } from '@/lib/types'
+import { getAllRuns, getAllSavedOutputs, getMergedProjects } from '@/lib/project-memory'
 
 export default function AppDashboard() {
   const plan = getPlanById(MOCK_USER.plan)
   const featuredAgents = getFeaturedAgents().slice(0, 4)
-  const recentRuns = MOCK_RUNS.slice(0, 4)
+  const [runs, setRuns] = useState<AgentRun[]>(MOCK_RUNS)
+  const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS)
+  const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>(MOCK_SAVED_OUTPUTS)
+
+  useEffect(() => {
+    void (async () => {
+      const [allRuns, mergedProjects, allSavedOutputs] = await Promise.all([
+        getAllRuns(MOCK_RUNS),
+        getMergedProjects(MOCK_PROJECTS),
+        getAllSavedOutputs(MOCK_SAVED_OUTPUTS),
+      ])
+
+      setRuns(allRuns)
+      setProjects(mergedProjects)
+      setSavedOutputs(allSavedOutputs)
+    })()
+  }, [])
+
+  const recentRuns = runs.slice(0, 4)
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
@@ -28,7 +51,7 @@ export default function AppDashboard() {
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
           <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-            <Link href="/app/agents">Run agent <ArrowRight size={12} className="ml-1.5" /></Link>
+            <Link href="/app/agents">Run specialist <ArrowRight size={12} className="ml-1.5" /></Link>
           </Button>
           <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#173634] hover:bg-[#f1f6f4]">
             <Link href="/app/projects"><Plus size={12} className="mr-1.5" />New project</Link>
@@ -73,9 +96,9 @@ export default function AppDashboard() {
       {/* Stats row with trends */}
       <div className="mb-10 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-4">
         {[
-          { label: 'Total runs', value: MOCK_RUNS.length, sub: 'this cycle', trend: '+12%' },
-          { label: 'Projects', value: MOCK_PROJECTS.length, sub: 'active', trend: '+3' },
-          { label: 'Saved outputs', value: MOCK_SAVED_OUTPUTS.length, sub: 'in library', trend: '+8' },
+          { label: 'Total runs', value: runs.length, sub: 'this cycle', trend: '+12%' },
+          { label: 'Projects', value: projects.length, sub: 'active', trend: '+3' },
+          { label: 'Saved deliverables', value: savedOutputs.length, sub: 'in library', trend: '+8' },
           { label: 'Specialists', value: getFeaturedAgents().length, sub: 'on your plan', trend: 'all' },
         ].map(({ label, value, sub, trend }) => (
           <div key={label} className="bg-[#fbfbfa] px-5 py-6">
@@ -128,12 +151,12 @@ export default function AppDashboard() {
           </div>
           <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
             {recentRuns.map((run) => (
-              <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4]">
+              <Link key={run.id} href={`/app/history/${run.id}`} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4]">
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-[#173634]">{run.agentName}</p>
                   <p className="mt-0.5 truncate text-xs text-[#173634]/50">{run.task}</p>
                   <div className="mt-2 flex items-center gap-2">
-                    <DivisionBadge division={run.division} size="sm" />
+                    <DivisionBadge division={run.agentDivision} size="sm" />
                     <span className="text-[10px] text-[#173634]/35">
                       {new Date(run.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </span>
@@ -148,7 +171,7 @@ export default function AppDashboard() {
                 }`}>
                   {run.status}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
           <Link href="/app/history" className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
@@ -169,7 +192,7 @@ export default function AppDashboard() {
               <Link href="/app/projects" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">View all</Link>
             </div>
             <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
-              {MOCK_PROJECTS.slice(0, 3).map((proj) => (
+              {projects.slice(0, 3).map((proj) => (
                 <Link key={proj.id} href={`/app/projects/${proj.id}`} className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-[#f1f6f4]">
                   <div className="flex min-w-0 items-center gap-3">
                     <FolderOpen size={14} className="shrink-0 text-[#8fb2aa]" />
@@ -186,11 +209,11 @@ export default function AppDashboard() {
 
           <section>
             <div className="mb-4 flex items-center justify-between">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Saved outputs</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Saved deliverables</p>
               <Link href="/app/saved" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">View all</Link>
             </div>
             <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
-              {MOCK_SAVED_OUTPUTS.slice(0, 3).map((s) => (
+              {savedOutputs.slice(0, 3).map((s) => (
                 <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-[#f1f6f4]">
                   <Bookmark size={13} className="shrink-0 text-[#8fb2aa]" />
                   <p className="truncate text-sm text-[#173634]">{s.title}</p>

@@ -3,6 +3,7 @@
 import { useEffect, useState, use, type ReactNode } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
@@ -11,10 +12,27 @@ import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
 import { getAgentBySlug } from '@/lib/data/seed-agents'
 import { MOCK_USER, MOCK_PROJECTS } from '@/lib/data/mock-store'
-import { runMockAgent } from '@/lib/ai/mock-provider'
+import {
+  advanceWorkflowAfterRun,
+  buildProjectContext,
+  captureDeliverableMemory,
+  getMergedProjects,
+  persistRun,
+  persistProjectRunResult,
+  persistSavedOutput,
+} from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
-import type { AgentOutput } from '@/lib/types'
-import { ArrowLeft, ArrowRight, AlertCircle, Bookmark, CheckCircle2, Loader2, Lock } from 'lucide-react'
+import type { AgentOutput, AgentRun, SavedOutput } from '@/lib/types'
+import {
+  ArrowLeft,
+  ArrowRight,
+  AlertCircle,
+  Bookmark,
+  CheckCircle2,
+  Loader2,
+  Lock,
+  Sparkles,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -23,16 +41,16 @@ interface Props {
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="border border-[#d8e5e2]">
-      <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-2.5">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">{title}</p>
+    <div className="border border-[#d8e5e2] bg-[#fbfbfa]">
+      <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{title}</p>
       </div>
-      <div className="px-5 py-5 text-sm leading-relaxed text-[#173634]/80">{children}</div>
+      <div className="px-5 py-5 text-sm leading-7 text-[#173634]/80">{children}</div>
     </div>
   )
 }
 
-export default function RunAgentPage({ params }: Props) {
+function RunAgentPageContent({ params }: Props) {
   const { slug } = use(params)
   const searchParams = useSearchParams()
 
@@ -40,18 +58,52 @@ export default function RunAgentPage({ params }: Props) {
   const hasAccess = agent ? canAccessAgent(MOCK_USER.plan, agent.planRequired) : false
 
   const [task, setTask] = useState(searchParams.get('task') || '')
-  const [context, setContext] = useState('')
-  const [desiredOutput, setDesiredOutput] = useState('analysis')
-  const [detailLevel, setDetailLevel] = useState('standard')
-  const [projectId, setProjectId] = useState('')
+  const [context, setContext] = useState(searchParams.get('context') || '')
+  const [desiredOutput, setDesiredOutput] = useState(searchParams.get('desiredOutput') || 'analysis')
+  const [detailLevel, setDetailLevel] = useState(searchParams.get('detailLevel') || 'standard')
+  const [projectId, setProjectId] = useState(searchParams.get('projectId') || 'unassigned')
   const [status, setStatus] = useState<'idle' | 'running' | 'done' | 'error'>('idle')
   const [output, setOutput] = useState<AgentOutput | null>(null)
+  const [latestRun, setLatestRun] = useState<AgentRun | null>(null)
   const [saved, setSaved] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [prefilledProjectId, setPrefilledProjectId] = useState('')
+  const [projects, setProjects] = useState(MOCK_PROJECTS)
 
   useEffect(() => {
-    if (!projectId && MOCK_PROJECTS[0]) setProjectId(MOCK_PROJECTS[0].id)
-  }, [projectId])
+    if (searchParams.get('context') || searchParams.get('desiredOutput') || searchParams.get('detailLevel') || searchParams.get('projectId')) {
+      setContext(searchParams.get('context') || '')
+      setDesiredOutput(searchParams.get('desiredOutput') || 'analysis')
+      setDetailLevel(searchParams.get('detailLevel') || 'standard')
+      setProjectId(searchParams.get('projectId') || 'unassigned')
+    }
+
+    if (searchParams.get('task')) {
+      setTask(searchParams.get('task') || '')
+    }
+  }, [searchParams])
+
+  useEffect(() => {
+    void (async () => {
+      const mergedProjects = await getMergedProjects(MOCK_PROJECTS)
+      setProjects(mergedProjects)
+    })()
+  }, [])
+
+  const selectedProject = projectId === 'unassigned' ? undefined : projects.find((project) => project.id === projectId)
+
+  useEffect(() => {
+    if (!selectedProject) {
+      if (prefilledProjectId) {
+        setContext('')
+        setPrefilledProjectId('')
+      }
+      return
+    }
+
+    setContext(buildProjectContext(selectedProject))
+    setPrefilledProjectId(selectedProject.id)
+  }, [prefilledProjectId, selectedProject])
 
   if (!agent) {
     return (
@@ -85,65 +137,200 @@ export default function RunAgentPage({ params }: Props) {
     if (!task.trim()) return
     setStatus('running')
     setOutput(null)
+    setLatestRun(null)
     setErrorMsg('')
     setSaved(false)
+
     try {
-      const result = await runMockAgent(agent!, { task, context, desiredOutput, detailLevel })
-      setOutput(result)
+      const response = await fetch('/api/agent-runs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          agentSlug: agent.slug,
+          task,
+          context,
+          desiredOutput,
+          detailLevel,
+          userPlan: MOCK_USER.plan,
+        }),
+      })
+
+      const payload = await response.json()
+      if (!response.ok || !payload.success) {
+        if (payload.error === 'upgrade_required' && payload.requiredPlan) {
+          throw new Error(`This specialist requires the ${payload.requiredPlan} plan.`)
+        }
+
+        throw new Error(payload.error || 'Agent execution failed')
+      }
+
+      const createdAt = new Date().toISOString()
+      const runRecord: AgentRun = {
+        id: `run-${Date.now()}`,
+        userId: MOCK_USER.id,
+        agentId: payload.agentId,
+        agentName: payload.agentName,
+        agentDivision: payload.agentDivision,
+        projectId: selectedProject?.id,
+        projectName: selectedProject?.name,
+        task,
+        context,
+        desiredOutput,
+        detailLevel,
+        status: 'completed',
+        outputSummary: payload.output.summary,
+        creditsUsed: payload.creditsUsed,
+        createdAt,
+      }
+
+      await persistRun(runRecord, selectedProject)
+
+      if (selectedProject) {
+        setProjects((prev) =>
+          prev.map((project) =>
+            project.id === selectedProject.id
+              ? {
+                  ...project,
+                  runCount: Math.max(project.runCount ?? 0, 0) + 1,
+                  updatedAt: createdAt,
+                }
+              : project,
+          ),
+        )
+      }
+
+      setLatestRun(runRecord)
+      setOutput(payload.output)
       setStatus('done')
-    } catch {
-      setErrorMsg('Something went wrong. Please try again.')
+    } catch (error) {
+      setErrorMsg(error instanceof Error ? error.message : 'Something went wrong. Please try again.')
       setStatus('error')
     }
   }
 
-  const selectedProject = MOCK_PROJECTS.find((p) => p.id === projectId)
+  async function handleSaveDeliverable() {
+    if (!output || !latestRun) return
+
+    if (!selectedProject) {
+      const savedOutput: SavedOutput = {
+        id: `saved-${Date.now()}`,
+        userId: MOCK_USER.id,
+        agentRunId: latestRun.id,
+        agentName: agent.name,
+        title: `${agent.name} deliverable`,
+        content: output.mainResult,
+        format: 'text',
+        createdAt: latestRun.createdAt,
+        updatedAt: latestRun.createdAt,
+      }
+
+      await persistSavedOutput(savedOutput)
+      setSaved(true)
+      return
+    }
+
+    const runLabel = `${agent.name}: ${task.slice(0, 48)}`
+    const nextWorkflow = advanceWorkflowAfterRun(selectedProject.workflow ?? [], latestRun.id, runLabel, latestRun.createdAt)
+
+    const savedOutput: SavedOutput = {
+      id: `saved-${Date.now()}`,
+      userId: MOCK_USER.id,
+      projectId: selectedProject.id,
+      projectName: selectedProject.name,
+      agentRunId: latestRun.id,
+      agentName: agent.name,
+      title: `${agent.name} deliverable`,
+      content: output.mainResult,
+      format: 'text',
+      createdAt: latestRun.createdAt,
+      updatedAt: latestRun.createdAt,
+    }
+
+    const memoryEntry = captureDeliverableMemory(agent.name, task, output.summary, latestRun.createdAt)
+
+    await persistProjectRunResult({
+      project: {
+        ...selectedProject,
+        workflow: nextWorkflow,
+      },
+      run: {
+        ...latestRun,
+        projectId: selectedProject.id,
+        projectName: selectedProject.name,
+      },
+      savedOutput,
+      memoryEntry,
+      workflow: nextWorkflow,
+    })
+
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === selectedProject.id
+          ? {
+              ...project,
+              workflow: nextWorkflow,
+              memory: [memoryEntry, ...(project.memory ?? [])],
+              savedCount: (project.savedCount ?? 0) + 1,
+              updatedAt: latestRun.createdAt,
+            }
+          : project,
+      ),
+    )
+    setSaved(true)
+  }
 
   const stateLabel = status === 'idle' ? 'Ready' : status === 'running' ? 'Running' : status === 'done' ? 'Complete' : 'Error'
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
-      {/* Back */}
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
       <Link href={`/app/agents/${slug}`} className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
-        <ArrowLeft size={12} /> {agent.name}
+        <ArrowLeft size={12} /> Back to specialist profile
       </Link>
 
-      {/* Header */}
-      <header className="mb-8 mt-5 border-b border-[#d8e5e2] pb-8">
-        <div className="flex flex-wrap items-center gap-2">
-          <DivisionBadge division={agent.division} size="sm" />
-          <PlanBadge plan={agent.planRequired} />
-        </div>
-        <h1 className="mt-3 text-3xl font-light tracking-tight text-[#173634]">{agent.name}</h1>
-        <p className="mt-1 text-sm text-[#173634]/55">{agent.shortDescription}</p>
-      </header>
-
-      {/* Stat bar */}
-      <div className="mb-8 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
-        {[
-          { label: 'Plan', value: MOCK_USER.plan, cap: true },
-          { label: 'Project', value: selectedProject?.name || 'Unassigned' },
-          { label: 'State', value: stateLabel },
-        ].map(({ label, value, cap }) => (
-          <div key={label} className="bg-[#fbfbfa] px-4 py-4">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">{label}</p>
-            <p className={cn('mt-1.5 text-base font-medium text-[#173634]', cap && 'capitalize')}>{value}</p>
+      <section className="mt-4 overflow-hidden border border-[#1e3431] bg-[#173634] text-[#f5fbfa]">
+        <div className="grid gap-px bg-[#28413d] lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="bg-[radial-gradient(circle_at_top_left,_rgba(143,178,170,0.22),_transparent_42%),linear-gradient(135deg,_#173634,_#102826)] px-6 py-8 sm:px-8">
+            <div className="flex flex-wrap items-center gap-2">
+              <DivisionBadge division={agent.division} size="sm" />
+              <PlanBadge plan={agent.planRequired} />
+            </div>
+            <h1 className="mt-4 text-4xl font-light tracking-[-0.04em] text-white">{agent.name}</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-[#d9e3e0]">{agent.shortDescription}</p>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#c3d3cf]">
+              Frame one precise objective, inherit project context when needed, then save the deliverable back into the
+              operating record instead of leaving it as an isolated prompt result.
+            </p>
           </div>
-        ))}
-      </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-        {/* Left: form + output */}
+          <div className="grid gap-px bg-[#28413d] sm:grid-cols-3 lg:grid-cols-1">
+            {[
+              { label: 'Plan', value: MOCK_USER.plan, cap: true },
+              { label: 'Project', value: selectedProject?.name || 'Unassigned' },
+              { label: 'State', value: stateLabel },
+            ].map(({ label, value, cap }) => (
+              <div key={label} className="bg-[#102826] px-5 py-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9db7b1]">{label}</p>
+                <p className={cn('mt-2 text-2xl font-light tracking-[-0.04em] text-white', cap && 'capitalize')}>
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="mt-8 grid gap-8 xl:grid-cols-[1.15fr_0.85fr]">
         <div className="space-y-6">
-          {/* Config form */}
-          <section className="border border-[#d8e5e2]">
-            <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Run configuration</p>
+          <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
+            <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Execution brief</p>
             </div>
             <div className="space-y-5 p-5">
               <div className="space-y-1.5">
                 <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">
-                  Task <span className="text-red-400">*</span>
+                  Objective <span className="text-red-400">*</span>
                 </Label>
                 <Textarea
                   placeholder={`e.g. ${agent.suggestedPrompts[0]}`}
@@ -160,74 +347,106 @@ export default function RunAgentPage({ params }: Props) {
                   Context <span className="font-normal normal-case text-[#173634]/30">(optional)</span>
                 </Label>
                 <Textarea
-                  placeholder="Add background, constraints, or links."
+                  placeholder="Add background, constraints, source links, or prior decisions."
                   value={context}
-                  onChange={(e) => setContext(e.target.value)}
-                  rows={3}
+                  onChange={(e) => {
+                    setContext(e.target.value)
+                    if (selectedProject && prefilledProjectId === selectedProject.id) setPrefilledProjectId('')
+                  }}
+                  rows={4}
                   disabled={status === 'running'}
                   className="resize-none rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                 />
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-4 lg:grid-cols-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Output type</Label>
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Output shape</Label>
                   <Select value={desiredOutput} onValueChange={setDesiredOutput} disabled={status === 'running'}>
-                    <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
+                    <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {['analysis', 'draft', 'plan', 'summary'].map((v) => (
-                        <SelectItem key={v} value={v} className="capitalize">{v}</SelectItem>
+                      {['analysis', 'draft', 'plan', 'summary'].map((value) => (
+                        <SelectItem key={value} value={value} className="capitalize">{value}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
+
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Detail</Label>
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Depth</Label>
                   <Select value={detailLevel} onValueChange={setDetailLevel} disabled={status === 'running'}>
-                    <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
+                    <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {['concise', 'standard', 'deep'].map((v) => (
-                        <SelectItem key={v} value={v} className="capitalize">{v}</SelectItem>
+                      {['concise', 'standard', 'deep'].map((value) => (
+                        <SelectItem key={value} value={value} className="capitalize">{value}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
+
                 <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Project</Label>
+                  <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Save to project</Label>
                   <Select value={projectId} onValueChange={setProjectId} disabled={status === 'running'}>
-                    <SelectTrigger className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
-                      <SelectValue placeholder="Unassigned" />
+                    <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
+                      <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
                     <SelectContent>
-                      {MOCK_PROJECTS.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
+                      <SelectItem value="unassigned">Keep unassigned</SelectItem>
+                      {projects.map((project) => (
+                        <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
               </div>
+
+              {selectedProject?.operatingBrief && (
+                <div className="border border-[#d8e5e2] bg-[#f1f6f4] px-4 py-4">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Inherited project memory</p>
+                      <p className="mt-1 text-sm font-medium text-[#173634]">{selectedProject.name}</p>
+                    </div>
+                    <span className="border border-[#d8e5e2] bg-[#fbfbfa] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#173634]/70">
+                      {selectedProject.workflow?.find((step) => step.status === 'active')?.name || 'No active step'}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-[#173634]/75">{selectedProject.operatingBrief.objective}</p>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Success definition</p>
+                      <p className="mt-1 text-xs leading-5 text-[#173634]/70">{selectedProject.operatingBrief.successDefinition}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Latest memory</p>
+                      <p className="mt-1 text-xs leading-5 text-[#173634]/70">
+                        {selectedProject.memory?.[0]?.note || 'No memory captured yet.'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Button
                   onClick={handleRun}
                   disabled={!task.trim() || status === 'running'}
-                  className="h-9 rounded-none bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
+                  className="h-10 rounded-none bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
                 >
                   {status === 'running' && <Loader2 size={13} className="mr-2 animate-spin" />}
-                  {status === 'running' ? 'Running…' : 'Run agent'}
+                  {status === 'running' ? 'Running...' : 'Run specialist'}
                 </Button>
-                <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-                  <Link href="/app/agents">Browse agents</Link>
+                <Button asChild variant="outline" className="h-10 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+                  <Link href="/app/agents">Browse specialists</Link>
                 </Button>
               </div>
             </div>
           </section>
 
-          {/* Error */}
           {status === 'error' && (
             <div className="flex items-start gap-3 border border-red-200 bg-red-50 px-5 py-4">
               <AlertCircle size={14} className="mt-0.5 shrink-0 text-red-500" />
@@ -235,21 +454,23 @@ export default function RunAgentPage({ params }: Props) {
             </div>
           )}
 
-          {/* Output */}
           {status === 'done' && output && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Agent output</p>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Generated deliverable</p>
+                  <p className="mt-1 text-sm text-[#52605d]">Review, save, and route the next specialist if needed.</p>
+                </div>
                 {saved ? (
-                  <span className="inline-flex items-center gap-1.5 text-xs text-[#8fb2aa]">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#8fb2aa]">
                     <CheckCircle2 size={12} /> Saved
                   </span>
                 ) : (
                   <button
-                    onClick={() => setSaved(true)}
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-[#173634]/55 hover:text-[#173634]"
+                    onClick={handleSaveDeliverable}
+                    className="inline-flex items-center gap-1.5 border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]"
                   >
-                    <Bookmark size={12} /> Save output
+                    <Bookmark size={12} /> {selectedProject ? 'Save deliverable' : 'Save to library'}
                   </button>
                 )}
               </div>
@@ -257,23 +478,23 @@ export default function RunAgentPage({ params }: Props) {
               <Block title="Summary"><p>{output.summary}</p></Block>
 
               <Block title="Main result">
-                <div className="space-y-1.5">
-                  {output.mainResult.split('\n').map((line, i) => {
+                <div className="space-y-2">
+                  {output.mainResult.split('\n').map((line, index) => {
                     if (!line.trim()) return null
                     if (line.startsWith('**') && line.endsWith('**')) {
-                      return <p key={i} className="mt-3 font-semibold text-[#173634]">{line.replace(/\*\*/g, '')}</p>
+                      return <p key={index} className="mt-3 font-semibold text-[#173634]">{line.replace(/\*\*/g, '')}</p>
                     }
-                    return <p key={i}>{line}</p>
+                    return <p key={index}>{line}</p>
                   })}
                 </div>
               </Block>
 
               <Block title="Action steps">
                 <ol className="space-y-3">
-                  {output.actionSteps.map((step, i) => (
-                    <li key={i} className="flex items-start gap-3">
+                  {output.actionSteps.map((step, index) => (
+                    <li key={index} className="flex items-start gap-3">
                       <span className="flex h-5 w-5 shrink-0 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[10px] font-bold text-[#8fb2aa]">
-                        {i + 1}
+                        {index + 1}
                       </span>
                       {step}
                     </li>
@@ -282,10 +503,10 @@ export default function RunAgentPage({ params }: Props) {
               </Block>
 
               {output.risksNotes.length > 0 && (
-                <Block title="Risks &amp; notes">
+                <Block title="Risks and notes">
                   <ul className="space-y-2">
-                    {output.risksNotes.map((note, i) => (
-                      <li key={i} className="flex items-start gap-2">
+                    {output.risksNotes.map((note, index) => (
+                      <li key={index} className="flex items-start gap-2">
                         <span className="mt-2 h-1 w-1 shrink-0 bg-[#8fb2aa]" />
                         {note}
                       </li>
@@ -294,20 +515,21 @@ export default function RunAgentPage({ params }: Props) {
                 </Block>
               )}
 
-              <Block title="Suggested next step">
+              <Block title="What to do next">
                 <p>{output.suggestedNextStep}</p>
                 {output.relatedAgents.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {output.relatedAgents.map((relSlug) => {
-                      const rel = getAgentBySlug(relSlug)
-                      if (!rel) return null
+                    {output.relatedAgents.map((relatedSlug) => {
+                      const related = getAgentBySlug(relatedSlug)
+                      if (!related) return null
+
                       return (
                         <Link
-                          key={relSlug}
-                          href={`/app/agents/${relSlug}`}
-                          className="inline-flex items-center gap-1 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-1 text-xs text-[#173634] hover:bg-white"
+                          key={relatedSlug}
+                          href={`/app/agents/${relatedSlug}`}
+                          className="inline-flex items-center gap-1 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-1.5 text-xs text-[#173634] hover:bg-white"
                         >
-                          {rel.name} <ArrowRight size={10} />
+                          {related.name} <ArrowRight size={10} />
                         </Link>
                       )
                     })}
@@ -318,12 +540,20 @@ export default function RunAgentPage({ params }: Props) {
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button
                   variant="outline"
-                  onClick={() => { setStatus('idle'); setOutput(null); setTask(''); setContext(''); setSaved(false) }}
-                  className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
+                  onClick={() => {
+                    setStatus('idle')
+                    setOutput(null)
+                    setLatestRun(null)
+                    setTask('')
+                    setContext('')
+                    setPrefilledProjectId('')
+                    setSaved(false)
+                  }}
+                  className="h-10 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
                 >
-                  Run another
+                  Run another specialist
                 </Button>
-                <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+                <Button asChild className="h-10 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
                   <Link href="/app/history">View history</Link>
                 </Button>
               </div>
@@ -331,38 +561,97 @@ export default function RunAgentPage({ params }: Props) {
           )}
         </div>
 
-        {/* Sidebar */}
-        <aside className="space-y-4">
-          <section className="border border-[#d8e5e2]">
-            <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Agent context</p>
+        <aside className="space-y-6">
+          <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
+            <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Specialist context</p>
             </div>
             <div className="px-5 py-5">
               <p className="text-sm font-medium text-[#173634]">{agent.name}</p>
-              <p className="mt-2 text-xs leading-relaxed text-[#173634]/55">{agent.shortDescription}</p>
+              <p className="mt-2 text-sm leading-6 text-[#52605d]">{agent.whenToUse}</p>
               <div className="mt-4 border border-[#d8e5e2] bg-[#f1f6f4] px-4 py-3">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Best for</p>
-                <p className="mt-1 text-xs text-[#173634]/70">{agent.whenToUse}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Suggested prompt starter</p>
+                <p className="mt-1 text-xs leading-5 text-[#173634]/70">{agent.suggestedPrompts[0]}</p>
               </div>
             </div>
           </section>
 
-          <section className="border border-[#d8e5e2]">
-            <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Checklist</p>
+          <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
+            <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Run checklist</p>
             </div>
             <div className="divide-y divide-[#d8e5e2]">
               {[
-                'Write a task with a clear outcome.',
-                'Add context if the agent needs source material.',
-                'Save the output if it belongs to a project.',
+                'Write a task with an explicit output.',
+                'Use project context when this work belongs to a larger initiative.',
+                'Save the result so the next run starts from memory instead of zero.',
               ].map((item) => (
-                <div key={item} className="px-5 py-3 text-xs leading-relaxed text-[#173634]/60">{item}</div>
+                <div key={item} className="px-5 py-3 text-xs leading-6 text-[#52605d]">{item}</div>
               ))}
             </div>
           </section>
+
+          {selectedProject?.workflow?.length ? (
+            <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
+              <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Project workflow</p>
+              </div>
+              <div className="divide-y divide-[#d8e5e2]">
+                {selectedProject.workflow.map((step) => (
+                  <div key={step.id} className="px-5 py-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs font-medium text-[#173634]">{step.name}</p>
+                      <span className="text-[10px] uppercase tracking-[0.16em] text-[#8fb2aa]">{step.status}</span>
+                    </div>
+                    <p className="mt-1 text-xs leading-5 text-[#52605d]">{step.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {status === 'done' && latestRun ? (
+            <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
+              <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Execution receipt</p>
+              </div>
+              <div className="space-y-3 px-5 py-5 text-sm text-[#52605d]">
+                <div className="flex items-center justify-between gap-3">
+                  <span>Run id</span>
+                  <span className="font-mono text-[11px] text-[#173634]">{latestRun.id}</span>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <span>Status</span>
+                  <span className="inline-flex items-center gap-1 text-[#8fb2aa]">
+                    <Sparkles size={11} />
+                    {stateLabel}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <span>Output mode</span>
+                  <span className="capitalize text-[#173634]">{desiredOutput}</span>
+                </div>
+              </div>
+            </section>
+          ) : null}
         </aside>
       </div>
     </div>
+  )
+}
+
+export default function RunAgentPage(props: Props) {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+          <div className="border border-[#d8e5e2] bg-[#fbfbfa] px-6 py-12 text-sm text-[#52605d]">
+            Loading specialist workspace...
+          </div>
+        </div>
+      }
+    >
+      <RunAgentPageContent {...props} />
+    </Suspense>
   )
 }

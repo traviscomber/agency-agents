@@ -39,7 +39,7 @@ export function AppHeader({ title }: AppHeaderProps) {
   const [open, setOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
   const pathname = usePathname()
-  const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'Workspace', [pathname, title])
+  const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'AgencyOS', [pathname, title])
 
   const toggleTheme = () => {
     setIsDark(!isDark)
@@ -75,7 +75,7 @@ export function AppHeader({ title }: AppHeaderProps) {
               AO
             </span>
             <div className="leading-tight">
-              <p className="text-[9px] uppercase tracking-[0.26em] text-[#a7b9b4]">Workspace</p>
+              <p className="text-[9px] uppercase tracking-[0.26em] text-[#a7b9b4]">AgencyOS</p>
               <p className="text-xs font-semibold text-[#173634]">{currentTitle}</p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export function AppHeader({ title }: AppHeaderProps) {
             href="/app/agents"
             className="inline-flex items-center gap-1.5 border border-[#1e3431] bg-[#173634] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
           >
-            Run agent <ArrowUpRight size={11} />
+            Run specialist <ArrowUpRight size={11} />
           </Link>
         </div>
       </div>

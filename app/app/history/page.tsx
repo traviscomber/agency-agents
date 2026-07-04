@@ -1,8 +1,13 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { MOCK_RUNS } from '@/lib/data/mock-store'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { ArrowRight, FolderOpen, Search, Filter, Download, Copy } from 'lucide-react'
+import type { AgentRun } from '@/lib/types'
+import { getAllRuns } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
@@ -13,8 +18,16 @@ function formatTime(date: string) {
 }
 
 export default function HistoryPage() {
-  const completedRuns = MOCK_RUNS.filter((r) => r.status === 'completed').length
-  const failedRuns = MOCK_RUNS.filter((r) => r.status === 'failed').length
+  const [runs, setRuns] = useState<AgentRun[]>(MOCK_RUNS)
+
+  useEffect(() => {
+    void (async () => {
+      setRuns(await getAllRuns(MOCK_RUNS))
+    })()
+  }, [])
+
+  const completedRuns = runs.filter((r) => r.status === 'completed').length
+  const failedRuns = runs.filter((r) => r.status === 'failed').length
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -29,7 +42,7 @@ export default function HistoryPage() {
       {/* Stats */}
       <div className="mb-10 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
         {[
-          { label: 'Total runs', value: MOCK_RUNS.length },
+          { label: 'Total runs', value: runs.length },
           { label: 'Completed', value: completedRuns },
           { label: 'Failed', value: failedRuns },
         ].map(({ label, value }) => (
@@ -57,54 +70,56 @@ export default function HistoryPage() {
         </Button>
       </div>
 
-      {MOCK_RUNS.length === 0 ? (
+      {runs.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
           <p className="text-sm font-medium text-[#173634]">No runs yet</p>
           <p className="mt-1 text-xs text-[#173634]/45">Run an agent to populate this timeline.</p>
           <Button asChild className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-            <Link href="/app/agents">Browse agents</Link>
+            <Link href="/app/agents">Browse specialists</Link>
           </Button>
         </div>
       ) : (
         <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
-          {MOCK_RUNS.map((run) => (
-            <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4] group">
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="text-sm font-medium text-[#173634]">{run.agentName}</p>
-                  <DivisionBadge division={run.division} size="sm" />
+          {runs.map((run) => {
+            return (
+              <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4] group">
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-sm font-medium text-[#173634]">{run.agentName}</p>
+                    <DivisionBadge division={run.agentDivision} size="sm" />
+                  </div>
+                  <p className="mt-1 max-w-2xl truncate text-xs leading-relaxed text-[#173634]/50">{run.task}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-4 text-[10px] text-[#173634]/40">
+                    <span>{formatDate(run.createdAt)} at {formatTime(run.createdAt)}</span>
+                    {run.projectName && (
+                      <span className="inline-flex items-center gap-1">
+                        <FolderOpen size={10} />{run.projectName}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <p className="mt-1 max-w-2xl truncate text-xs leading-relaxed text-[#173634]/50">{run.task}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-4 text-[10px] text-[#173634]/40">
-                  <span>{formatDate(run.createdAt)} at {formatTime(run.createdAt)}</span>
-                  {run.projectName && (
-                    <span className="inline-flex items-center gap-1">
-                      <FolderOpen size={10} />{run.projectName}
-                    </span>
+                <div className="flex shrink-0 items-center gap-2">
+                  {run.status === 'completed' && (
+                    <button className="hidden gap-1 items-center text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8fb2aa] hover:text-[#173634] group-hover:flex">
+                      <Copy size={12} /> Copy
+                    </button>
                   )}
+                  <span className={`border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
+                    run.status === 'completed'
+                      ? 'border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]'
+                      : run.status === 'failed'
+                      ? 'border-red-200 bg-red-50 text-red-500'
+                      : 'border-amber-200 bg-amber-50 text-amber-600'
+                  }`}>
+                    {run.status}
+                  </span>
+                  <Link href={`/app/history/${run.id}`} className="text-[#d8e5e2] transition-colors hover:text-[#8fb2aa]">
+                    <ArrowRight size={13} />
+                  </Link>
                 </div>
               </div>
-              <div className="flex shrink-0 items-center gap-2">
-                {run.status === 'completed' && (
-                  <button className="hidden gap-1 items-center text-[10px] font-semibold uppercase tracking-[0.12em] text-[#8fb2aa] hover:text-[#173634] group-hover:flex">
-                    <Copy size={12} /> Copy
-                  </button>
-                )}
-                <span className={`border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
-                  run.status === 'completed'
-                    ? 'border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa]'
-                    : run.status === 'failed'
-                    ? 'border-red-200 bg-red-50 text-red-500'
-                    : 'border-amber-200 bg-amber-50 text-amber-600'
-                }`}>
-                  {run.status}
-                </span>
-                <Link href={`/app/run/${run.agentId}`} className="text-[#d8e5e2] transition-colors hover:text-[#8fb2aa]">
-                  <ArrowRight size={13} />
-                </Link>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>

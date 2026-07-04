@@ -26,6 +26,52 @@ export const MOCK_PROJECTS: Project[] = [
     updatedAt: '2024-01-20T15:30:00Z',
     runCount: 8,
     savedCount: 3,
+    operatingBrief: {
+      objective: 'Launch a credible v1 for specialist AI work with a strong deliverable-first workflow.',
+      audience: 'Founders, operators, and small teams replacing ad hoc AI usage with repeatable work systems.',
+      tone: 'Precise, operational, and high-trust.',
+      successDefinition: 'A team can pick a specialist, run work, save the deliverable, and recover context from the project record.',
+      constraints: ['Keep scope narrow enough for a fast launch.', 'Favor structured outputs over generic chat.', 'Make the workflow legible to non-technical buyers.'],
+    },
+    memory: [
+      {
+        id: 'mem-001',
+        title: 'Position around specialist work',
+        note: 'The product should read as an operating system for specialist work, not a generic agent marketplace.',
+        source: 'decision',
+        createdAt: '2024-01-18T12:30:00Z',
+      },
+      {
+        id: 'mem-002',
+        title: 'Deliverable-first UX',
+        note: 'Runs should end in saved artifacts that can be reviewed and reused inside a project.',
+        source: 'deliverable',
+        createdAt: '2024-01-19T09:15:00Z',
+      },
+    ],
+    workflow: [
+      {
+        id: 'wf-001',
+        name: 'Refine landing and narrative',
+        owner: 'Strategy',
+        status: 'done',
+        detail: 'Clarify the promise, surface specialist categories, and tighten CTAs.',
+      },
+      {
+        id: 'wf-002',
+        name: 'Stabilize run and save flow',
+        owner: 'Product',
+        status: 'active',
+        detail: 'Make execution brief, deliverable save, and project linkage feel like one workflow.',
+      },
+      {
+        id: 'wf-003',
+        name: 'Prepare launch proof',
+        owner: 'Marketing',
+        status: 'next',
+        detail: 'Turn saved deliverables and project memory into launch-ready proof points.',
+      },
+    ],
   },
   {
     id: 'proj-002',
@@ -37,6 +83,52 @@ export const MOCK_PROJECTS: Project[] = [
     updatedAt: '2024-01-22T11:00:00Z',
     runCount: 4,
     savedCount: 2,
+    operatingBrief: {
+      objective: 'Define the ICP, outreach logic, and campaign sequence for the next sales push.',
+      audience: 'B2B SaaS operators and revenue leads evaluating workflow automation.',
+      tone: 'Commercial, confident, and evidence-backed.',
+      successDefinition: 'The team can move from research to messaging to outbound assets without re-briefing each specialist.',
+      constraints: ['Keep claims concrete.', 'Stay focused on Q1 pipeline creation.', 'Use LATAM examples where useful.'],
+    },
+    memory: [
+      {
+        id: 'mem-003',
+        title: 'ICP narrowed to operator-led teams',
+        note: 'Best early traction comes from lean teams where the founder still owns GTM systems.',
+        source: 'research',
+        createdAt: '2024-01-21T08:20:00Z',
+      },
+      {
+        id: 'mem-004',
+        title: 'Priority proof point',
+        note: 'Buyers respond better to recoverable project history than to claims about model quality alone.',
+        source: 'decision',
+        createdAt: '2024-01-21T16:40:00Z',
+      },
+    ],
+    workflow: [
+      {
+        id: 'wf-004',
+        name: 'Update ICP and signal list',
+        owner: 'Research',
+        status: 'done',
+        detail: 'Refresh vertical filters and buying triggers.',
+      },
+      {
+        id: 'wf-005',
+        name: 'Draft outreach sequence',
+        owner: 'Growth',
+        status: 'active',
+        detail: 'Translate the ICP into a three-touch sequence with differentiated proof points.',
+      },
+      {
+        id: 'wf-006',
+        name: 'Prepare SDR handoff',
+        owner: 'Sales',
+        status: 'next',
+        detail: 'Package the messaging, objections, and snippets into a reusable playbook.',
+      },
+    ],
   },
 ]
 
