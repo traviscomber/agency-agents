@@ -151,7 +151,7 @@ export default function AppDashboard() {
           </div>
           <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
             {recentRuns.map((run) => (
-              <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4]">
+              <Link key={run.id} href={`/app/history/${run.id}`} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4]">
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-[#173634]">{run.agentName}</p>
                   <p className="mt-0.5 truncate text-xs text-[#173634]/50">{run.task}</p>
@@ -171,7 +171,7 @@ export default function AppDashboard() {
                 }`}>
                   {run.status}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
           <Link href="/app/history" className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">

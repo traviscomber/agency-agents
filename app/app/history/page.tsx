@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { MOCK_RUNS } from '@/lib/data/mock-store'
-import { getAgentById } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { ArrowRight, FolderOpen, Search, Filter, Download, Copy } from 'lucide-react'
 import type { AgentRun } from '@/lib/types'
@@ -82,8 +81,6 @@ export default function HistoryPage() {
       ) : (
         <div className="divide-y divide-[#d8e5e2] border border-[#d8e5e2]">
           {runs.map((run) => {
-            const runAgent = getAgentById(run.agentId)
-
             return (
               <div key={run.id} className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-[#f1f6f4] group">
                 <div className="min-w-0 flex-1">
@@ -116,7 +113,7 @@ export default function HistoryPage() {
                   }`}>
                     {run.status}
                   </span>
-                  <Link href={runAgent ? `/app/run/${runAgent.slug}` : '/app/agents'} className="text-[#d8e5e2] transition-colors hover:text-[#8fb2aa]">
+                  <Link href={`/app/history/${run.id}`} className="text-[#d8e5e2] transition-colors hover:text-[#8fb2aa]">
                     <ArrowRight size={13} />
                   </Link>
                 </div>

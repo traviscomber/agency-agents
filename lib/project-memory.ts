@@ -547,3 +547,13 @@ export async function getAllSavedOutputs(baseSavedOutputs: SavedOutput[]) {
     .filter((savedOutput, index, collection) => collection.findIndex((item) => item.id === savedOutput.id) === index)
     .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
 }
+
+export async function getRunById(runId: string, baseRuns: AgentRun[]) {
+  const runs = await getAllRuns(baseRuns)
+  return runs.find((run) => run.id === runId) ?? null
+}
+
+export async function getSavedOutputsForRun(runId: string, baseSavedOutputs: SavedOutput[]) {
+  const savedOutputs = await getAllSavedOutputs(baseSavedOutputs)
+  return savedOutputs.filter((savedOutput) => savedOutput.agentRunId === runId)
+}
