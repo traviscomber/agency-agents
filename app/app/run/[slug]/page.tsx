@@ -147,7 +147,7 @@ function RunAgentPageContent({ params }: Props) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-20 text-center">
         <p className="text-sm text-[#173634]/55">Agent not found.</p>
-        <Button asChild variant="outline" className="mt-4 h-9 rounded-none border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.14em]">
+        <Button asChild variant="outline" className="mt-4 h-9 border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.14em]">
           <Link href="/app/agents">Back to agents</Link>
         </Button>
       </div>
@@ -166,7 +166,7 @@ function RunAgentPageContent({ params }: Props) {
         <p className="mt-2 text-sm text-[#173634]/55">
           {activeAgent.name} requires the <span className="font-medium capitalize">{activeAgent.planRequired}</span> plan.
         </p>
-        <Button asChild className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+        <Button asChild className="mt-6 h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
           <Link href="/app/billing">Upgrade plan</Link>
         </Button>
       </div>
@@ -415,7 +415,7 @@ function RunAgentPageContent({ params }: Props) {
                   onChange={(e) => setTask(e.target.value)}
                   rows={4}
                   disabled={status === 'running'}
-                  className="resize-none rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                  className="resize-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                 />
               </div>
 
@@ -432,7 +432,7 @@ function RunAgentPageContent({ params }: Props) {
                   }}
                   rows={4}
                   disabled={status === 'running'}
-                  className="resize-none rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                  className="resize-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                 />
               </div>
 
@@ -440,7 +440,7 @@ function RunAgentPageContent({ params }: Props) {
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Output shape</Label>
                   <Select value={desiredOutput} onValueChange={(value) => value && setDesiredOutput(value)} disabled={status === 'running'}>
-                    <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
+                    <SelectTrigger className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -454,7 +454,7 @@ function RunAgentPageContent({ params }: Props) {
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Depth</Label>
                   <Select value={detailLevel} onValueChange={(value) => value && setDetailLevel(value)} disabled={status === 'running'}>
-                    <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
+                    <SelectTrigger className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -468,7 +468,7 @@ function RunAgentPageContent({ params }: Props) {
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Save to project</Label>
                   <Select value={projectId} onValueChange={(value) => setProjectId(value ?? 'unassigned')} disabled={status === 'running'}>
-                    <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
+                    <SelectTrigger className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
                     <SelectContent>
@@ -540,12 +540,12 @@ function RunAgentPageContent({ params }: Props) {
                 <Button
                   onClick={handleRun}
                   disabled={!task.trim() || status === 'running'}
-                  className="h-10 rounded-none bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
+                  className="h-10 bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
                 >
                   {status === 'running' && <Loader2 size={13} className="mr-2 animate-spin" />}
                   {status === 'running' ? 'Running...' : 'Run specialist'}
                 </Button>
-                <Button asChild variant="outline" className="h-10 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+                <Button asChild variant="outline" className="h-10 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
                   <Link href="/app/agents">Browse specialists</Link>
                 </Button>
               </div>
@@ -654,11 +654,11 @@ function RunAgentPageContent({ params }: Props) {
                     setPrefilledProjectId('')
                     setSaved(false)
                   }}
-                  className="h-10 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
+                  className="h-10 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
                 >
                   Run another specialist
                 </Button>
-                <Button asChild className="h-10 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+                <Button asChild className="h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
                   <Link href="/app/history">View history</Link>
                 </Button>
               </div>

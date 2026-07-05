@@ -192,7 +192,7 @@ function SavedPageContent() {
               placeholder="Search by deliverable, project, specialist, or stage..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
+              className="h-10 border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
             />
           </div>
         </div>
@@ -232,7 +232,7 @@ function SavedPageContent() {
                             key={item.id}
                             onClick={() => setSelected(item)}
                             className={cn(
-                              'w-full rounded-[1rem] border px-3 py-3 text-left transition-colors hover:bg-[#f1f6f4]',
+                              'w-full border px-3 py-3 text-left transition-colors hover:bg-[#f1f6f4]',
                               isActive ? 'border-[#8fb2aa] bg-[#eef5f2]' : 'border-[#d8e5e2] bg-white',
                             )}
                           >
@@ -295,7 +295,7 @@ function SavedPageContent() {
                 </div>
 
                 {activePacket ? (
-                  <div className="mt-5 rounded-[1.4rem] border border-[#d8e5e2] bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
+                  <div className="mt-5 border border-[#d8e5e2] bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="n3-chip-soft">{activePacket.projectTypeLabel}</span>
                       <span className="n3-chip-soft">{activePacket.executionMode}</span>
@@ -322,12 +322,12 @@ function SavedPageContent() {
                       </div>
                     </div>
                     {activePacket.currentStepStatusReason ? (
-                      <div className="mt-4 rounded-[1rem] border border-[#d8e5e2] bg-white px-4 py-3">
+                      <div className="mt-4 border border-[#d8e5e2] bg-white px-4 py-3">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Why this state</p>
                         <p className="mt-1 text-sm leading-6 text-[#52605d]">{activePacket.currentStepStatusReason}</p>
                       </div>
                     ) : null}
-                    <div className="mt-4 rounded-[1rem] border border-[#d8e5e2] bg-white px-4 py-3">
+                    <div className="mt-4 border border-[#d8e5e2] bg-white px-4 py-3">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Risk note</p>
                       <p className="mt-1 text-sm leading-6 text-[#52605d]">{activePacket.riskNote}</p>
                     </div>
@@ -381,7 +381,7 @@ function SavedPageContent() {
                         <button
                           key={item.id}
                           onClick={() => setSelected(item)}
-                          className="flex items-center justify-between gap-3 rounded-[1rem] border border-[#d8e5e2] bg-white px-4 py-3 text-left transition-colors hover:bg-[#f1f6f4]"
+                          className="flex items-center justify-between gap-3 border border-[#d8e5e2] bg-white px-4 py-3 text-left transition-colors hover:bg-[#f1f6f4]"
                         >
                           <div>
                             <p className="text-sm font-medium text-[#173634]">{item.title}</p>

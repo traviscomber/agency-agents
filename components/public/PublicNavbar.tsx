@@ -32,7 +32,7 @@ export function PublicNavbar() {
               key={href}
               href={href}
               className={cn(
-                'rounded-full px-4 py-2 text-sm font-medium transition-colors',
+                'px-4 py-2 text-sm font-medium transition-colors border border-[#1e3431]',
                 pathname === href
                   ? 'bg-[#142522] text-[#f5fbfa]'
                   : 'text-[#9db7b1] hover:bg-[#142522] hover:text-[#f5fbfa]'
@@ -44,13 +44,13 @@ export function PublicNavbar() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <div className="flex items-center rounded-full border border-[#1e3431] bg-[#0b1117] p-1">
+          <div className="flex items-center border border-[#1e3431] bg-[#0b1117] p-1">
             {(['es', 'en'] as const).map((code) => (
               <Link
                 key={code}
                 href={`/${code}`}
                 className={cn(
-                  'rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]',
+                  'px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] border border-[#1e3431]',
                   locale === code ? 'bg-[#142522] text-[#f5fbfa]' : 'text-[#9db7b1] hover:text-[#f5fbfa]',
                 )}
               >
@@ -66,7 +66,7 @@ export function PublicNavbar() {
           </Link>
           <Link
             href="/signup"
-            className="rounded-full bg-[#8fb2aa] px-5 py-2.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]"
+            className="bg-[#8fb2aa] px-5 py-2.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0] border border-[#8fb2aa]"
           >
             {copy.cta}
           </Link>

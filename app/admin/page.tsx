@@ -35,7 +35,7 @@ export default function AdminDashboard() {
       {/* Stats grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
         {stats.map(({ label, value, icon: Icon }) => (
-          <div key={label} className="space-y-3 rounded-none border border-[#d8e5e2] bg-white px-5 py-4">
+          <div key={label} className="space-y-3 border border-[#d8e5e2] bg-white px-5 py-4">
             <div className="flex items-center gap-2">
               <Icon size={16} className="text-[#8fb2aa]" />
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">{label}</p>
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
       {/* Sections */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Recent runs */}
-        <div className="space-y-3 rounded-none border border-[#d8e5e2] bg-white p-5">
+        <div className="space-y-3 border border-[#d8e5e2] bg-white p-5">
           <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">Recent runs</h2>
           <div className="space-y-2">
             {MOCK_RUNS.slice(0, 6).map((run) => (
@@ -58,7 +58,7 @@ export default function AdminDashboard() {
                   <p className="truncate text-xs text-[#555a56]">{run.task}</p>
                 </div>
                 <span
-                  className={`shrink-0 rounded-full px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${
+                  className={`shrink-0 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${
                     run.status === 'completed'
                       ? 'bg-emerald-100 text-emerald-700'
                       : 'bg-[#f1f6f4] text-[#555a56]'
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Runs by division */}
-        <div className="space-y-3 rounded-none border border-[#d8e5e2] bg-white p-5">
+        <div className="space-y-3 border border-[#d8e5e2] bg-white p-5">
           <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">Runs by division</h2>
           <div className="space-y-3">
             {Object.entries(runsByDivision)
@@ -83,9 +83,9 @@ export default function AdminDashboard() {
                     <DivisionBadge division={division} />
                     <span className="text-xs font-semibold text-[#173634]">{count}</span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-[#e8ede9]">
+                  <div className="h-2 w-full overflow-hidden bg-[#e8ede9]">
                     <div
-                      className="h-full rounded-full bg-[#8fb2aa]"
+                      className="h-full bg-[#8fb2aa]"
                       style={{ width: `${(count / MOCK_RUNS.length) * 100}%` }}
                     />
                   </div>

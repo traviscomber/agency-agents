@@ -40,8 +40,8 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
             <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
               <div>
                 <FadeInUp>
-                  <div className="inline-flex items-center gap-2.5 rounded-full border border-[#1e3431] bg-[#0d1f1d] px-3.5 py-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#8fb2aa]" />
+                  <div className="inline-flex items-center gap-2.5 border border-[#1e3431] bg-[#0d1f1d] px-3.5 py-1.5">
+                    <span className="h-1.5 w-1.5 bg-[#8fb2aa]" />
                     <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">
                       {copy.badge}
                     </span>
@@ -62,13 +62,13 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   <div className="mt-9 flex flex-wrap gap-3">
                     <Link
                       href="/signup"
-                      className="inline-flex h-11 items-center gap-2 rounded-full border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] transition hover:bg-[#dce8e4]"
+                      className="inline-flex h-11 items-center gap-2 border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] transition hover:bg-[#dce8e4]"
                     >
                       {copy.heroPrimary} <ArrowRight size={12} />
                     </Link>
                     <Link
                       href="/app"
-                      className="inline-flex h-11 items-center gap-2 rounded-full border border-[#789b96] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] transition hover:bg-white/8"
+                      className="inline-flex h-11 items-center gap-2 border border-[#789b96] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] transition hover:bg-white/8"
                     >
                       {copy.heroSecondary} <ArrowRight size={12} />
                     </Link>
@@ -78,7 +78,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 <FadeInUp delay={0.26}>
                   <div className="mt-10 grid gap-3 sm:grid-cols-3">
                     {copy.heroSignals.map(([title, body]) => (
-                      <div key={title} className="rounded-[1.35rem] border border-white/10 bg-white/5 px-4 py-4">
+                      <div key={title} className="border border-[#1e3431] bg-[#0d1917] px-4 py-4">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
                         <p className="mt-2 text-sm text-[#d9e3e0]">{body}</p>
                       </div>
@@ -88,25 +88,25 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
               </div>
 
               <FadeInUp delay={0.12}>
-                <div className="rounded-[2rem] border border-white/10 bg-[#0d1f1d]/92 p-6 shadow-[0_28px_90px_-42px_rgba(0,0,0,0.65)]">
+                <div className="border border-[#1e3431] bg-[#0d1917] p-6">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex flex-wrap gap-2">
                       {copy.controlSurfaceBadges.map((item) => (
                         <span
                           key={item}
-                          className="rounded-full border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d9e3e0]"
+                          className="border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d9e3e0]"
                         >
                           {item}
                         </span>
                       ))}
                     </div>
-                    <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
+                    <span className="border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
                       {copy.deployable}
                     </span>
                   </div>
 
-                  <div className="mt-5 rounded-[1.4rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-5">
-                    <div className="grid gap-px overflow-hidden rounded-[1rem] border border-white/10 bg-white/10">
+                  <div className="mt-5 border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-5">
+                    <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10">
                       {copy.controlRows.map(([label, value]) => (
                         <div key={label} className="flex items-center justify-between bg-[#102826] px-4 py-4">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">{label}</p>
@@ -115,7 +115,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                       ))}
                     </div>
 
-                    <div className="mt-5 rounded-[1.1rem] border border-white/10 bg-black/10 p-4">
+                    <div className="mt-5 border border-white/10 bg-black/10 p-4">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">{copy.whyThisMattersTitle}</p>
                       <p className="mt-3 text-sm leading-7 text-[#d9e3e0]">{copy.whyThisMattersBody}</p>
                     </div>
@@ -132,8 +132,8 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
               {copy.differentiators.map(([title, desc], index) => {
                 const Icon = DIFFERENTIATOR_ICONS[index]
                 return (
-                  <article key={title} className="n3-panel rounded-[1.6rem] p-5">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#d8e5e2] bg-[#f1f6f4] text-[#789b96]">
+                  <article key={title} className="n3-panel p-5">
+                    <div className="flex h-10 w-10 items-center justify-center2xl border border-[#d8e5e2] bg-[#f1f6f4] text-[#789b96]">
                       <Icon size={16} />
                     </div>
                     <p className="mt-4 text-sm font-semibold text-[#173634]">{title}</p>
@@ -156,7 +156,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
               <div className="grid gap-4 lg:grid-cols-2">
                 {copy.sequence.map(([step, title, desc]) => (
-                  <article key={step} className="n3-panel rounded-[1.6rem] p-5">
+                  <article key={step} className="n3-panel p-5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">{step}</p>
                     <h3 className="mt-4 text-lg font-semibold text-[#173634]">{title}</h3>
                     <p className="mt-3 text-sm leading-6 text-[#52605d]">{desc}</p>
@@ -177,7 +177,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
               <div className="grid gap-4">
                 {copy.proofStack.map(([label, title, body]) => (
-                  <article key={label} className="n3-panel rounded-[1.6rem] p-5">
+                  <article key={label} className="n3-panel p-5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
                     <p className="mt-3 text-lg font-semibold text-[#173634]">{title}</p>
                     <p className="mt-2 text-sm leading-6 text-[#52605d]">{body}</p>
@@ -194,8 +194,8 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
               {copy.cases.map(([title, desc], index) => {
                 const Icon = CASE_ICONS[index]
                 return (
-                  <article key={title} className="rounded-[1.7rem] border border-[#d8e5e2] bg-white p-6 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)]">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#173634] text-[#d9e3e0]">
+                  <article key={title} className="border border-[#d8e5e2] bg-white p-6">
+                    <div className="flex h-11 w-11 items-center justify-center2xl bg-[#173634] text-[#d9e3e0]">
                       <Icon size={18} />
                     </div>
                     <p className="mt-4 text-lg font-semibold text-[#173634]">{title}</p>
@@ -221,7 +221,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {featuredAgents.map((agent) => (
-                <article key={agent.id} className="rounded-[1.65rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.35)]">
+                <article key={agent.id} className="border border-[#d8e5e2] bg-white p-5">
                   <div className="flex items-center justify-between gap-3">
                     <DivisionBadge division={agent.division} size="sm" />
                     <PlanBadge plan={agent.planRequired} />
@@ -242,20 +242,20 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
         <section className="bg-[#060a10] text-[#f5fbfa]">
           <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
-            <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,#0d1f1d,#102826)] p-8 shadow-[0_24px_80px_-38px_rgba(0,0,0,0.65)] sm:p-10">
+            <div className="border border-white/10 bg-[linear-gradient(135deg,#0d1f1d,#102826)] p-8 sm:p-10">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">{copy.workspaceEyebrow}</p>
               <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-white">{copy.workspaceTitle}</h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#c7d5d1]">{copy.workspaceBody}</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/signup"
-                  className="inline-flex h-11 items-center gap-2 rounded-full border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] transition hover:bg-[#dce8e4]"
+                  className="inline-flex h-11 items-center gap-2 border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] transition hover:bg-[#dce8e4]"
                 >
                   {copy.workspacePrimary} <ArrowRight size={12} />
                 </Link>
                 <Link
                   href="/pricing"
-                  className="inline-flex h-11 items-center gap-2 rounded-full border border-[#789b96] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] transition hover:bg-white/8"
+                  className="inline-flex h-11 items-center gap-2 border border-[#789b96] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] transition hover:bg-white/8"
                 >
                   {copy.workspaceSecondary} <ArrowRight size={12} />
                 </Link>

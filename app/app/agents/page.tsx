@@ -50,7 +50,7 @@ export default function AppAgentsPage() {
             placeholder="Search twins, roles or industries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
+            className="h-9 border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
           />
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -114,7 +114,7 @@ export default function AppAgentsPage() {
                 <p className="text-sm font-medium text-[#173634]">{agent.name}</p>
                 <p className="mt-1.5 flex-1 text-xs leading-relaxed text-[#173634]/55">{agent.shortDescription}</p>
                 {agent.twinProfile ? (
-                  <div className="mt-3 rounded-[1rem] border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-3">
+                  <div className="mt-3 border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-3">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.twinProfile.roleLabel} · {agent.twinProfile.geography}</p>
                     <p className="mt-1 text-xs leading-5 text-[#52605d]">{agent.twinProfile.replacementScope}</p>
                     <div className="mt-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#52605d]">

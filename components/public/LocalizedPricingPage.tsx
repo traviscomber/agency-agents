@@ -33,15 +33,15 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                 <p className="mt-5 max-w-xl text-sm leading-7 text-[#9db7b1]">{copy.summary}</p>
               </div>
 
-              <div className="rounded-[1.8rem] border border-white/10 bg-[#0d1f1d]/90 p-6 shadow-[0_22px_70px_-42px_rgba(0,0,0,0.55)]">
+              <div className="border border-white/10 bg-[#0d1f1d]/90 p-6">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">What scales with plan</p>
                 <div className="mt-5 space-y-3">
                   {copy.valueStack.map(([title, desc], index) => {
                     const Icon = VALUE_ICONS[index]
                     return (
-                      <div key={title} className="rounded-[1.1rem] border border-white/10 bg-white/5 p-4">
+                      <div key={title} className="border border-white/10 bg-white/5 p-4">
                         <div className="flex items-center gap-2">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-[#8fb2aa]">
+                          <div className="flex h-9 w-9 items-center justify-center bg-white/10 text-[#8fb2aa]">
                             <Icon size={15} />
                           </div>
                           <p className="text-sm font-semibold text-white">{title}</p>
@@ -60,7 +60,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
           <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
             <div className="mb-8 grid gap-4 lg:grid-cols-3">
               {copy.metrics.map(([title, body]) => (
-                <div key={title} className="rounded-[1.35rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
+                <div key={title} className="border border-[#d8e5e2] bg-white p-5">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
                   <p className="mt-3 text-lg font-semibold text-[#173634]">{body}</p>
                 </div>
@@ -71,14 +71,14 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
               {PLANS.map((plan) => (
                 <div
                   key={plan.id}
-                  className={`relative flex flex-col rounded-[1.8rem] border p-6 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1 ${
+                  className={`relative flex flex-col border p-6 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1 ${
                     plan.highlighted
                       ? 'border-[#173634] bg-[#173634]'
                       : 'border-[#d8e5e2] bg-white'
                   }`}
                 >
                   {plan.highlighted && (
-                    <span className="mb-4 inline-flex self-start rounded-full border border-[#8fb2aa]/30 bg-[#8fb2aa]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">
+                    <span className="mb-4 inline-flex self-start border border-[#8fb2aa]/30 bg-[#8fb2aa]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">
                       {copy.bestFit}
                     </span>
                   )}
@@ -100,7 +100,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                     </p>
                   </div>
 
-                  <div className={`mb-5 rounded-[1.15rem] border p-4 ${plan.highlighted ? 'border-white/10 bg-white/5' : 'border-[#d8e5e2] bg-[#f8fbfa]'}`}>
+                  <div className={`mb-5 border p-4 ${plan.highlighted ? 'border-white/10 bg-white/5' : 'border-[#d8e5e2] bg-[#f8fbfa]'}`}>
                     <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${plan.highlighted ? 'text-[#8fb2aa]' : 'text-[#789b96]'}`}>
                       {copy.twinCapacity}
                     </p>
@@ -123,7 +123,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
 
                   <Link
                     href={plan.id === 'enterprise' ? '/contact' : '/signup'}
-                    className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-colors ${
+                    className={`mt-7 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold transition-colors ${
                       plan.highlighted
                         ? 'bg-[#8fb2aa] text-[#060a10] hover:bg-[#d9e3e0]'
                         : 'border border-[#d8e5e2] bg-[#fbfbfa] text-[#173634] hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1]'
@@ -147,7 +147,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {copy.faq.map(([q, a]) => (
-                  <div key={q} className="rounded-[1.5rem] border border-[#d8e5e2] bg-white p-6 shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
+                  <div key={q} className="border border-[#d8e5e2] bg-white p-6">
                     <p className="text-sm font-semibold text-[#173634]">{q}</p>
                     <p className="mt-2 text-sm leading-7 text-[#65706d]">{a}</p>
                   </div>
@@ -159,17 +159,17 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
 
         <section className="border-b border-[#1e3431] bg-[#0d1f1d]">
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-            <div className="rounded-[2rem] border border-[#28413d] bg-[linear-gradient(135deg,#102826,#0d1f1d)] p-8 shadow-[0_22px_80px_-40px_rgba(0,0,0,0.52)]">
+            <div className="border border-[#28413d] bg-[linear-gradient(135deg,#102826,#0d1f1d)] p-8">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">{copy.readyEyebrow}</p>
                   <h2 className="mt-4 text-3xl font-light leading-tight text-[#f5fbfa]">{copy.readyTitle}</h2>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[#8fb2aa] px-6 py-3.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
+                  <Link href="/signup" className="inline-flex items-center gap-2 bg-[#8fb2aa] px-6 py-3.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
                     {copy.readyPrimary} <ArrowRight size={13} />
                   </Link>
-                  <Link href="/login" className="inline-flex items-center gap-2 rounded-full border border-[#28413d] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">
+                  <Link href="/login" className="inline-flex items-center gap-2 border border-[#28413d] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">
                     {copy.readySecondary}
                   </Link>
                 </div>

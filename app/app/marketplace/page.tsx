@@ -60,10 +60,10 @@ export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(23,54,52,0.06),_transparent_28%),linear-gradient(180deg,#f5f7f6_0%,#fbfbfa_20%,#f5f7f6_100%)]">
       <div className="mx-auto max-w-7xl px-6 py-10">
-        <header className="overflow-hidden rounded-[2rem] border border-[#d8e5e2] bg-[linear-gradient(135deg,#ffffff_0%,#f7faf9_52%,#eef5f2_100%)] p-8 shadow-[0_22px_70px_-48px_rgba(15,23,42,0.42)]">
+        <header className="overflow-hidden border border-[#d8e5e2] bg-[linear-gradient(135deg,#ffffff_0%,#f7faf9_52%,#eef5f2_100%)] p-8 shadow-[0_22px_70px_-48px_rgba(15,23,42,0.42)]">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#d8e5e2] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#52605d]">
+              <div className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#52605d]">
                 <Sparkles size={12} className="text-[#789b96]" />
                 Curated specialist exchange
               </div>
@@ -116,14 +116,14 @@ export default function MarketplacePage() {
 
           <div className="rounded-[1.75rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_16px_44px_-34px_rgba(15,23,42,0.35)]">
             <div className="mb-6 flex flex-col gap-3 border-b border-[#d8e5e2] pb-5 sm:flex-row">
-              <div className="flex flex-1 items-center gap-2 rounded-2xl border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2.5">
+              <div className="flex flex-1 items-center gap-22xl border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2.5">
                 <Search size={15} className="text-[#8aa29c]" />
                 <input
                   placeholder="Search by operating pressure, specialist, or deliverable..."
                   className="flex-1 bg-transparent text-sm text-[#173634] placeholder:text-[#789b96] focus:outline-none"
                 />
               </div>
-              <Button variant="outline" className="h-11 rounded-2xl border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+              <Button variant="outline" className="h-112xl border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
                 <Filter size={14} className="mr-2" /> Sort by proof
               </Button>
             </div>
@@ -133,7 +133,7 @@ export default function MarketplacePage() {
                 <Button
                   key={cat}
                   variant={cat === 'All' ? 'default' : 'outline'}
-                  className={`h-9 rounded-full px-4 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
+                  className={`h-9 px-4 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
                     cat === 'All'
                       ? 'bg-[#173634] text-white hover:bg-[#1e3431]'
                       : 'border-[#d8e5e2] bg-white text-[#173634] hover:bg-[#f1f6f4]'
@@ -149,13 +149,13 @@ export default function MarketplacePage() {
                 <Link
                   key={agent.id}
                   href={`/app/marketplace/${agent.slug}`}
-                  className="group flex flex-col rounded-[1.5rem] border border-[#d8e5e2] bg-[linear-gradient(180deg,#ffffff_0%,#f7faf9_100%)] p-5 transition-transform hover:-translate-y-1 hover:shadow-[0_16px_44px_-32px_rgba(15,23,42,0.4)]"
+                  className="group flex flex-col border border-[#d8e5e2] bg-[linear-gradient(180deg,#ffffff_0%,#f7faf9_100%)] p-5 transition-transform hover:-translate-y-1 hover:shadow-[0_16px_44px_-32px_rgba(15,23,42,0.4)]"
                 >
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#789b96]">{agent.category}</p>
                       {agent.sales > 2000 && (
-                        <span className="flex items-center gap-1 rounded-full bg-[#eef5f2] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f716a]">
+                        <span className="flex items-center gap-1 bg-[#eef5f2] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f716a]">
                           <TrendingUp size={11} /> Trending
                         </span>
                       )}
@@ -165,7 +165,7 @@ export default function MarketplacePage() {
 
                     <p className="mt-4 text-sm leading-relaxed text-[#52605d]">{agent.fit}</p>
 
-                    <div className="mt-4 rounded-[1rem] border border-[#d8e5e2] bg-white/80 p-3">
+                    <div className="mt-4 border border-[#d8e5e2] bg-white/80 p-3">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">Expected output</p>
                       <p className="mt-2 text-sm text-[#173634]">{agent.output}</p>
                     </div>
@@ -203,7 +203,7 @@ export default function MarketplacePage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="font-semibold text-[#173634]">${agent.pricePerRun.toFixed(2)}/run</p>
-                      <Button className="h-8 rounded-full bg-[#173634] px-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+                      <Button className="h-8 bg-[#173634] px-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
                         Inspect
                       </Button>
                     </div>

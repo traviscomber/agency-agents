@@ -52,7 +52,7 @@ function RunningDots() {
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          className="inline-block h-1 w-1 rounded-full bg-amber-400"
+          className="inline-block h-1 w-1 bg-amber-400"
           animate={{ opacity: [0.3, 1, 0.3] }}
           transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
         />
@@ -92,24 +92,24 @@ export function HeroPanel() {
   return (
     <div className="relative w-full max-w-[520px]">
       {/* Glow halo behind the card */}
-      <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[3rem] bg-[radial-gradient(ellipse_at_center,_rgba(148,163,184,0.18),_transparent_66%)] blur-2xl" />
+      <div className="pointer-events-none absolute -inset-8 -z-10 bg-[radial-gradient(ellipse_at_center,_rgba(148,163,184,0.18),_transparent_66%)] blur-2xl" />
 
-      <div className="overflow-hidden rounded-[1.75rem] border border-white/12 bg-[rgba(8,12,28,0.94)] shadow-[0_32px_96px_rgba(0,0,0,0.52)] backdrop-blur-xl">
+      <div className="overflow-hidden border border-white/12 bg-[rgba(8,12,28,0.94)] shadow-[0_32px_96px_rgba(0,0,0,0.52)] backdrop-blur-xl">
         {/* Header */}
         <div className="border-b border-white/12 px-5 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
-                <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
-                <span className="h-2.5 w-2.5 rounded-full bg-white/18" />
+                <span className="h-2.5 w-2.5 bg-white/18" />
+                <span className="h-2.5 w-2.5 bg-white/18" />
+                <span className="h-2.5 w-2.5 bg-white/18" />
               </div>
               <span className="ml-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/60">
                 N3uralia Operating Layer
               </span>
             </div>
-            <div className="flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/8 px-2.5 py-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <div className="flex items-center gap-1.5 border border-emerald-400/20 bg-emerald-400/8 px-2.5 py-1">
+              <span className="h-1.5 w-1.5 bg-emerald-400" />
               <span className="text-[10px] font-semibold text-emerald-400">Live</span>
             </div>
           </div>
@@ -130,7 +130,7 @@ export function HeroPanel() {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`relative rounded-[1.1rem] border p-3.5 transition-colors ${
+                  className={`relative border p-3.5 transition-colors ${
                     isActive
                       ? 'border-white/16 bg-white/10'
                       : 'border-white/10 bg-white/5'
@@ -139,7 +139,7 @@ export function HeroPanel() {
                   <div className="flex items-start gap-3">
                     {/* Icon */}
                     <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center ${
                         isActive && !isComplete
                           ? 'bg-amber-400/14 text-amber-400'
                           : 'bg-white/12 text-white/82'
@@ -167,7 +167,7 @@ export function HeroPanel() {
 
                       {/* Division tag */}
                       <div className="mt-2 flex items-center gap-2">
-                        <span className={`inline-block rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] ${
+                        <span className={`inline-block px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] ${
                           isActive ? 'bg-white/12 text-white/88' : 'bg-white/8 text-white/52'
                         }`}>
                           {run.division}
@@ -188,7 +188,7 @@ export function HeroPanel() {
 
                   {/* Active progress bar */}
                   {isActive && !isComplete && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-b-[1.1rem] overflow-hidden bg-white/12">
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px]-[1.1rem] overflow-hidden bg-white/12">
                       <motion.div
                         className="h-full bg-amber-400"
                         style={{ width: `${progress * 100}%` }}
@@ -216,12 +216,12 @@ export function HeroPanel() {
 
       {/* Floating badge */}
       <motion.div
-        className="absolute -bottom-4 -left-4 flex items-center gap-2.5 rounded-2xl border border-white/14 bg-[rgba(8,12,28,0.92)] px-4 py-3 shadow-[0_12px_36px_rgba(0,0,0,0.4)] backdrop-blur-xl"
+        className="absolute -bottom-4 -left-4 flex items-center gap-2.52xl border border-white/14 bg-[rgba(8,12,28,0.92)] px-4 py-3 shadow-[0_12px_36px_rgba(0,0,0,0.4)] backdrop-blur-xl"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.5 }}
       >
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-400/12">
+        <div className="flex h-7 w-7 items-center justify-center bg-emerald-400/12">
           <Sparkles size={12} className="text-emerald-400" />
         </div>
         <div>

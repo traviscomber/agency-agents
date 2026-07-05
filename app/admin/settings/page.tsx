@@ -21,21 +21,21 @@ export default function AdminSettingsPage() {
 
       <div className="space-y-8">
         {/* AI Provider Section */}
-        <section className="space-y-4 rounded-none border border-[#d8e5e2] bg-white px-6 py-5">
+        <section className="space-y-4 border border-[#d8e5e2] bg-white px-6 py-5">
           <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#173634]">AI Provider</h2>
           <div className="space-y-4">
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">OpenAI API Key</Label>
-              <Input type="password" placeholder="sk-..." className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm font-mono" />
+              <Input type="password" placeholder="sk-..." className="h-10 border-[#d8e5e2] bg-white text-sm font-mono" />
               <p className="text-xs text-[#555a56]">Leave empty to use mock provider for testing.</p>
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Default Model</Label>
-              <Input defaultValue="gpt-4o-mini" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm font-mono" />
+              <Input defaultValue="gpt-4o-mini" className="h-10 border-[#d8e5e2] bg-white text-sm font-mono" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Max Tokens</Label>
-              <Input defaultValue="2000" type="number" className="h-10 w-40 rounded-none border-[#d8e5e2] bg-white text-sm" />
+              <Input defaultValue="2000" type="number" className="h-10 w-40 border-[#d8e5e2] bg-white text-sm" />
             </div>
             <Button className="rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91] text-sm font-semibold">
               Save AI Settings
@@ -46,33 +46,33 @@ export default function AdminSettingsPage() {
         <Separator />
 
         {/* Platform Section */}
-        <section className="space-y-4 rounded-none border border-[#d8e5e2] bg-white px-6 py-5">
+        <section className="space-y-4 border border-[#d8e5e2] bg-white px-6 py-5">
           <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#173634]">Platform</h2>
           <div className="space-y-4">
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Platform Name</Label>
-              <Input defaultValue="N3uralia Studio" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm" />
+              <Input defaultValue="N3uralia Studio" className="h-10 border-[#d8e5e2] bg-white text-sm" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Support Email</Label>
-              <Input defaultValue="hello@n3uralia.com" type="email" className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm" />
+              <Input defaultValue="hello@n3uralia.com" type="email" className="h-10 border-[#d8e5e2] bg-white text-sm" />
             </div>
-            <div className="flex items-center justify-between gap-4 rounded-none border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
+            <div className="flex items-center justify-between gap-4 border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
               <div>
                 <p className="text-sm font-semibold text-[#173634]">Maintenance Mode</p>
                 <p className="text-xs text-[#555a56]">Block all non-admin users from accessing the app.</p>
               </div>
-              <button className="relative h-6 w-11 shrink-0 rounded-full border border-[#d8e5e2] bg-white">
-                <span className="absolute left-1 top-1 h-4 w-4 rounded-full bg-[#8fb2aa]/60" />
+              <button className="relative h-6 w-11 shrink-0 border border-[#d8e5e2] bg-white">
+                <span className="absolute left-1 top-1 h-4 w-4 bg-[#8fb2aa]/60" />
               </button>
             </div>
-            <div className="flex items-center justify-between gap-4 rounded-none border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
+            <div className="flex items-center justify-between gap-4 border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
               <div>
                 <p className="text-sm font-semibold text-[#173634]">Allow Signups</p>
                 <p className="text-xs text-[#555a56]">Enable new user registrations. Disable for invite-only mode.</p>
               </div>
-              <button className="relative h-6 w-11 shrink-0 rounded-full bg-[#8fb2aa]">
-                <span className="absolute right-1 top-1 h-4 w-4 rounded-full bg-white" />
+              <button className="relative h-6 w-11 shrink-0 bg-[#8fb2aa]">
+                <span className="absolute right-1 top-1 h-4 w-4 bg-white" />
               </button>
             </div>
             <Button className="rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91] text-sm font-semibold">
@@ -84,16 +84,16 @@ export default function AdminSettingsPage() {
         <Separator />
 
         {/* Stripe Section */}
-        <section className="space-y-4 rounded-none border border-[#d8e5e2] bg-white px-6 py-5">
+        <section className="space-y-4 border border-[#d8e5e2] bg-white px-6 py-5">
           <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#173634]">Stripe</h2>
           <div className="space-y-4">
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Secret Key</Label>
-              <Input type="password" placeholder="sk_live_..." className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm font-mono" />
+              <Input type="password" placeholder="sk_live_..." className="h-10 border-[#d8e5e2] bg-white text-sm font-mono" />
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Webhook Secret</Label>
-              <Input type="password" placeholder="whsec_..." className="h-10 rounded-none border-[#d8e5e2] bg-white text-sm font-mono" />
+              <Input type="password" placeholder="whsec_..." className="h-10 border-[#d8e5e2] bg-white text-sm font-mono" />
             </div>
             <p className="text-xs text-[#555a56]">
               Set via environment variables: <code className="font-mono">STRIPE_SECRET_KEY</code>, <code className="font-mono">STRIPE_WEBHOOK_SECRET</code>
@@ -104,7 +104,7 @@ export default function AdminSettingsPage() {
         <Separator />
 
         {/* Security Section */}
-        <section className="space-y-4 rounded-none border border-[#d8e5e2] bg-white px-6 py-5">
+        <section className="space-y-4 border border-[#d8e5e2] bg-white px-6 py-5">
           <div className="flex items-center gap-2">
             <Shield size={16} className="text-[#8fb2aa]" />
             <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#173634]">Security</h2>
@@ -118,17 +118,17 @@ export default function AdminSettingsPage() {
             </div>
             <div className="space-y-2">
               {ipWhitelist.map((ip, idx) => (
-                <div key={idx} className="flex items-center gap-2 justify-between border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2 rounded-none">
+                <div key={idx} className="flex items-center gap-2 justify-between border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2">
                   <span className="text-sm font-mono text-[#173634]">{ip}</span>
-                  <Button variant="ghost" size="sm" className="h-6 rounded-none px-2 text-[#d8e5e2] hover:bg-red-50 hover:text-red-600">
+                  <Button variant="ghost" size="sm" className="h-6 px-2 text-[#d8e5e2] hover:bg-red-50 hover:text-red-600">
                     <Trash2 size={12} />
                   </Button>
                 </div>
               ))}
             </div>
             <div className="flex gap-2">
-              <Input placeholder="192.168.1.0/24" className="h-9 rounded-none border-[#d8e5e2] bg-white text-sm" />
-              <Button className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+              <Input placeholder="192.168.1.0/24" className="h-9 border-[#d8e5e2] bg-white text-sm" />
+              <Button className="h-9 bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
                 Add IP
               </Button>
             </div>
@@ -140,13 +140,13 @@ export default function AdminSettingsPage() {
               <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Single Sign-On (SSO)</Label>
               <p className="text-[10px] text-[#555a56] mt-1">SAML 2.0 and OpenID Connect support for enterprise customers.</p>
             </div>
-            <div className="flex items-center justify-between gap-4 rounded-none border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
+            <div className="flex items-center justify-between gap-4 border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
               <div>
                 <p className="text-sm font-semibold text-[#173634]">Enable SAML SSO</p>
                 <p className="text-xs text-[#555a56]">Configure SAML metadata and login endpoint.</p>
               </div>
-              <button className="relative h-6 w-11 shrink-0 rounded-full border border-[#d8e5e2] bg-white">
-                <span className="absolute left-1 top-1 h-4 w-4 rounded-full bg-[#8fb2aa]/60" />
+              <button className="relative h-6 w-11 shrink-0 border border-[#d8e5e2] bg-white">
+                <span className="absolute left-1 top-1 h-4 w-4 bg-[#8fb2aa]/60" />
               </button>
             </div>
           </div>
@@ -158,11 +158,11 @@ export default function AdminSettingsPage() {
                 <Label className="text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">Audit Log</Label>
                 <p className="text-[10px] text-[#555a56] mt-1">All system and user actions are logged for compliance.</p>
               </div>
-              <Button variant="outline" className="h-8 rounded-none border-[#d8e5e2] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+              <Button variant="outline" className="h-8 border-[#d8e5e2] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
                 Export CSV
               </Button>
             </div>
-            <div className="border border-[#d8e5e2] bg-white rounded-none overflow-hidden">
+            <div className="border border-[#d8e5e2] bg-white overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
                   <tr>

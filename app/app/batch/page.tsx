@@ -77,9 +77,9 @@ export default function BatchPage() {
                   <p className="mt-2 text-sm text-[#173634]/60">
                     {job.processed} of {job.total_items} items processed
                   </p>
-                  <div className="mt-3 h-2 w-full rounded-full bg-[#d8e5e2]">
+                  <div className="mt-3 h-2 w-full bg-[#d8e5e2]">
                     <div
-                      className="h-2 rounded-full bg-[#8fb2aa] transition-all"
+                      className="h-2 bg-[#8fb2aa] transition-all"
                       style={{ width: `${(job.processed / job.total_items) * 100}%` }}
                     />
                   </div>

@@ -31,7 +31,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
         <ArrowLeft size={13} /> Back to agents
       </Link>
 
-      <section className="mb-8 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm">
+      <section className="mb-8 overflow-hidden border border-slate-200 bg-white shadow-sm">
         <div className="grid gap-8 p-6 lg:grid-cols-[1.08fr_0.92fr] lg:p-8">
           <div>
             <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -113,7 +113,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
               <ul className="mt-4 space-y-3">
                 {agent.inputRequirements.map((req) => (
                   <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-primary" />
                     {req}
                   </li>
                 ))}
@@ -125,7 +125,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
                   <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-700" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-slate-700" />
                     {fmt}
                   </li>
                 ))}
@@ -162,8 +162,8 @@ export default async function AppAgentDetailPage({ params }: Props) {
         </div>
 
         <aside className="space-y-5">
-          <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/16 px-3 py-1 text-xs font-medium text-white/95">
+          <div className="sticky top-242xl border border-slate-900/10 bg-slate-950 p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+            <div className="inline-flex items-center gap-2 bg-white/16 px-3 py-1 text-xs font-medium text-white/95">
               <Sparkles size={12} />
               {hasAccess ? 'Ready to run' : 'Locked twin'}
             </div>
@@ -172,7 +172,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
                 ? 'Describe the target, context, and constraints. The workspace will turn that into a structured run.'
                 : `This ${agent.roleMode === 'digital-twin' ? 'digital twin' : 'operator'} requires the ${agent.planRequired} plan or higher.`}
               </p>
-            <div className="mt-5 rounded-2xl border border-white/16 bg-white/14 p-4">
+            <div className="mt-52xl border border-white/16 bg-white/14 p-4">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-white/92">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
@@ -180,16 +180,16 @@ export default async function AppAgentDetailPage({ params }: Props) {
             </div>
             <div className="mt-5 space-y-2">
               {hasAccess ? (
-                <Link href={`/app/run/${agent.slug}`} className="inline-flex w-full items-center justify-center rounded-lg bg-white px-3 py-2 text-sm font-medium text-slate-950 hover:bg-slate-100">
+                <Link href={`/app/run/${agent.slug}`} className="inline-flex w-full items-center justify-center bg-white px-3 py-2 text-sm font-medium text-slate-950 hover:bg-slate-100">
                   Run this {agent.roleMode === 'digital-twin' ? 'twin' : 'operator'} <ArrowRight size={14} className="ml-1.5" />
                 </Link>
               ) : (
-                <Link href="/app/billing" className="inline-flex w-full items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 py-2 text-sm font-medium text-white hover:bg-white/18">
+                <Link href="/app/billing" className="inline-flex w-full items-center justify-center border border-white/24 bg-white/14 px-3 py-2 text-sm font-medium text-white hover:bg-white/18">
                   <Lock size={13} className="mr-1.5" />
                   Upgrade to unlock
                 </Link>
               )}
-              <Link href={hasAccess ? '/app/agents' : '/signup'} className="inline-flex w-full items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 py-2 text-sm font-medium text-white hover:bg-white/18">
+              <Link href={hasAccess ? '/app/agents' : '/signup'} className="inline-flex w-full items-center justify-center border border-white/24 bg-white/14 px-3 py-2 text-sm font-medium text-white hover:bg-white/18">
                 {hasAccess ? 'Browse twins' : 'Sign up'}
               </Link>
             </div>

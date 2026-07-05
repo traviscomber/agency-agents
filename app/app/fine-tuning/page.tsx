@@ -57,11 +57,11 @@ export default function FineTuningPage() {
       </header>
 
       {/* Dataset upload zone */}
-      <div className="mb-10 rounded-none border-2 border-dashed border-[#d8e5e2] bg-[#f1f6f4] p-8 text-center">
+      <div className="mb-10 border-2 border-dashed border-[#d8e5e2] bg-[#f1f6f4] p-8 text-center">
         <Upload size={24} className="mx-auto text-[#8fb2aa] mb-3" />
         <p className="text-sm font-semibold text-[#173634]">Upload Training Dataset</p>
         <p className="mt-1 text-xs text-[#173634]/50">Drag & drop CSV or JSONL files here, or click to browse</p>
-        <Button variant="outline" className="mt-4 h-8 rounded-none border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#fbfbfa]">
+        <Button variant="outline" className="mt-4 h-8 border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#fbfbfa]">
           Select Files
         </Button>
       </div>
@@ -113,10 +113,10 @@ export default function FineTuningPage() {
               <div className="flex gap-2 shrink-0">
                 {model.status === 'ready' && (
                   <>
-                    <Button variant="outline" className="h-8 rounded-none border-[#d8e5e2] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+                    <Button variant="outline" className="h-8 border-[#d8e5e2] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
                       Test
                     </Button>
-                    <Button asChild className="h-8 rounded-none bg-[#173634] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+                    <Button asChild className="h-8 bg-[#173634] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
                       <Link href={`/app/fine-tuning/${model.id}`}>Deploy</Link>
                     </Button>
                   </>

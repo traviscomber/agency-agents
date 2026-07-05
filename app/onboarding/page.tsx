@@ -29,7 +29,7 @@ export default function OnboardingPage() {
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
-                className={`h-2 w-8 rounded-full transition-colors ${
+                className={`h-2 w-8 transition-colors ${
                   s <= step ? 'bg-[#8fb2aa]' : 'bg-[#d8e5e2]'
                 }`}
               />
@@ -127,7 +127,7 @@ export default function OnboardingPage() {
         {/* Step 3: Confirmation */}
         {step === 3 && (
           <div className="space-y-6 text-center">
-            <div className="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-[#f1f6f4]">
+            <div className="mx-auto w-12 h-12 flex items-center justify-center bg-[#f1f6f4]">
               <CheckCircle2 size={24} className="text-[#8fb2aa]" />
             </div>
             <div>

@@ -115,11 +115,11 @@ export default function ProjectsPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Button
                 onClick={() => setShowNew(true)}
-                className="h-10 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]"
+                className="h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]"
               >
                 <Plus size={13} className="mr-1.5" /> New project
               </Button>
-              <Button asChild variant="outline" className="h-10 rounded-none border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
+              <Button asChild variant="outline" className="h-10 border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
                 <Link href="/app/history">Inspect run history</Link>
               </Button>
             </div>
@@ -175,7 +175,7 @@ export default function ProjectsPage() {
           <div className="min-w-[180px]">
             <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Replacement</Label>
             <Select value={replacementFilter} onValueChange={(value) => setReplacementFilter(value as 'all' | '70' | '80')}>
-              <SelectTrigger className="mt-2 h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-xs text-[#173634]">
+              <SelectTrigger className="mt-2 h-9 border-[#d8e5e2] bg-[#fbfbfa] text-xs text-[#173634]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -188,7 +188,7 @@ export default function ProjectsPage() {
           <div className="min-w-[180px]">
             <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Supervision</Label>
             <Select value={supervisionFilter} onValueChange={(value) => setSupervisionFilter(value as 'all' | 'low' | 'medium' | 'high')}>
-              <SelectTrigger className="mt-2 h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-xs capitalize text-[#173634]">
+              <SelectTrigger className="mt-2 h-9 border-[#d8e5e2] bg-[#fbfbfa] text-xs capitalize text-[#173634]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -201,7 +201,7 @@ export default function ProjectsPage() {
           </div>
           <Button
             onClick={() => setShowNew(true)}
-            className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
+            className="h-9 bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
           >
             <Plus size={13} className="mr-1.5" /> New project
           </Button>
@@ -237,7 +237,7 @@ export default function ProjectsPage() {
           <p className="mt-1 text-xs text-[#173634]/45">Create a project to keep each run, its context, and its deliverables together.</p>
           <Button
             onClick={() => setShowNew(true)}
-            className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
+            className="mt-6 h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
           >
             <Plus size={13} className="mr-1.5" /> Create first project
           </Button>
@@ -333,7 +333,7 @@ export default function ProjectsPage() {
                           <p className="mt-1 text-xs leading-5 text-[#52605d]">{getSupervisionGuidance(supervisionLevel)}</p>
                         </div>
                       </div>
-                      <div className="mt-3 rounded-none border border-[#d8e5e2] bg-[#fbfbfa] px-4 py-3">
+                      <div className="mt-3 border border-[#d8e5e2] bg-[#fbfbfa] px-4 py-3">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Program fit</p>
                         <p className="mt-2 text-xs leading-6 text-[#52605d]">
                           {twinProfile.targetCompanies}
@@ -366,7 +366,7 @@ export default function ProjectsPage() {
       )}
 
       <Dialog open={showNew} onOpenChange={setShowNew}>
-        <DialogContent className="n3-panel rounded-none sm:max-w-md">
+        <DialogContent className="n3-panel sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-base font-light text-[#173634]">New project</DialogTitle>
           </DialogHeader>
@@ -405,7 +405,7 @@ export default function ProjectsPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.nativeEvent.isComposing) handleCreate() }}
-                className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
+                className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
               />
             </div>
             <div className="space-y-1.5">
@@ -417,15 +417,15 @@ export default function ProjectsPage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="resize-none rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
+                className="resize-none border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
               />
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowNew(false)} className="h-9 rounded-none border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+            <Button variant="outline" onClick={() => setShowNew(false)} className="h-9 border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
               Cancel
             </Button>
-            <Button onClick={handleCreate} disabled={!name.trim()} className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+            <Button onClick={handleCreate} disabled={!name.trim()} className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
               Create project
             </Button>
           </DialogFooter>
