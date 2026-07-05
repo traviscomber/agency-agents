@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
@@ -23,6 +24,8 @@ export default function ProjectsPage() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [projectType, setProjectType] = useState<ProjectType>('operations')
+  const [replacementFilter, setReplacementFilter] = useState<'all' | '70' | '80'>('all')
+  const [supervisionFilter, setSupervisionFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all')
 
   useEffect(() => {
     void (async () => {
@@ -50,19 +53,51 @@ export default function ProjectsPage() {
         featuredTwinProfiles.length,
       )
     : 0
-  const highSupervisionCount = featuredTwinProfiles.filter((profile) => profile?.supervisionLevel === 'high').length
+  const projectRows = projects.map((project, index) => {
+    const packet = buildProjectHandoffPacket(project)
+    const activeStep = getProjectCurrentWorkflowStep(project.workflow)
+    const mappedTwin = activeStep?.recommendedAgentSlug ? getAgentBySlug(activeStep.recommendedAgentSlug) : null
+    const twinProfile = mappedTwin?.twinProfile ?? featuredTwinProfiles[index % Math.max(featuredTwinProfiles.length, 1)]
+    const replacementScore = twinProfile?.operationalReplacementScore ?? averageReplacement
+    const supervisionLevel = twinProfile?.supervisionLevel ?? 'medium'
+
+    return {
+      project,
+      index,
+      packet,
+      activeStep,
+      mappedTwin,
+      twinProfile,
+      replacementScore,
+      supervisionLevel,
+    }
+  })
+  const filteredProjectRows = projectRows.filter(({ replacementScore, supervisionLevel }) => {
+    const matchesReplacement =
+      replacementFilter === 'all' ||
+      (replacementFilter === '70' && replacementScore >= 70) ||
+      (replacementFilter === '80' && replacementScore >= 80)
+    const matchesSupervision = supervisionFilter === 'all' || supervisionLevel === supervisionFilter
+
+    return matchesReplacement && matchesSupervision
+  })
+  const mappedTwinCount = projectRows.filter((row) => row.twinProfile).length
+  const projectReplacementAverage = projectRows.length
+    ? Math.round(projectRows.reduce((total, row) => total + row.replacementScore, 0) / projectRows.length)
+    : averageReplacement
+  const highSupervisionCount = projectRows.filter((row) => row.supervisionLevel === 'high').length
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
       <header className="n3-panel overflow-hidden">
         <div className="grid gap-px bg-[#d8e5e2] lg:grid-cols-[1.2fr_0.8fr]">
           <div className="bg-[linear-gradient(135deg,_rgba(23,54,52,0.05),_rgba(143,178,170,0.02))] px-6 py-8 sm:px-8">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Work ledger</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Twin program portfolio</p>
             <div className="mt-3 flex items-center justify-between gap-4">
-              <h1 className="text-4xl font-light tracking-[-0.04em] text-[#173634]">Projects become durable operating records.</h1>
+              <h1 className="text-4xl font-light tracking-[-0.04em] text-[#173634]">Every project should expose who can replace the work and where human supervision stays mandatory.</h1>
             </div>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d]">
-              Each initiative should hold the brief, execution history, and saved deliverables in one place. This is where the product starts feeling like a system instead of a set of isolated screens.
+              This portfolio is not just a list of initiatives. It should read like a control surface for program-level digital twins, replacement capacity, and supervision load across active operating tracks.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button
@@ -96,13 +131,13 @@ export default function ProjectsPage() {
         {[
           {
             label: 'Twin coverage',
-            value: `${featuredTwinProfiles.length} active twins`,
-            note: 'Featured role replicas available to attach to operating programs.',
+            value: `${mappedTwinCount}/${projectRows.length || 0} programs`,
+            note: 'Projects currently reading with an attached twin program or featured fallback.',
           },
           {
             label: 'Replacement average',
-            value: `${averageReplacement}%`,
-            note: 'Average repeatable load absorbable across the current featured twin set.',
+            value: `${projectReplacementAverage}%`,
+            note: 'Average repeatable load absorbable across the active project portfolio.',
           },
           {
             label: 'High supervision',
@@ -120,15 +155,44 @@ export default function ProjectsPage() {
 
       <div className="mt-8 flex items-center justify-between gap-4">
         <div>
-          <p className="n3-eyebrow">Portfolio view</p>
-          <p className="mt-1 text-sm text-[#52605d]">A cleaner reading of active work, run density, and saved output volume.</p>
+          <p className="n3-eyebrow">Program board</p>
+          <p className="mt-1 text-sm text-[#52605d]">Filter the portfolio by automation depth and human oversight before you assign the next operating load.</p>
         </div>
-        <Button
-          onClick={() => setShowNew(true)}
-          className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
-        >
-          <Plus size={13} className="mr-1.5" /> New project
-        </Button>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="min-w-[180px]">
+            <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Replacement</Label>
+            <Select value={replacementFilter} onValueChange={(value) => setReplacementFilter(value as 'all' | '70' | '80')}>
+              <SelectTrigger className="mt-2 h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-xs text-[#173634]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All thresholds</SelectItem>
+                <SelectItem value="70">70% or more</SelectItem>
+                <SelectItem value="80">80% or more</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="min-w-[180px]">
+            <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Supervision</Label>
+            <Select value={supervisionFilter} onValueChange={(value) => setSupervisionFilter(value as 'all' | 'low' | 'medium' | 'high')}>
+              <SelectTrigger className="mt-2 h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-xs capitalize text-[#173634]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All levels</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <Button
+            onClick={() => setShowNew(true)}
+            className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
+          >
+            <Plus size={13} className="mr-1.5" /> New project
+          </Button>
+        </div>
       </div>
 
       {projects.length === 0 ? (
@@ -142,15 +206,15 @@ export default function ProjectsPage() {
             <Plus size={13} className="mr-1.5" /> Create first project
           </Button>
         </div>
+      ) : filteredProjectRows.length === 0 ? (
+        <div className="mt-6 border border-[#d8e5e2] bg-[#fbfbfa] px-8 py-16 text-center">
+          <p className="text-sm font-medium text-[#173634]">No programs match the active filters</p>
+          <p className="mt-1 text-xs text-[#52605d]">Relax the replacement or supervision threshold to inspect the rest of the portfolio.</p>
+        </div>
       ) : (
         <div className="mt-6 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project, index) => (
+          {filteredProjectRows.map(({ project, index, packet, twinProfile, replacementScore, supervisionLevel }) => (
             (() => {
-              const packet = buildProjectHandoffPacket(project)
-              const activeStep = getProjectCurrentWorkflowStep(project.workflow)
-              const mappedTwin = activeStep?.recommendedAgentSlug ? getAgentBySlug(activeStep.recommendedAgentSlug) : null
-              const twinProfile = mappedTwin?.twinProfile ?? featuredTwinProfiles[index % Math.max(featuredTwinProfiles.length, 1)]
-
               return (
                 <article key={project.id} className="n3-card n3-panel flex flex-col p-5 transition-colors hover:bg-[#f1f6f4]">
                   <div className="mb-4 flex items-start justify-between gap-3">
@@ -212,14 +276,14 @@ export default function ProjectsPage() {
                       <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
                         <p className="n3-eyebrow">Replacement</p>
                         <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">
-                          {twinProfile.operationalReplacementScore ?? averageReplacement}%
+                          {replacementScore}%
                         </p>
                         <p className="mt-1 text-xs leading-5 text-[#52605d]">{twinProfile.roleLabel}</p>
                       </div>
                       <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
                         <p className="n3-eyebrow">Supervision</p>
                         <p className="mt-1 text-2xl font-light capitalize tracking-[-0.04em] text-[#173634]">
-                          {twinProfile.supervisionLevel ?? 'medium'}
+                          {supervisionLevel}
                         </p>
                         <p className="mt-1 text-xs leading-5 text-[#52605d]">Required review before higher-risk moves.</p>
                       </div>

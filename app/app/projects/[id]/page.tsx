@@ -301,6 +301,9 @@ export default function ProjectDetailPage({ params }: Props) {
   const latestDeliverable = saved[0]
   const projectTypeLabel = getProjectTypeLabel(activeProject.projectType)
   const activeStepMeta = activeStep ? getWorkflowStatusMeta(activeStep.status) : null
+  const recommendedTwinProfile = recommendedAgent?.twinProfile ?? null
+  const programReplacementScore = recommendedTwinProfile?.operationalReplacementScore ?? null
+  const programSupervision = recommendedTwinProfile?.supervisionLevel ?? null
   const operatingHealth = activeStep
     ? activeStep.status === 'blocked'
       ? 'Blocked pending unblock action'
@@ -398,6 +401,25 @@ export default function ProjectDetailPage({ params }: Props) {
       note: 'recent operating events available for recovery',
     },
   ]
+  const twinSignals = recommendedTwinProfile
+    ? [
+        {
+          label: 'Replacement capacity',
+          value: `${programReplacementScore ?? 0}%`,
+          note: recommendedTwinProfile.replacementScope,
+        },
+        {
+          label: 'Supervision model',
+          value: programSupervision ?? 'medium',
+          note: 'Defines how much human review stays mandatory before the twin can move.',
+        },
+        {
+          label: 'Twin fit',
+          value: recommendedTwinProfile.roleLabel,
+          note: `${recommendedTwinProfile.seniority} coverage tuned for ${recommendedTwinProfile.geography}.`,
+        },
+      ]
+    : []
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
@@ -425,8 +447,8 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">{project.description}</p>
             )}
             <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-700">
-              This project view should function as the live operating layer for the initiative: brief, decision trail, workflow ownership,
-              execution history, and reusable deliverables in one recoverable surface.
+              This should behave like a Twin OS operating record: the program brief, the twin assigned to the current stage, the supervision load,
+              and the recoverable execution history should all stay visible in one surface.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-700">
@@ -439,6 +461,16 @@ export default function ProjectDetailPage({ params }: Props) {
               <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
                 <Calendar size={11} /> Updated {formatDate(project.updatedAt)}
               </span>
+              {programReplacementScore !== null ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1.5 text-[#173634]">
+                  Replacement {programReplacementScore}%
+                </span>
+              ) : null}
+              {programSupervision ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1.5 capitalize text-[#173634]">
+                  {programSupervision} supervision
+                </span>
+              ) : null}
             </div>
           </div>
 
@@ -452,6 +484,15 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Project status</p>
               <p className="mt-3 text-2xl font-semibold capitalize text-foreground">{project.status}</p>
               <p className="mt-1 text-sm text-slate-700">Last updated {formatDate(project.updatedAt)} with brief, workflow, runs, and saved state attached.</p>
+            </div>
+            <div className="n3-subpanel rounded-[1.25rem] p-5 shadow-sm">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Twin program</p>
+              <p className="mt-3 text-lg font-semibold text-foreground">{recommendedTwinProfile?.roleLabel || 'No twin mapped yet'}</p>
+              <p className="mt-1 text-sm text-slate-700">
+                {recommendedTwinProfile
+                  ? `${programReplacementScore ?? 0}% replacement with ${programSupervision ?? 'medium'} supervision for the current phase.`
+                  : 'Map a specialist to the active workflow step to expose replacement and supervision guidance.'}
+              </p>
             </div>
           </div>
         </div>
@@ -512,6 +553,18 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="mt-1 text-xs leading-5 text-slate-700">
                 {recommendedAgent?.shortDescription || 'Assign a recommended specialist so the next run can inherit the right context.'}
               </p>
+              {recommendedTwinProfile ? (
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <div className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">Replacement</p>
+                    <p className="mt-1 text-sm font-semibold text-foreground">{programReplacementScore ?? 0}%</p>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">Supervision</p>
+                    <p className="mt-1 text-sm font-semibold capitalize text-foreground">{programSupervision ?? 'medium'}</p>
+                  </div>
+                </div>
+              ) : null}
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-[#f8fafc] p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Next step after this</p>
@@ -652,6 +705,18 @@ export default function ProjectDetailPage({ params }: Props) {
         ))}
       </section>
 
+      {twinSignals.length ? (
+        <section className="mt-6 grid gap-4 md:grid-cols-3">
+          {twinSignals.map((item) => (
+            <article key={item.label} className="rounded-[1.35rem] border border-[#d8e5e2] bg-[#eef5f2] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.2)]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#52605d]">{item.label}</p>
+              <p className="mt-3 text-3xl font-semibold capitalize tracking-[-0.04em] text-[#173634]">{item.value}</p>
+              <p className="mt-2 text-sm leading-6 text-[#52605d]">{item.note}</p>
+            </article>
+          ))}
+        </section>
+      ) : null}
+
       {isEditingBrief && briefDraft ? (
         <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
           <div className="flex items-center justify-between gap-3">
@@ -789,102 +854,124 @@ export default function ProjectDetailPage({ params }: Props) {
             {workflow.length ? (
               <div className="grid gap-4 md:grid-cols-3">
                 {workflow.map((step, index) => (
-                  <article
-                    key={step.id}
-                    className="rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Step {index + 1}</p>
-                      <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]', getWorkflowStatusMeta(step.status).tone)}>
-                        {getWorkflowStatusMeta(step.status).label}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 text-base font-semibold text-foreground">{step.name}</h3>
-                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-700">{step.owner}</p>
-                    <p className="mt-2 text-[11px] leading-5 text-slate-600">{getWorkflowStatusMeta(step.status).description}</p>
-                    {step.statusSource ? <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">{step.statusSource === 'auto' ? 'Auto inferred' : step.statusSource === 'manual' ? 'Manual override' : 'Default state'}</p> : null}
-                    {step.statusReason ? <p className="mt-2 text-[11px] leading-5 text-slate-600">{step.statusReason}</p> : null}
-                    <p className="mt-3 text-sm leading-6 text-slate-700">{step.detail}</p>
-                    {(() => {
-                      const workflowProject = {
-                        ...project,
-                        operatingBrief,
-                        memory,
-                        workflow,
-                      }
-                      const preset = buildProjectRunPresetForStep(
-                        workflowProject,
-                        step,
-                      )
-                      const presetHref = buildProjectRunHrefForStep(workflowProject, step)
+                  (() => {
+                    const stepAgentSlug = resolveRecommendedAgentSlug(step)
+                    const stepAgent = stepAgentSlug ? getAgentBySlug(stepAgentSlug) : null
+                    const stepTwinProfile = stepAgent?.twinProfile ?? null
 
-                      return preset ? (
-                        <div className="mt-4 rounded-[1rem] border border-slate-200 bg-white p-4">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Run preview</p>
-                          <p className="mt-2 text-sm font-semibold text-foreground">
-                            {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped specialist'}
-                          </p>
-                          <p className="mt-1 text-xs leading-5 text-slate-700">
-                            Output: {preset.desiredOutput} · Depth: {preset.detailLevel}
-                          </p>
-                          <p className="mt-2 text-xs leading-5 text-slate-700">{preset.rationale}</p>
-                          {presetHref ? (
-                            <div className="mt-3">
-                              <Link
-                                href={presetHref}
-                                className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-700 hover:text-foreground"
-                              >
-                                Open preset run <ArrowRight size={11} />
-                              </Link>
-                            </div>
-                          ) : null}
+                    return (
+                      <article
+                        key={step.id}
+                        className="rounded-[1.35rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)]"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-700">Step {index + 1}</p>
+                          <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]', getWorkflowStatusMeta(step.status).tone)}>
+                            {getWorkflowStatusMeta(step.status).label}
+                          </span>
                         </div>
-                      ) : null
-                    })()}
-                    <div className="mt-4">
-                      <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
-                        Operating status
-                      </Label>
-                      <Select
-                        value={step.status}
-                        onValueChange={(value) => void updateWorkflowStatus(step.id, value as ProjectWorkflowStatus)}
-                      >
-                        <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="ready">Ready</SelectItem>
-                          <SelectItem value="active">Active</SelectItem>
-                          <SelectItem value="awaiting-decision">Awaiting decision</SelectItem>
-                          <SelectItem value="at-risk">At risk</SelectItem>
-                          <SelectItem value="blocked">Blocked</SelectItem>
-                          <SelectItem value="done">Done</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="mt-4">
-                      <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
-                        Recommended specialist
-                      </Label>
-                      <Select
-                        value={step.recommendedAgentSlug ?? 'none'}
-                        onValueChange={(value) => void updateWorkflowRecommendedAgent(step.id, value ?? 'none')}
-                      >
-                        <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
-                          <SelectValue placeholder="Select specialist" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">No recommendation</SelectItem>
-                          {selectableAgents.map((agent) => (
-                            <SelectItem key={agent.id} value={agent.slug}>
-                              {agent.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    {step.linkedRunLabel ? <p className="mt-4 text-xs text-slate-700">Linked run: {step.linkedRunLabel}</p> : null}
-                  </article>
+                        <h3 className="mt-3 text-base font-semibold text-foreground">{step.name}</h3>
+                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-700">{step.owner}</p>
+                        <p className="mt-2 text-[11px] leading-5 text-slate-600">{getWorkflowStatusMeta(step.status).description}</p>
+                        {step.statusSource ? <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">{step.statusSource === 'auto' ? 'Auto inferred' : step.statusSource === 'manual' ? 'Manual override' : 'Default state'}</p> : null}
+                        {step.statusReason ? <p className="mt-2 text-[11px] leading-5 text-slate-600">{step.statusReason}</p> : null}
+                        <p className="mt-3 text-sm leading-6 text-slate-700">{step.detail}</p>
+                        {stepTwinProfile ? (
+                          <div className="mt-4 grid grid-cols-2 gap-2">
+                            <div className="rounded-[1rem] border border-[#d8e5e2] bg-[#eef5f2] px-3 py-3">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Replacement</p>
+                              <p className="mt-1 text-lg font-semibold text-[#173634]">{stepTwinProfile.operationalReplacementScore ?? 0}%</p>
+                              <p className="mt-1 text-[11px] leading-5 text-[#52605d]">{stepTwinProfile.roleLabel}</p>
+                            </div>
+                            <div className="rounded-[1rem] border border-[#d8e5e2] bg-[#eef5f2] px-3 py-3">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Supervision</p>
+                              <p className="mt-1 text-lg font-semibold capitalize text-[#173634]">{stepTwinProfile.supervisionLevel ?? 'medium'}</p>
+                              <p className="mt-1 text-[11px] leading-5 text-[#52605d]">{stepAgent?.name}</p>
+                            </div>
+                          </div>
+                        ) : null}
+                        {(() => {
+                          const workflowProject = {
+                            ...project,
+                            operatingBrief,
+                            memory,
+                            workflow,
+                          }
+                          const preset = buildProjectRunPresetForStep(
+                            workflowProject,
+                            step,
+                          )
+                          const presetHref = buildProjectRunHrefForStep(workflowProject, step)
+
+                          return preset ? (
+                            <div className="mt-4 rounded-[1rem] border border-slate-200 bg-white p-4">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Run preview</p>
+                              <p className="mt-2 text-sm font-semibold text-foreground">
+                                {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped specialist'}
+                              </p>
+                              <p className="mt-1 text-xs leading-5 text-slate-700">
+                                Output: {preset.desiredOutput} · Depth: {preset.detailLevel}
+                              </p>
+                              <p className="mt-2 text-xs leading-5 text-slate-700">{preset.rationale}</p>
+                              {presetHref ? (
+                                <div className="mt-3">
+                                  <Link
+                                    href={presetHref}
+                                    className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-700 hover:text-foreground"
+                                  >
+                                    Open preset run <ArrowRight size={11} />
+                                  </Link>
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : null
+                        })()}
+                        <div className="mt-4">
+                          <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
+                            Operating status
+                          </Label>
+                          <Select
+                            value={step.status}
+                            onValueChange={(value) => void updateWorkflowStatus(step.id, value as ProjectWorkflowStatus)}
+                          >
+                            <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="ready">Ready</SelectItem>
+                              <SelectItem value="active">Active</SelectItem>
+                              <SelectItem value="awaiting-decision">Awaiting decision</SelectItem>
+                              <SelectItem value="at-risk">At risk</SelectItem>
+                              <SelectItem value="blocked">Blocked</SelectItem>
+                              <SelectItem value="done">Done</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="mt-4">
+                          <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
+                            Recommended specialist
+                          </Label>
+                          <Select
+                            value={step.recommendedAgentSlug ?? 'none'}
+                            onValueChange={(value) => void updateWorkflowRecommendedAgent(step.id, value ?? 'none')}
+                          >
+                            <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
+                              <SelectValue placeholder="Select specialist" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="none">No recommendation</SelectItem>
+                              {selectableAgents.map((agent) => (
+                                <SelectItem key={agent.id} value={agent.slug}>
+                                  {agent.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        {step.linkedRunLabel ? <p className="mt-4 text-xs text-slate-700">Linked run: {step.linkedRunLabel}</p> : null}
+                      </article>
+                    )
+                  })()
                 ))}
               </div>
             ) : null}
