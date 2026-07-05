@@ -1,11 +1,46 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ArrowRight, Shield } from 'lucide-react'
 import { H1Hero, H2Section, H3, Eyebrow, Body } from '@/components/shared/Typography'
 import { Button } from '@/components/shared/ButtonStyled'
 import { Card } from '@/components/shared/CardStyled'
 import { Badge } from '@/components/shared/BadgeStyled'
+import { createClient } from '@/lib/supabase/client'
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setLoading(true)
+
+    try {
+      const supabase = createClient()
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (authError) {
+        setError(authError.message)
+        setLoading(false)
+        return
+      }
+
+      router.push('/app')
+    } catch (err) {
+      setError('An unexpected error occurred')
+      setLoading(false)
+    }
+  }
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#060a10' }}>
       <div className="mx-auto grid min-h-screen max-w-6xl gap-px px-0 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
@@ -73,8 +108,13 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <form className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4">
             <Card variant="light" className="p-6">
+              {error && (
+                <div className="mb-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-700">
+                  {error}
+                </div>
+              )}
               <div className="space-y-1.5">
                 <label htmlFor="email" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
                   Email
@@ -83,7 +123,11 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   placeholder="you@example.com"
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
+                  required
                 />
               </div>
               <div className="space-y-1.5">
@@ -99,11 +143,21 @@ export default function LoginPage() {
                   id="password"
                   type="password"
                   placeholder="Enter your password"
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
+                  required
                 />
               </div>
-              <Button type="submit" variant="primary" size="md" className="w-full inline-flex items-center justify-center gap-2">
-                Sign in <ArrowRight size={13} />
+              <Button 
+                type="submit" 
+                variant="primary" 
+                size="md" 
+                disabled={loading}
+                className="w-full inline-flex items-center justify-center gap-2"
+              >
+                {loading ? 'Signing in...' : <>Sign in <ArrowRight size={13} /></>}
               </Button>
             </Card>
             </form>

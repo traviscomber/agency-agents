@@ -8,6 +8,7 @@ import { H1Hero, H2Section, H3, Eyebrow, Body } from '@/components/shared/Typogr
 import { Button } from '@/components/shared/ButtonStyled'
 import { Card } from '@/components/shared/CardStyled'
 import { Badge } from '@/components/shared/BadgeStyled'
+import { createClient } from '@/lib/supabase/client'
 
 const BENEFITS = [
   '5 free twin runs per month',
@@ -30,22 +31,29 @@ export default function SignupPage() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, fullName }),
+      const supabase = createClient()
+      const { error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
+          emailRedirectTo:
+            process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ??
+            `${window.location.origin}/auth/callback`,
+        },
       })
 
-      if (!res.ok) {
-        const data = await res.json()
-        setError(data.error || 'Signup failed')
+      if (authError) {
+        setError(authError.message)
+        setLoading(false)
         return
       }
 
-      router.push('/onboarding')
+      router.push('/signup-success')
     } catch (err: any) {
       setError(err.message || 'An error occurred')
-    } finally {
       setLoading(false)
     }
   }
@@ -118,6 +126,11 @@ export default function SignupPage() {
 
             <form onSubmit={handleSignup} className="space-y-4">
             <Card variant="light" className="p-6">
+              {error && (
+                <div className="mb-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-700">
+                  {error}
+                </div>
+              )}
               <div className="space-y-1.5">
                 <label htmlFor="name" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
                   Full name
@@ -128,7 +141,8 @@ export default function SignupPage() {
                   placeholder="Your name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
                   required
                 />
               </div>
@@ -142,7 +156,8 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
                   required
                 />
               </div>
@@ -156,11 +171,11 @@ export default function SignupPage() {
                   placeholder="At least 8 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
                   required
                 />
               </div>
-              {error && <div className="rounded text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2">{error}</div>}
               <Button
                 type="submit"
                 variant="primary"
