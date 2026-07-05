@@ -1,10 +1,12 @@
 import { AppSidebar } from '@/components/app/AppSidebar'
 import { AppHeader } from '@/components/app/AppHeader'
 import { OnboardingProvider } from '@/components/app/OnboardingContext'
+import { OnboardingWelcome } from '@/components/app/OnboardingWelcome'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <OnboardingProvider>
+      <OnboardingWelcome />
       <div className="n3-app-shell relative flex min-h-screen overflow-hidden" style={{ backgroundColor: '#f1f6f4' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top_left,_rgba(143,178,170,0.22),_transparent_58%)]" />
