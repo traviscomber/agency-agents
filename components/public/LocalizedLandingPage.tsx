@@ -78,7 +78,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 <FadeInUp delay={0.26}>
                   <div className="mt-10 grid gap-3 sm:grid-cols-3">
                     {copy.heroSignals.map(([title, body]) => (
-                      <div key={title} className="rounded-[1.35rem] border border-white/10 bg-white/5 px-4 py-4">
+                      <div key={title} className="border border-[#1e3431] bg-[#0d1917] px-4 py-4">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
                         <p className="mt-2 text-sm text-[#d9e3e0]">{body}</p>
                       </div>
@@ -88,7 +88,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
               </div>
 
               <FadeInUp delay={0.12}>
-                <div className="rounded-[2rem] border border-white/10 bg-[#0d1f1d]/92 p-6 shadow-[0_28px_90px_-42px_rgba(0,0,0,0.65)]">
+                <div className="border border-[#1e3431] bg-[#0d1917] p-6">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex flex-wrap gap-2">
                       {copy.controlSurfaceBadges.map((item) => (

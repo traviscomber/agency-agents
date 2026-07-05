@@ -65,9 +65,9 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                 {copy.curationSignals.map(([title, desc], index) => {
                   const Icon = CURATION_ICONS[index]
                   return (
-                    <div key={title} className="rounded-[1.35rem] border border-white/10 bg-white/5 p-4">
+                    <div key={title} className="border border-[#1e3431] bg-[#0d1917] p-4">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-[#8fb2aa]">
+                        <div className="flex h-9 w-9 items-center justify-center bg-[#142522] text-[#8fb2aa]">
                           <Icon size={15} />
                         </div>
                         <p className="text-sm font-semibold text-white">{title}</p>
