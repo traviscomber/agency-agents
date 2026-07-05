@@ -57,6 +57,18 @@ function formatDateTime(date: string) {
   }).format(new Date(date))
 }
 
+function getReplacementBand(score: number) {
+  if (score >= 80) return 'Autonomous lane'
+  if (score >= 70) return 'Managed replacement'
+  return 'Assistive support'
+}
+
+function getSupervisionGuidance(level: 'low' | 'medium' | 'high') {
+  if (level === 'low') return 'Light operator review and spot checks are enough for most routine execution.'
+  if (level === 'medium') return 'A human should stay in the loop before higher-impact decisions or external actions.'
+  return 'This lane should remain under explicit human approval before the twin executes sensitive work.'
+}
+
 function resolveRecommendedAgentSlug(step?: ProjectWorkflowStep) {
   if (!step) return null
   if (step.recommendedAgentSlug) return step.recommendedAgentSlug
@@ -420,6 +432,22 @@ export default function ProjectDetailPage({ params }: Props) {
         },
       ]
     : []
+  const twinMandate = recommendedTwinProfile
+    ? [
+        {
+          label: 'Market fit',
+          value: recommendedTwinProfile.targetCompanies,
+        },
+        {
+          label: 'Key KPIs',
+          value: recommendedTwinProfile.keyKPIs.join(' · '),
+        },
+        {
+          label: 'Core routines',
+          value: recommendedTwinProfile.coreRoutines.join(' · '),
+        },
+      ]
+    : []
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
@@ -441,6 +469,11 @@ export default function ProjectDetailPage({ params }: Props) {
               <div className="n3-chip-soft">
                 {projectTypeLabel}
               </div>
+              {programReplacementScore !== null ? (
+                <div className="n3-chip-soft">
+                  {getReplacementBand(programReplacementScore)}
+                </div>
+              ) : null}
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{project.name}</h1>
             {project.description && (
@@ -493,6 +526,9 @@ export default function ProjectDetailPage({ params }: Props) {
                   ? `${programReplacementScore ?? 0}% replacement with ${programSupervision ?? 'medium'} supervision for the current phase.`
                   : 'Map a specialist to the active workflow step to expose replacement and supervision guidance.'}
               </p>
+              {programSupervision ? (
+                <p className="mt-3 text-xs leading-6 text-slate-600">{getSupervisionGuidance(programSupervision)}</p>
+              ) : null}
             </div>
           </div>
         </div>
@@ -564,6 +600,9 @@ export default function ProjectDetailPage({ params }: Props) {
                     <p className="mt-1 text-sm font-semibold capitalize text-foreground">{programSupervision ?? 'medium'}</p>
                   </div>
                 </div>
+              ) : null}
+              {programSupervision ? (
+                <p className="mt-3 text-xs leading-5 text-slate-600">{getSupervisionGuidance(programSupervision)}</p>
               ) : null}
             </div>
             <div className="rounded-[1.25rem] border border-slate-200 bg-[#f8fafc] p-4">
@@ -714,6 +753,45 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="mt-2 text-sm leading-6 text-[#52605d]">{item.note}</p>
             </article>
           ))}
+        </section>
+      ) : null}
+
+      {twinMandate.length ? (
+        <section className="mt-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Twin mandate</p>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">What this program is actually designed to replace</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              A differentiated twin product needs more than an agent name. It should expose where the twin fits, which throughput it owns, and how operators should supervise it.
+            </p>
+            <div className="mt-5 space-y-4">
+              {twinMandate.map((item) => (
+                <div key={item.label} className="rounded-[1.2rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">{item.label}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+          <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Supervision protocol</p>
+            <h2 className="mt-2 text-xl font-semibold text-foreground">Human control stays explicit instead of implied</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              The product becomes more credible when each program declares its automation ceiling and review model instead of pretending every twin can run fully autonomous.
+            </p>
+            <div className="mt-5 rounded-[1.35rem] border border-[#d8e5e2] bg-[#eef5f2] p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#52605d]">Current guidance</p>
+              <p className="mt-3 text-2xl font-semibold capitalize text-[#173634]">{programSupervision ?? 'medium'} supervision</p>
+              <p className="mt-2 text-sm leading-6 text-[#52605d]">
+                {programSupervision ? getSupervisionGuidance(programSupervision) : 'No supervision protocol is available until a twin is mapped to the active step.'}
+              </p>
+            </div>
+            {recommendedTwinProfile ? (
+              <p className="mt-4 text-xs leading-6 text-slate-600">
+                Industries: {recommendedTwinProfile.industries.join(' · ')}
+              </p>
+            ) : null}
+          </article>
         </section>
       ) : null}
 
@@ -881,7 +959,7 @@ export default function ProjectDetailPage({ params }: Props) {
                             <div className="rounded-[1rem] border border-[#d8e5e2] bg-[#eef5f2] px-3 py-3">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Replacement</p>
                               <p className="mt-1 text-lg font-semibold text-[#173634]">{stepTwinProfile.operationalReplacementScore ?? 0}%</p>
-                              <p className="mt-1 text-[11px] leading-5 text-[#52605d]">{stepTwinProfile.roleLabel}</p>
+                              <p className="mt-1 text-[11px] leading-5 text-[#52605d]">{getReplacementBand(stepTwinProfile.operationalReplacementScore ?? 0)}</p>
                             </div>
                             <div className="rounded-[1rem] border border-[#d8e5e2] bg-[#eef5f2] px-3 py-3">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Supervision</p>
@@ -889,6 +967,11 @@ export default function ProjectDetailPage({ params }: Props) {
                               <p className="mt-1 text-[11px] leading-5 text-[#52605d]">{stepAgent?.name}</p>
                             </div>
                           </div>
+                        ) : null}
+                        {stepTwinProfile ? (
+                          <p className="mt-3 text-xs leading-5 text-slate-600">
+                            {getSupervisionGuidance(stepTwinProfile.supervisionLevel ?? 'medium')}
+                          </p>
                         ) : null}
                         {(() => {
                           const workflowProject = {

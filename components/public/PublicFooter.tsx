@@ -1,23 +1,14 @@
-import Link from 'next/link'
+'use client'
 
-const LINKS = {
-  Product: [
-    { href: '/agents', label: 'Specialists' },
-    { href: '/pricing', label: 'Pricing' },
-    { href: '/app', label: 'Workspace' },
-  ],
-  Account: [
-    { href: '/signup', label: 'Create account' },
-    { href: '/login', label: 'Log in' },
-    { href: '/forgot-password', label: 'Reset password' },
-  ],
-  Company: [
-    { href: '/agents', label: 'Specialist system' },
-    { href: '/pricing', label: 'Plans' },
-  ],
-}
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { getLocaleFromPathname, publicFooterCopy } from '@/lib/marketing-i18n'
 
 export function PublicFooter() {
+  const pathname = usePathname()
+  const locale = getLocaleFromPathname(pathname) ?? 'en'
+  const copy = publicFooterCopy[locale]
+
   return (
     <footer className="border-t border-[#d8e5e2] bg-[#f1f6f4]">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
@@ -30,14 +21,14 @@ export function PublicFooter() {
               <span className="text-sm font-semibold text-[#173634]">N3uralia Studio</span>
             </div>
             <p className="mt-4 max-w-[19rem] text-sm leading-7 text-[#65706d]">
-              An operating system for specialist work: workflow state, project memory, reusable deliverables, and runs that stay attached to the workstream.
+              {copy.description}
             </p>
             <p className="mt-6 text-xs text-[#65706d]">
-              &copy; {new Date().getFullYear()} N3uralia Studio. All rights reserved.
+              &copy; {new Date().getFullYear()} N3uralia Studio. {copy.rights}
             </p>
           </div>
 
-          {Object.entries(LINKS).map(([group, items]) => (
+          {Object.entries(copy.groups).map(([group, items]) => (
             <div key={group}>
               <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">
                 {group}

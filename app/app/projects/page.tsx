@@ -18,6 +18,18 @@ function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
 }
 
+function getReplacementBand(score: number) {
+  if (score >= 80) return 'Autonomous lane'
+  if (score >= 70) return 'Managed replacement'
+  return 'Assistive support'
+}
+
+function getSupervisionGuidance(level: 'low' | 'medium' | 'high') {
+  if (level === 'low') return 'Can move with lightweight approval and spot checks.'
+  if (level === 'medium') return 'Needs regular review before higher-impact decisions.'
+  return 'Should stay under explicit human approval before execution.'
+}
+
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS)
   const [showNew, setShowNew] = useState(false)
@@ -86,6 +98,7 @@ export default function ProjectsPage() {
     ? Math.round(projectRows.reduce((total, row) => total + row.replacementScore, 0) / projectRows.length)
     : averageReplacement
   const highSupervisionCount = projectRows.filter((row) => row.supervisionLevel === 'high').length
+  const activeFilterCount = filteredProjectRows.length
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
@@ -195,6 +208,29 @@ export default function ProjectsPage() {
         </div>
       </div>
 
+      <section className="mt-4 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="bg-[#fbfbfa] px-5 py-4">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">Board readout</p>
+          <p className="mt-2 text-2xl font-light tracking-[-0.04em] text-[#173634]">{activeFilterCount} visible programs</p>
+          <p className="mt-1 text-xs leading-6 text-[#52605d]">
+            Use this board to separate twins that mainly assist from twins that can absorb repeatable operating load with defined supervision.
+          </p>
+        </div>
+        <div className="bg-[#f1f6f4] px-5 py-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-[#d8e5e2] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
+              Replacement: {replacementFilter === 'all' ? 'all' : `${replacementFilter}%+`}
+            </span>
+            <span className="rounded-full border border-[#d8e5e2] bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
+              Supervision: {supervisionFilter}
+            </span>
+          </div>
+          <p className="mt-3 text-xs leading-6 text-[#52605d]">
+            `Autonomous lane` means the twin can own most repeatable throughput. `Managed replacement` still needs regular operator review. `Assistive support` helps, but does not yet replace the lane.
+          </p>
+        </div>
+      </section>
+
       {projects.length === 0 ? (
         <div className="mt-6 border border-[#d8e5e2] px-8 py-16 text-center">
           <p className="text-sm font-medium text-[#173634]">No projects yet</p>
@@ -272,20 +308,36 @@ export default function ProjectsPage() {
                   </div>
 
                   {twinProfile ? (
-                    <div className="mt-4 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
-                      <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
-                        <p className="n3-eyebrow">Replacement</p>
-                        <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">
-                          {replacementScore}%
-                        </p>
-                        <p className="mt-1 text-xs leading-5 text-[#52605d]">{twinProfile.roleLabel}</p>
+                    <div className="mt-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
+                          {getReplacementBand(replacementScore)}
+                        </span>
+                        <span className="rounded-full border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
+                          {twinProfile.geography}
+                        </span>
                       </div>
-                      <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
-                        <p className="n3-eyebrow">Supervision</p>
-                        <p className="mt-1 text-2xl font-light capitalize tracking-[-0.04em] text-[#173634]">
-                          {supervisionLevel}
+                      <div className="mt-3 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
+                        <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
+                          <p className="n3-eyebrow">Replacement</p>
+                          <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">
+                            {replacementScore}%
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{twinProfile.roleLabel}</p>
+                        </div>
+                        <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
+                          <p className="n3-eyebrow">Supervision</p>
+                          <p className="mt-1 text-2xl font-light capitalize tracking-[-0.04em] text-[#173634]">
+                            {supervisionLevel}
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{getSupervisionGuidance(supervisionLevel)}</p>
+                        </div>
+                      </div>
+                      <div className="mt-3 rounded-none border border-[#d8e5e2] bg-[#fbfbfa] px-4 py-3">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Program fit</p>
+                        <p className="mt-2 text-xs leading-6 text-[#52605d]">
+                          {twinProfile.targetCompanies}
                         </p>
-                        <p className="mt-1 text-xs leading-5 text-[#52605d]">Required review before higher-risk moves.</p>
                       </div>
                     </div>
                   ) : null}
