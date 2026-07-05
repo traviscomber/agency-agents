@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Bot, FolderOpen, History, Bookmark,
   BarChart2, CreditCard, Settings, LogOut, ArrowUpRight, Clock, TrendingUp,
-  Zap, Workflow, Cpu, Store, Database, Award,
+  Zap, Workflow, Cpu, Store, Database, Award, HelpCircle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UsageMeter } from '@/components/shared/UsageMeter'
@@ -40,6 +40,7 @@ const NAV_ACCOUNT = [
   { href: '/app/usage',    label: 'Usage',     icon: BarChart2 },
   { href: '/app/billing',  label: 'Billing',   icon: CreditCard },
   { href: '/app/settings', label: 'Settings',  icon: Settings },
+  { href: '/app/help',     label: 'Help',      icon: HelpCircle },
 ]
 
 export function AppSidebar() {

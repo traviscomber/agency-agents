@@ -8,6 +8,7 @@ import {
   BarChart2, CreditCard, Settings, LogOut, Menu, X, ArrowUpRight, Moon, Sun,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { getLocaleFromPathname } from '@/lib/marketing-i18n'
 
 const NAV_ITEMS = [
   { href: '/app',          label: 'Dashboard', icon: LayoutDashboard },
@@ -39,7 +40,13 @@ export function AppHeader({ title }: AppHeaderProps) {
   const [open, setOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
   const pathname = usePathname()
+  const locale = getLocaleFromPathname(pathname) ?? 'en'
   const currentTitle = useMemo(() => title ?? TITLE_MAP[pathname] ?? 'N3uralia Studio', [pathname, title])
+
+  const getLocalizedPath = (newLocale: string) => {
+    const withoutLocale = pathname.replace(/^\/(en|es)/, '')
+    return `/${newLocale}${withoutLocale || '/app'}`
+  }
 
   const toggleTheme = () => {
     setIsDark(!isDark)
@@ -81,8 +88,22 @@ export function AppHeader({ title }: AppHeaderProps) {
           </div>
         </div>
 
-        {/* Right: theme toggle + quick action */}
+        {/* Right: language toggle + theme toggle + quick action */}
         <div className="flex items-center gap-2">
+          <div className="flex items-center border border-[#d8e5e2] bg-[#f1f6f4] p-1">
+            {(['es', 'en'] as const).map((code) => (
+              <Link
+                key={code}
+                href={getLocalizedPath(code)}
+                className={cn(
+                  'px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] transition-colors',
+                  locale === code ? 'bg-[#173634] text-[#d9e3e0]' : 'text-[#789b96] hover:text-[#173634]'
+                )}
+              >
+                {code}
+              </Link>
+            ))}
+          </div>
           <button
             onClick={toggleTheme}
             className="flex h-8 w-8 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#8fb2aa] transition-colors hover:bg-[#edf4f1]"
@@ -125,7 +146,22 @@ export function AppHeader({ title }: AppHeaderProps) {
               </Link>
             ))}
           </nav>
-          <div className="mt-2 border-t border-[#d8e5e2] pt-2">
+          <div className="mt-4 flex items-center gap-2 border-t border-[#d8e5e2] pt-3">
+            {(['es', 'en'] as const).map((code) => (
+              <Link
+                key={code}
+                href={getLocalizedPath(code)}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  'rounded-full border border-[#d8e5e2] px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.16em] transition-colors',
+                  locale === code ? 'bg-[#173634] text-[#d9e3e0]' : 'text-[#789b96] hover:bg-[#edf4f1]'
+                )}
+              >
+                {code}
+              </Link>
+            ))}
+          </div>
+          <div className="mt-3 border-t border-[#d8e5e2] pt-3">
             <Link
               href="/login"
               onClick={() => setOpen(false)}

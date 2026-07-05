@@ -4,6 +4,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { H1Hero, H2Section, H3, Eyebrow, Body } from '@/components/shared/Typography'
+import { Button } from '@/components/shared/ButtonStyled'
+import { Card } from '@/components/shared/CardStyled'
+import { Badge } from '@/components/shared/BadgeStyled'
+import { createClient } from '@/lib/supabase/client'
 
 const BENEFITS = [
   '5 free twin runs per month',
@@ -26,22 +31,29 @@ export default function SignupPage() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, fullName }),
+      const supabase = createClient()
+      const { error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
+          emailRedirectTo:
+            process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL ??
+            `${window.location.origin}/auth/callback`,
+        },
       })
 
-      if (!res.ok) {
-        const data = await res.json()
-        setError(data.error || 'Signup failed')
+      if (authError) {
+        setError(authError.message)
+        setLoading(false)
         return
       }
 
-      router.push('/onboarding')
+      router.push('/signup-success')
     } catch (err: any) {
       setError(err.message || 'An error occurred')
-    } finally {
       setLoading(false)
     }
   }
@@ -66,13 +78,13 @@ export default function SignupPage() {
           </Link>
 
           <div className="max-w-xs">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Start the operating system</p>
-            <h1 className="mt-4 text-4xl font-light leading-tight text-[#f5fbfa]">
+            <Eyebrow className="text-[#789b96]">Start the operating system</Eyebrow>
+            <H2Section className="mt-4 text-[#f5fbfa]">
               Create your account and begin with continuity.
-            </h1>
-            <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
+            </H2Section>
+            <Body variant="dark" className="mt-4 !text-[#9db7b1]">
               Set up a workspace for twin execution, inherited context, workflow state, and outputs your team can reuse.
-            </p>
+            </Body>
             <ul className="mt-8 space-y-3">
               {BENEFITS.map((benefit) => (
                 <li key={benefit} className="flex items-center gap-2.5">
@@ -101,18 +113,24 @@ export default function SignupPage() {
             </Link>
 
             <div className="mb-8">
-              <div className="mb-4 inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#f1f6f4] px-2.5 py-1">
-                <span className="h-1.5 w-1.5 bg-[#8fb2aa]" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#789b96]">Free to start</span>
-              </div>
-              <h2 className="text-2xl font-semibold tracking-tight text-[#173634]">Create your account</h2>
-              <p className="mt-1.5 text-sm text-[#65706d]">
+              <Badge variant="light" size="md" className="mb-4 inline-flex items-center gap-2">
+                <span className="h-1.5 w-1.5 bg-[#8fb2aa] rounded-full" />
+                Free to start
+              </Badge>
+              <H2Section className="text-[#173634]">Create your account</H2Section>
+              <p className="mt-2 text-sm text-[#65706d]">
                 Already have one?{' '}
-                <Link href="/login" className="font-semibold text-[#173634] hover:underline">Sign in</Link>
+                <Link href="/login" className="font-semibold text-[#173634] hover:text-[#8fb2aa]">Sign in</Link>
               </p>
             </div>
 
-            <form onSubmit={handleSignup} className="space-y-4 border border-[#d8e5e2] bg-[#f1f6f4] p-6">
+            <form onSubmit={handleSignup} className="space-y-4">
+            <Card variant="light" className="p-6">
+              {error && (
+                <div className="mb-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-700">
+                  {error}
+                </div>
+              )}
               <div className="space-y-1.5">
                 <label htmlFor="name" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
                   Full name
@@ -123,7 +141,8 @@ export default function SignupPage() {
                   placeholder="Your name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
                   required
                 />
               </div>
@@ -137,7 +156,8 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
                   required
                 />
               </div>
@@ -151,18 +171,21 @@ export default function SignupPage() {
                   placeholder="At least 8 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                  disabled={loading}
+                  className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa] disabled:opacity-50"
                   required
                 />
               </div>
-              {error && <div className="rounded text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2">{error}</div>}
-              <button
+              <Button
                 type="submit"
+                variant="primary"
+                size="md"
                 disabled={loading}
-                className="inline-flex h-10 w-full items-center justify-center gap-2 bg-[#173634] text-sm font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d] disabled:opacity-50"
+                className="w-full inline-flex items-center justify-center gap-2"
               >
                 {loading ? 'Creating account...' : <>Create account <ArrowRight size={13} /></>}
-              </button>
+              </Button>
+            </Card>
             </form>
 
             <p className="mt-6 text-center text-xs text-[#a7b9b4]">

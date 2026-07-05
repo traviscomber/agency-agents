@@ -26,13 +26,13 @@ export function PublicNavbar() {
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-2 md:flex">
           {copy.navItems.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                'px-4 py-2 text-sm font-medium transition-colors border border-[#1e3431]',
+                'rounded-full px-3 py-2 text-sm font-medium transition-colors',
                 pathname === href
                   ? 'bg-[#142522] text-[#f5fbfa]'
                   : 'text-[#9db7b1] hover:bg-[#142522] hover:text-[#f5fbfa]'

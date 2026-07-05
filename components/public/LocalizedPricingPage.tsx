@@ -3,6 +3,10 @@ import { PLANS } from '@/lib/data/plans'
 import { CheckCircle2, ArrowRight, Workflow, ShieldCheck, Layers3 } from 'lucide-react'
 import { pricingPageCopy, type MarketingLocale } from '@/lib/marketing-i18n'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
+import { H1Hero, H2Section, H3, Eyebrow, Body } from '@/components/shared/Typography'
+import { Button } from '@/components/shared/ButtonStyled'
+import { Card } from '@/components/shared/CardStyled'
+import { Badge, BadgeEyebrow } from '@/components/shared/BadgeStyled'
 
 const VALUE_ICONS = [Workflow, ShieldCheck, Layers3]
 
@@ -26,20 +30,22 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
             <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-end">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">{copy.eyebrow}</p>
-                <h1 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.03em] text-[#f5fbfa] md:text-6xl">
+                <Eyebrow className="text-[#789b96]">{copy.eyebrow}</Eyebrow>
+                <H1Hero className="mt-4 text-[#f5fbfa]">
                   {copy.title}
-                </h1>
-                <p className="mt-5 max-w-xl text-sm leading-7 text-[#9db7b1]">{copy.summary}</p>
+                </H1Hero>
+                <Body variant="dark" className="mt-5 max-w-xl !text-[#9db7b1]">
+                  {copy.summary}
+                </Body>
               </div>
 
-              <div className="border border-white/10 bg-[#0d1f1d]/90 p-6">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">What scales with plan</p>
+              <Card variant="dark" className="p-6 border-white/10">
+                <BadgeEyebrow>What scales with plan</BadgeEyebrow>
                 <div className="mt-5 space-y-3">
                   {copy.valueStack.map(([title, desc], index) => {
                     const Icon = VALUE_ICONS[index]
                     return (
-                      <div key={title} className="border border-white/10 bg-white/5 p-4">
+                      <Card key={title} variant="dark" className="p-4 border-white/10">
                         <div className="flex items-center gap-2">
                           <div className="flex h-9 w-9 items-center justify-center bg-white/10 text-[#8fb2aa]">
                             <Icon size={15} />
@@ -47,11 +53,11 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                           <p className="text-sm font-semibold text-white">{title}</p>
                         </div>
                         <p className="mt-3 text-sm leading-6 text-[#d9e3e0]">{desc}</p>
-                      </div>
+                      </Card>
                     )
                   })}
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         </section>
@@ -60,10 +66,10 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
           <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
             <div className="mb-8 grid gap-4 lg:grid-cols-3">
               {copy.metrics.map(([title, body]) => (
-                <div key={title} className="border border-[#d8e5e2] bg-white p-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
+                <Card key={title} variant="light" className="p-5">
+                  <BadgeEyebrow>{title}</BadgeEyebrow>
                   <p className="mt-3 text-lg font-semibold text-[#173634]">{body}</p>
-                </div>
+                </Card>
               ))}
             </div>
 
@@ -121,15 +127,14 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                     ))}
                   </ul>
 
-                  <Link
-                    href={plan.id === 'enterprise' ? '/contact' : '/signup'}
-                    className={`mt-7 inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold transition-colors ${
-                      plan.highlighted
-                        ? 'bg-[#8fb2aa] text-[#060a10] hover:bg-[#d9e3e0]'
-                        : 'border border-[#d8e5e2] bg-[#fbfbfa] text-[#173634] hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1]'
-                    }`}
-                  >
-                    {plan.cta} <ArrowRight size={13} />
+                  <Link href={plan.id === 'enterprise' ? '/contact' : '/signup'} className="mt-7 inline-block w-full">
+                    <Button 
+                      variant={plan.highlighted ? 'primary' : 'secondary'} 
+                      size="md"
+                      className="w-full inline-flex items-center justify-center gap-2"
+                    >
+                      {plan.cta} <ArrowRight size={13} />
+                    </Button>
                   </Link>
                 </div>
               ))}
@@ -141,16 +146,16 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">{copy.faqEyebrow}</p>
-                <h2 className="mt-4 text-4xl font-semibold tracking-[-0.03em] text-[#173634]">{copy.faqTitle}</h2>
+                <Eyebrow className="text-[#789b96]">{copy.faqEyebrow}</Eyebrow>
+                <H2Section className="mt-4 text-[#173634]">{copy.faqTitle}</H2Section>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {copy.faq.map(([q, a]) => (
-                  <div key={q} className="border border-[#d8e5e2] bg-white p-6">
+                  <Card key={q} variant="light" className="p-6">
                     <p className="text-sm font-semibold text-[#173634]">{q}</p>
                     <p className="mt-2 text-sm leading-7 text-[#65706d]">{a}</p>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </div>

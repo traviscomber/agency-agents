@@ -3,12 +3,13 @@
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { Input } from '@/components/ui/input'
+import { HelpTip } from '@/components/app/HelpTip'
 import { SEED_AGENTS, DIVISIONS } from '@/lib/data/seed-agents'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
 import { MOCK_USER } from '@/lib/data/mock-store'
 import { canAccessAgent } from '@/lib/types'
-import { ArrowRight, Lock, Search } from 'lucide-react'
+import { ArrowRight, Lock, Search, Lightbulb } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function AppAgentsPage() {
@@ -41,6 +42,15 @@ export default function AppAgentsPage() {
           Locked profiles are clearly marked.
         </p>
       </header>
+
+      <div className="mb-8">
+        <HelpTip
+          icon={Lightbulb}
+          title="How to Run an Agent"
+          description="Select an agent from the library below. Each agent has a specific role (sales, recruiting, collections, etc.). Click 'Run' to execute it on a project step, or view details to see what it does and its success rate."
+          variant="info"
+        />
+      </div>
 
       {/* Filters */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
