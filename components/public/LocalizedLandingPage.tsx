@@ -94,13 +94,13 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                       {copy.controlSurfaceBadges.map((item) => (
                         <span
                           key={item}
-                          className="rounded-full border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d9e3e0]"
+                          className="border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d9e3e0]"
                         >
                           {item}
                         </span>
                       ))}
                     </div>
-                    <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
+                    <span className="border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
                       {copy.deployable}
                     </span>
                   </div>
