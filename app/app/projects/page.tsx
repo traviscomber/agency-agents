@@ -10,7 +10,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type { Project, ProjectType } from '@/lib/types'
 import { ArrowRight, Bookmark, Calendar, FolderOpen, Plus } from 'lucide-react'
-import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectTypeLabel, PROJECT_TYPE_OPTIONS } from '@/lib/project-memory'
+import { getAgentBySlug, getFeaturedAgents } from '@/lib/data/seed-agents'
+import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectCurrentWorkflowStep, getProjectTypeLabel, PROJECT_TYPE_OPTIONS } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
@@ -40,6 +41,16 @@ export default function ProjectsPage() {
   }
 
   const totals = projects.reduce((acc, p) => ({ runs: acc.runs + (p.runCount ?? 0), saved: acc.saved + (p.savedCount ?? 0) }), { runs: 0, saved: 0 })
+  const featuredTwinProfiles = getFeaturedAgents()
+    .map((agent) => agent.twinProfile)
+    .filter(Boolean)
+  const averageReplacement = featuredTwinProfiles.length
+    ? Math.round(
+        featuredTwinProfiles.reduce((total, profile) => total + (profile?.operationalReplacementScore ?? 0), 0) /
+        featuredTwinProfiles.length,
+      )
+    : 0
+  const highSupervisionCount = featuredTwinProfiles.filter((profile) => profile?.supervisionLevel === 'high').length
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
@@ -81,6 +92,32 @@ export default function ProjectsPage() {
         </div>
       </header>
 
+      <section className="mt-6 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] lg:grid-cols-3">
+        {[
+          {
+            label: 'Twin coverage',
+            value: `${featuredTwinProfiles.length} active twins`,
+            note: 'Featured role replicas available to attach to operating programs.',
+          },
+          {
+            label: 'Replacement average',
+            value: `${averageReplacement}%`,
+            note: 'Average repeatable load absorbable across the current featured twin set.',
+          },
+          {
+            label: 'High supervision',
+            value: `${highSupervisionCount} roles`,
+            note: 'Programs that should preserve tighter human approval before execution.',
+          },
+        ].map(({ label, value, note }) => (
+          <div key={label} className="bg-[#fbfbfa] px-5 py-5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
+            <p className="mt-2 text-3xl font-light tracking-[-0.04em] text-[#173634]">{value}</p>
+            <p className="mt-1 text-xs leading-6 text-[#52605d]">{note}</p>
+          </div>
+        ))}
+      </section>
+
       <div className="mt-8 flex items-center justify-between gap-4">
         <div>
           <p className="n3-eyebrow">Portfolio view</p>
@@ -110,6 +147,9 @@ export default function ProjectsPage() {
           {projects.map((project, index) => (
             (() => {
               const packet = buildProjectHandoffPacket(project)
+              const activeStep = getProjectCurrentWorkflowStep(project.workflow)
+              const mappedTwin = activeStep?.recommendedAgentSlug ? getAgentBySlug(activeStep.recommendedAgentSlug) : null
+              const twinProfile = mappedTwin?.twinProfile ?? featuredTwinProfiles[index % Math.max(featuredTwinProfiles.length, 1)]
 
               return (
                 <article key={project.id} className="n3-card n3-panel flex flex-col p-5 transition-colors hover:bg-[#f1f6f4]">
@@ -166,6 +206,25 @@ export default function ProjectsPage() {
                       </div>
                     ))}
                   </div>
+
+                  {twinProfile ? (
+                    <div className="mt-4 grid grid-cols-2 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
+                      <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
+                        <p className="n3-eyebrow">Replacement</p>
+                        <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">
+                          {twinProfile.operationalReplacementScore ?? averageReplacement}%
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-[#52605d]">{twinProfile.roleLabel}</p>
+                      </div>
+                      <div className="n3-subpanel bg-[#eef5f2] px-4 py-3">
+                        <p className="n3-eyebrow">Supervision</p>
+                        <p className="mt-1 text-2xl font-light capitalize tracking-[-0.04em] text-[#173634]">
+                          {twinProfile.supervisionLevel ?? 'medium'}
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-[#52605d]">Required review before higher-risk moves.</p>
+                      </div>
+                    </div>
+                  ) : null}
 
                   <div className="mt-4 flex items-start justify-between gap-3 text-[11px] text-[#52605d]">
                     <div className="space-y-1">
