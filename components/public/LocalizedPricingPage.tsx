@@ -33,13 +33,13 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                 <p className="mt-5 max-w-xl text-sm leading-7 text-[#9db7b1]">{copy.summary}</p>
               </div>
 
-              <div className="rounded-[1.8rem] border border-white/10 bg-[#0d1f1d]/90 p-6 shadow-[0_22px_70px_-42px_rgba(0,0,0,0.55)]">
+              <div className="border border-white/10 bg-[#0d1f1d]/90 p-6">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">What scales with plan</p>
                 <div className="mt-5 space-y-3">
                   {copy.valueStack.map(([title, desc], index) => {
                     const Icon = VALUE_ICONS[index]
                     return (
-                      <div key={title} className="rounded-[1.1rem] border border-white/10 bg-white/5 p-4">
+                      <div key={title} className="border border-white/10 bg-white/5 p-4">
                         <div className="flex items-center gap-2">
                           <div className="flex h-9 w-9 items-center justify-center bg-white/10 text-[#8fb2aa]">
                             <Icon size={15} />
@@ -60,7 +60,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
           <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
             <div className="mb-8 grid gap-4 lg:grid-cols-3">
               {copy.metrics.map(([title, body]) => (
-                <div key={title} className="rounded-[1.35rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
+                <div key={title} className="border border-[#d8e5e2] bg-white p-5">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
                   <p className="mt-3 text-lg font-semibold text-[#173634]">{body}</p>
                 </div>
@@ -147,7 +147,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {copy.faq.map(([q, a]) => (
-                  <div key={q} className="rounded-[1.5rem] border border-[#d8e5e2] bg-white p-6 shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
+                  <div key={q} className="border border-[#d8e5e2] bg-white p-6">
                     <p className="text-sm font-semibold text-[#173634]">{q}</p>
                     <p className="mt-2 text-sm leading-7 text-[#65706d]">{a}</p>
                   </div>
@@ -159,7 +159,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
 
         <section className="border-b border-[#1e3431] bg-[#0d1f1d]">
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-            <div className="rounded-[2rem] border border-[#28413d] bg-[linear-gradient(135deg,#102826,#0d1f1d)] p-8 shadow-[0_22px_80px_-40px_rgba(0,0,0,0.52)]">
+            <div className="border border-[#28413d] bg-[linear-gradient(135deg,#102826,#0d1f1d)] p-8">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">{copy.readyEyebrow}</p>

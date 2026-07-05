@@ -194,7 +194,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
               {copy.cases.map(([title, desc], index) => {
                 const Icon = CASE_ICONS[index]
                 return (
-                  <article key={title} className="rounded-[1.7rem] border border-[#d8e5e2] bg-white p-6 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)]">
+                  <article key={title} className="border border-[#d8e5e2] bg-white p-6">
                     <div className="flex h-11 w-11 items-center justify-center2xl bg-[#173634] text-[#d9e3e0]">
                       <Icon size={18} />
                     </div>
@@ -221,7 +221,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {featuredAgents.map((agent) => (
-                <article key={agent.id} className="rounded-[1.65rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.35)]">
+                <article key={agent.id} className="border border-[#d8e5e2] bg-white p-5">
                   <div className="flex items-center justify-between gap-3">
                     <DivisionBadge division={agent.division} size="sm" />
                     <PlanBadge plan={agent.planRequired} />
@@ -242,7 +242,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
         <section className="bg-[#060a10] text-[#f5fbfa]">
           <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
-            <div className="rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,#0d1f1d,#102826)] p-8 shadow-[0_24px_80px_-38px_rgba(0,0,0,0.65)] sm:p-10">
+            <div className="border border-white/10 bg-[linear-gradient(135deg,#0d1f1d,#102826)] p-8 sm:p-10">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">{copy.workspaceEyebrow}</p>
               <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-white">{copy.workspaceTitle}</h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#c7d5d1]">{copy.workspaceBody}</p>

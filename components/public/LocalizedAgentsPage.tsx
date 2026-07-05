@@ -135,7 +135,7 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
         <section className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
           <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
             {filtered.length === 0 ? (
-              <div className="rounded-[1.7rem] border border-[#d8e5e2] bg-[#fbfbfa] py-24 text-center shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
+              <div className="border border-[#d8e5e2] bg-[#fbfbfa] py-24 text-center">
                 <p className="text-sm text-[#65706d]">{copy.noResults}</p>
               </div>
             ) : (
