@@ -1,5 +1,9 @@
 import Link from 'next/link'
 import { ArrowRight, Shield } from 'lucide-react'
+import { H1Hero, H2Section, H3, Eyebrow, Body } from '@/components/shared/Typography'
+import { Button } from '@/components/shared/ButtonStyled'
+import { Card } from '@/components/shared/CardStyled'
+import { Badge } from '@/components/shared/BadgeStyled'
 
 export default function LoginPage() {
   return (
@@ -20,24 +24,24 @@ export default function LoginPage() {
           </Link>
 
           <div className="max-w-xs">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Command access</p>
-            <h1 className="mt-4 text-4xl font-light leading-tight text-[#f5fbfa]">
+            <Eyebrow className="text-[#789b96]">Command access</Eyebrow>
+            <H2Section className="mt-4 text-[#f5fbfa]">
               Sign in to resume the next operating sequence.
-            </h1>
-            <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
+            </H2Section>
+            <Body variant="dark" className="mt-4 !text-[#9db7b1]">
               Specialists, workflows, and deliverables stay linked so your team can recover context without re-briefing
               the system.
-            </p>
+            </Body>
 
             <div className="mt-10 space-y-3">
               {[
                 ['Operational continuity', 'Each run stays attached to owners, handoffs, and the current step.'],
                 ['Traceable by default', 'Deliverables, memory, and workflow state stay visible after the run ends.'],
               ].map(([title, desc]) => (
-                <div key={title} className="border border-[#1e3431] bg-[#0d1f1d] p-4">
+                <Card key={title} variant="dark" className="p-4">
                   <p className="text-xs font-semibold text-[#d9e3e0]">{title}</p>
                   <p className="mt-1 text-xs leading-6 text-[#9db7b1]">{desc}</p>
-                </div>
+                </Card>
               ))}
             </div>
           </div>
@@ -58,18 +62,19 @@ export default function LoginPage() {
             </Link>
 
             <div className="mb-8">
-              <div className="mb-4 inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#f1f6f4] px-2.5 py-1">
-                <Shield size={11} className="text-[#789b96]" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#789b96]">Secure access</span>
-              </div>
-              <h2 className="text-2xl font-semibold tracking-tight text-[#173634]">Sign in</h2>
-              <p className="mt-1.5 text-sm text-[#65706d]">
+              <Badge variant="light" size="md" className="mb-4 inline-flex items-center gap-2">
+                <Shield size={11} />
+                Secure access
+              </Badge>
+              <H2Section className="text-[#173634]">Sign in</H2Section>
+              <p className="mt-2 text-sm text-[#65706d]">
                 No account?{' '}
-                <Link href="/signup" className="font-semibold text-[#173634] hover:underline">Start free</Link>
+                <Link href="/signup" className="font-semibold text-[#173634] hover:text-[#8fb2aa]">Start free</Link>
               </p>
             </div>
 
-            <form className="space-y-4 border border-[#d8e5e2] bg-[#f1f6f4] p-6">
+            <form className="space-y-4">
+            <Card variant="light" className="p-6">
               <div className="space-y-1.5">
                 <label htmlFor="email" className="text-xs font-semibold uppercase tracking-[0.18em] text-[#52605d]">
                   Email
@@ -97,12 +102,10 @@ export default function LoginPage() {
                   className="h-10 w-full border border-[#d8e5e2] bg-[#fbfbfa] px-3 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
                 />
               </div>
-              <button
-                type="submit"
-                className="inline-flex h-10 w-full items-center justify-center gap-2 bg-[#173634] text-sm font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
-              >
+              <Button type="submit" variant="primary" size="md" className="w-full inline-flex items-center justify-center gap-2">
                 Sign in <ArrowRight size={13} />
-              </button>
+              </Button>
+            </Card>
             </form>
 
             <p className="mt-6 text-center text-xs text-[#a7b9b4]">
