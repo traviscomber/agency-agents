@@ -23,7 +23,7 @@ export default function AdminAgentsPage() {
           ['Featured', String(featured)],
           ['Inactive', String(SEED_AGENTS.length - active)],
         ].map(([label, value]) => (
-          <div key={label} className="space-y-3 rounded-none border border-[#d8e5e2] bg-white px-5 py-4">
+          <div key={label} className="space-y-3 border border-[#d8e5e2] bg-white px-5 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">{label}</p>
             <p className="text-3xl font-semibold text-[#173634]">{value}</p>
           </div>
@@ -31,7 +31,7 @@ export default function AdminAgentsPage() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-none border border-[#d8e5e2] bg-white">
+      <div className="overflow-x-auto border border-[#d8e5e2] bg-white">
         <table className="w-full">
           <thead>
             <tr className="border-b border-[#d8e5e2] bg-[#f1f6f4]">

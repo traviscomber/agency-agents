@@ -36,7 +36,7 @@ export default async function PublicAgentDetailPage({
           <span className="text-foreground">{agent.name}</span>
         </nav>
 
-        <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_40%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+        <section className="mb-8 overflow-hidden border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#ffffff_40%,#eef2ff_100%)] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
           <div className="grid gap-8 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
             <div>
               <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -52,10 +52,10 @@ export default async function PublicAgentDetailPage({
                 {agent.longDescription}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/signup" className="inline-flex items-center rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80">
+                <Link href="/signup" className="inline-flex items-center bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80">
                   Run this twin <ArrowRight size={14} className="ml-1.5" />
                 </Link>
-                <Link href="/pricing" className="inline-flex items-center rounded-lg border border-slate-200 bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-slate-100">
+                <Link href="/pricing" className="inline-flex items-center border border-slate-200 bg-background px-3 py-2 text-sm font-medium text-foreground hover:bg-slate-100">
                   Compare plans
                 </Link>
               </div>
@@ -127,7 +127,7 @@ export default async function PublicAgentDetailPage({
               <ul className="mt-4 space-y-3">
                 {agent.inputRequirements.map((req) => (
                   <li key={req} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-primary" />
                     {req}
                   </li>
                 ))}
@@ -139,7 +139,7 @@ export default async function PublicAgentDetailPage({
               <ul className="mt-4 space-y-3">
                 {agent.outputFormat.map((fmt) => (
                   <li key={fmt} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-700" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-slate-700" />
                     {fmt}
                   </li>
                 ))}
@@ -178,25 +178,25 @@ export default async function PublicAgentDetailPage({
           </div>
 
           <aside className="space-y-5">
-            <div className="sticky top-24 rounded-2xl border border-slate-900/10 bg-[linear-gradient(135deg,#0f172a,#111827_55%,#334155)] p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/14 px-3 py-1 text-xs font-medium text-white/90">
+            <div className="sticky top-242xl border border-slate-900/10 bg-[linear-gradient(135deg,#0f172a,#111827_55%,#334155)] p-6 text-white shadow-[0_20px_80px_rgba(15,23,42,0.18)]">
+              <div className="inline-flex items-center gap-2 bg-white/14 px-3 py-1 text-xs font-medium text-white/90">
                 <Sparkles size={12} />
                 Ready to run
               </div>
               <p className="mt-4 text-sm leading-relaxed text-slate-200">
                 Sign up to run this {agent.roleMode === 'digital-twin' ? 'digital twin' : 'operator'} and receive a structured deliverable saved to your workspace.
               </p>
-              <div className="mt-5 rounded-2xl border border-white/14 bg-white/14 p-4">
+              <div className="mt-52xl border border-white/14 bg-white/14 p-4">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-white/88">Required plan</p>
                 <div className="mt-3">
                   <PlanBadge plan={agent.planRequired} />
                 </div>
               </div>
               <div className="mt-5 space-y-2">
-                <Link href="/signup" className="inline-flex w-full items-center justify-center rounded-lg bg-white px-3 py-2 text-sm font-medium text-slate-950 hover:bg-slate-100">
+                <Link href="/signup" className="inline-flex w-full items-center justify-center bg-white px-3 py-2 text-sm font-medium text-slate-950 hover:bg-slate-100">
                   Run this twin <ArrowRight size={14} className="ml-1.5" />
                 </Link>
-                <Link href="/signup" className="inline-flex w-full items-center justify-center rounded-lg border border-white/24 bg-white/14 px-3 py-2 text-sm font-medium text-white hover:bg-white/18">
+                <Link href="/signup" className="inline-flex w-full items-center justify-center border border-white/24 bg-white/14 px-3 py-2 text-sm font-medium text-white hover:bg-white/18">
                   Sign in
                 </Link>
               </div>
@@ -212,7 +212,7 @@ export default async function PublicAgentDetailPage({
                     <Link
                       key={related.id}
                       href={`/agents/${related.slug}`}
-                      className="group flex items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 transition-colors hover:border-primary/25 hover:bg-slate-50"
+                      className="group flex items-start justify-between gap-32xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 transition-colors hover:border-primary/25 hover:bg-slate-50"
                     >
                       <div>
                         <p className="text-sm font-medium text-foreground group-hover:text-primary">

@@ -57,7 +57,7 @@ export default function ScheduledRunsPage() {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <div className="inline-flex items-center gap-2 rounded-full bg-[#f1f6f4] px-3 py-1 text-xs font-semibold text-[#8fb2aa]">
+                <div className="inline-flex items-center gap-2 bg-[#f1f6f4] px-3 py-1 text-xs font-semibold text-[#8fb2aa]">
                   {run.is_active ? '✓ Active' : 'Paused'}
                 </div>
                 <Button variant="ghost" size="sm" className="text-[#173634]/60 hover:text-[#173634]">

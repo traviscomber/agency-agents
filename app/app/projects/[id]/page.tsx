@@ -458,7 +458,7 @@ export default function ProjectDetailPage({ params }: Props) {
         <ArrowLeft size={13} /> Back to projects
       </Link>
 
-      <section className="n3-panel-soft mt-5 overflow-hidden rounded-[2rem] shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+      <section className="n3-panel-soft mt-5 overflow-hidden shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
           <div className="max-w-2xl">
             <div className="flex flex-wrap items-center gap-2">
@@ -485,22 +485,22 @@ export default function ProjectDetailPage({ params }: Props) {
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-700">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
+              <span className="inline-flex items-center gap-1.5 border border-slate-200 bg-white px-3 py-1.5">
                 <Bot size={11} /> {runs.length} runs
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
+              <span className="inline-flex items-center gap-1.5 border border-slate-200 bg-white px-3 py-1.5">
                 <Bookmark size={11} /> {saved.length} deliverables
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5">
+              <span className="inline-flex items-center gap-1.5 border border-slate-200 bg-white px-3 py-1.5">
                 <Calendar size={11} /> Updated {formatDate(project.updatedAt)}
               </span>
               {programReplacementScore !== null ? (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1.5 text-[#173634]">
+                <span className="inline-flex items-center gap-1.5 border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1.5 text-[#173634]">
                   Replacement {programReplacementScore}%
                 </span>
               ) : null}
               {programSupervision ? (
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1.5 capitalize text-[#173634]">
+                <span className="inline-flex items-center gap-1.5 border border-[#d8e5e2] bg-[#eef5f2] px-3 py-1.5 capitalize text-[#173634]">
                   {programSupervision} supervision
                 </span>
               ) : null}
@@ -508,17 +508,17 @@ export default function ProjectDetailPage({ params }: Props) {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="n3-dark-panel rounded-[1.25rem] p-5">
+            <div className="n3-dark-panel p-5">
               <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">Operating health</p>
               <p className="mt-3 text-2xl font-semibold">{operatingHealth}</p>
               <p className="mt-1 text-sm text-white/70">The next move should remain explicit so the project never drops back into prompt chaos.</p>
             </div>
-            <div className="n3-subpanel rounded-[1.25rem] p-5 shadow-sm">
+            <div className="n3-subpanel p-5 shadow-sm">
               <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Project status</p>
               <p className="mt-3 text-2xl font-semibold capitalize text-foreground">{project.status}</p>
               <p className="mt-1 text-sm text-slate-700">Last updated {formatDate(project.updatedAt)} with brief, workflow, runs, and saved state attached.</p>
             </div>
-            <div className="n3-subpanel rounded-[1.25rem] p-5 shadow-sm">
+            <div className="n3-subpanel p-5 shadow-sm">
               <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Twin program</p>
               <p className="mt-3 text-lg font-semibold text-foreground">{recommendedTwinProfile?.roleLabel || 'No twin mapped yet'}</p>
               <p className="mt-1 text-sm text-slate-700">
@@ -535,7 +535,7 @@ export default function ProjectDetailPage({ params }: Props) {
       </section>
 
       <section className="mt-6 grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
-        <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+        <article className="n3-panel p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operating cockpit</p>
@@ -629,7 +629,7 @@ export default function ProjectDetailPage({ params }: Props) {
           </div>
         </article>
 
-        <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+        <article className="n3-panel p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Handoff package</p>
@@ -684,10 +684,10 @@ export default function ProjectDetailPage({ params }: Props) {
               </div>
 
               <div className="space-y-4">
-                <div className="n3-subpanel rounded-[1.4rem]">
+                <div className="n3-subpanel">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Next movement</p>
                   <div className="mt-3 flex items-start gap-3">
-                    <div className="mt-0.5 rounded-full bg-primary/10 p-2 text-primary">
+                    <div className="mt-0.5 bg-primary/10 p-2 text-primary">
                       <ArrowRight size={14} />
                     </div>
                     <div>
@@ -697,11 +697,11 @@ export default function ProjectDetailPage({ params }: Props) {
                   </div>
                 </div>
 
-                <div className="n3-subpanel rounded-[1.4rem]">
+                <div className="n3-subpanel">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Handoff checklist</p>
                   <div className="mt-3 space-y-2">
                     {handoffPacket.handoffChecklist.map((item) => (
-                      <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/70 bg-white/85 px-3 py-2.5">
+                      <div key={item} className="flex items-start gap-32xl border border-white/70 bg-white/85 px-3 py-2.5">
                         <Bookmark size={14} className="mt-0.5 text-primary" />
                         <p className="text-sm leading-6 text-slate-700">{item}</p>
                       </div>
@@ -711,14 +711,14 @@ export default function ProjectDetailPage({ params }: Props) {
               </div>
             </div>
           ) : (
-            <div className="mt-5 rounded-[1.25rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
+            <div className="mt-5 border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4">
               <p className="text-sm leading-6 text-slate-700">
                 Add an operating brief and activate a workflow step to generate a reusable handoff.
               </p>
             </div>
           )}
           {recommendedAgent ? (
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[1.25rem] border border-slate-200 bg-white p-4">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-slate-200 bg-white p-4">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Recommended specialist</p>
                 <p className="mt-1 text-sm font-semibold text-foreground">{recommendedAgent.name}</p>
@@ -758,7 +758,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
       {twinMandate.length ? (
         <section className="mt-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-          <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+          <article className="n3-panel p-5 sm:p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Twin mandate</p>
             <h2 className="mt-2 text-xl font-semibold text-foreground">What this program is actually designed to replace</h2>
             <p className="mt-2 text-sm leading-6 text-slate-700">
@@ -773,13 +773,13 @@ export default function ProjectDetailPage({ params }: Props) {
               ))}
             </div>
           </article>
-          <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+          <article className="n3-panel p-5 sm:p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Supervision protocol</p>
             <h2 className="mt-2 text-xl font-semibold text-foreground">Human control stays explicit instead of implied</h2>
             <p className="mt-2 text-sm leading-6 text-slate-700">
               The product becomes more credible when each program declares its automation ceiling and review model instead of pretending every twin can run fully autonomous.
             </p>
-            <div className="mt-5 rounded-[1.35rem] border border-[#d8e5e2] bg-[#eef5f2] p-5">
+            <div className="mt-5 border border-[#d8e5e2] bg-[#eef5f2] p-5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#52605d]">Current guidance</p>
               <p className="mt-3 text-2xl font-semibold capitalize text-[#173634]">{programSupervision ?? 'medium'} supervision</p>
               <p className="mt-2 text-sm leading-6 text-[#52605d]">
@@ -796,7 +796,7 @@ export default function ProjectDetailPage({ params }: Props) {
       ) : null}
 
       {isEditingBrief && briefDraft ? (
-        <section className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+        <section className="mt-6 border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Edit operating brief</p>
@@ -868,9 +868,9 @@ export default function ProjectDetailPage({ params }: Props) {
         </section>
       ) : null}
 
-      <div className="mt-6 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
+      <div className="mt-6 border border-slate-200 bg-white p-5 shadow-[0_12px_36px_-30px_rgba(15,23,42,0.45)] sm:p-6">
         <Tabs defaultValue="brief">
-          <TabsList className="grid w-full grid-cols-4 rounded-2xl bg-slate-50 p-1">
+          <TabsList className="grid w-full grid-cols-42xl bg-slate-50 p-1">
             <TabsTrigger value="brief" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
               Brief
             </TabsTrigger>
@@ -918,7 +918,7 @@ export default function ProjectDetailPage({ params }: Props) {
                   <ul className="mt-4 space-y-3">
                     {operatingBrief.constraints.map((item) => (
                       <li key={item} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-primary" />
                         {item}
                       </li>
                     ))}
@@ -987,7 +987,7 @@ export default function ProjectDetailPage({ params }: Props) {
                           const presetHref = buildProjectRunHrefForStep(workflowProject, step)
 
                           return preset ? (
-                            <div className="mt-4 rounded-[1rem] border border-slate-200 bg-white p-4">
+                            <div className="mt-4 border border-slate-200 bg-white p-4">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Run preview</p>
                               <p className="mt-2 text-sm font-semibold text-foreground">
                                 {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped specialist'}
@@ -1017,7 +1017,7 @@ export default function ProjectDetailPage({ params }: Props) {
                             value={step.status}
                             onValueChange={(value) => void updateWorkflowStatus(step.id, value as ProjectWorkflowStatus)}
                           >
-                            <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
+                            <SelectTrigger className="mt-2 h-9 border-slate-200 bg-white text-xs">
                               <SelectValue placeholder="Select status" />
                             </SelectTrigger>
                             <SelectContent>
@@ -1038,7 +1038,7 @@ export default function ProjectDetailPage({ params }: Props) {
                             value={step.recommendedAgentSlug ?? 'none'}
                             onValueChange={(value) => void updateWorkflowRecommendedAgent(step.id, value ?? 'none')}
                           >
-                            <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
+                            <SelectTrigger className="mt-2 h-9 border-slate-200 bg-white text-xs">
                               <SelectValue placeholder="Select specialist" />
                             </SelectTrigger>
                             <SelectContent>
@@ -1070,7 +1070,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 </Button>
               </div>
             ) : (
-              <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
+              <div className="overflow-hidden border border-slate-200 bg-white">
                 {runs.map((run, index) => {
                   return (
                   <Link
@@ -1081,7 +1081,7 @@ export default function ProjectDetailPage({ params }: Props) {
                       index < runs.length - 1 && 'border-b border-slate-200'
                     )}
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-950 text-white">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center2xl bg-slate-950 text-white">
                       <Bot size={15} />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -1142,7 +1142,7 @@ export default function ProjectDetailPage({ params }: Props) {
         </Tabs>
       </div>
 
-      <section className="n3-panel mt-6 rounded-[1.75rem] p-5 sm:p-6">
+      <section className="n3-panel mt-6 p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Operational timeline</p>
@@ -1162,7 +1162,7 @@ export default function ProjectDetailPage({ params }: Props) {
               <div className="flex flex-col items-center">
                 <span
                   className={cn(
-                    'flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold uppercase',
+                    'flex h-7 w-7 items-center justify-center text-[10px] font-semibold uppercase',
                     item.type === 'brief' && 'bg-slate-950 text-white',
                     item.type === 'memory' && 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
                     item.type === 'run' && 'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
@@ -1203,7 +1203,7 @@ export default function ProjectDetailPage({ params }: Props) {
       </section>
 
       <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-        <article className="n3-panel rounded-[1.75rem] p-5 sm:p-6">
+        <article className="n3-panel p-5 sm:p-6">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Quick capture</p>
             <h2 className="mt-2 text-xl font-semibold text-foreground">Turn decisions into reusable memory</h2>

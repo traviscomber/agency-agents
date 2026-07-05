@@ -44,7 +44,7 @@ export function PublicNavbar() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <div className="flex items-center rounded-full border border-[#1e3431] bg-[#0b1117] p-1">
+          <div className="flex items-center border border-[#1e3431] bg-[#0b1117] p-1">
             {(['es', 'en'] as const).map((code) => (
               <Link
                 key={code}

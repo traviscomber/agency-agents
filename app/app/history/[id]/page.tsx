@@ -233,17 +233,17 @@ export default function RunDetailPage({ params }: Props) {
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
           {run.output ? (
-            <Button variant="outline" onClick={handleCopyOutput} className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+            <Button variant="outline" onClick={handleCopyOutput} className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
               <Copy size={12} className="mr-1.5" /> {copied ? 'Copied' : 'Copy output'}
             </Button>
           ) : null}
           {rerunHref ? (
-            <Button asChild className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+            <Button asChild className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
               <Link href={rerunHref}>Run this brief again</Link>
             </Button>
           ) : null}
           {run.output && savedOutputs.length === 0 ? (
-            <Button variant="outline" onClick={handleSaveToLibrary} disabled={isSaving} className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+            <Button variant="outline" onClick={handleSaveToLibrary} disabled={isSaving} className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
               <Bookmark size={12} className="mr-1.5" /> {isSaving ? 'Saving...' : 'Save to library'}
             </Button>
           ) : null}
@@ -310,7 +310,7 @@ export default function RunDetailPage({ params }: Props) {
                 ) : null}
                 <div className="grid gap-3">
                   {run.handoffPacket.handoffChecklist.map((item) => (
-                    <div key={item} className="flex items-start gap-2 rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-2.5">
+                    <div key={item} className="flex items-start gap-2 border border-[#d8e5e2] bg-white px-3 py-2.5">
                       <Bookmark size={12} className="mt-0.5 shrink-0 text-[#8fb2aa]" />
                       <span className="leading-6 text-[#52605d]">{item}</span>
                     </div>
@@ -430,7 +430,7 @@ export default function RunDetailPage({ params }: Props) {
           ) : null}
 
           {runAgent ? (
-            <Button asChild variant="outline" className="h-9 w-full rounded-none border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]">
+            <Button asChild variant="outline" className="h-9 w-full border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]">
               <Link href={`/app/run/${runAgent.slug}`}>Open specialist</Link>
             </Button>
           ) : null}

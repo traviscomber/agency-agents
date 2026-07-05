@@ -36,7 +36,7 @@ export default function AdminUsersPage() {
           ['Onboarded', String(onboarded)],
           ['Pending', String(MOCK_USERS.length - onboarded)],
         ].map(([label, value]) => (
-          <div key={label} className="space-y-3 rounded-none border border-[#d8e5e2] bg-white px-5 py-4">
+          <div key={label} className="space-y-3 border border-[#d8e5e2] bg-white px-5 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">{label}</p>
             <p className="text-3xl font-semibold text-[#173634]">{value}</p>
           </div>
@@ -46,7 +46,7 @@ export default function AdminUsersPage() {
       {/* Plan breakdown */}
       <div className="grid gap-3 sm:grid-cols-5 mb-8">
         {(['free', 'starter', 'pro', 'team', 'enterprise'] as PlanId[]).map((planId) => (
-          <div key={planId} className="space-y-2 rounded-none border border-[#d8e5e2] bg-white px-5 py-4 text-center">
+          <div key={planId} className="space-y-2 border border-[#d8e5e2] bg-white px-5 py-4 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#555a56]">{planId}</p>
             <p className="text-2xl font-semibold text-[#173634]">{planCounts[planId]}</p>
           </div>
@@ -54,7 +54,7 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-none border border-[#d8e5e2] bg-white">
+      <div className="overflow-x-auto border border-[#d8e5e2] bg-white">
         <table className="w-full">
           <thead>
             <tr className="border-b border-[#d8e5e2] bg-[#f1f6f4]">

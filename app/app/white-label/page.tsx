@@ -24,7 +24,7 @@ export default function WhiteLabelPage() {
             <p className="mt-2 text-sm text-[#173634]/70">
               Custom domain, branded interface, and $0.30 per transaction. Minimum $299/month.
             </p>
-            <Button asChild className="mt-6 rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">
+            <Button asChild className="mt-6 bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">
               <Link href="/app/white-label/setup">Set Up Now</Link>
             </Button>
           </div>

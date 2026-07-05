@@ -58,10 +58,10 @@ export default function HistoryPage() {
               scanning a generic activity list.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button asChild className="h-10 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]">
+              <Button asChild className="h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]">
                 <Link href="/app/agents">Run specialist</Link>
               </Button>
-              <Button asChild variant="outline" className="h-10 rounded-none border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
+              <Button asChild variant="outline" className="h-10 border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
                 <Link href="/app/projects">Open project ledger</Link>
               </Button>
             </div>
@@ -95,7 +95,7 @@ export default function HistoryPage() {
               placeholder="Search execution history..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
+              className="h-10 border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
             />
           </div>
         </div>
@@ -142,7 +142,7 @@ export default function HistoryPage() {
                       </span>
                     ) : null}
                     {run.handoffPacket ? (
-                      <span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]', getWorkflowStatusMeta(run.handoffPacket.currentStepStatus).tone)}>
+                      <span className={cn('inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]', getWorkflowStatusMeta(run.handoffPacket.currentStepStatus).tone)}>
                         {getWorkflowStatusMeta(run.handoffPacket.currentStepStatus).label}
                       </span>
                     ) : null}

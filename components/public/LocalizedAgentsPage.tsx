@@ -92,7 +92,7 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                     placeholder={copy.searchPlaceholder}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="h-10 w-full rounded-full border border-[#d8e5e2] bg-[#f1f6f4] pl-9 pr-4 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
+                    className="h-10 w-full border border-[#d8e5e2] bg-[#f1f6f4] pl-9 pr-4 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
                   />
                 </div>
 
@@ -144,9 +144,9 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                   const hasAccess = canAccessAgent(MOCK_USER.plan, agent.planRequired)
 
                   return (
-                    <article key={agent.id} className="relative flex flex-col rounded-[1.65rem] border border-[#d8e5e2] bg-white p-6 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1">
+                    <article key={agent.id} className="relative flex flex-col border border-[#d8e5e2] bg-white p-6 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1">
                       {!hasAccess && (
-                        <div className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-[#173634] text-[#d9e3e0]">
+                        <div className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center bg-[#173634] text-[#d9e3e0]">
                           <Lock size={11} />
                         </div>
                       )}
@@ -163,13 +163,13 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                       <h2 className="text-lg font-semibold text-[#173634]">{agent.name}</h2>
                       <p className="mt-2 text-sm leading-7 text-[#65706d]">{agent.shortDescription}</p>
 
-                      <div className="mt-4 rounded-[1.15rem] border border-[#d8e5e2] bg-[#f8fbfa] p-4">
+                      <div className="mt-4 border border-[#d8e5e2] bg-[#f8fbfa] p-4">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">{copy.bestUsedWhen}</p>
                         <p className="mt-1.5 text-sm leading-6 text-[#52605d]">{agent.whenToUse}</p>
                       </div>
 
                       {agent.twinProfile ? (
-                        <div className="mt-4 rounded-[1.15rem] border border-[#d8e5e2] bg-white p-4">
+                        <div className="mt-4 border border-[#d8e5e2] bg-white p-4">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">{copy.twinFit}</p>
                           <p className="mt-1.5 text-sm font-medium text-[#173634]">{agent.twinProfile.roleLabel} · {agent.twinProfile.geography}</p>
                           <p className="mt-1.5 text-sm leading-6 text-[#52605d]">{agent.twinProfile.replacementScope}</p>
@@ -196,13 +196,13 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                           <>
                             <Link
                               href={`/agents/${agent.slug}`}
-                              className="flex-1 rounded-full border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-center text-xs font-semibold text-[#52605d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
+                              className="flex-1 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-center text-xs font-semibold text-[#52605d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
                             >
                               {copy.inspect}
                             </Link>
                             <Link
                               href={`/app/run/${agent.slug}`}
-                              className="flex flex-1 items-center justify-center gap-1 rounded-full bg-[#173634] px-3 py-2.5 text-xs font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
+                              className="flex flex-1 items-center justify-center gap-1 bg-[#173634] px-3 py-2.5 text-xs font-semibold text-[#f5fbfa] transition-colors hover:bg-[#0d1f1d]"
                             >
                               {copy.openRun} <ArrowRight size={11} />
                             </Link>
@@ -210,7 +210,7 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                         ) : (
                           <Link
                             href="/app/billing"
-                            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-xs font-semibold text-[#65706d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
+                            className="flex w-full items-center justify-center gap-1.5 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-xs font-semibold text-[#65706d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
                           >
                             {copy.upgrade} <ArrowRight size={11} />
                           </Link>

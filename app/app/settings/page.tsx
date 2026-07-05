@@ -81,7 +81,7 @@ export default function SettingsPage() {
                     id="fullName"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                    className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -90,7 +90,7 @@ export default function SettingsPage() {
                     id="email"
                     value={email}
                     disabled
-                    className="h-10 rounded-none border-[#d8e5e2] bg-[#f1f6f4] text-sm text-[#173634]/50"
+                    className="h-10 border-[#d8e5e2] bg-[#f1f6f4] text-sm text-[#173634]/50"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -100,7 +100,7 @@ export default function SettingsPage() {
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder="Acme Inc."
-                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                    className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -110,7 +110,7 @@ export default function SettingsPage() {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     placeholder="Founder, Developer..."
-                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
+                    className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                   />
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function SettingsPage() {
                 {fullName.charAt(0)}
               </div>
               <div>
-                <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+                <Button variant="outline" className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
                   Upload image
                 </Button>
                 <p className="mt-1.5 text-[10px] text-[#173634]/40">JPG, PNG or GIF. Max 2MB.</p>
@@ -138,7 +138,7 @@ export default function SettingsPage() {
             <p className={cn('text-xs transition-opacity', saved ? 'text-[#8fb2aa] opacity-100' : 'opacity-0')}>Changes saved.</p>
             <Button
               onClick={handleSave}
-              className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
+              className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
             >
               Save changes
             </Button>
@@ -160,11 +160,11 @@ export default function SettingsPage() {
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
+                    className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
                   />
                 </div>
               ))}
-              <Button className="h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+              <Button className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
                 Update password
               </Button>
             </div>
@@ -178,7 +178,7 @@ export default function SettingsPage() {
               <p className="text-sm text-[#173634]/60">Permanently delete your account and all data. This cannot be undone.</p>
               <Button
                 variant="outline"
-                className="mt-4 h-9 rounded-none border-red-200 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-red-500 hover:bg-red-50"
+                className="mt-4 h-9 border-red-200 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-red-500 hover:bg-red-50"
               >
                 Delete account
               </Button>
@@ -213,7 +213,7 @@ export default function SettingsPage() {
                 <Users size={16} className="text-[#8fb2aa]" />
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Team members</p>
               </div>
-              <Button className="h-7 rounded-none bg-[#173634] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+              <Button className="h-7 bg-[#173634] px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
                 Invite member
               </Button>
             </div>
@@ -239,7 +239,7 @@ export default function SettingsPage() {
                       <option>Editor</option>
                       <option>Viewer</option>
                     </select>
-                    <Button variant="ghost" size="sm" className="h-6 rounded-none px-2 text-[#d8e5e2] hover:bg-red-50 hover:text-red-600">
+                    <Button variant="ghost" size="sm" className="h-6 px-2 text-[#d8e5e2] hover:bg-red-50 hover:text-red-600">
                       <Trash2 size={12} />
                     </Button>
                   </div>
@@ -264,9 +264,9 @@ export default function SettingsPage() {
                 <div className="flex gap-2">
                   <Input
                     placeholder="agents.yourcompany.com"
-                    className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634]"
+                    className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634]"
                   />
-                  <Button className="h-10 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
+                  <Button className="h-10 bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
                     Configure
                   </Button>
                 </div>
@@ -278,7 +278,7 @@ export default function SettingsPage() {
                 <p className="text-xs text-[#173634]/60 mb-4">
                   Enable reseller mode to sell N3uralia Studio instances to your customers. You&apos;ll receive 30-40% commission per sale.
                 </p>
-                <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+                <Button variant="outline" className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
                   Enable Reseller Mode
                 </Button>
               </div>
@@ -290,14 +290,14 @@ export default function SettingsPage() {
                     <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Logo URL</Label>
                     <Input
                       placeholder="https://..."
-                      className="mt-1 h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm"
+                      className="mt-1 h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm"
                     />
                   </div>
                   <div>
                     <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Primary Color</Label>
                     <div className="mt-1 flex items-center gap-2">
                       <div className="h-10 w-16 rounded border border-[#d8e5e2]" style={{ backgroundColor: '#8fb2aa' }} />
-                      <Input placeholder="#8fb2aa" className="h-10 flex-1 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm" />
+                      <Input placeholder="#8fb2aa" className="h-10 flex-1 border-[#d8e5e2] bg-[#fbfbfa] text-sm" />
                     </div>
                   </div>
                 </div>

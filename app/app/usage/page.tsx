@@ -140,7 +140,7 @@ export default function UsagePage() {
             <p className="text-sm font-medium text-[#173634]">Need more runs?</p>
             <p className="mt-0.5 text-xs text-[#173634]/50">Upgrade your plan to increase your monthly allocation.</p>
           </div>
-          <Button asChild className="h-9 shrink-0 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
+          <Button asChild className="h-9 shrink-0 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
             <Link href="/app/billing">View plans <ArrowRight size={11} className="ml-1.5" /></Link>
           </Button>
         </div>

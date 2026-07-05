@@ -38,7 +38,7 @@ export default function BillingPage() {
           </div>
         </div>
         {monthlyUsage.runs_used > monthlyUsage.runs_limit && (
-          <div className="mt-4 rounded-none border-l-2 border-[#8fb2aa] bg-[#f1f6f4] px-4 py-3">
+          <div className="mt-4 border-l-2 border-[#8fb2aa] bg-[#f1f6f4] px-4 py-3">
             <p className="text-xs font-semibold text-[#173634]">Overage pricing: $0.50 per additional run</p>
             <p className="mt-1 text-xs text-[#173634]/70">You&apos;ve exceeded your monthly limit. Additional runs are automatically charged.</p>
           </div>
@@ -61,10 +61,10 @@ export default function BillingPage() {
           </div>
           {MOCK_USER.plan !== 'free' && MOCK_USER.plan !== 'enterprise' && (
             <div className="flex gap-2">
-              <Button variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
+              <Button variant="outline" className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
                 Manage payment
               </Button>
-              <Button variant="outline" className="h-9 rounded-none border-red-200 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-red-500 hover:bg-red-50">
+              <Button variant="outline" className="h-9 border-red-200 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-red-500 hover:bg-red-50">
                 Cancel plan
               </Button>
             </div>

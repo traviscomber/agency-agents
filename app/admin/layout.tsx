@@ -32,7 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 rounded-none border-l-2 border-transparent px-4 py-3 text-sm font-light text-[#555a56] transition-all hover:border-[#8fb2aa] hover:bg-[#f1f6f4] hover:text-[#173634]"
+              className="flex items-center gap-3 border-l-2 border-transparent px-4 py-3 text-sm font-light text-[#555a56] transition-all hover:border-[#8fb2aa] hover:bg-[#f1f6f4] hover:text-[#173634]"
             >
               <Icon size={16} />
               {label}
@@ -44,7 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="border-t border-[#d8e5e2] px-3 py-3">
           <Link
             href="/app"
-            className="flex items-center gap-2 rounded-none border-l-2 border-transparent px-4 py-2.5 text-xs font-light tracking-[0.12em] text-[#555a56] transition-all hover:border-[#8fb2aa] hover:bg-[#f1f6f4] hover:text-[#173634]"
+            className="flex items-center gap-2 border-l-2 border-transparent px-4 py-2.5 text-xs font-light tracking-[0.12em] text-[#555a56] transition-all hover:border-[#8fb2aa] hover:bg-[#f1f6f4] hover:text-[#173634]"
           >
             ← Back
           </Link>

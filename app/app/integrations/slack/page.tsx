@@ -24,7 +24,7 @@ export default function SlackIntegrationPage() {
             <p className="mt-2 text-sm text-[#173634]/60">
               Trigger specialists from Slack messages, slash commands, or app mentions and keep the result tied to the same workspace.
             </p>
-            <Button className="mt-6 rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">
+            <Button className="mt-6 bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">
               Connect Slack
             </Button>
           </div>
@@ -40,7 +40,7 @@ export default function SlackIntegrationPage() {
                 'Share run outputs with the team directly',
               ].map((cap) => (
                 <li key={cap} className="flex items-start gap-3 text-sm text-[#173634]/80">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-[#8fb2aa]" />
+                  <span className="mt-1 h-2 w-2 bg-[#8fb2aa]" />
                   {cap}
                 </li>
               ))}

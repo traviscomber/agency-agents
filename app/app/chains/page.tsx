@@ -48,7 +48,7 @@ export default function ChainsPage() {
             <Link
               key={chain.id}
               href={`/app/chains/${chain.id}`}
-              className="flex items-start justify-between rounded-none border border-[#d8e5e2] bg-white px-6 py-4 hover:bg-[#f1f6f4] transition-colors"
+              className="flex items-start justify-between border border-[#d8e5e2] bg-white px-6 py-4 hover:bg-[#f1f6f4] transition-colors"
             >
               <div className="flex-1">
                 <h3 className="font-semibold text-[#173634]">{chain.name}</h3>
@@ -56,7 +56,7 @@ export default function ChainsPage() {
                 <div className="mt-3 flex items-center gap-2">
                   {chain.agents.map((agent, idx) => (
                     <div key={agent} className="flex items-center gap-2">
-                      <span className="inline-block rounded-full bg-[#8fb2aa] px-2 py-1 text-xs text-white">{agent}</span>
+                      <span className="inline-block bg-[#8fb2aa] px-2 py-1 text-xs text-white">{agent}</span>
                       {idx < chain.agents.length - 1 && <ArrowRight size={14} className="text-[#555a56]" />}
                     </div>
                   ))}

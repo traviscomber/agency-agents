@@ -119,14 +119,14 @@ export default function AppDashboard() {
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
-                <Link href="/app/projects" className="inline-flex h-10 items-center rounded-none border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#dce8e4]">
+                <Link href="/app/projects" className="inline-flex h-10 items-center border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#dce8e4]">
                   Open active work <ArrowRight size={12} className="ml-1.5" />
                 </Link>
-                <Link href="/app/agents" className="inline-flex h-10 items-center rounded-none border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
+                <Link href="/app/agents" className="inline-flex h-10 items-center border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
                   <Bot size={12} className="mr-1.5" />
                   Run twin
                 </Link>
-                <Link href="/app/saved" className="inline-flex h-10 items-center rounded-none border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
+                <Link href="/app/saved" className="inline-flex h-10 items-center border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
                   <Bookmark size={12} className="mr-1.5" />
                   Inspect memory
                 </Link>
@@ -162,7 +162,7 @@ export default function AppDashboard() {
                   </span>
                 </div>
 
-                <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-white/5 p-4">
+                <div className="mt-4 border border-white/10 bg-white/5 p-4">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">Twin brief</p>
                   <p className="mt-2 text-sm leading-6 text-[#d9e3e0]">
                     {leadPacket?.summary || leadProject?.operatingBrief?.objective || 'Create one active program with a workflow so the studio can expose twin-ready state.'}
@@ -231,11 +231,11 @@ export default function AppDashboard() {
             artifact in one surface.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link href={leadProject ? `/app/projects/${leadProject.id}` : '/app/projects'} className="inline-flex h-9 items-center rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
+            <Link href={leadProject ? `/app/projects/${leadProject.id}` : '/app/projects'} className="inline-flex h-9 items-center bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
               <Workflow size={12} className="mr-1.5" />
               Open priority program
             </Link>
-            <Link href="/app/projects" className="inline-flex h-9 items-center rounded-none border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
+            <Link href="/app/projects" className="inline-flex h-9 items-center border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
               <Plus size={12} className="mr-1.5" />
               New twin program
             </Link>
@@ -418,12 +418,12 @@ export default function AppDashboard() {
                     </div>
 
                     <div className="flex flex-wrap gap-2 lg:justify-end">
-                      <Link href={`/app/projects/${project.id}`} className="inline-flex h-9 items-center rounded-none border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
+                      <Link href={`/app/projects/${project.id}`} className="inline-flex h-9 items-center border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
                         <Workflow size={12} className="mr-1.5" />
                         Open project
                       </Link>
                       {recommendedAgent && buildProjectRunHref(project) ? (
-                        <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`} className="inline-flex h-9 items-center rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
+                        <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`} className="inline-flex h-9 items-center bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
                           <Zap size={12} className="mr-1.5" />
                           Run next
                         </Link>
