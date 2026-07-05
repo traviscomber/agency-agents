@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { UsageMeter } from '@/components/shared/UsageMeter'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { MOCK_USER, MOCK_RUNS, MOCK_PROJECTS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
@@ -23,7 +22,7 @@ import {
   Clock3,
   Binary,
 } from 'lucide-react'
-import type { AgentRun, Project, SavedOutput } from '@/lib/types'
+import type { AgentRun, DigitalTwinProfile, Project, SavedOutput } from '@/lib/types'
 import { buildProjectHandoffPacket, buildProjectRunHref, getAllRuns, getAllSavedOutputs, getMergedProjects, getProjectCurrentWorkflowStep, getWorkflowStatusMeta } from '@/lib/project-memory'
 import { cn } from '@/lib/utils'
 
@@ -92,6 +91,16 @@ export default function AppDashboard() {
   const latestRun = runs[0] ?? null
   const latestSavedArtifact = savedOutputs[0] ?? null
   const leadPacket = leadProject ? buildProjectHandoffPacket(leadProject, latestSavedArtifact?.projectId === leadProject.id ? latestSavedArtifact : undefined) : null
+  const featuredTwinProfiles = featuredAgents
+    .map((agent) => agent.twinProfile)
+    .filter((profile): profile is DigitalTwinProfile => Boolean(profile))
+  const averageReplacementScore = featuredTwinProfiles.length === 0
+    ? 0
+    : Math.round(
+        featuredTwinProfiles.reduce((total, profile) => total + (profile.operationalReplacementScore ?? 0), 0) /
+        featuredTwinProfiles.length
+      )
+  const highSupervisionTwins = featuredTwinProfiles.filter((profile) => profile.supervisionLevel === 'high').length
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
@@ -100,40 +109,34 @@ export default function AppDashboard() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(143,178,170,0.2),_transparent_30%),radial-gradient(circle_at_85%_15%,_rgba(255,255,255,0.08),_transparent_24%),linear-gradient(135deg,_rgba(8,16,18,0.3),_transparent_60%)]" />
           <div className="relative grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9db7b1]">Studio command surface</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#9db7b1]">Twin OS command surface</p>
               <h1 className="mt-4 max-w-4xl text-4xl font-light leading-none tracking-[-0.05em] text-white sm:text-5xl">
-                Turn strategy, execution, and reusable memory into one operating rhythm.
+                Deploy role twins with memory, coverage, and visible supervision.
               </h1>
               <p className="mt-5 max-w-2xl text-sm leading-7 text-[#d9e3e0] sm:text-[15px]">
-                N3uralia Studio should not read like a collection of agent pages. It should behave like the control layer for launches,
-                delivery systems, and internal workflows where every run leaves usable state behind.
+                N3uralia Studio should behave like Twin OS: the control layer for sales, licitaciones, collections,
+                implementation, and recruiting where every run leaves reusable operating state behind.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
-                <Button asChild className="h-10 rounded-none border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#dce8e4]">
-                  <Link href="/app/projects">
-                    Open active work <ArrowRight size={12} className="ml-1.5" />
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" className="h-10 rounded-none border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
-                  <Link href="/app/agents">
-                    <Bot size={12} className="mr-1.5" />
-                    Run specialist
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" className="h-10 rounded-none border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
-                  <Link href="/app/saved">
-                    <Bookmark size={12} className="mr-1.5" />
-                    Inspect artifacts
-                  </Link>
-                </Button>
+                <Link href="/app/projects" className="inline-flex h-10 items-center rounded-none border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#dce8e4]">
+                  Open active work <ArrowRight size={12} className="ml-1.5" />
+                </Link>
+                <Link href="/app/agents" className="inline-flex h-10 items-center rounded-none border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
+                  <Bot size={12} className="mr-1.5" />
+                  Run twin
+                </Link>
+                <Link href="/app/saved" className="inline-flex h-10 items-center rounded-none border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
+                  <Bookmark size={12} className="mr-1.5" />
+                  Inspect memory
+                </Link>
               </div>
 
               <div className="mt-8 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-3">
                 {[
-                  { label: 'Active workstreams', value: activeProjects.length, note: `${projects.length} total projects tracked` },
-                  { label: 'Completion rate', value: `${completionRate}%`, note: 'recent execution quality' },
-                  { label: 'Specialist coverage', value: divisionsInUse || 0, note: 'divisions used in active system' },
+                  { label: 'Active programs', value: activeProjects.length, note: `${projects.length} total operating programs tracked` },
+                  { label: 'Execution quality', value: `${completionRate}%`, note: 'recent twin completion rate' },
+                  { label: 'Role coverage', value: divisionsInUse || 0, note: 'divisions currently covered by twins' },
                 ].map(({ label, value, note }) => (
                   <div key={label} className="bg-[#102826]/90 px-4 py-4">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9db7b1]">{label}</p>
@@ -148,9 +151,9 @@ export default function AppDashboard() {
               <div className="border border-white/10 bg-[#0d1f1d]/90 p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9db7b1]">Priority program</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9db7b1]">Priority twin program</p>
                     <p className="mt-3 text-2xl font-light tracking-[-0.04em] text-white">
-                      {leadProject?.name ?? 'No active project yet'}
+                      {leadProject?.name ?? 'No active program yet'}
                     </p>
                   </div>
                   <span className="inline-flex items-center gap-1 border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0]">
@@ -160,12 +163,12 @@ export default function AppDashboard() {
                 </div>
 
                 <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-white/5 p-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">Operator brief</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">Twin brief</p>
                   <p className="mt-2 text-sm leading-6 text-[#d9e3e0]">
-                    {leadPacket?.summary || leadProject?.operatingBrief?.objective || 'Create one active project with a workflow so the studio can expose operator-ready state.'}
+                    {leadPacket?.summary || leadProject?.operatingBrief?.objective || 'Create one active program with a workflow so the studio can expose twin-ready state.'}
                   </p>
                   <p className="mt-3 text-xs leading-6 text-[#c3d3cf]">
-                    {leadPacket?.riskNote || 'The differentiator is keeping the next move and the key constraint visible before the next execution starts.'}
+                    {leadPacket?.riskNote || 'The differentiator is keeping twin scope, next move, and escalation risk visible before the next execution starts.'}
                   </p>
                 </div>
 
@@ -175,8 +178,8 @@ export default function AppDashboard() {
                     <span className="font-medium text-white">{leadStep?.name ?? 'Define the first workflow'}</span>
                   </div>
                   <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <span>Recommended specialist</span>
-                    <span className="font-medium text-white">{leadAgent?.name ?? 'Assign inside project'}</span>
+                    <span>Recommended twin</span>
+                    <span className="font-medium text-white">{leadAgent?.name ?? 'Assign inside program'}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span>Next movement</span>
@@ -189,18 +192,18 @@ export default function AppDashboard() {
                 {[
                   {
                     icon: Orbit,
-                    label: 'Brief first',
-                    copy: 'Projects start from an operating brief, not a blank prompt box.',
+                    label: 'Role first',
+                    copy: 'Programs start from a replicable role, not from a blank prompt box.',
                   },
                   {
                     icon: Radar,
                     label: 'State retained',
-                    copy: 'Memory, runs, and deliverables stay attached to the workstream.',
+                    copy: 'Memory, runs, and deliverables stay attached to the account or workflow.',
                   },
                   {
                     icon: ShieldCheck,
-                    label: 'Next move visible',
-                    copy: 'Each project exposes the next step and the recommended operator.',
+                    label: 'Escalation visible',
+                    copy: 'Each program exposes the next step and the recommended twin or human owner.',
                   },
                 ].map(({ icon: Icon, label, copy }) => (
                   <div key={label} className="bg-[#102826]/90 px-4 py-4">
@@ -221,25 +224,21 @@ export default function AppDashboard() {
         <div className="n3-panel p-5">
           <p className="n3-eyebrow">Decision cockpit</p>
           <p className="n3-section-title">
-            {leadProject ? `Advance ${leadProject.name} without losing context.` : 'Create the first project to start the operating loop.'}
+            {leadProject ? `Advance ${leadProject.name} without losing context.` : 'Create the first program to start the twin operating loop.'}
           </p>
           <p className="mt-3 text-sm leading-7 text-[#52605d]">
-            The product becomes differentiable when the operator can see the brief, the active step, the next specialist, and the latest
+            The product becomes differentiable when the operator can see the brief, the active step, the next twin, and the latest
             artifact in one surface.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Button asChild className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
-              <Link href={leadProject ? `/app/projects/${leadProject.id}` : '/app/projects'}>
-                <Workflow size={12} className="mr-1.5" />
-                Open priority project
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-              <Link href="/app/projects">
-                <Plus size={12} className="mr-1.5" />
-                New workstream
-              </Link>
-            </Button>
+            <Link href={leadProject ? `/app/projects/${leadProject.id}` : '/app/projects'} className="inline-flex h-9 items-center rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
+              <Workflow size={12} className="mr-1.5" />
+              Open priority program
+            </Link>
+            <Link href="/app/projects" className="inline-flex h-9 items-center rounded-none border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
+              <Plus size={12} className="mr-1.5" />
+              New twin program
+            </Link>
           </div>
         </div>
 
@@ -249,7 +248,7 @@ export default function AppDashboard() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest run</p>
           </div>
           <p className="mt-4 text-sm font-medium text-[#173634]">{latestRun?.agentName ?? 'No execution yet'}</p>
-          <p className="mt-2 text-sm leading-6 text-[#52605d]">{latestRun?.task ?? 'Run the first specialist to create a persistent execution record.'}</p>
+          <p className="mt-2 text-sm leading-6 text-[#52605d]">{latestRun?.task ?? 'Run the first twin to create a persistent execution record.'}</p>
           <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">
             {latestRun ? `${formatShortDate(latestRun.createdAt)} / ${latestRun.status}` : 'waiting for first run'}
           </p>
@@ -276,7 +275,7 @@ export default function AppDashboard() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="n3-eyebrow">Live handoff packet</p>
-                <p className="mt-2 text-xl font-semibold text-[#173634]">The next operator can inherit real state immediately.</p>
+                <p className="mt-2 text-xl font-semibold text-[#173634]">The next human or twin can inherit real state immediately.</p>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-[#52605d]">
                   This is the differentiator in product form: a visible packet with current step, output expectation, and risk note already attached.
                 </p>
@@ -306,13 +305,14 @@ export default function AppDashboard() {
           </article>
 
           <article className="n3-panel p-5">
-            <p className="n3-eyebrow">Continuity signal</p>
-            <p className="mt-2 text-xl font-semibold text-[#173634]">The workstream is becoming reusable.</p>
+            <p className="n3-eyebrow">Twin program health</p>
+            <p className="mt-2 text-xl font-semibold text-[#173634]">Replacement and supervision are visible at a glance.</p>
             <div className="mt-5 grid gap-3">
               {[
-                ['Memory attached', `${leadProject?.memory?.length ?? 0} project notes linked to the current workstream.`],
-                ['Deliverables retained', `${leadProject?.savedCount ?? 0} saved artifacts remain attached to this initiative.`],
-                ['Next movement visible', leadPacket.nextStep || 'Define the next movement so the system can route execution cleanly.'],
+                ['Active twins', `${featuredTwinProfiles.length} featured role replicas currently surfaced in Twin OS.`],
+                ['Average replacement', `${averageReplacementScore}% of repeatable load across the featured twin set.`],
+                ['High supervision twins', `${highSupervisionTwins} twins currently marked for high supervision.`],
+                ['Next escalation', leadPacket.nextStep || 'Define the next escalation path so the system can route execution cleanly.'],
               ].map(([title, body]) => (
                 <div key={title} className="rounded-[1rem] border border-[#d8e5e2] bg-white px-4 py-3">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">{title}</p>
@@ -333,7 +333,7 @@ export default function AppDashboard() {
             <article key={project.id} className="n3-panel p-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="n3-eyebrow">Operating pressure</p>
+                  <p className="n3-eyebrow">Twin pressure</p>
                   <p className="mt-2 text-lg font-semibold text-[#173634]">{project.name}</p>
                 </div>
                 <span className="n3-chip-soft">{packet.projectTypeLabel}</span>
@@ -365,8 +365,8 @@ export default function AppDashboard() {
           <section className="n3-panel">
             <div className="flex items-center justify-between border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Projects requiring decisions</p>
-                <p className="mt-1 text-sm text-[#52605d]">Active workstreams with a visible next step and reusable state attached.</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Programs requiring decisions</p>
+                <p className="mt-1 text-sm text-[#52605d]">Active programs with a visible next step and reusable state attached.</p>
               </div>
               <Link href="/app/projects" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
                 Full ledger
@@ -401,7 +401,7 @@ export default function AppDashboard() {
                           <p className="mt-1 text-xs leading-5 text-[#52605d]">{activeStep?.owner ?? 'Assign an owner inside the project'}</p>
                         </div>
                         <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-3">
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Recommended specialist</p>
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Recommended twin</p>
                           <p className="mt-1 text-sm font-medium text-[#173634]">{recommendedAgent?.name ?? 'No recommendation yet'}</p>
                           <p className="mt-1 text-xs leading-5 text-[#52605d]">{recommendedAgent?.division ?? 'Choose one inside the workflow editor'}</p>
                         </div>
@@ -411,26 +411,22 @@ export default function AppDashboard() {
                             {packet?.nextStep ?? `${project.memory?.length ?? 0} memory / ${project.savedCount ?? 0} saved`}
                           </p>
                           <p className="mt-1 text-xs leading-5 text-[#52605d]">
-                            {packet?.riskNote ?? `${project.runCount ?? 0} runs linked to this workstream`}
+                            {packet?.riskNote ?? `${project.runCount ?? 0} runs linked to this program`}
                           </p>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex flex-wrap gap-2 lg:justify-end">
-                      <Button variant="outline" asChild className="h-9 rounded-none border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-                        <Link href={`/app/projects/${project.id}`}>
-                          <Workflow size={12} className="mr-1.5" />
-                          Open project
-                        </Link>
-                      </Button>
+                      <Link href={`/app/projects/${project.id}`} className="inline-flex h-9 items-center rounded-none border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
+                        <Workflow size={12} className="mr-1.5" />
+                        Open project
+                      </Link>
                       {recommendedAgent && buildProjectRunHref(project) ? (
-                        <Button asChild className="h-9 rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
-                          <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`}>
-                            <Zap size={12} className="mr-1.5" />
-                            Run next
-                          </Link>
-                        </Button>
+                        <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`} className="inline-flex h-9 items-center rounded-none bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
+                          <Zap size={12} className="mr-1.5" />
+                          Run next
+                        </Link>
                       ) : null}
                     </div>
                   </div>
@@ -445,7 +441,7 @@ export default function AppDashboard() {
                 icon: Orbit,
                 label: 'System memory',
                 value: `${savedOutputs.length} artifacts retained`,
-                copy: 'Outputs should become reusable material for the next operator, not a dead appendix.',
+                copy: 'Outputs should become reusable material for the next twin or human owner, not a dead appendix.',
               },
               {
                 icon: Radar,
@@ -456,8 +452,8 @@ export default function AppDashboard() {
               {
                 icon: ShieldCheck,
                 label: 'Delivery posture',
-                value: `${activeProjects.length} active workstreams`,
-                copy: 'A healthy system keeps the next decision visible inside each project.',
+                value: `${activeProjects.length} active programs`,
+                copy: 'A healthy system keeps the next decision visible inside each operating program.',
               },
             ].map(({ icon: Icon, label, value, copy }) => (
               <div key={label} className="bg-[#fbfbfa] p-5">
@@ -520,7 +516,7 @@ export default function AppDashboard() {
               Keep the operating rhythm visible so the product feels intentional, financially bounded, and ready for a real team workflow.
             </p>
             <div className="mt-5">
-              <UsageMeter used={MOCK_USER.runsUsed} limit={MOCK_USER.runsLimit} plan={MOCK_USER.plan} />
+              <UsageMeter used={runs.length} limit={plan?.monthlyRunLimit ?? 0} plan={MOCK_USER.plan} />
             </div>
           </section>
 
@@ -580,8 +576,8 @@ export default function AppDashboard() {
       <section className="mt-8 border border-[#d8e5e2] bg-[#fbfbfa]">
         <div className="flex items-center justify-between border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Recommended specialists</p>
-            <p className="mt-1 text-sm text-[#52605d]">Start from operators that fit the current system state, not from a generic library wall.</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Recommended twins</p>
+            <p className="mt-1 text-sm text-[#52605d]">Start from roles that fit the current operating state, not from a generic library wall.</p>
           </div>
           <Link href="/app/agents" className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
             Browse all <ArrowRight size={11} />
@@ -596,7 +592,7 @@ export default function AppDashboard() {
                 <p className="mt-2 text-sm leading-6 text-[#52605d]">{agent.shortDescription}</p>
               </div>
               <div className="mt-6 inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8fb2aa] group-hover:text-[#173634]">
-                Run specialist <ArrowRight size={10} className="ml-0.5" />
+                Run twin <ArrowRight size={10} className="ml-0.5" />
               </div>
             </Link>
           ))}

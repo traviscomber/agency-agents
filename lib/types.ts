@@ -5,6 +5,7 @@ export interface Plan {
   name: string
   price: number | null
   priceLabel: string
+  description?: string
   monthlyRunLimit: number
   maxProjects: number
   features: string[]
@@ -19,6 +20,8 @@ export interface Agent {
   name: string
   division: string
   category: string
+  marketFocus?: string
+  roleMode?: 'specialist' | 'digital-twin'
   shortDescription: string
   longDescription: string
   role: string
@@ -29,9 +32,23 @@ export interface Agent {
   systemPrompt: string
   exampleTasks: string[]
   suggestedPrompts: string[]
+  twinProfile?: DigitalTwinProfile
   planRequired: PlanId
   isFeatured: boolean
   isActive: boolean
+}
+
+export interface DigitalTwinProfile {
+  roleLabel: string
+  seniority: string
+  geography: string
+  targetCompanies: string
+  industries: string[]
+  keyKPIs: string[]
+  coreRoutines: string[]
+  replacementScope: string
+  operationalReplacementScore?: number
+  supervisionLevel?: 'low' | 'medium' | 'high'
 }
 
 export type ProjectType = 'launch' | 'growth' | 'operations' | 'client-delivery'

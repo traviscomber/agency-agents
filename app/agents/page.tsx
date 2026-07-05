@@ -15,7 +15,7 @@ const CURATION_SIGNALS = [
   {
     icon: Workflow,
     title: 'Built for workflow',
-    desc: 'Every specialist should make the next move clearer, not just generate a document.',
+    desc: 'Every twin should make the next move clearer, not just generate a document.',
   },
   {
     icon: ShieldCheck,
@@ -39,7 +39,9 @@ export default function PublicAgentsPage() {
         !search ||
         agent.name.toLowerCase().includes(search.toLowerCase()) ||
         agent.shortDescription.toLowerCase().includes(search.toLowerCase()) ||
-        agent.division.toLowerCase().includes(search.toLowerCase())
+        agent.division.toLowerCase().includes(search.toLowerCase()) ||
+        agent.marketFocus?.toLowerCase().includes(search.toLowerCase()) ||
+        agent.twinProfile?.industries.some((industry) => industry.toLowerCase().includes(search.toLowerCase()))
       const matchDivision = !activeDivision || agent.division === activeDivision
       return matchSearch && matchDivision && agent.isActive
     })
@@ -63,15 +65,15 @@ export default function PublicAgentsPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
             <div className="grid gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-end">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Specialist system</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Digital twins for operating roles</p>
                 <h1 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.03em] text-[#f5fbfa] md:text-6xl">
-                  Choose the right operator
+                  Choose the right role replica
                   <br />
-                  <span className="font-light text-[#789b96]">for the current workstream.</span>
+                  <span className="font-light text-[#789b96]">for the current Chilean operating program.</span>
                 </h1>
                 <p className="mt-5 max-w-xl text-sm leading-7 text-[#9db7b1]">
-                  {SEED_AGENTS.filter((agent) => agent.isActive).length} specialists across {DIVISIONS.length} divisions.
-                  This surface is designed to help you route pressure correctly, not just browse profiles.
+                  {SEED_AGENTS.filter((agent) => agent.isActive).length} profiles across {DIVISIONS.length} divisions.
+                  Start with digital twins for roles like sales, licitaciones, cobranza or implementación, then expand into a broader operating system by role.
                 </p>
               </div>
 
@@ -100,7 +102,7 @@ export default function PublicAgentsPage() {
                   <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#789b96]" />
                   <input
                     type="text"
-                    placeholder="Search specialists..."
+                    placeholder="Search twins, industries or roles..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="h-10 w-full rounded-full border border-[#d8e5e2] bg-[#f1f6f4] pl-9 pr-4 text-sm text-[#173634] outline-none placeholder:text-[#a7b9b4] focus:border-[#8fb2aa]"
@@ -108,7 +110,7 @@ export default function PublicAgentsPage() {
                 </div>
 
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">
-                  {filtered.length} specialist{filtered.length === 1 ? '' : 's'} visible
+                  {filtered.length} profile{filtered.length === 1 ? '' : 's'} visible
                 </div>
               </div>
 
@@ -147,7 +149,7 @@ export default function PublicAgentsPage() {
           <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
             {filtered.length === 0 ? (
               <div className="rounded-[1.7rem] border border-[#d8e5e2] bg-[#fbfbfa] py-24 text-center shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
-                <p className="text-sm text-[#65706d]">No specialists match your search.</p>
+                <p className="text-sm text-[#65706d]">No profiles match your search.</p>
               </div>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -163,7 +165,11 @@ export default function PublicAgentsPage() {
                       )}
 
                       <div className="mb-4 flex items-start justify-between gap-3">
-                        <DivisionBadge division={agent.division} size="sm" />
+                        <div className="flex flex-wrap gap-2">
+                          <DivisionBadge division={agent.division} size="sm" />
+                          {agent.roleMode === 'digital-twin' ? <span className="n3-chip-soft">Digital twin</span> : null}
+                          {agent.marketFocus ? <span className="n3-chip-soft">{agent.marketFocus}</span> : null}
+                        </div>
                         <PlanBadge plan={agent.planRequired} size="sm" />
                       </div>
 
@@ -174,6 +180,24 @@ export default function PublicAgentsPage() {
                         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">Best used when</p>
                         <p className="mt-1.5 text-sm leading-6 text-[#52605d]">{agent.whenToUse}</p>
                       </div>
+
+                      {agent.twinProfile ? (
+                        <div className="mt-4 rounded-[1.15rem] border border-[#d8e5e2] bg-white p-4">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">Twin fit</p>
+                          <p className="mt-1.5 text-sm font-medium text-[#173634]">{agent.twinProfile.roleLabel} · {agent.twinProfile.geography}</p>
+                          <p className="mt-1.5 text-sm leading-6 text-[#52605d]">{agent.twinProfile.replacementScope}</p>
+                          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                            <div className="rounded-xl border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Replacement</p>
+                              <p className="mt-1 text-sm font-medium text-[#173634]">{agent.twinProfile.operationalReplacementScore ?? 0}%</p>
+                            </div>
+                            <div className="rounded-xl border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Supervision</p>
+                              <p className="mt-1 text-sm font-medium capitalize text-[#173634]">{agent.twinProfile.supervisionLevel ?? 'medium'}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
 
                       <div className="mt-4">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">Primary output</p>

@@ -6,29 +6,29 @@ import { CheckCircle2, ArrowRight, Workflow, ShieldCheck, Layers3 } from 'lucide
 export const dynamic = 'force-dynamic'
 
 const FAQ = [
-  { q: 'Can I start without a credit card?', a: 'Yes. The free plan gives you enough room to evaluate the operating system before committing to higher run volume.' },
+  { q: 'Can I start without a credit card?', a: 'Yes. The free plan gives you enough room to evaluate one or two role twins before expanding operational coverage.' },
   { q: 'What happens when I hit the run limit?', a: 'Starter and higher plans support overage pricing at $0.50 per run. Free stops at the monthly limit.' },
   { q: 'Do you offer annual discounts?', a: 'Yes. Contact sales for Enterprise plans to discuss annual billing and volume discounts.' },
-  { q: 'Which plan includes scheduled automation?', a: 'Starter and higher. Use scheduled runs when the workstream needs recurring reporting, monitoring, or repeatable operational passes.' },
-  { q: 'Can I use multi-step specialist flows?', a: 'Yes, on Professional and higher. Chain specialists when the work requires review, handoff, or sequencing rather than a single run.' },
+  { q: 'Which plan includes scheduled automation?', a: 'Starter and higher. Use scheduled runs when the twin needs recurring reporting, monitoring, or repeatable operational passes.' },
+  { q: 'Can I use multi-step twin programs?', a: 'Yes, on Professional and higher. Chain twins and human approvals when the work requires review, handoff, or sequencing rather than a single run.' },
   { q: 'What is white-label?', a: 'Enterprise customers can resell the system under their own brand with custom domain, branding, and revenue-share options.' },
 ]
 
 const VALUE_STACK = [
   {
     icon: Workflow,
-    title: 'Pay for continuity',
-    desc: 'Plans scale when your workflow needs more memory, more handoffs, and more reusable operating state.',
+    title: 'Pay for active twin capacity',
+    desc: 'Plans scale when you need more deployed roles, more concurrent routines, and more operating memory by account.',
   },
   {
     icon: ShieldCheck,
-    title: 'Pay for readability',
-    desc: 'The value is not only more runs. It is clearer control over condition, risk, and what happens next.',
+    title: 'Pay for supervised replacement',
+    desc: 'The value is not only more runs. It is clearer control over what the twin can absorb and what still needs approval.',
   },
   {
     icon: Layers3,
     title: 'Pay for orchestration',
-    desc: 'Higher plans unlock sequencing, automation, and multi-owner workstreams that compound over time.',
+    desc: 'Higher plans unlock sequencing, automation, and multi-role twin programs that compound over time.',
   },
 ]
 
@@ -51,15 +51,15 @@ export default function PricingPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
             <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-end">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Pricing</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Twin OS pricing</p>
                 <h1 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.03em] text-[#f5fbfa] md:text-6xl">
-                  Price the operating layer,
+                  Price digital labor by role,
                   <br />
                   <span className="font-light text-[#789b96]">not just isolated runs.</span>
                 </h1>
                 <p className="mt-5 max-w-xl text-sm leading-7 text-[#9db7b1]">
-                  Start free, then upgrade when the workstream needs more throughput, stronger continuity,
-                  deeper automation, or a larger operating team.
+                  Start free, then upgrade when you need more active twins, stronger memory, deeper automation,
+                  and clearer supervision across Chilean operating roles.
                 </p>
               </div>
 
@@ -87,9 +87,9 @@ export default function PricingPage() {
           <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
             <div className="mb-8 grid gap-4 lg:grid-cols-3">
               {[
-                ['Runs', 'Volume for execution'],
-                ['Memory', 'Saved state and project continuity'],
-                ['Automation', 'Sequencing and repeatable operating motion'],
+                ['Twins', 'Active role replicas in production'],
+                ['Memory', 'Saved operating state and account continuity'],
+                ['Supervision', 'Handoffs, controls, and escalation coverage'],
               ].map(([title, body]) => (
                 <div key={title} className="rounded-[1.35rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_16px_40px_-34px_rgba(15,23,42,0.35)]">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
@@ -110,7 +110,7 @@ export default function PricingPage() {
                 >
                   {plan.highlighted && (
                     <span className="mb-4 inline-flex self-start rounded-full border border-[#8fb2aa]/30 bg-[#8fb2aa]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8fb2aa]">
-                      Best operating fit
+                      Best twin program fit
                     </span>
                   )}
 
@@ -133,13 +133,13 @@ export default function PricingPage() {
 
                   <div className={`mb-5 rounded-[1.15rem] border p-4 ${plan.highlighted ? 'border-white/10 bg-white/5' : 'border-[#d8e5e2] bg-[#f8fbfa]'}`}>
                     <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] ${plan.highlighted ? 'text-[#8fb2aa]' : 'text-[#789b96]'}`}>
-                      Operating capacity
+                      Twin capacity
                     </p>
                     <p className={`mt-2 text-sm ${plan.highlighted ? 'text-white' : 'text-[#173634]'}`}>
-                      {plan.monthlyRunLimit >= 99999 ? 'Unlimited run volume' : `${plan.monthlyRunLimit} runs per month`}
+                      {plan.monthlyRunLimit >= 99999 ? 'Unlimited twin execution' : `${plan.monthlyRunLimit} runs per month`}
                     </p>
                     <p className={`mt-1 text-sm ${plan.highlighted ? 'text-[#d9e3e0]' : 'text-[#52605d]'}`}>
-                      {plan.maxProjects >= 999 ? 'Unlimited project records' : `${plan.maxProjects} active projects`}
+                      {plan.maxProjects >= 999 ? 'Unlimited operating programs' : `${plan.maxProjects} active programs`}
                     </p>
                   </div>
 
@@ -174,7 +174,7 @@ export default function PricingPage() {
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Common questions</p>
                 <h2 className="mt-4 text-4xl font-semibold tracking-[-0.03em] text-[#173634]">
-                  The plan should match the operating load, not the hype.
+                  The plan should match your replacement ambition, not the hype.
                 </h2>
               </div>
 
@@ -197,7 +197,7 @@ export default function PricingPage() {
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">Ready to start</p>
                   <h2 className="mt-4 text-3xl font-light leading-tight text-[#f5fbfa]">
-                    Start the operating system before you scale it.
+                    Deploy the first twin before you scale the operating system.
                   </h2>
                 </div>
                 <div className="flex flex-wrap gap-3">

@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 const BENEFITS = [
-  '5 free specialist runs per month',
+  '5 free twin runs per month',
   'Project memory and workflow continuity',
-  'Save deliverables into reusable workstreams',
+  'Save deliverables into reusable operating programs',
   'No credit card required',
 ]
 
@@ -71,7 +71,7 @@ export default function SignupPage() {
               Create your account and begin with continuity.
             </h1>
             <p className="mt-4 text-sm leading-7 text-[#9db7b1]">
-              Set up a workspace for specialist execution, inherited context, workflow state, and outputs your team can reuse.
+              Set up a workspace for twin execution, inherited context, workflow state, and outputs your team can reuse.
             </p>
             <ul className="mt-8 space-y-3">
               {BENEFITS.map((benefit) => (

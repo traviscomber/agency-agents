@@ -21,7 +21,9 @@ export default function AppAgentsPage() {
         !search ||
         agent.name.toLowerCase().includes(search.toLowerCase()) ||
         agent.shortDescription.toLowerCase().includes(search.toLowerCase()) ||
-        agent.division.toLowerCase().includes(search.toLowerCase())
+        agent.division.toLowerCase().includes(search.toLowerCase()) ||
+        agent.marketFocus?.toLowerCase().includes(search.toLowerCase()) ||
+        agent.twinProfile?.industries.some((industry) => industry.toLowerCase().includes(search.toLowerCase()))
       const matchDivision = !activeDivision || agent.division === activeDivision
       return matchSearch && matchDivision && agent.isActive
     })
@@ -30,13 +32,13 @@ export default function AppAgentsPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Agent Library</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Twin Library</p>
         <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">
-          {SEED_AGENTS.length} specialists, organized by division.
+          {SEED_AGENTS.length} operators, twins and specialists organized by division.
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
           You are on the <span className="font-medium text-[#173634] capitalize">{MOCK_USER.plan}</span> plan.
-          Locked specialists are clearly marked.
+          Locked profiles are clearly marked.
         </p>
       </header>
 
@@ -45,7 +47,7 @@ export default function AppAgentsPage() {
         <div className="relative w-full max-w-xs">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8fb2aa]" />
           <Input
-            placeholder="Search specialists..."
+            placeholder="Search twins, roles or industries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-9 rounded-none border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
@@ -81,19 +83,19 @@ export default function AppAgentsPage() {
       </div>
 
       <p className="mb-4 text-[11px] text-[#173634]/38">
-        {filtered.length} specialist{filtered.length !== 1 ? 's' : ''}
+        {filtered.length} profile{filtered.length !== 1 ? 's' : ''}
         {activeDivision ? ` in ${activeDivision}` : ' across all divisions'}
       </p>
 
       {filtered.length === 0 ? (
         <div className="border border-[#d8e5e2] px-8 py-16 text-center">
-          <p className="text-sm font-medium text-[#173634]">No specialists found</p>
+          <p className="text-sm font-medium text-[#173634]">No profiles found</p>
           <p className="mt-1 text-xs text-[#173634]/45">Try a different search or clear the division filter.</p>
         </div>
       ) : (
         <div className="grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((agent) => {
-            const accessible = canAccessAgent(agent, MOCK_USER.plan)
+            const accessible = canAccessAgent(MOCK_USER.plan, agent.planRequired)
             return (
               <div
                 key={agent.id}
@@ -103,18 +105,32 @@ export default function AppAgentsPage() {
                 )}
               >
                 <div className="mb-3 flex items-start justify-between gap-2">
-                  <DivisionBadge division={agent.division} size="sm" />
+                  <div className="flex flex-wrap gap-2">
+                    <DivisionBadge division={agent.division} size="sm" />
+                    {agent.roleMode === 'digital-twin' ? <span className="n3-chip-soft">Digital twin</span> : null}
+                  </div>
                   <PlanBadge plan={agent.planRequired} size="sm" />
                 </div>
                 <p className="text-sm font-medium text-[#173634]">{agent.name}</p>
                 <p className="mt-1.5 flex-1 text-xs leading-relaxed text-[#173634]/55">{agent.shortDescription}</p>
+                {agent.twinProfile ? (
+                  <div className="mt-3 rounded-[1rem] border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.twinProfile.roleLabel} · {agent.twinProfile.geography}</p>
+                    <p className="mt-1 text-xs leading-5 text-[#52605d]">{agent.twinProfile.replacementScope}</p>
+                    <div className="mt-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#52605d]">
+                      <span>{agent.twinProfile.operationalReplacementScore ?? 0}% replacement</span>
+                      <span>·</span>
+                      <span className="capitalize">{agent.twinProfile.supervisionLevel ?? 'medium'} supervision</span>
+                    </div>
+                  </div>
+                ) : null}
                 <div className="mt-4 border-t border-[#d8e5e2] pt-3">
                   {accessible ? (
                     <Link
                       href={`/app/run/${agent.slug}`}
                       className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8fb2aa] transition-colors group-hover:text-[#173634]"
                     >
-                      Run specialist <ArrowRight size={10} className="ml-0.5" />
+                      Run twin <ArrowRight size={10} className="ml-0.5" />
                     </Link>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#173634]/35">

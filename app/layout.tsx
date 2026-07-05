@@ -3,14 +3,14 @@ import './globals.css'
 import { PublicFooter } from '@/components/public/PublicFooter'
 
 export const metadata: Metadata = {
-  title: 'N3uralia Studio | Operating System For Specialist Work',
+  title: 'N3uralia Studio | Twin OS For Digital Work Roles',
   description:
-    'N3uralia Studio turns specialist runs, workflow state, project memory, and reusable deliverables into one recoverable operating system for execution teams.',
-  keywords: ['AI workspace', 'specialist work', 'operating system', 'workflow continuity', 'project memory', 'N3uralia'],
+    'N3uralia Studio turns digital twins, workflow state, project memory, and reusable deliverables into one operating system for deployable work roles.',
+  keywords: ['AI workspace', 'digital twins', 'operating system', 'workflow continuity', 'project memory', 'N3uralia'],
   authors: [{ name: 'N3uralia' }],
   openGraph: {
-    title: 'N3uralia Studio | Operating System For Specialist Work',
-    description: 'Runs, handoffs, workflow state, and reusable deliverables in one operating layer.',
+    title: 'N3uralia Studio | Twin OS For Digital Work Roles',
+    description: 'Digital twins, handoffs, workflow state, and reusable deliverables in one operating layer.',
     type: 'website',
   },
 }

@@ -9,82 +9,82 @@ import { ArrowRight, Bookmark, Radar, ShieldCheck, Workflow, Layers3, CircleAler
 const OPERATING_SEQUENCE = [
   {
     step: '01',
-    title: 'Frame the operating brief',
-    desc: 'Start from the initiative, the constraint, and the decision that matters now instead of from a blank prompt.',
+    title: 'Select the role twin',
+    desc: 'Start from a replicable role with Chilean routines, KPIs, and operating boundaries instead of a generic chat box.',
   },
   {
     step: '02',
-    title: 'Run the right specialist',
-    desc: 'Launch the execution with inherited context, output expectations, and a visible next step.',
+    title: 'Load account and process context',
+    desc: 'Give the twin the client, opportunity, workflow, and constraints so the execution inherits the right operating state.',
   },
   {
     step: '03',
-    title: 'Capture reusable state',
-    desc: 'Save the deliverable, preserve the rationale, and attach the result to the project record.',
+    title: 'Execute the routine with memory',
+    desc: 'Let the twin run follow-ups, screening, coordination, or document work while preserving every output and decision trail.',
   },
   {
     step: '04',
-    title: 'Advance the workstream',
-    desc: 'Move the workflow forward with ownership, risk visibility, and an operator-ready handoff package.',
+    title: 'Escalate what still needs a human',
+    desc: 'Keep approvals, exceptions, and strategic calls with a person while the repetitive operating load stays automated.',
   },
 ]
 
 const DIFFERENTIATORS = [
   {
     icon: Workflow,
-    title: 'Not an agent directory',
-    desc: 'The product is the operating layer around the specialist, not the catalog itself.',
+    title: 'Not another agent builder',
+    desc: 'The differentiator is a deployable role system for Chilean work, not a blank tool for assembling generic agents.',
   },
   {
     icon: Bookmark,
-    title: 'Reusable by default',
-    desc: 'Runs become project memory, handoff packets, and deliverables the next operator can actually use.',
+    title: 'Replicable by role',
+    desc: 'Each twin ships with routines, KPIs, boundaries, and output formats tied to a specific job instead of abstract prompts.',
   },
   {
     icon: Radar,
-    title: 'Readable for leadership',
-    desc: 'Risk, readiness, workflow condition, and latest output stay visible without hunting through logs.',
+    title: 'Measured like an operator',
+    desc: 'Replacement score, supervision requirement, and execution history make the system legible for leaders and operators.',
   },
   {
     icon: ShieldCheck,
-    title: 'Built for continuity',
-    desc: 'Context stays attached when work changes hands across launch, delivery, and operations.',
+    title: 'Built for supervised execution',
+    desc: 'Twins can absorb repetitive operational load while human escalation stays explicit for legal, strategic, or commercial calls.',
   },
 ]
 
 const PROOF_STACK = [
   {
-    label: 'Continuity',
-    title: 'Project records hold brief, workflow, runs, and deliverables together.',
-    copy: 'The product behaves more like an operating ledger than a pile of AI outputs.',
+    label: 'Role system',
+    title: 'Every twin has a job to replicate, a market fit, and a visible operating envelope.',
+    copy: 'That shifts the product from AI tooling into a system for deploying digital labor by role.',
   },
   {
     label: 'Control',
-    title: 'Each workflow step can be ready, active, awaiting decision, at risk, blocked, or done.',
-    copy: 'That makes the system readable for an operator, a lead, or a client-facing team.',
+    title: 'Each program exposes what the twin can absorb and what still needs supervision.',
+    copy: 'That makes replacement measurable instead of hand-wavy.',
   },
   {
     label: 'Handoff',
-    title: 'Every important run can carry a reusable operating packet forward.',
-    copy: 'The next specialist inherits the state instead of reconstructing it from memory.',
+    title: 'The next human or twin inherits memory, outputs, and pending decisions.',
+    copy: 'Continuity is part of the product, not an afterthought.',
   },
 ]
 
 const PRESSURE_CASES = [
   {
     icon: Layers3,
-    title: 'Commercial build',
-    desc: 'Turn strategy, proof, and rollout artifacts into one recoverable sequence instead of disconnected deliverables.',
+    title: 'Ventas B2B Chile',
+    desc: 'Deploy a commercial twin that keeps pipeline, follow-up, and next actions disciplined across active accounts.',
   },
   {
     icon: CircleAlert,
-    title: 'Operational pressure',
-    desc: 'See blockers, waiting decisions, and next owners without building a second reporting layer around the work.',
+    title: 'Licitaciones y documentos',
+    desc: 'Use a licitaciones twin to classify opportunities, order requirements, and surface risks before a human signs off.',
   },
   {
     icon: Sparkles,
-    title: 'Specialist execution',
-    desc: 'Use specialists as execution units inside a system that remembers why the work happened and what should happen next.',
+    title: 'Cobranza e implementación',
+    desc: 'Run repetitive collection and delivery coordination routines with clear escalation rules when exceptions appear.',
   },
 ]
 
@@ -121,25 +121,25 @@ export default function LandingPage() {
                   <div className="inline-flex items-center gap-2.5 rounded-full border border-[#1e3431] bg-[#0d1f1d] px-3.5 py-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#8fb2aa]" />
                     <span className="text-[10px] font-semibold uppercase tracking-[0.26em] text-[#789b96]">
-                      Operating System For Specialist Work
+                      Twin OS For Chilean Operating Roles
                     </span>
                   </div>
                 </FadeInUp>
 
                 <FadeInUp delay={0.08}>
                   <h1 className="mt-7 max-w-5xl text-5xl font-semibold leading-[0.94] tracking-[-0.04em] text-[#f5fbfa] md:text-7xl lg:text-[5.35rem]">
-                    Make specialist work
+                    Deploy digital twins
                     <br />
-                    recoverable, legible,
+                    for real operating roles
                     <br />
-                    and operational.
+                    in the Chilean market.
                   </h1>
                 </FadeInUp>
 
                 <FadeInUp delay={0.14}>
                   <p className="mt-7 max-w-2xl text-base leading-8 text-[#c7d5d1]">
-                    N3uralia Studio is the operating layer around specialist execution: workflow condition, inherited context,
-                    saved outputs, owner handoffs, and reusable project memory in one surface.
+                    N3uralia Studio turns recurrent jobs into supervised digital twins with memory, KPIs, handoffs,
+                    and visible replacement scope across sales, licitaciones, collections, implementation, and recruiting.
                   </p>
                 </FadeInUp>
 
@@ -149,13 +149,13 @@ export default function LandingPage() {
                       href="/signup"
                       className="inline-flex h-11 items-center gap-2 rounded-full border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] transition hover:bg-[#dce8e4]"
                     >
-                      Start the workspace <ArrowRight size={12} />
+                      Deploy the first twin <ArrowRight size={12} />
                     </Link>
                     <Link
                       href="/app"
                       className="inline-flex h-11 items-center gap-2 rounded-full border border-[#789b96] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] transition hover:bg-white/8"
                     >
-                      Inspect the operating shell <ArrowRight size={12} />
+                      Inspect Twin OS <ArrowRight size={12} />
                     </Link>
                   </div>
                 </FadeInUp>
@@ -163,9 +163,9 @@ export default function LandingPage() {
                 <FadeInUp delay={0.26}>
                   <div className="mt-10 grid gap-3 sm:grid-cols-3">
                     {[
-                      ['Workflow state', 'Visible operating condition'],
-                      ['Saved deliverables', 'Reusable project memory'],
-                      ['Specialist handoffs', 'Clear next owner'],
+                      ['Role coverage', 'Twin by role and vertical'],
+                      ['Operational memory', 'Reusable state per account'],
+                      ['Supervised handoffs', 'Clear human escalation'],
                     ].map(([title, body]) => (
                       <div key={title} className="rounded-[1.35rem] border border-white/10 bg-white/5 px-4 py-4">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">{title}</p>
@@ -181,23 +181,23 @@ export default function LandingPage() {
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex flex-wrap gap-2">
                       <span className="rounded-full border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d9e3e0]">
-                        Live operating view
+                        Twin control surface
                       </span>
                       <span className="rounded-full border border-[#789b96] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d9e3e0]">
-                        Premium continuity
+                        Chile-ready workflows
                       </span>
                     </div>
                     <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300">
-                      Operator ready
+                      Deployable
                     </span>
                   </div>
 
                   <div className="mt-5 rounded-[1.4rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-5">
                     <div className="grid gap-px overflow-hidden rounded-[1rem] border border-white/10 bg-white/10">
                       {[
-                        ['Current condition', 'Awaiting decision'],
-                        ['Expected output', 'Reusable deliverable with rationale'],
-                        ['Next move', 'Route the right specialist with inherited packet'],
+                        ['Replacement score', '72% to 86% by role'],
+                        ['Supervision', 'Medium by default, high for exceptions'],
+                        ['Next move', 'Route the right twin with inherited context'],
                       ].map(([label, value]) => (
                         <div key={label} className="flex items-center justify-between bg-[#102826] px-4 py-4">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">{label}</p>
@@ -209,8 +209,8 @@ export default function LandingPage() {
                     <div className="mt-5 rounded-[1.1rem] border border-white/10 bg-black/10 p-4">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9db7b1]">Why this matters</p>
                       <p className="mt-3 text-sm leading-7 text-[#d9e3e0]">
-                        Teams rarely fail because they cannot generate. They fail because the brief, the decision trail,
-                        and the next move are scattered across tools. This system keeps them on one surface.
+                        Teams do not need more generic AI. They need a way to replicate operational roles with context,
+                        controls, and clear limits. This surface makes that deployable.
                       </p>
                     </div>
                   </div>
@@ -240,12 +240,12 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
             <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
               <div className="max-w-3xl">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Operating sequence</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Twin operating loop</p>
                 <h2 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-[#173634]">
-                  The system should move work forward, not just produce output.
+                  The product should replicate work, not just generate answers.
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-[#52605d]">
-                  The commercial promise is continuity: every run should leave the project in a stronger operational state than before.
+                  The commercial promise is supervised replacement: every twin should absorb repeatable load and leave a stronger operating state behind.
                 </p>
               </div>
 
@@ -266,9 +266,9 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
             <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">What makes it different</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Why this wins</p>
                 <h2 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-[#173634]">
-                  Built around recoverable work, not around one-off generations.
+                  Built around roles you can deploy, supervise, and scale.
                 </h2>
               </div>
 
@@ -305,13 +305,13 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Featured specialists</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Featured twins</p>
                 <h2 className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-[#173634]">
-                  Specialists are part of the system, not the whole story.
+                  Start from the jobs that teams repeat every week.
                 </h2>
               </div>
               <Link href="/agents" className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#173634]">
-                Browse all specialists <ArrowRight size={12} />
+                Browse all twins <ArrowRight size={12} />
               </Link>
             </div>
 
@@ -327,7 +327,7 @@ export default function LandingPage() {
                   <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.outputFormat[0]}</p>
                   <div className="mt-5">
                     <Link href={`/agents/${agent.slug}`} className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
-                      Open specialist <ArrowRight size={12} />
+                      Open twin <ArrowRight size={12} />
                     </Link>
                   </div>
                 </article>
@@ -344,7 +344,7 @@ export default function LandingPage() {
                 If the output disappears from the system after one run, it is not operational yet.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#c7d5d1]">
-                Start with specialists if you need to. Stay for the part that compounds: the brief, the workflow, the packet,
+                Start with one twin if you need to. Stay for the part that compounds: the brief, the workflow, the packet,
                 the deliverable archive, and the next move in one place.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
