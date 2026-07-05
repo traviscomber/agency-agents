@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { HelpTip } from '@/components/app/HelpTip'
 import { MOCK_RUNS } from '@/lib/data/mock-store'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
-import { ArrowRight, Bookmark, FolderOpen, Search, Sparkles } from 'lucide-react'
+import { ArrowRight, Bookmark, FolderOpen, Search, Sparkles, Lightbulb } from 'lucide-react'
 import type { AgentRun } from '@/lib/types'
 import { getAllRuns, getWorkflowStatusMeta } from '@/lib/project-memory'
 import { cn } from '@/lib/utils'
@@ -46,6 +47,32 @@ export default function HistoryPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      {runs.length === 0 ? (
+        <div className="mb-8">
+          <HelpTip
+            icon={Lightbulb}
+            title="No Runs Yet"
+            description="This page shows every time you run an agent. To see data here, go to Projects, select a project, and click 'Run Agent' on a workflow step."
+            variant="tip"
+            actions={[
+              {
+                label: 'Create a Project',
+                onClick: () => window.location.href = '/app/projects',
+              },
+            ]}
+          />
+        </div>
+      ) : (
+        <div className="mb-8">
+          <HelpTip
+            icon={Lightbulb}
+            title="Understanding Your Run History"
+            description="Each row represents one agent execution. Click any run to see full details, outputs, and errors. Use the search to find runs by agent, project, or task name."
+            variant="info"
+          />
+        </div>
+      )}
+
       <header className="n3-panel overflow-hidden">
         <div className="grid gap-px bg-[#d8e5e2] lg:grid-cols-[1.15fr_0.85fr]">
           <div className="bg-[linear-gradient(135deg,_rgba(23,54,52,0.05),_rgba(143,178,170,0.02))] px-6 py-8 sm:px-8">

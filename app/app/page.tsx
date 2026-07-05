@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { UsageMeter } from '@/components/shared/UsageMeter'
 import { DivisionBadge } from '@/components/shared/DivisionBadge'
+import { HelpTip } from '@/components/app/HelpTip'
+import { useOnboarding } from '@/components/app/OnboardingContext'
 import { MOCK_USER, MOCK_RUNS, MOCK_PROJECTS, MOCK_SAVED_OUTPUTS } from '@/lib/data/mock-store'
 import { getAgentBySlug, getFeaturedAgents } from '@/lib/data/seed-agents'
 import { getPlanById } from '@/lib/data/plans'
@@ -21,6 +23,8 @@ import {
   Zap,
   Clock3,
   Binary,
+  Lightbulb,
+  AlertCircle,
 } from 'lucide-react'
 import type { AgentRun, DigitalTwinProfile, Project, SavedOutput } from '@/lib/types'
 import { buildProjectHandoffPacket, buildProjectRunHref, getAllRuns, getAllSavedOutputs, getMergedProjects, getProjectCurrentWorkflowStep, getWorkflowStatusMeta } from '@/lib/project-memory'
@@ -62,6 +66,7 @@ export default function AppDashboard() {
   const [runs, setRuns] = useState<AgentRun[]>(MOCK_RUNS)
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS)
   const [savedOutputs, setSavedOutputs] = useState<SavedOutput[]>(MOCK_SAVED_OUTPUTS)
+  const { steps } = useOnboarding()
 
   useEffect(() => {
     void (async () => {
@@ -104,6 +109,23 @@ export default function AppDashboard() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      {!projects.length && (
+        <div className="mb-6">
+          <HelpTip
+            icon={Lightbulb}
+            title="Get Started: Create Your First Program"
+            description="A program is a workflow that guides your agents through work. Start by creating one program with at least one step, then assign agents to each step."
+            variant="tip"
+            actions={[
+              {
+                label: 'Create Program',
+                onClick: () => window.location.href = '/app/projects',
+              },
+            ]}
+          />
+        </div>
+      )}
+
       <section className="n3-glow-ring overflow-hidden border border-[#173634] bg-[#173634] text-[#f5fbfa]">
         <div className="n3-hero-grid relative overflow-hidden px-6 py-8 sm:px-8 sm:py-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(143,178,170,0.2),_transparent_30%),radial-gradient(circle_at_85%_15%,_rgba(255,255,255,0.08),_transparent_24%),linear-gradient(135deg,_rgba(8,16,18,0.3),_transparent_60%)]" />

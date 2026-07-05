@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
+import { HelpTip } from '@/components/app/HelpTip'
 import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type { Project, ProjectType } from '@/lib/types'
-import { ArrowRight, Bookmark, Calendar, FolderOpen, Plus } from 'lucide-react'
+import { ArrowRight, Bookmark, Calendar, FolderOpen, Plus, Lightbulb } from 'lucide-react'
 import { getAgentBySlug, getFeaturedAgents } from '@/lib/data/seed-agents'
 import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectCurrentWorkflowStep, getProjectTypeLabel, PROJECT_TYPE_OPTIONS } from '@/lib/project-memory'
 
@@ -102,6 +103,23 @@ export default function ProjectsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      {projects.length === 0 && (
+        <div className="mb-8">
+          <HelpTip
+            icon={Lightbulb}
+            title="What is a Project?"
+            description="A project is a piece of work with multiple steps. Each step can be assigned to a different agent. For example, a sales project might have steps for prospecting, proposal creation, and follow-up. Create your first project to get started."
+            variant="tip"
+            actions={[
+              {
+                label: 'Create Project Now',
+                onClick: () => setShowNew(true),
+              },
+            ]}
+          />
+        </div>
+      )}
+
       <header className="n3-panel overflow-hidden">
         <div className="grid gap-px bg-[#d8e5e2] lg:grid-cols-[1.2fr_0.8fr]">
           <div className="bg-[linear-gradient(135deg,_rgba(23,54,52,0.05),_rgba(143,178,170,0.02))] px-6 py-8 sm:px-8">
