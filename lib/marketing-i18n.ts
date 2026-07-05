@@ -15,7 +15,27 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/') return `/${locale}`
   if (href === '/agents') return `/${locale}/agents`
   if (href === '/pricing') return `/${locale}/pricing`
+  if (href === '/signup') return `/${locale}/signup`
+  if (href === '/login') return `/${locale}/login`
+  if (href === '/contact') return `/${locale}/contact`
   return href
+}
+
+export function getLocalizedAgentHref(locale: MarketingLocale, slug: string) {
+  return `/${locale}/agents/${slug}`
+}
+
+export function buildLocaleAlternates(pathByLocale: Record<MarketingLocale, string>) {
+  return {
+    canonical: pathByLocale.es,
+    languages: {
+      'es-CL': pathByLocale.es,
+      es: pathByLocale.es,
+      'en-US': pathByLocale.en,
+      en: pathByLocale.en,
+      'x-default': pathByLocale.es,
+    },
+  }
 }
 
 export const publicNavbarCopy = {
@@ -353,5 +373,151 @@ export const pricingPageCopy = {
       ['Can I use multi-step twin programs?', 'Yes, on Professional and higher. Chain twins and human approvals when the work requires review, handoff, or sequencing rather than a single run.'],
       ['What is white-label?', 'Enterprise customers can resell the system under their own brand with custom domain, branding, and revenue-share options.'],
     ],
+  },
+} satisfies Record<MarketingLocale, any>
+
+export const authPageCopy = {
+  signup: {
+    es: {
+      badge: 'Gratis para empezar',
+      leftEyebrow: 'Activa el sistema operativo',
+      leftTitle: 'Crea tu cuenta y empieza con continuidad.',
+      leftBody: 'Configura un workspace para ejecución de twins, contexto heredado, estado de workflow y outputs reutilizables por tu equipo.',
+      benefits: [
+        '5 corridas twin gratis al mes',
+        'Memoria de proyecto y continuidad de workflow',
+        'Guardar entregables en programas operativos reutilizables',
+        'Sin tarjeta de crédito',
+      ],
+      formTitle: 'Crea tu cuenta',
+      formAlt: '¿Ya tienes una?',
+      formAltCta: 'Ingresa',
+      fullName: 'Nombre completo',
+      fullNamePlaceholder: 'Tu nombre',
+      email: 'Email',
+      password: 'Contraseña',
+      passwordPlaceholder: 'Al menos 8 caracteres',
+      submit: 'Crear cuenta',
+      loading: 'Creando cuenta...',
+      legal: 'Al crear una cuenta aceptas nuestros',
+    },
+    en: {
+      badge: 'Free to start',
+      leftEyebrow: 'Start the operating system',
+      leftTitle: 'Create your account and begin with continuity.',
+      leftBody: 'Set up a workspace for twin execution, inherited context, workflow state, and outputs your team can reuse.',
+      benefits: [
+        '5 free twin runs per month',
+        'Project memory and workflow continuity',
+        'Save deliverables into reusable operating programs',
+        'No credit card required',
+      ],
+      formTitle: 'Create your account',
+      formAlt: 'Already have one?',
+      formAltCta: 'Sign in',
+      fullName: 'Full name',
+      fullNamePlaceholder: 'Your name',
+      email: 'Email',
+      password: 'Password',
+      passwordPlaceholder: 'At least 8 characters',
+      submit: 'Create account',
+      loading: 'Creating account...',
+      legal: 'By creating an account you agree to our',
+    },
+  },
+  login: {
+    es: {
+      badge: 'Acceso seguro',
+      leftEyebrow: 'Acceso al comando',
+      leftTitle: 'Ingresa para retomar la siguiente secuencia operativa.',
+      leftBody: 'Especialistas, workflows y entregables permanecen conectados para que el equipo recupere contexto sin re-briefear el sistema.',
+      leftSignals: [
+        ['Continuidad operativa', 'Cada corrida queda unida a owners, handoffs y al paso actual.'],
+        ['Trazabilidad por defecto', 'Entregables, memoria y estado del workflow siguen visibles después de la corrida.'],
+      ],
+      formTitle: 'Ingresa',
+      formAlt: '¿No tienes cuenta?',
+      formAltCta: 'Comienza gratis',
+      email: 'Email',
+      password: 'Contraseña',
+      forgot: '¿Olvidaste?',
+      passwordPlaceholder: 'Ingresa tu contraseña',
+      submit: 'Ingresar',
+      legal: 'Al ingresar aceptas nuestros',
+    },
+    en: {
+      badge: 'Secure access',
+      leftEyebrow: 'Command access',
+      leftTitle: 'Sign in to resume the next operating sequence.',
+      leftBody: 'Specialists, workflows, and deliverables stay linked so your team can recover context without re-briefing the system.',
+      leftSignals: [
+        ['Operational continuity', 'Each run stays attached to owners, handoffs, and the current step.'],
+        ['Traceable by default', 'Deliverables, memory, and workflow state stay visible after the run ends.'],
+      ],
+      formTitle: 'Sign in',
+      formAlt: 'No account?',
+      formAltCta: 'Start free',
+      email: 'Email',
+      password: 'Password',
+      forgot: 'Forgot?',
+      passwordPlaceholder: 'Enter your password',
+      submit: 'Sign in',
+      legal: 'By signing in you agree to our',
+    },
+  },
+} satisfies Record<string, Record<MarketingLocale, any>>
+
+export const contactPageCopy = {
+  es: {
+    badge: 'Contacta a N3uralia',
+    title: 'Habla con el equipo por el canal que mejor calce con la presión operativa.',
+    body: 'N3uralia se construye alrededor de diagnóstico, build y continuidad operativa. Cuéntanos el problema y enroutamos la conversación al camino especialista correcto.',
+    primary: 'Escríbenos',
+    secondary: 'Ver planes',
+    signals: [
+      ['Ruta por presión', 'Producto, diagnóstico e implementación se dirigen al punto de partida correcto.'],
+      ['Calce operativo primero', 'La primera conversación se acota por riesgo, ownership y la siguiente capa útil a construir.'],
+    ],
+    channels: [
+      ['Email', 'hello@n3uralia.com', 'Mejor para preguntas de producto, alianzas y seguimiento de implementación.', 'mailto:hello@n3uralia.com', 'Enviar email'],
+      ['WhatsApp', '+56 9 6316 0187', 'Mejor para coordinación urgente o preguntas sensibles al tiempo.', 'https://wa.me/56963160187', 'Hablar por WhatsApp'],
+      ['Diagnóstico', 'Agenda una revisión operativa', 'Úsalo si necesitas walkthrough guiado, fit check o conversación acotada sobre el primer workflow.', 'mailto:hello@n3uralia.com?subject=N3uralia%20operating%20diagnosis', 'Solicitar diagnóstico'],
+    ],
+    gridSignals: [
+      ['Tiempo de respuesta', 'Buscamos responder en menos de 24 horas hábiles.'],
+      ['Mejor para', 'Diagnóstico, onboarding, implementación y alianzas.'],
+      ['Privacidad', 'Solo usamos tu mensaje para responder y gestionar la solicitud.'],
+      ['Fit check', 'Si hace falta, derivamos la conversación al camino especialista correcto.'],
+    ],
+    diagnosisEyebrow: 'Agenda un diagnóstico',
+    diagnosisTitle: 'Si necesitas un camino más claro, te ayudamos a decidir qué construir después.',
+    diagnosisBody: 'La primera conversación no es un pitch de ventas. Es un filtro de fit, alcance y punto de partida correcto.',
+    diagnosisItems: ['Diagnóstico operativo', 'Guía de planes y pricing', 'Oportunidades de partnership', 'Preguntas de implementación'],
+  },
+  en: {
+    badge: 'Contact N3uralia',
+    title: 'Reach the team through the channel that matches the operational pressure.',
+    body: 'N3uralia is built around diagnosis, build, and operating continuity. Reach out with the problem, and we route the conversation to the right specialist path.',
+    primary: 'Email us',
+    secondary: 'See plans',
+    signals: [
+      ['Route by pressure', 'Product, diagnosis, and implementation requests are directed to the right starting point.'],
+      ['Operational fit first', 'The first conversation is scoped around risk, ownership, and the next useful layer to build.'],
+    ],
+    channels: [
+      ['Email', 'hello@n3uralia.com', 'Best for product questions, partnership requests, and implementation follow-up.', 'mailto:hello@n3uralia.com', 'Send email'],
+      ['WhatsApp', '+56 9 6316 0187', 'Best for urgent coordination or time-sensitive questions.', 'https://wa.me/56963160187', 'Chat on WhatsApp'],
+      ['Diagnosis', 'Book an operating review', 'Use this if you want a guided walkthrough, fit check, or a scoped conversation around the first workflow to build.', 'mailto:hello@n3uralia.com?subject=N3uralia%20operating%20diagnosis', 'Request diagnosis'],
+    ],
+    gridSignals: [
+      ['Response time', 'We aim to answer in under 24 business hours.'],
+      ['Best for', 'Diagnosis, onboarding, implementation questions, and partnership requests.'],
+      ['Privacy', 'We only use your message to respond and handle the request.'],
+      ['Fit check', 'If needed, we route the conversation to the right specialist path.'],
+    ],
+    diagnosisEyebrow: 'Book a diagnosis',
+    diagnosisTitle: 'If you need a clearer path, we will help you decide what to build next.',
+    diagnosisBody: 'The first conversation is not a sales pitch. It is a filter for fit, scope, and the right starting point.',
+    diagnosisItems: ['Operational diagnosis', 'Pricing and plan guidance', 'Partnership opportunities', 'Implementation questions'],
   },
 } satisfies Record<MarketingLocale, any>
