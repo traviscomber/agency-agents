@@ -199,12 +199,12 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 const Icon = CASE_ICONS[index]
                 return (
                   <Card key={title} variant="light" className="p-6">
-                    <div className="flex h-11 w-11 items-center justify-center2xl bg-[#173634] text-[#d9e3e0]">
+                    <div className="flex h-11 w-11 items-center justify-center bg-[#173634] text-[#d9e3e0]">
                       <Icon size={18} />
                     </div>
                     <p className="mt-4 text-lg font-semibold text-[#173634]">{title}</p>
                     <p className="mt-2 text-sm leading-7 text-[#52605d]">{desc}</p>
-                  </article>
+                  </Card>
                 )
               })}
             </div>
