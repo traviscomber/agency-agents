@@ -238,7 +238,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                       Open twin <ArrowRight size={12} />
                     </Link>
                   </div>
-                </article>
+                </Card>
               ))}
             </div>
           </div>
