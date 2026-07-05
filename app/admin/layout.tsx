@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { LayoutDashboard, Bot, Users, History, Settings, Shield } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { PublicNavbar } from '@/components/public/PublicNavbar'
 
 // NOTE: In production, protect this layout with auth middleware
 // checking MOCK_USER.isAdmin or a Supabase session with role check.
@@ -15,7 +16,9 @@ const ADMIN_NAV = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen" style={{ backgroundColor: '#fbfbfa' }}>
+    <>
+      <PublicNavbar />
+      <div className="flex h-[calc(100vh-4.75rem)]" style={{ backgroundColor: '#fbfbfa' }}>
       {/* Sidebar */}
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-[#d8e5e2] bg-white lg:flex">
         {/* Logo */}
@@ -55,6 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <main className="flex-1 overflow-y-auto">
         {children}
       </main>
-    </div>
+      </div>
+    </>
   )
 }
