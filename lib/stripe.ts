@@ -5,7 +5,7 @@ function getStripeClient() {
   if (!key) {
     throw new Error('STRIPE_SECRET_KEY not configured')
   }
-  return new Stripe(key, { apiVersion: '2023-10-16' })
+  return new Stripe(key)
 }
 
 let stripeInstance: Stripe | null = null

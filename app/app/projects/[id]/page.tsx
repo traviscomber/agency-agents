@@ -110,12 +110,14 @@ export default function ProjectDetailPage({ params }: Props) {
     )
   }
 
-  const projectOverlay = overlay ?? buildProjectOverlay(project)
-  const operatingBrief = mergeProjectBrief(project, projectOverlay)
+  const activeProject = project
+
+  const projectOverlay = overlay ?? buildProjectOverlay(activeProject)
+  const operatingBrief = mergeProjectBrief(activeProject, projectOverlay)
   const runs = mergeProjectRuns(MOCK_RUNS.filter((r) => r.projectId === id), projectOverlay)
   const saved = mergeProjectSavedOutputs(MOCK_SAVED_OUTPUTS.filter((s) => s.projectId === id), projectOverlay)
-  const memory = mergeProjectMemory(project, projectOverlay)
-  const workflow = mergeProjectWorkflow(project, projectOverlay)
+  const memory = mergeProjectMemory(activeProject, projectOverlay)
+  const workflow = mergeProjectWorkflow(activeProject, projectOverlay)
 
   function startBriefEdit() {
     if (!operatingBrief) return
@@ -132,11 +134,11 @@ export default function ProjectDetailPage({ params }: Props) {
       ...briefDraft,
       constraints: briefDraft.constraints.map((item) => item.trim()).filter(Boolean),
     }
-    const nextOverlay = await updateProjectBrief(project, nextBrief)
+    const nextOverlay = await updateProjectBrief(activeProject, nextBrief)
     setOverlay(nextOverlay)
     setProjects((prev) =>
       prev.map((item) =>
-        item.id === project.id
+        item.id === activeProject.id
           ? {
               ...item,
               operatingBrief: nextBrief,
@@ -153,7 +155,7 @@ export default function ProjectDetailPage({ params }: Props) {
     workflow?: ProjectWorkflowStep[]
   }) {
     const nextOverlay = await persistProjectOperatingState({
-      project,
+      project: activeProject,
       ...nextArgs,
     })
 
@@ -163,7 +165,7 @@ export default function ProjectDetailPage({ params }: Props) {
     setOverlay(nextOverlay)
     setProjects((prev) =>
       prev.map((item) =>
-        item.id === project.id
+        item.id === activeProject.id
           ? {
               ...item,
               updatedAt,
@@ -247,7 +249,7 @@ export default function ProjectDetailPage({ params }: Props) {
     const createdAt = new Date().toISOString()
 
     await saveOperatingUpdate({
-      workflow: nextWorkflow,
+      workflow: nextWorkflow as ProjectWorkflowStep[],
       memoryEntry: {
         id: `mem-${Date.now()}`,
         title: 'Workflow specialist updated',
@@ -277,7 +279,7 @@ export default function ProjectDetailPage({ params }: Props) {
     const createdAt = new Date().toISOString()
 
     await saveOperatingUpdate({
-      workflow: nextWorkflow,
+      workflow: nextWorkflow as ProjectWorkflowStep[],
       memoryEntry: {
         id: `mem-${Date.now()}`,
         title: 'Workflow status updated',
@@ -292,12 +294,12 @@ export default function ProjectDetailPage({ params }: Props) {
 
   const activeStep = getProjectCurrentWorkflowStep(workflow)
   const nextStep = activeStep ? workflow[workflow.findIndex((step) => step.id === activeStep.id) + 1] : undefined
-  const recommendedAgentSlug = resolveRecommendedAgentSlug(activeStep)
+  const recommendedAgentSlug = resolveRecommendedAgentSlug(activeStep ?? undefined)
   const recommendedAgent = recommendedAgentSlug ? getAgentBySlug(recommendedAgentSlug) : null
   const selectableAgents = SEED_AGENTS.filter((agent) => agent.isActive)
   const latestMemory = memory[0]
   const latestDeliverable = saved[0]
-  const projectTypeLabel = getProjectTypeLabel(project.projectType)
+  const projectTypeLabel = getProjectTypeLabel(activeProject.projectType)
   const activeStepMeta = activeStep ? getWorkflowStatusMeta(activeStep.status) : null
   const operatingHealth = activeStep
     ? activeStep.status === 'blocked'
@@ -307,18 +309,18 @@ export default function ProjectDetailPage({ params }: Props) {
         : activeStep.status === 'awaiting-decision'
           ? 'Waiting on explicit decision'
           : recommendedAgent
-            ? 'Ready for the next specialist'
-            : 'Needs specialist assignment'
+            ? 'Ready for the next twin'
+            : 'Needs twin assignment'
     : 'Needs workflow definition'
   const handoffPacket = useMemo(
-    () => buildProjectHandoffPacket(project, latestDeliverable),
-    [latestDeliverable, project],
+    () => buildProjectHandoffPacket(activeProject, latestDeliverable),
+    [latestDeliverable, activeProject],
   )
   const handoffText = useMemo(
     () => (handoffPacket ? buildProjectHandoffText(handoffPacket) : null),
     [handoffPacket],
   )
-  const recommendedRunHref = useMemo(() => buildProjectRunHref(project), [project])
+  const recommendedRunHref = useMemo(() => buildProjectRunHref(activeProject), [activeProject])
   const timelineItems = useMemo(() => {
     const items: Array<{
       id: string
@@ -866,7 +868,7 @@ export default function ProjectDetailPage({ params }: Props) {
                       </Label>
                       <Select
                         value={step.recommendedAgentSlug ?? 'none'}
-                        onValueChange={(value) => void updateWorkflowRecommendedAgent(step.id, value)}
+                        onValueChange={(value) => void updateWorkflowRecommendedAgent(step.id, value ?? 'none')}
                       >
                         <SelectTrigger className="mt-2 h-9 rounded-xl border-slate-200 bg-white text-xs">
                           <SelectValue placeholder="Select specialist" />

@@ -40,11 +40,11 @@ export default function ScheduledRunsPage() {
 
       {SCHEDULED_RUNS.length === 0 ? (
         <EmptyState
-          icon={Clock}
+          icon={<Clock size={16} />}
           title="No scheduled runs yet"
           description="Automate agent execution with daily, weekly, or monthly schedules."
-          ctaLabel="Create schedule"
-          ctaHref="/app/scheduled-runs/new"
+          actionLabel="Create schedule"
+          actionHref="/app/scheduled-runs/new"
         />
       ) : (
         <div className="space-y-2">

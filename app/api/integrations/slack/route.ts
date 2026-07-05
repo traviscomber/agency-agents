@@ -1,18 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
-  const { type, user_id, trigger_id, actions, text } = await req.json()
+  const payload = await req.json()
+  const { type, text } = payload as {
+    type?: string
+    text?: string
+    event?: {
+      type?: string
+      text?: string
+    }
+    command?: string
+  }
 
   if (type === 'url_verification') {
-    return NextResponse.json({ challenge: req.body?.challenge })
+    return NextResponse.json({ challenge: (payload as { challenge?: string }).challenge })
   }
 
   if (type === 'event_callback') {
-    const event = req.body?.event
+    const event = (payload as { event?: { type?: string; text?: string } }).event
     
     if (event?.type === 'app_mention') {
       // Parse agent command from mention
-      const agentMatch = text?.match(/@agent\s+(\w+)/)
+      const agentMatch = (event.text ?? text)?.match(/@agent\s+(\w+)/)
       if (agentMatch) {
         const agentSlug = agentMatch[1]
         // TODO: Queue agent run, post result to Slack
@@ -22,12 +31,12 @@ export async function POST(req: NextRequest) {
   }
 
   if (type === 'slash_command') {
-    const { command, text } = await req.json()
+    const { command, text: commandText } = payload as { command?: string; text?: string }
     
     if (command === '/run-agent') {
       // TODO: Parse agent slug from text, execute, respond
       return NextResponse.json({
-        text: `Running agent: ${text}`,
+        text: `Running agent: ${commandText ?? ''}`,
         response_type: 'in_channel',
       })
     }

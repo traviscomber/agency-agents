@@ -16,7 +16,7 @@ import {
   persistProjectRunResult,
   persistSavedOutput,
 } from '@/lib/project-memory'
-import type { AgentRun, SavedOutput } from '@/lib/types'
+import type { AgentRun, ProjectWorkflowStep, SavedOutput } from '@/lib/types'
 import { ArrowLeft, ArrowRight, Bookmark, Copy, FolderOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -82,38 +82,40 @@ export default function RunDetailPage({ params }: Props) {
     )
   }
 
-  const runAgent = getAgentById(run.agentId)
+  const activeRun = run
+
+  const runAgent = getAgentById(activeRun.agentId)
   const rerunHref = (() => {
     if (!runAgent) return null
 
     const params = new URLSearchParams({
-      task: run.task,
-      context: run.context || '',
-      desiredOutput: run.desiredOutput || 'analysis',
-      detailLevel: run.detailLevel || 'standard',
-      projectId: run.projectId || 'unassigned',
-      presetStepId: run.presetStepId || '',
-      presetStepName: run.presetStepName || '',
-      presetStepOwner: run.presetStepOwner || '',
-      presetProjectName: run.projectName || '',
+      task: activeRun.task,
+      context: activeRun.context || '',
+      desiredOutput: activeRun.desiredOutput || 'analysis',
+      detailLevel: activeRun.detailLevel || 'standard',
+      projectId: activeRun.projectId || 'unassigned',
+      presetStepId: activeRun.presetStepId || '',
+      presetStepName: activeRun.presetStepName || '',
+      presetStepOwner: activeRun.presetStepOwner || '',
+      presetProjectName: activeRun.projectName || '',
     })
 
-    if (run.handoffPacket) {
-      params.set('presetPacket', JSON.stringify(run.handoffPacket))
+    if (activeRun.handoffPacket) {
+      params.set('presetPacket', JSON.stringify(activeRun.handoffPacket))
     }
 
     return `/app/run/${runAgent.slug}?${params.toString()}`
   })()
 
   async function handleCopyOutput() {
-    if (!run.output) return
+    if (!activeRun.output) return
 
     const copyPayload = [
-      `Summary:\n${run.output.summary}`,
-      `Main result:\n${run.output.mainResult}`,
-      run.output.actionSteps.length ? `Action steps:\n${run.output.actionSteps.map((step, index) => `${index + 1}. ${step}`).join('\n')}` : '',
-      run.output.risksNotes.length ? `Risks and notes:\n${run.output.risksNotes.join('\n')}` : '',
-      `Suggested next step:\n${run.output.suggestedNextStep}`,
+      `Summary:\n${activeRun.output.summary}`,
+      `Main result:\n${activeRun.output.mainResult}`,
+      activeRun.output.actionSteps.length ? `Action steps:\n${activeRun.output.actionSteps.map((step, index) => `${index + 1}. ${step}`).join('\n')}` : '',
+      activeRun.output.risksNotes.length ? `Risks and notes:\n${activeRun.output.risksNotes.join('\n')}` : '',
+      `Suggested next step:\n${activeRun.output.suggestedNextStep}`,
     ]
       .filter(Boolean)
       .join('\n\n')
@@ -124,42 +126,42 @@ export default function RunDetailPage({ params }: Props) {
   }
 
   async function handleSaveToLibrary() {
-    if (!run?.output || savedOutputs.length > 0) return
+    if (!activeRun.output || savedOutputs.length > 0) return
 
     setIsSaving(true)
     try {
       const savedOutput: SavedOutput = {
         id: `saved-${Date.now()}`,
-        userId: run.userId,
-        projectId: run.projectId,
-        projectName: run.projectName,
-        agentRunId: run.id,
-        agentName: run.agentName,
-        title: `${run.agentName} deliverable`,
-        content: run.output.mainResult,
+        userId: activeRun.userId,
+        projectId: activeRun.projectId,
+        projectName: activeRun.projectName,
+        agentRunId: activeRun.id,
+        agentName: activeRun.agentName,
+        title: `${activeRun.agentName} deliverable`,
+        content: activeRun.output.mainResult,
         format: 'text',
-        createdAt: run.createdAt,
-        updatedAt: run.createdAt,
+        createdAt: activeRun.createdAt,
+        updatedAt: activeRun.createdAt,
       }
 
-      if (run.projectId) {
+      if (activeRun.projectId) {
         const projects = await getMergedProjects(MOCK_PROJECTS)
-        const project = projects.find((item) => item.id === run.projectId)
+        const project = projects.find((item) => item.id === activeRun.projectId)
 
         if (project) {
-          const runLabel = `${run.agentName}: ${run.task.slice(0, 48)}`
-          const memoryEntry = captureDeliverableMemory(run.agentName, run.task, run.output.summary, run.createdAt)
+          const runLabel = `${activeRun.agentName}: ${activeRun.task.slice(0, 48)}`
+          const memoryEntry = captureDeliverableMemory(activeRun.agentName, activeRun.task, activeRun.output.summary, activeRun.createdAt)
           const nextWorkflow = advanceWorkflowAfterRun(
             project.workflow ?? [],
-            run.id,
+            activeRun.id,
             runLabel,
-            run.createdAt,
+            activeRun.createdAt,
             {
-              run,
-              output: run.output,
+              run: activeRun,
+              output: activeRun.output,
               projectType: project.projectType,
             },
-          )
+          ) as ProjectWorkflowStep[]
 
           await persistProjectRunResult({
             project: {
@@ -167,7 +169,7 @@ export default function RunDetailPage({ params }: Props) {
               workflow: nextWorkflow,
             },
             run: {
-              ...run,
+              ...activeRun,
               projectId: project.id,
               projectName: project.name,
             },

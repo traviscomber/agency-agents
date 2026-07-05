@@ -12,13 +12,13 @@ export default function UsagePage() {
   const usagePercent = Math.min((runsUsed / runsLimit) * 100, 100)
 
   const runsByDivision = MOCK_RUNS.reduce<Record<string, number>>((acc, run) => {
-    const div = run.division ?? run.agentDivision ?? 'Unknown'
+    const div = run.agentDivision ?? 'Unknown'
     acc[div] = (acc[div] || 0) + 1
     return acc
   }, {})
 
   const runsByAgent = MOCK_RUNS.reduce<Record<string, { name: string; division: string; count: number }>>((acc, run) => {
-    const div = run.division ?? run.agentDivision ?? 'Unknown'
+    const div = run.agentDivision ?? 'Unknown'
     if (!acc[run.agentId]) acc[run.agentId] = { name: run.agentName, division: div, count: 0 }
     acc[run.agentId].count += 1
     return acc

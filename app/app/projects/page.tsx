@@ -39,7 +39,7 @@ export default function ProjectsPage() {
     setShowNew(false)
   }
 
-  const totals = projects.reduce((acc, p) => ({ runs: acc.runs + p.runCount, saved: acc.saved + p.savedCount }), { runs: 0, saved: 0 })
+  const totals = projects.reduce((acc, p) => ({ runs: acc.runs + (p.runCount ?? 0), saved: acc.saved + (p.savedCount ?? 0) }), { runs: 0, saved: 0 })
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">

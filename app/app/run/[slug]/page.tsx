@@ -25,7 +25,7 @@ import {
   persistSavedOutput,
 } from '@/lib/project-memory'
 import { canAccessAgent } from '@/lib/types'
-import type { AgentOutput, AgentRun, ProjectHandoffPacket, SavedOutput } from '@/lib/types'
+import type { AgentOutput, AgentRun, ProjectHandoffPacket, ProjectWorkflowStep, SavedOutput } from '@/lib/types'
 import {
   ArrowLeft,
   ArrowRight,
@@ -154,6 +154,8 @@ function RunAgentPageContent({ params }: Props) {
     )
   }
 
+  const activeAgent = agent
+
   if (!hasAccess) {
     return (
       <div className="mx-auto max-w-md px-6 py-20 text-center">
@@ -162,7 +164,7 @@ function RunAgentPageContent({ params }: Props) {
         </div>
         <h2 className="text-xl font-light text-[#173634]">Upgrade required</h2>
         <p className="mt-2 text-sm text-[#173634]/55">
-          {agent.name} requires the <span className="font-medium capitalize">{agent.planRequired}</span> plan.
+          {activeAgent.name} requires the <span className="font-medium capitalize">{activeAgent.planRequired}</span> plan.
         </p>
         <Button asChild className="mt-6 h-9 rounded-none bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
           <Link href="/app/billing">Upgrade plan</Link>
@@ -186,7 +188,7 @@ function RunAgentPageContent({ params }: Props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          agentSlug: agent.slug,
+          agentSlug: activeAgent.slug,
           task,
           context: executionContext,
           desiredOutput,
@@ -198,7 +200,7 @@ function RunAgentPageContent({ params }: Props) {
       const payload = await response.json()
       if (!response.ok || !payload.success) {
         if (payload.error === 'upgrade_required' && payload.requiredPlan) {
-          throw new Error(`This specialist requires the ${payload.requiredPlan} plan.`)
+          throw new Error(`This twin requires the ${payload.requiredPlan} plan.`)
         }
 
         throw new Error(payload.error || 'Agent execution failed')
@@ -260,8 +262,8 @@ function RunAgentPageContent({ params }: Props) {
         id: `saved-${Date.now()}`,
         userId: MOCK_USER.id,
         agentRunId: latestRun.id,
-        agentName: agent.name,
-        title: `${agent.name} deliverable`,
+        agentName: activeAgent.name,
+        title: `${activeAgent.name} deliverable`,
         content: output.mainResult,
         format: 'text',
         createdAt: latestRun.createdAt,
@@ -273,7 +275,7 @@ function RunAgentPageContent({ params }: Props) {
       return
     }
 
-    const runLabel = `${agent.name}: ${task.slice(0, 48)}`
+    const runLabel = `${activeAgent.name}: ${task.slice(0, 48)}`
     const nextWorkflow = advanceWorkflowAfterRun(
       selectedProject.workflow ?? [],
       latestRun.id,
@@ -284,7 +286,7 @@ function RunAgentPageContent({ params }: Props) {
         output,
         projectType: selectedProject.projectType,
       },
-    )
+    ) as ProjectWorkflowStep[]
 
     const savedOutput: SavedOutput = {
       id: `saved-${Date.now()}`,
@@ -292,15 +294,15 @@ function RunAgentPageContent({ params }: Props) {
       projectId: selectedProject.id,
       projectName: selectedProject.name,
       agentRunId: latestRun.id,
-      agentName: agent.name,
-      title: `${agent.name} deliverable`,
+      agentName: activeAgent.name,
+      title: `${activeAgent.name} deliverable`,
       content: output.mainResult,
       format: 'text',
       createdAt: latestRun.createdAt,
       updatedAt: latestRun.createdAt,
     }
 
-    const memoryEntry = captureDeliverableMemory(agent.name, task, output.summary, latestRun.createdAt)
+    const memoryEntry = captureDeliverableMemory(activeAgent.name, task, output.summary, latestRun.createdAt)
 
     await persistProjectRunResult({
       project: {
@@ -437,7 +439,7 @@ function RunAgentPageContent({ params }: Props) {
               <div className="grid gap-4 lg:grid-cols-3">
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Output shape</Label>
-                  <Select value={desiredOutput} onValueChange={setDesiredOutput} disabled={status === 'running'}>
+                  <Select value={desiredOutput} onValueChange={(value) => value && setDesiredOutput(value)} disabled={status === 'running'}>
                     <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
                     </SelectTrigger>
@@ -451,7 +453,7 @@ function RunAgentPageContent({ params }: Props) {
 
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Depth</Label>
-                  <Select value={detailLevel} onValueChange={setDetailLevel} disabled={status === 'running'}>
+                  <Select value={detailLevel} onValueChange={(value) => value && setDetailLevel(value)} disabled={status === 'running'}>
                     <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue />
                     </SelectTrigger>
@@ -465,7 +467,7 @@ function RunAgentPageContent({ params }: Props) {
 
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Save to project</Label>
-                  <Select value={projectId} onValueChange={setProjectId} disabled={status === 'running'}>
+                  <Select value={projectId} onValueChange={(value) => setProjectId(value ?? 'unassigned')} disabled={status === 'running'}>
                     <SelectTrigger className="h-10 rounded-none border-[#d8e5e2] bg-[#fbfbfa] text-sm">
                       <SelectValue placeholder="Keep unassigned" />
                     </SelectTrigger>
