@@ -13,8 +13,8 @@ import { MOCK_USER } from '@/lib/data/mock-store'
 
 const NAV_MAIN = [
   { href: '/app',          label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/app/agents',   label: 'Agents',    icon: Bot },
-  { href: '/app/projects', label: 'Projects',  icon: FolderOpen },
+  { href: '/app/agents',   label: 'Gemelos',   icon: Bot },
+  { href: '/app/projects', label: 'Programas', icon: FolderOpen },
   { href: '/app/history',  label: 'History',   icon: History },
   { href: '/app/saved',    label: 'Saved',     icon: Bookmark },
 ]
@@ -80,7 +80,7 @@ export function AppSidebar() {
           <img src="/logo-n3uralia.png" alt="N3uralia Studio" className="h-8 w-8" />
           <div className="leading-tight">
             <span className="block text-sm font-semibold text-[#173634]">N3uralia</span>
-            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Studio</span>
+            <span className="block text-[9px] uppercase tracking-[0.26em] text-[#789b96]">Twin OS</span>
           </div>
         </Link>
 
@@ -89,7 +89,7 @@ export function AppSidebar() {
           href="/app/agents"
           className="mt-4 flex items-center justify-between border border-[#1e3431] bg-[#173634] px-3.5 py-2.5 text-xs font-semibold text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
         >
-          <span className="text-[10px] uppercase tracking-[0.2em]">Run a specialist</span>
+          <span className="text-[10px] uppercase tracking-[0.2em]">Ejecutar gemelo</span>
           <ArrowUpRight size={12} className="text-[#8fb2aa]" />
         </Link>
       </div>
@@ -97,7 +97,7 @@ export function AppSidebar() {
       {/* Main nav */}
       <nav className="flex-1 overflow-y-auto px-2 py-3">
         <p className="mb-1 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#a7b9b4]">
-          Command center
+          Twin OS
         </p>
         {NAV_MAIN.map((item) => <NavLink key={item.href} {...item} />)}
 

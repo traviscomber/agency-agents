@@ -148,7 +148,7 @@ function RunAgentPageContent({ params }: Props) {
       <div className="mx-auto max-w-2xl px-6 py-20 text-center">
         <p className="text-sm text-[#173634]/55">Agent not found.</p>
         <Button asChild variant="outline" className="mt-4 h-9 border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.14em]">
-          <Link href="/app/agents">Back to agents</Link>
+          <Link href="/app/agents">Back to gemelos</Link>
         </Button>
       </div>
     )
@@ -340,7 +340,7 @@ function RunAgentPageContent({ params }: Props) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
       <Link href={`/app/agents/${slug}`} className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
-        <ArrowLeft size={12} /> Back to specialist profile
+        <ArrowLeft size={12} /> Back to gemelo profile
       </Link>
 
       <section className="mt-4 overflow-hidden border border-[#1e3431] bg-[#173634] text-[#f5fbfa]">
@@ -365,7 +365,7 @@ function RunAgentPageContent({ params }: Props) {
                   {presetStepOwner ? ` · Owner: ${presetStepOwner}` : ''}
                 </p>
                 <p className="mt-2 text-xs leading-6 text-[#c3d3cf]">
-                  This run was preconfigured from the project workflow so the specialist inherits the intended task and context.
+                  This run was preconfigured from the operating program so the gemelo inherits the intended task and context.
                 </p>
               </div>
             ) : null}
@@ -543,10 +543,10 @@ function RunAgentPageContent({ params }: Props) {
                   className="h-10 bg-[#173634] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431] disabled:opacity-40"
                 >
                   {status === 'running' && <Loader2 size={13} className="mr-2 animate-spin" />}
-                  {status === 'running' ? 'Running...' : 'Run specialist'}
+                  {status === 'running' ? 'Running...' : 'Run gemelo'}
                 </Button>
                 <Button asChild variant="outline" className="h-10 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-                  <Link href="/app/agents">Browse specialists</Link>
+                  <Link href="/app/agents">Browse gemelos</Link>
                 </Button>
               </div>
             </div>
@@ -564,7 +564,7 @@ function RunAgentPageContent({ params }: Props) {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Generated deliverable</p>
-                  <p className="mt-1 text-sm text-[#52605d]">Review, save, and route the next specialist if needed.</p>
+                  <p className="mt-1 text-sm text-[#52605d]">Review, save, and route the next gemelo or human owner if needed.</p>
                 </div>
                 {saved ? (
                   <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#8fb2aa]">
@@ -656,7 +656,7 @@ function RunAgentPageContent({ params }: Props) {
                   }}
                   className="h-10 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]"
                 >
-                  Run another specialist
+                  Run another gemelo
                 </Button>
                 <Button asChild className="h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
                   <Link href="/app/history">View history</Link>
@@ -669,7 +669,7 @@ function RunAgentPageContent({ params }: Props) {
         <aside className="space-y-6">
           <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
             <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Specialist context</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Gemelo context</p>
             </div>
             <div className="px-5 py-5">
               <p className="text-sm font-medium text-[#173634]">{agent.name}</p>
@@ -757,7 +757,7 @@ export default function RunAgentPage(props: Props) {
       fallback={
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <div className="border border-[#d8e5e2] bg-[#fbfbfa] px-6 py-12 text-sm text-[#52605d]">
-            Loading specialist workspace...
+            Loading gemelo workspace...
           </div>
         </div>
       }

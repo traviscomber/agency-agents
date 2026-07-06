@@ -35,7 +35,7 @@ export default function AppAgentsPage() {
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Twin Library</p>
         <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">
-          {SEED_AGENTS.length} operators, twins and specialists organized by division.
+          {SEED_AGENTS.length} gemelos digitales and operators organized by role and division.
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
           You are on the <span className="font-medium text-[#173634] capitalize">{MOCK_USER.plan}</span> plan.
@@ -46,8 +46,8 @@ export default function AppAgentsPage() {
       <div className="mb-8">
         <HelpTip
           icon={Lightbulb}
-          title="How to Run an Agent"
-          description="Select an agent from the library below. Each agent has a specific role (sales, recruiting, collections, etc.). Click 'Run' to execute it on a project step, or view details to see what it does and its success rate."
+          title="How to run a gemelo"
+          description="Select a gemelo from the library below. Each one maps to a specific operating role such as sales, recruiting, collections, or bids. Run it on a program step, or open details to see supervision, replacement scope, and output format."
           variant="info"
         />
       </div>

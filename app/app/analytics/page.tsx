@@ -25,7 +25,7 @@ export default function AnalyticsPage() {
       <div className="border-b border-[#d8e5e2] pb-6">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Performance</p>
         <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Analytics</h1>
-        <p className="mt-2 text-sm text-[#173634]/60">Track usage, ROI, and agent performance metrics.</p>
+        <p className="mt-2 text-sm text-[#173634]/60">Track usage, ROI, and gemelo performance metrics.</p>
       </div>
 
       {/* Key metrics */}
@@ -69,7 +69,7 @@ export default function AnalyticsPage() {
 
       {/* Agent performance table */}
       <section className="border border-[#d8e5e2] bg-white px-6 py-6">
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Agent Performance</p>
+        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Gemelo Performance</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">

@@ -455,7 +455,7 @@ export default function ProjectDetailPage({ params }: Props) {
         href="/app/projects"
         className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-700 transition-colors hover:text-foreground"
       >
-        <ArrowLeft size={13} /> Back to projects
+        <ArrowLeft size={13} /> Back to programs
       </Link>
 
       <section className="n3-panel-soft mt-5 overflow-hidden shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
@@ -524,7 +524,7 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="mt-1 text-sm text-slate-700">
                 {recommendedTwinProfile
                   ? `${programReplacementScore ?? 0}% replacement with ${programSupervision ?? 'medium'} supervision for the current phase.`
-                  : 'Map a specialist to the active workflow step to expose replacement and supervision guidance.'}
+                  : 'Map a gemelo digital to the active workflow step to expose replacement and supervision guidance.'}
               </p>
               {programSupervision ? (
                 <p className="mt-3 text-xs leading-6 text-slate-600">{getSupervisionGuidance(programSupervision)}</p>
@@ -585,9 +585,9 @@ export default function ProjectDetailPage({ params }: Props) {
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[1.25rem] border border-slate-200 bg-[#f8fafc] p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Next operator</p>
-              <p className="mt-2 text-sm font-semibold text-foreground">{recommendedAgent?.name || 'No specialist mapped yet'}</p>
+              <p className="mt-2 text-sm font-semibold text-foreground">{recommendedAgent?.name || 'No gemelo mapped yet'}</p>
               <p className="mt-1 text-xs leading-5 text-slate-700">
-                {recommendedAgent?.shortDescription || 'Assign a recommended specialist so the next run can inherit the right context.'}
+                {recommendedAgent?.shortDescription || 'Assign a recommended gemelo so the next run can inherit the right context.'}
               </p>
               {recommendedTwinProfile ? (
                 <div className="mt-3 grid grid-cols-2 gap-2">
@@ -620,11 +620,11 @@ export default function ProjectDetailPage({ params }: Props) {
             </Button>
             {recommendedRunHref ? (
               <Button size="sm" asChild>
-                <Link href={recommendedRunHref}>Run recommended specialist</Link>
+                <Link href={recommendedRunHref}>Run recommended gemelo</Link>
               </Button>
             ) : null}
             <Button variant="outline" size="sm" asChild>
-              <Link href="/app/agents">Run next specialist</Link>
+              <Link href="/app/agents">Run next gemelo</Link>
             </Button>
           </div>
         </article>
@@ -635,7 +635,7 @@ export default function ProjectDetailPage({ params }: Props) {
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">Handoff package</p>
               <h2 className="mt-2 text-xl font-semibold text-foreground">Generated from the live operating state</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
-                This package should let the next specialist or human operator continue the work without asking what happened before.
+                This package should let the next gemelo or human operator continue the work without asking what happened before.
               </p>
             </div>
             {handoffText ? (
@@ -720,7 +720,7 @@ export default function ProjectDetailPage({ params }: Props) {
           {recommendedAgent ? (
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-slate-200 bg-white p-4">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Recommended specialist</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Recommended gemelo</p>
                 <p className="mt-1 text-sm font-semibold text-foreground">{recommendedAgent.name}</p>
                 <p className="mt-1 text-xs leading-5 text-slate-700">{recommendedAgent.shortDescription}</p>
               </div>
@@ -990,7 +990,7 @@ export default function ProjectDetailPage({ params }: Props) {
                             <div className="mt-4 border border-slate-200 bg-white p-4">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Run preview</p>
                               <p className="mt-2 text-sm font-semibold text-foreground">
-                                {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped specialist'}
+                                {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped gemelo'}
                               </p>
                               <p className="mt-1 text-xs leading-5 text-slate-700">
                                 Output: {preset.desiredOutput} · Depth: {preset.detailLevel}
@@ -1032,14 +1032,14 @@ export default function ProjectDetailPage({ params }: Props) {
                         </div>
                         <div className="mt-4">
                           <Label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700">
-                            Recommended specialist
+                            Recommended gemelo
                           </Label>
                           <Select
                             value={step.recommendedAgentSlug ?? 'none'}
                             onValueChange={(value) => void updateWorkflowRecommendedAgent(step.id, value ?? 'none')}
                           >
                             <SelectTrigger className="mt-2 h-9 border-slate-200 bg-white text-xs">
-                              <SelectValue placeholder="Select specialist" />
+                              <SelectValue placeholder="Select gemelo" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="none">No recommendation</SelectItem>
@@ -1223,7 +1223,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 onChange={(e) => setMemoryNote(e.target.value)}
                 className="mt-2"
                 rows={5}
-                placeholder="Capture the decision, handoff context, or research finding that the next specialist should inherit."
+                placeholder="Capture the decision, handoff context, or research finding that the next gemelo should inherit."
               />
             </div>
             <div>
@@ -1284,7 +1284,7 @@ export default function ProjectDetailPage({ params }: Props) {
       <div className="mt-6 flex flex-wrap gap-3">
         <Button asChild size="sm">
           <Link href="/app/agents">
-            <Bot size={13} className="mr-1.5" /> Run specialist
+            <Bot size={13} className="mr-1.5" /> Run gemelo
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>

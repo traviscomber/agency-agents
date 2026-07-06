@@ -9,21 +9,21 @@ const ONBOARDING_STEPS = [
   {
     number: 1,
     title: 'Create a Program',
-    description: 'Start with one program (project) that has 2-3 workflow steps.',
-    cta: 'Go to Projects',
+    description: 'Start with one operating program that has 2-3 workflow steps and a clear business outcome.',
+    cta: 'Go to Programs',
     href: '/app/projects',
   },
   {
     number: 2,
-    title: 'Pick an Agent',
-    description: 'Assign an agent to each step. Each agent has a specific role.',
-    cta: 'Browse Agents',
+    title: 'Pick a Gemelo',
+    description: 'Assign a gemelo digital to each step. Each gemelo maps to a real operating role.',
+    cta: 'Browse Gemelos',
     href: '/app/agents',
   },
   {
     number: 3,
     title: 'Run & Monitor',
-    description: 'Execute agents, review outputs, and save what works for reuse.',
+    description: 'Execute gemelos, review outputs, and save what works for reuse.',
     cta: 'View History',
     href: '/app/history',
   },
@@ -52,10 +52,10 @@ export function OnboardingWelcome() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Getting Started</p>
             <h2 className="mt-2 text-2xl font-light text-[#173634]">
-              Run your first agent in 3 steps
+              Run your first gemelo in 3 steps
             </h2>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-[#52605d]">
-              Twin OS turns business processes into reusable digital roles. Here's how to get started:
+              Twin OS turns business processes into supervised gemelos digitales. Here is how to get started:
             </p>
           </div>
           <button

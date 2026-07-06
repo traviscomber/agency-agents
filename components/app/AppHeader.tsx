@@ -12,8 +12,8 @@ import { getLocaleFromPathname } from '@/lib/marketing-i18n'
 
 const NAV_ITEMS = [
   { href: '/app',          label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/app/agents',   label: 'Agents',    icon: Bot },
-  { href: '/app/projects', label: 'Projects',  icon: FolderOpen },
+  { href: '/app/agents',   label: 'Gemelos',   icon: Bot },
+  { href: '/app/projects', label: 'Programas', icon: FolderOpen },
   { href: '/app/history',  label: 'History',   icon: History },
   { href: '/app/saved',    label: 'Saved',     icon: Bookmark },
   { href: '/app/usage',    label: 'Usage',     icon: BarChart2 },
@@ -23,8 +23,8 @@ const NAV_ITEMS = [
 
 const TITLE_MAP: Record<string, string> = {
   '/app':          'Dashboard',
-  '/app/agents':   'Agents',
-  '/app/projects': 'Projects',
+  '/app/agents':   'Gemelos',
+  '/app/projects': 'Programas',
   '/app/history':  'History',
   '/app/saved':    'Saved',
   '/app/usage':    'Usage',
@@ -115,7 +115,7 @@ export function AppHeader({ title }: AppHeaderProps) {
             href="/app/agents"
             className="inline-flex items-center gap-1.5 border border-[#1e3431] bg-[#173634] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
           >
-            Run specialist <ArrowUpRight size={11} />
+            Run twin <ArrowUpRight size={11} />
           </Link>
         </div>
       </div>

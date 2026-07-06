@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Agent Chains | N3uralia Studio',
-  description: 'Create automated workflows by chaining agents together.',
+  title: 'Twin Chains | N3uralia Studio',
+  description: 'Create automated workflows by chaining gemelos digitales together.',
 }
 
 export default function ChainsPage() {
@@ -24,9 +24,9 @@ export default function ChainsPage() {
         <div className="flex items-start justify-between">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Workflows</p>
-            <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Agent Chains</h1>
+            <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Twin Chains</h1>
             <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-              Automate multi-step workflows by chaining agents together. Output from one becomes input to the next.
+              Automate multi-step workflows by chaining gemelos digitales together. Output from one becomes input to the next.
             </p>
           </div>
           <Button asChild className="rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">

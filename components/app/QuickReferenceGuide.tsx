@@ -10,39 +10,39 @@ interface QuickRefItem {
 
 const QUICK_REFS: QuickRefItem[] = [
   {
-    title: 'How to Run an Agent',
+    title: 'Ejecutar un gemelo',
     steps: [
-      '1. Go to Agents → select an agent role',
-      '2. Click "Run" to execute on your current step',
-      '3. Monitor progress in History',
-      '4. Review outputs in Saved Deliverables',
+      '1. Entra a Gemelos y selecciona el rol correcto',
+      '2. Ejecutalo sobre el paso activo del programa',
+      '3. Monitorea progreso en Historial',
+      '4. Guarda outputs utiles en Entregables',
     ],
   },
   {
-    title: 'Create a New Project',
+    title: 'Crear un programa operativo',
     steps: [
-      '1. Go to Projects → click "New Project"',
-      '2. Give it a name and description',
-      '3. Add workflow steps (e.g., Sales → Proposal → Follow-up)',
-      '4. Assign agents to each step',
+      '1. Entra a Programas y crea un nuevo programa',
+      '2. Define objetivo, contexto y restricciones',
+      '3. Agrega pasos como Venta, Propuesta o Follow-up',
+      '4. Asigna gemelos digitales a cada paso',
     ],
   },
   {
-    title: 'Understand Your Dashboard',
+    title: 'Entender el dashboard',
     steps: [
-      'Active Programs: How many projects are in progress',
-      'Execution Quality: Success rate of recent agent runs',
-      'Role Coverage: How many different agent types you are using',
-      'View details on each card to drill into specifics',
+      'Programas activos: flujos operativos en curso',
+      'Execution quality: tasa reciente de corridas completadas',
+      'Role coverage: cargos cubiertos por gemelos digitales',
+      'Abre cada tarjeta para ver contexto y siguiente paso',
     ],
   },
   {
-    title: 'Common Next Steps',
+    title: 'Siguientes movimientos',
     steps: [
-      '→ Run an agent on your first project step',
-      '→ Review the results in the History tab',
-      '→ Save important outputs for reuse',
-      '→ Create a new step for the next agent',
+      'Ejecuta un gemelo sobre el primer paso',
+      'Revisa resultados en Historial',
+      'Guarda outputs importantes para reutilizar',
+      'Crea el siguiente paso o handoff humano',
     ],
   },
 ]
@@ -52,32 +52,23 @@ export function QuickReferenceGuide() {
 
   return (
     <div className="space-y-2 rounded-none border border-[#d8e5e2] bg-[#fbfbfa] p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Quick Reference</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Referencia rapida</p>
       <div className="space-y-1">
         {QUICK_REFS.map((ref) => (
-          <button
-            key={ref.title}
-            onClick={() => setExpanded(expanded === ref.title ? null : ref.title)}
-            className="w-full text-left"
-          >
+          <button key={ref.title} onClick={() => setExpanded(expanded === ref.title ? null : ref.title)} className="w-full text-left">
             <div className="flex items-center justify-between border border-[#edf4f1] bg-white px-3 py-2 hover:bg-[#f1f6f4]">
               <p className="text-xs font-semibold text-[#173634]">{ref.title}</p>
-              <ChevronDown
-                size={14}
-                className={`text-[#8fb2aa] transition-transform ${
-                  expanded === ref.title ? 'rotate-180' : ''
-                }`}
-              />
+              <ChevronDown size={14} className={`text-[#8fb2aa] transition-transform ${expanded === ref.title ? 'rotate-180' : ''}`} />
             </div>
-            {expanded === ref.title && (
+            {expanded === ref.title ? (
               <div className="border border-t-0 border-[#edf4f1] bg-white px-3 py-2">
-                {ref.steps.map((step, i) => (
-                  <p key={i} className="text-[10px] leading-4 text-[#52605d] py-1">
+                {ref.steps.map((step) => (
+                  <p key={step} className="py-1 text-[10px] leading-4 text-[#52605d]">
                     {step}
                   </p>
                 ))}
               </div>
-            )}
+            ) : null}
           </button>
         ))}
       </div>

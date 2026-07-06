@@ -122,7 +122,7 @@ export function SmartOnboarding({ onComplete }: { onComplete: (recommendations: 
           <Sparkles className="w-12 h-12 text-blue-600 mx-auto mb-4 animate-spin" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">AI Analysis</h2>
           <p className="text-gray-600 text-sm">
-            Analyzing your business to recommend the perfect agents...
+            Analyzing your business to recommend the right gemelos digitales...
           </p>
         </div>
       </div>
@@ -136,7 +136,7 @@ export function SmartOnboarding({ onComplete }: { onComplete: (recommendations: 
           <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto mb-3" />
           <h2 className="text-2xl font-bold text-gray-900">Perfect!</h2>
           <p className="text-gray-600 mt-2">
-            Based on your profile, here are the AI agents that will transform your business:
+            Based on your profile, these gemelos digitales best match your Chile/Latam operating needs:
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export function SmartOnboarding({ onComplete }: { onComplete: (recommendations: 
               <p className="text-gray-700 text-sm mt-2">{agent.description}</p>
               
               <div className="mt-3 p-3 bg-white rounded border border-blue-100">
-                <p className="text-xs font-semibold text-blue-900 mb-1">Why this agent for you:</p>
+                <p className="text-xs font-semibold text-blue-900 mb-1">Why this gemelo for you:</p>
                 <p className="text-sm text-gray-700">{agent.whyYou}</p>
               </div>
 

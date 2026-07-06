@@ -44,7 +44,7 @@ export default function BatchPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Processing</p>
             <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Batch Jobs</h1>
             <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-              Process 100s-1000s of items with a single agent. Pricing: $0.50 base + $0.01 per item.
+              Process 100s-1000s of items with a single gemelo digital. Pricing: $0.50 base + $0.01 per item.
             </p>
           </div>
           <Button asChild className="rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Specialist Exchange | N3uralia Studio',
+  title: 'Twin Exchange | N3uralia Studio',
   description: 'Discover curated specialists, operating packs, and reusable delivery patterns.',
 }
 

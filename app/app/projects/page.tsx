@@ -157,12 +157,12 @@ export default function ProjectsPage() {
         <div className="mb-8">
           <HelpTip
             icon={Lightbulb}
-            title="What is a Project?"
-            description="A project is a piece of work with multiple steps. Each step can be assigned to a different agent. For example, a sales project might have steps for prospecting, proposal creation, and follow-up. Create your first project to get started."
+            title="What is a Program?"
+            description="A program is a piece of operating work with steps, context, and a mapped gemelo digital. Create the first program to turn diagnosis into execution."
             variant="tip"
             actions={[
               {
-                label: 'Create Project Now',
+                label: 'Create program now',
                 onClick: () => setShowNew(true),
               },
             ]}
@@ -185,7 +185,7 @@ export default function ProjectsPage() {
                 onClick={() => setShowNew(true)}
                 className="h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]"
               >
-                <Plus size={13} className="mr-1.5" /> New project
+                <Plus size={13} className="mr-1.5" /> New program
               </Button>
               <Button asChild variant="outline" className="h-10 border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
                 <Link href="/app/history">Inspect run history</Link>
@@ -194,7 +194,7 @@ export default function ProjectsPage() {
           </div>
           <div className="grid gap-px bg-[#d8e5e2] sm:grid-cols-3 lg:grid-cols-1">
             {[
-              { label: 'Projects', value: projects.length, note: 'tracked initiatives' },
+              { label: 'Programs', value: projects.length, note: 'tracked operating motions' },
               { label: 'Total runs', value: totals.runs, note: 'execution records' },
               { label: 'Saved deliverables', value: totals.saved, note: 'retained outputs' },
             ].map(({ label, value, note }) => (
@@ -213,7 +213,7 @@ export default function ProjectsPage() {
           {
             label: 'Twin coverage',
             value: `${mappedTwinCount}/${projectRows.length || 0} programs`,
-            note: 'Projects currently reading with an attached twin program or featured fallback.',
+            note: 'Programs currently reading with an attached gemelo digital or featured fallback.',
           },
           {
             label: 'Replacement average',
@@ -271,7 +271,7 @@ export default function ProjectsPage() {
             onClick={() => setShowNew(true)}
             className="h-9 bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
           >
-            <Plus size={13} className="mr-1.5" /> New project
+            <Plus size={13} className="mr-1.5" /> New program
           </Button>
         </div>
       </div>
@@ -301,13 +301,13 @@ export default function ProjectsPage() {
 
       {projects.length === 0 ? (
         <div className="mt-6 border border-[#d8e5e2] px-8 py-16 text-center">
-          <p className="text-sm font-medium text-[#173634]">No projects yet</p>
-          <p className="mt-1 text-xs text-[#173634]/45">Create a project to keep each run, its context, and its deliverables together.</p>
+          <p className="text-sm font-medium text-[#173634]">No programs yet</p>
+          <p className="mt-1 text-xs text-[#173634]/45">Create a program to keep each gemelo run, context packet, and deliverable together.</p>
           <Button
             onClick={() => setShowNew(true)}
             className="mt-6 h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]"
           >
-            <Plus size={13} className="mr-1.5" /> Create first project
+            <Plus size={13} className="mr-1.5" /> Create first program
           </Button>
         </div>
       ) : filteredProjectRows.length === 0 ? (
@@ -437,7 +437,7 @@ export default function ProjectsPage() {
         <DialogContent className="n3-panel sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-base font-light text-[#173634]">
-              {diagnosisIntent ? 'Create program from diagnosis' : 'New project'}
+              {diagnosisIntent ? 'Create program from diagnosis' : 'New program'}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
@@ -517,7 +517,7 @@ export default function ProjectsPage() {
               Cancel
             </Button>
             <Button onClick={handleCreate} disabled={!name.trim()} className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-              {diagnosisIntent ? 'Create twin program' : 'Create project'}
+              {diagnosisIntent ? 'Create twin program' : 'Create program'}
             </Button>
           </DialogFooter>
         </DialogContent>

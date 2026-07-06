@@ -295,7 +295,7 @@ function defaultWorkflow(projectName: string, projectType: ProjectType): Project
         },
         {
           id: `wf-${projectName}-2`,
-          name: 'Run the first specialist',
+          name: 'Run the first gemelo',
           owner: 'Operations',
           status: 'ready',
           statusSource: 'default',
@@ -357,7 +357,7 @@ export function buildProjectHandoffPacket(
   const profile = (() => {
     if (project.projectType === 'launch') {
       return {
-        summary: `Package the current launch decision so the next specialist can move from strategy into production without re-briefing.`,
+        summary: `Package the current launch decision so the next gemelo or human owner can move from strategy into production without re-briefing.`,
         outputExpectation: 'A launch-ready artifact, decision memo, or sequence recommendation with positioning intact.',
         executionMode: 'Narrative-to-asset handoff',
         handoffChecklist: [
@@ -398,7 +398,7 @@ export function buildProjectHandoffPacket(
     }
 
     return {
-      summary: `Compress the current operating state into a reusable handoff so the next specialist can execute without rediscovering context.`,
+      summary: `Compress the current operating state into a reusable handoff so the next gemelo can execute without rediscovering context.`,
       outputExpectation: 'A structured next-action plan, execution brief, or operating summary.',
       executionMode: 'Operating continuity handoff',
       handoffChecklist: [
@@ -444,7 +444,7 @@ export function buildProjectHandoffText(packet: ProjectHandoffPacket) {
     packet.audience ? `Audience: ${packet.audience}` : null,
     `Current step: ${packet.currentStep} owned by ${packet.currentStepOwner}.`,
     `Step detail: ${packet.currentStepDetail}`,
-    packet.recommendedAgentName ? `Recommended specialist: ${packet.recommendedAgentName}.` : null,
+    packet.recommendedAgentName ? `Recommended gemelo: ${packet.recommendedAgentName}.` : null,
     packet.latestMemory ? `Latest memory: ${packet.latestMemory}` : 'Latest memory: no explicit memory captured yet.',
     packet.latestDeliverable ? `Latest deliverable: ${packet.latestDeliverable}.` : 'Latest deliverable: no deliverables saved yet.',
     packet.nextStep ? `Next step after this: ${packet.nextStep}.` : 'Next step after this: no further step defined.',

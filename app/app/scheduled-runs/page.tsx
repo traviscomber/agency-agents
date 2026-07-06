@@ -29,8 +29,8 @@ export default function ScheduledRunsPage() {
       <div className="flex items-center justify-between border-b border-[#d8e5e2] pb-6">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Automation</p>
-          <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Scheduled Runs</h1>
-          <p className="mt-2 text-sm text-[#173634]/60">Set agents to run automatically on a schedule.</p>
+          <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Scheduled twin runs</h1>
+          <p className="mt-2 text-sm text-[#173634]/60">Set gemelos digitales to run automatically on a schedule.</p>
         </div>
         <Button className="rounded-lg bg-[#8fb2aa] px-4 py-2 text-sm font-semibold text-white hover:bg-[#7a9a91]">
           <Plus size={14} className="mr-1.5" />
@@ -42,7 +42,7 @@ export default function ScheduledRunsPage() {
         <EmptyState
           icon={<Clock size={16} />}
           title="No scheduled runs yet"
-          description="Automate agent execution with daily, weekly, or monthly schedules."
+          description="Automate gemelo digital execution with daily, weekly, or monthly schedules."
           actionLabel="Create schedule"
           actionHref="/app/scheduled-runs/new"
         />
@@ -76,7 +76,7 @@ export default function ScheduledRunsPage() {
       <div className="border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
         <p className="text-xs font-semibold text-[#173634]">Feature availability</p>
         <p className="mt-2 text-xs leading-relaxed text-[#173634]/70">
-          Scheduled runs are available on Pro plan and above. Upgrade to automate your workflows.
+          Scheduled gemelo runs are available on Pro plan and above. Upgrade to automate recurring operating routines.
         </p>
       </div>
     </div>

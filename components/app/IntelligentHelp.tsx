@@ -65,7 +65,7 @@ export function IntelligentHelp() {
         {messages.length === 0 ? (
           <div className="text-sm text-[#789b96] text-center py-8">
             <MessageCircle size={32} className="mx-auto mb-2 opacity-50" />
-            <p>Ask me anything about N3uralia, your agents, or how to optimize your workflow.</p>
+            <p>Ask me anything about N3uralia, your gemelos digitales, or how to optimize your operating workflow.</p>
           </div>
         ) : (
           messages.map((msg, idx) => (

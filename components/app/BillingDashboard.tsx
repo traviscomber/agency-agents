@@ -146,7 +146,7 @@ export function BillingDashboard() {
 
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <div className="text-sm text-[#789b96] mb-2">Projects</div>
+              <div className="text-sm text-[#789b96] mb-2">Programs</div>
               <div className="text-2xl font-bold text-[#173634]">{usage.projects_used}</div>
               {limits.projects && (
                 <div className="text-xs text-[#789b96] mt-1">
@@ -186,7 +186,7 @@ export function BillingDashboard() {
             </div>
 
             <div>
-              <div className="text-sm text-[#789b96] mb-2">Active Agents</div>
+              <div className="text-sm text-[#789b96] mb-2">Active gemelos</div>
               <div className="text-2xl font-bold text-[#173634]">{usage.agents_used}</div>
               {limits.agents && (
                 <div className="text-xs text-[#789b96] mt-1">

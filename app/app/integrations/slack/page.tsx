@@ -33,7 +33,7 @@ export default function SlackIntegrationPage() {
             <h3 className="font-semibold text-[#173634]">Capabilities</h3>
             <ul className="space-y-2">
               {[
-                'Run specialists from @mentions in channels',
+                'Run gemelos digitales from @mentions in channels',
                 'Use the /run-agent slash command',
                 'Get deliverables posted back to Slack',
                 'Set up channel notifications for scheduled runs',
@@ -59,7 +59,7 @@ export default function SlackIntegrationPage() {
             <div className="space-y-2">
               {[
                   { cmd: '/run-agent', desc: 'Execute a specialist from Slack' },
-                  { cmd: '@agent-os run [agent-slug]', desc: 'Run a specialist via mention' },
+                  { cmd: '@agent-os run [gemelo-slug]', desc: 'Run a gemelo via mention' },
               ].map((item) => (
                 <div key={item.cmd} className="rounded-none border border-[#d8e5e2] bg-white px-4 py-3">
                   <p className="font-mono text-sm font-semibold text-[#173634]">{item.cmd}</p>

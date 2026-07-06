@@ -28,7 +28,7 @@ export default async function AppAgentDetailPage({ params }: Props) {
         href="/app/agents"
         className="mb-6 inline-flex items-center gap-1.5 text-xs text-slate-700 transition-colors hover:text-slate-950"
       >
-        <ArrowLeft size={13} /> Back to agents
+        <ArrowLeft size={13} /> Back to gemelos
       </Link>
 
       <section className="mb-8 overflow-hidden border border-slate-200 bg-white shadow-sm">

@@ -32,7 +32,7 @@ export default function UsagePage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Usage</p>
         <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Run consumption.</h1>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          Track usage against your plan limit and identify which specialists are driving volume.
+          Track usage against your plan limit and identify which gemelos digitales are driving volume.
         </p>
       </header>
 
@@ -109,10 +109,10 @@ export default function UsagePage() {
           )}
         </section>
 
-        {/* Top agents */}
+        {/* Top gemelos */}
         <section className="border border-[#d8e5e2]">
           <div className="border-b border-[#d8e5e2] px-5 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Top specialists</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Top gemelos digitales</p>
           </div>
           {topAgents.length === 0 ? (
             <p className="px-5 py-8 text-center text-xs text-[#173634]/38">No runs recorded yet.</p>
@@ -138,7 +138,7 @@ export default function UsagePage() {
         <div className="mt-8 flex flex-col gap-4 border border-[#d8e5e2] px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium text-[#173634]">Need more runs?</p>
-            <p className="mt-0.5 text-xs text-[#173634]/50">Upgrade your plan to increase your monthly allocation.</p>
+            <p className="mt-0.5 text-xs text-[#173634]/50">Upgrade your plan to increase monthly gemelo execution capacity.</p>
           </div>
           <Button asChild className="h-9 shrink-0 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
             <Link href="/app/billing">View plans <ArrowRight size={11} className="ml-1.5" /></Link>

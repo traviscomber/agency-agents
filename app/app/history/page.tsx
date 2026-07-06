@@ -52,7 +52,7 @@ export default function HistoryPage() {
           <HelpTip
             icon={Lightbulb}
             title="No Runs Yet"
-            description="This page shows every time you run an agent. To see data here, go to Projects, select a project, and click 'Run Agent' on a workflow step."
+            description="This page shows every time you run a gemelo digital. To see data here, go to Programas, select a program, and run the mapped gemelo on a workflow step."
             variant="tip"
             actions={[
               {
@@ -86,10 +86,10 @@ export default function HistoryPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild className="h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]">
-                <Link href="/app/agents">Run specialist</Link>
+                <Link href="/app/agents">Run gemelo</Link>
               </Button>
               <Button asChild variant="outline" className="h-10 border-[#d8e5e2] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#173634] hover:bg-[#f1f6f4]">
-                <Link href="/app/projects">Open project ledger</Link>
+                <Link href="/app/projects">Open program ledger</Link>
               </Button>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function HistoryPage() {
             {[
               { label: 'Total runs', value: runs.length, note: 'persisted executions' },
               { label: 'Completed', value: completedRuns, note: 'successful outputs' },
-              { label: 'Projects linked', value: activeProjects, note: 'active workstreams' },
+              { label: 'Programs linked', value: activeProjects, note: 'active operating motions' },
             ].map(({ label, value, note }) => (
               <div key={label} className="bg-[#f1f6f4] px-5 py-5">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
@@ -114,7 +114,7 @@ export default function HistoryPage() {
         <div className="flex flex-col gap-4 border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="n3-eyebrow">Run index</p>
-            <p className="mt-1 text-sm text-[#52605d]">Search by specialist, task, or linked project.</p>
+            <p className="mt-1 text-sm text-[#52605d]">Search by gemelo, task, or linked program.</p>
           </div>
           <div className="relative w-full max-w-md">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8fb2aa]" />

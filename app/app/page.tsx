@@ -114,7 +114,7 @@ export default function AppDashboard() {
           <HelpTip
             icon={Lightbulb}
             title="Get Started: Create Your First Program"
-            description="A program is a workflow that guides your agents through work. Start by creating one program with at least one step, then assign agents to each step."
+            description="A program is a workflow that guides gemelos digitales through operating work. Start with one program, one active step, and one mapped gemelo."
             variant="tip"
             actions={[
               {
@@ -142,7 +142,7 @@ export default function AppDashboard() {
 
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link href="/app/projects" className="inline-flex h-10 items-center border border-[#8fb2aa] bg-[#8fb2aa] px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634] hover:bg-[#dce8e4]">
-                  Open active work <ArrowRight size={12} className="ml-1.5" />
+                  Open active program <ArrowRight size={12} className="ml-1.5" />
                 </Link>
                 <Link href="/app/agents" className="inline-flex h-10 items-center border border-[#789b96] bg-transparent px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f5fbfa] hover:bg-white/8 hover:text-white">
                   <Bot size={12} className="mr-1.5" />
@@ -420,7 +420,7 @@ export default function AppDashboard() {
                         <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-3">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Current step</p>
                           <p className="mt-1 text-sm font-medium text-[#173634]">{activeStep?.name ?? 'No step configured'}</p>
-                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{activeStep?.owner ?? 'Assign an owner inside the project'}</p>
+                          <p className="mt-1 text-xs leading-5 text-[#52605d]">{activeStep?.owner ?? 'Assign an owner inside the program'}</p>
                         </div>
                         <div className="rounded-[1rem] border border-[#d8e5e2] bg-white px-3 py-3">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Recommended twin</p>
@@ -442,7 +442,7 @@ export default function AppDashboard() {
                     <div className="flex flex-wrap gap-2 lg:justify-end">
                       <Link href={`/app/projects/${project.id}`} className="inline-flex h-9 items-center border border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634] hover:bg-[#f1f6f4]">
                         <Workflow size={12} className="mr-1.5" />
-                        Open project
+                        Open program
                       </Link>
                       {recommendedAgent && buildProjectRunHref(project) ? (
                         <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`} className="inline-flex h-9 items-center bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">

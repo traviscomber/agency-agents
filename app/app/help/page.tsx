@@ -1,74 +1,74 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, Lightbulb, Zap, BookOpen, AlertCircle } from 'lucide-react'
+import { AlertCircle, ChevronDown, Lightbulb, Zap } from 'lucide-react'
 
 const FAQ_ITEMS = [
   {
-    category: 'Getting Started',
+    category: 'Primeros pasos',
     items: [
       {
-        q: 'What is a Program (Project)?',
-        a: 'A program is a piece of work with multiple steps. Each step can be assigned to a different agent. For example, a sales program might have steps for prospecting, proposal creation, and follow-up. Programs help you organize work and track progress.',
+        q: 'Que es un programa operativo?',
+        a: 'Un programa operativo es un flujo de trabajo con pasos, contexto, responsables y entregables guardados. Sirve para que un gemelo digital pueda continuar trabajo real sin perder memoria.',
       },
       {
-        q: 'What is an Agent (Twin)?',
-        a: 'An agent is a digital worker trained for a specific role. Each agent has a job like sales prospecting, recruiting, or handling collections. You assign agents to steps in your programs to automate work.',
+        q: 'Que es un gemelo digital?',
+        a: 'Un gemelo digital es un trabajador digital supervisado para un cargo especifico: ventas, cobranza, licitaciones, implementacion o reclutamiento. Replica rutinas, formatos de salida y criterios del rol.',
       },
       {
-        q: 'How do I run an agent?',
-        a: '1) Go to Projects → select your program 2) Click "Run Agent" on a step 3) Select the agent you want 4) Review the output in History. Each run is logged so you can track what happened.',
+        q: 'Como ejecuto un gemelo?',
+        a: 'Entra a Programas, abre el programa operativo, revisa el paso activo y ejecuta el gemelo recomendado. Despues guarda el output para que quede disponible como memoria operativa.',
       },
     ],
   },
   {
-    category: 'Understanding Results',
+    category: 'Resultados y control',
     items: [
       {
-        q: 'What does Replacement Score mean?',
-        a: 'Replacement Score shows what % of the job the agent can do autonomously (80%+), with management, or as an assistant. Higher scores mean the agent can handle more of the work without human intervention.',
+        q: 'Que significa Replacement Score?',
+        a: 'Replacement Score muestra que porcentaje del cargo puede absorber el gemelo digital bajo supervision. Un score alto no elimina aprobaciones humanas; indica mayor capacidad repetible.',
       },
       {
-        q: 'What is Supervision Level?',
-        a: 'Low = agent can move forward with spot checks. Medium = needs regular review before decisions. High = should stay under explicit human approval. This helps you manage risk.',
+        q: 'Que significa nivel de supervision?',
+        a: 'Baja significa chequeos ligeros. Media requiere revision regular. Alta debe mantenerse bajo aprobacion humana explicita antes de ejecutar decisiones sensibles.',
       },
       {
-        q: 'Why would an agent run fail?',
-        a: 'Failures happen when the agent hits an edge case it wasn\'t trained for. Check the History tab to see error details, then try a different agent or adjust the inputs.',
+        q: 'Por que puede fallar una corrida?',
+        a: 'Normalmente falta contexto, el objetivo no esta claro o el gemelo no calza con el paso. Revisa Historial, ajusta el brief y vuelve a ejecutar con mas datos del programa.',
       },
     ],
   },
   {
-    category: 'Best Practices',
+    category: 'Buenas practicas',
     items: [
       {
-        q: 'Should I save outputs?',
-        a: 'Yes! Save important outputs to create a library of reusable work. This helps when you need similar work done again - you can reference past outputs.',
+        q: 'Debo guardar outputs?',
+        a: 'Si. Los outputs guardados son memoria reutilizable: propuestas, minutas, checklists, mensajes de cobranza, analisis de licitaciones y handoffs para el siguiente operador.',
       },
       {
-        q: 'How many steps should a program have?',
-        a: 'Start with 2-3 steps. Too many steps makes programs complex. Think of each step as a decision point or handoff to a different agent.',
+        q: 'Cuantos pasos debe tener un programa?',
+        a: 'Parte con 2 o 3 pasos. Cada paso debe representar una decision, rutina o handoff donde un gemelo digital o una persona toma responsabilidad.',
       },
       {
-        q: 'Can I run the same agent twice?',
-        a: 'Yes. Some workflows need the same agent at different points. Each run is independent and creates a new history entry.',
+        q: 'Puedo ejecutar el mismo gemelo mas de una vez?',
+        a: 'Si. Algunos programas necesitan el mismo gemelo en distintas etapas. Cada corrida queda registrada para trazabilidad y aprendizaje operativo.',
       },
     ],
   },
   {
-    category: 'Troubleshooting',
+    category: 'Problemas frecuentes',
     items: [
       {
-        q: 'Agent keeps failing - what do I do?',
-        a: 'Check the error message in History. Common issues: unclear instructions, missing context, or wrong agent for the task. Try a different agent or adjust your program brief.',
+        q: 'El gemelo sigue fallando, que hago?',
+        a: 'Revisa Historial. Los problemas comunes son instrucciones poco precisas, datos incompletos o un gemelo mal asignado al paso. Ajusta el brief o cambia el gemelo.',
       },
       {
-        q: 'How do I see what happened in a run?',
-        a: 'Go to History → click the run → view full details including inputs, outputs, and any errors. Use this to understand what the agent did.',
+        q: 'Como veo que paso en una corrida?',
+        a: 'Ve a Historial, abre la corrida y revisa inputs, outputs y errores. Eso te permite auditar que hizo el gemelo y que contexto necesita para mejorar.',
       },
       {
-        q: 'Can I delete or undo a run?',
-        a: 'Runs are immutable for audit trails, but you can create a new program or step to try again. This keeps a clean history of what was attempted.',
+        q: 'Puedo borrar o deshacer una corrida?',
+        a: 'Las corridas quedan como historial de auditoria. Si necesitas corregir, crea una nueva corrida o ajusta el paso del programa sin borrar la trazabilidad anterior.',
       },
     ],
   },
@@ -78,22 +78,16 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <button
-      onClick={() => setOpen(!open)}
-      className="w-full text-left"
-    >
+    <button onClick={() => setOpen(!open)} className="w-full text-left">
       <div className="flex items-start justify-between gap-4 border border-[#edf4f1] bg-white px-4 py-3 hover:bg-[#f1f6f4]">
         <p className="text-sm font-medium text-[#173634]">{q}</p>
-        <ChevronDown
-          size={16}
-          className={`shrink-0 text-[#8fb2aa] transition-transform ${open ? 'rotate-180' : ''}`}
-        />
+        <ChevronDown size={16} className={`shrink-0 text-[#8fb2aa] transition-transform ${open ? 'rotate-180' : ''}`} />
       </div>
-      {open && (
+      {open ? (
         <div className="border border-t-0 border-[#edf4f1] bg-white px-4 py-3">
           <p className="text-sm leading-6 text-[#52605d]">{a}</p>
         </div>
-      )}
+      ) : null}
     </button>
   )
 }
@@ -101,11 +95,11 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 export default function HelpPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
-      <header className="border-b border-[#d8e5e2] pb-8 mb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Documentation</p>
-        <h1 className="mt-2 text-3xl font-light text-[#173634]">How to use Twin OS</h1>
-        <p className="mt-2 text-sm leading-relaxed text-[#52605d] max-w-2xl">
-          Everything you need to know about creating programs, running agents, and understanding your results.
+      <header className="mb-8 border-b border-[#d8e5e2] pb-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Guia operativa</p>
+        <h1 className="mt-2 text-3xl font-light text-[#173634]">Como usar N3uralia Twin OS</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#52605d]">
+          Lo esencial para crear programas operativos, ejecutar gemelos digitales y entender replacement, supervision y outputs guardados.
         </p>
       </header>
 
@@ -113,7 +107,7 @@ export default function HelpPage() {
         <div className="space-y-8">
           {FAQ_ITEMS.map((category) => (
             <section key={category.category}>
-              <h2 className="text-lg font-semibold text-[#173634] mb-3">{category.category}</h2>
+              <h2 className="mb-3 text-lg font-semibold text-[#173634]">{category.category}</h2>
               <div className="space-y-2">
                 {category.items.map((item) => (
                   <FAQItem key={item.q} q={item.q} a={item.a} />
@@ -124,46 +118,44 @@ export default function HelpPage() {
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-6 lg:h-fit">
-          <div className="border border-[#d8e5e2] bg-[#fbfbfa] p-4 rounded-none">
-            <div className="flex items-center gap-2 text-[#8fb2aa] mb-3">
+          <div className="rounded-none border border-[#d8e5e2] bg-[#fbfbfa] p-4">
+            <div className="mb-3 flex items-center gap-2 text-[#8fb2aa]">
               <Lightbulb size={16} />
-              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Pro Tip</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Tip operativo</p>
             </div>
-            <p className="text-sm text-[#52605d] leading-relaxed">
-              Save outputs from successful runs. You can reference them in future programs to help agents understand the quality you expect.
+            <p className="text-sm leading-relaxed text-[#52605d]">
+              Guarda outputs buenos. Sirven como memoria para que futuros gemelos digitales entiendan calidad, tono, formato y criterio esperado.
             </p>
           </div>
 
-          <div className="border border-[#d8e5e2] bg-[#fbfbfa] p-4 rounded-none">
-            <div className="flex items-center gap-2 text-[#8fb2aa] mb-3">
+          <div className="rounded-none border border-[#d8e5e2] bg-[#fbfbfa] p-4">
+            <div className="mb-3 flex items-center gap-2 text-[#8fb2aa]">
               <Zap size={16} />
-              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Quick Start</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Inicio rapido</p>
             </div>
             <ol className="space-y-2 text-sm text-[#52605d]">
-              <li>1. Create a program</li>
-              <li>2. Add 2-3 workflow steps</li>
-              <li>3. Assign agents to steps</li>
-              <li>4. Run and review results</li>
+              <li>1. Crea un programa operativo</li>
+              <li>2. Define 2-3 pasos de workflow</li>
+              <li>3. Asigna gemelos a los pasos</li>
+              <li>4. Ejecuta, revisa y guarda outputs</li>
             </ol>
           </div>
 
-          <div className="border border-amber-200 bg-amber-50 p-4 rounded-none">
-            <div className="flex items-center gap-2 text-amber-600 mb-3">
+          <div className="rounded-none border border-amber-200 bg-amber-50 p-4">
+            <div className="mb-3 flex items-center gap-2 text-amber-600">
               <AlertCircle size={16} />
-              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Remember</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Recuerda</p>
             </div>
-            <p className="text-sm text-amber-700 leading-relaxed">
-              Agents work best with clear, specific instructions. The more context you provide, the better the output.
+            <p className="text-sm leading-relaxed text-amber-700">
+              Los gemelos digitales funcionan mejor con contexto especifico: cuenta, objetivo, restricciones, formato esperado y criterio de escalamiento humano.
             </p>
           </div>
         </aside>
       </div>
 
       <div className="mt-12 border-t border-[#d8e5e2] pt-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa] mb-3">Need more help?</p>
-        <p className="text-sm text-[#52605d]">
-          Check the onboarding tips on each page, or reach out to support@n3uralia.com
-        </p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Necesitas ayuda?</p>
+        <p className="text-sm text-[#52605d]">Revisa los tips dentro de cada pagina o escribe a support@n3uralia.com.</p>
       </div>
     </div>
   )
