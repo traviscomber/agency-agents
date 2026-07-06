@@ -328,6 +328,9 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 <div className="mt-4 border border-amber-300/20 bg-amber-300/10 p-4">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-200">{operatingProof[locale].safetyTitle}</p>
                   <p className="mt-2 text-sm leading-7 text-[#f4ead4]">{operatingProof[locale].safetyBody}</p>
+                  <Link href={getLocalizedHref(locale, '/trust')} className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-amber-100 transition-colors hover:text-white">
+                    {locale === 'es' ? 'Ver seguridad y supervision' : 'View trust and supervision'} <ArrowRight size={12} />
+                  </Link>
                 </div>
               </div>
             </div>
