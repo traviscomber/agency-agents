@@ -150,9 +150,54 @@ export default function ProjectsPage() {
     : averageReplacement
   const highSupervisionCount = projectRows.filter((row) => row.supervisionLevel === 'high').length
   const activeFilterCount = filteredProjectRows.length
+  const diagnosisBlueprint = diagnosisIntent
+    ? [
+        ['Datos para cargar', diagnosisIntent.next],
+        ['Primera rutina', 'Ejecutar la rutina semanal del cuello de botella y guardar el entregable reutilizable.'],
+        ['Control humano', `Supervision ${diagnosisIntent.supervision.toLowerCase()} con escalamiento cuando existan excepciones o decisiones sensibles.`],
+        ['Output esperado', 'Programa operativo con memoria, siguiente accion, responsable humano y ROI en CLP visible.'],
+      ]
+    : []
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+      {diagnosisIntent ? (
+        <section className="mb-8 overflow-hidden border border-[#8fb2aa]/50 bg-[#edf6f3]">
+          <div className="grid gap-px bg-[#cfe1dc] lg:grid-cols-[1fr_0.72fr]">
+            <div className="bg-[#edf6f3] p-5 sm:p-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#527b73]">Diagnostico importado</p>
+              <h2 className="mt-3 text-2xl font-light tracking-[-0.03em] text-[#173634]">
+                Convierte este diagnostico en el primer programa operativo del gemelo digital.
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-[#52605d]">
+                {diagnosisIntent.role}: {diagnosisIntent.summary}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[
+                  ['Supervision', diagnosisIntent.supervision],
+                  ['Horas recuperables', diagnosisIntent.hours],
+                  ['ROI mensual', formatClp(diagnosisIntent.estimatedSavings)],
+                ].map(([label, value]) => (
+                  <span key={label} className="inline-flex border border-[#cfe1dc] bg-white px-3 py-2 text-[11px] font-semibold text-[#173634]">
+                    {label}: {value}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white p-5 sm:p-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#789b96]">Siguiente accion</p>
+              <p className="mt-3 text-sm leading-7 text-[#52605d]">{diagnosisIntent.next}</p>
+              <Button
+                onClick={() => setShowNew(true)}
+                className="mt-5 h-10 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-white hover:bg-[#1e3431]"
+              >
+                Crear programa del gemelo
+              </Button>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {projects.length === 0 && (
         <div className="mb-8">
           <HelpTip
@@ -460,6 +505,14 @@ export default function ProjectsPage() {
                     <div key={label} className="border border-[#d8e5e2] bg-white px-3 py-2">
                       <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">{label}</p>
                       <p className="mt-1 text-xs font-semibold text-[#173634]">{value}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {diagnosisBlueprint.map(([label, value]) => (
+                    <div key={label} className="border border-[#d8e5e2] bg-white px-3 py-3">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">{label}</p>
+                      <p className="mt-1 text-xs leading-5 text-[#52605d]">{value}</p>
                     </div>
                   ))}
                 </div>
