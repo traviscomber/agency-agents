@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight, Calculator, CheckCircle2, ClipboardList } from 'lucide-react'
 import { PublicFooter } from '@/components/public/PublicFooter'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
@@ -28,6 +28,23 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
   const [pressure, setPressure] = useState<PressureKey>('sales')
   const [team, setTeam] = useState('mid')
   const [monthlyCost, setMonthlyCost] = useState(1800000)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const companyParam = params.get('company')
+    const pressureParam = params.get('pressure') as PressureKey | null
+    const teamParam = params.get('team')
+
+    if (companyParam && copy.options.company.some(([value]: [string, string]) => value === companyParam)) {
+      setCompany(companyParam)
+    }
+    if (pressureParam && copy.options.pressure.some(([value]: [PressureKey, string]) => value === pressureParam)) {
+      setPressure(pressureParam)
+    }
+    if (teamParam && copy.options.team.some(([value]: [string, string]) => value === teamParam)) {
+      setTeam(teamParam)
+    }
+  }, [copy.options.company, copy.options.pressure, copy.options.team])
 
   const recommendation = copy.recommendations[pressure]
   const adjustedSavings = useMemo(() => {

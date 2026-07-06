@@ -4,6 +4,28 @@ import { PublicFooter } from '@/components/public/PublicFooter'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { getLocalizedHref, industriesPageCopy, type MarketingLocale } from '@/lib/marketing-i18n'
 
+function getDiagnosisParamsForIndustry(industry: string) {
+  const normalized = industry.toLowerCase()
+  const company = normalized.includes('mineria') || normalized.includes('mining')
+    ? 'industrial'
+    : normalized.includes('construccion') || normalized.includes('construction') || normalized.includes('real estate')
+      ? 'construction'
+      : normalized.includes('logistica') || normalized.includes('logistics') || normalized.includes('distribution')
+        ? 'logistics'
+        : normalized.includes('saas')
+          ? 'saas'
+          : 'services'
+  const pressure = normalized.includes('mineria') || normalized.includes('mining')
+    ? 'tenders'
+    : normalized.includes('logistica') || normalized.includes('logistics')
+      ? 'collections'
+      : normalized.includes('construccion') || normalized.includes('construction')
+        ? 'implementation'
+        : 'sales'
+
+  return `company=${company}&pressure=${pressure}`
+}
+
 export function LocalizedIndustriesPage({ locale }: { locale: MarketingLocale }) {
   const copy = industriesPageCopy[locale]
 
@@ -80,6 +102,9 @@ export function LocalizedIndustriesPage({ locale }: { locale: MarketingLocale })
                     <ClipboardList size={19} className="text-[#527b73]" />
                     <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#789b96]">{copy.headers.firstMove}</p>
                     <p className="mt-3 text-sm leading-7 text-[#52605d]">{item.firstMove}</p>
+                    <Link href={`${getLocalizedHref(locale, '/diagnosis')}?${getDiagnosisParamsForIndustry(item.industry)}`} className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#527b73] hover:text-[#173634]">
+                      {locale === 'es' ? 'Diagnosticar este caso' : 'Diagnose this case'} <ArrowRight size={12} />
+                    </Link>
                   </div>
                 </div>
               </article>

@@ -4,6 +4,15 @@ import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { PublicFooter } from '@/components/public/PublicFooter'
 import { getLocalizedHref, rolesPageCopy, type MarketingLocale } from '@/lib/marketing-i18n'
 
+function getPressureForRole(role: string) {
+  const normalized = role.toLowerCase()
+  if (normalized.includes('cobranza') || normalized.includes('collections')) return 'collections'
+  if (normalized.includes('licitacion') || normalized.includes('licitaciones') || normalized.includes('tender')) return 'tenders'
+  if (normalized.includes('implementacion') || normalized.includes('implementation')) return 'implementation'
+  if (normalized.includes('reclut') || normalized.includes('recruit')) return 'recruiting'
+  return 'sales'
+}
+
 export function LocalizedRolesPage({ locale }: { locale: MarketingLocale }) {
   const copy = rolesPageCopy[locale]
 
@@ -33,15 +42,16 @@ export function LocalizedRolesPage({ locale }: { locale: MarketingLocale }) {
 
         <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
           <div className="overflow-hidden border border-[#d8e5e2] bg-white">
-            <div className="grid grid-cols-1 border-b border-[#d8e5e2] bg-[#f1f6f4] text-[10px] font-semibold uppercase tracking-[0.22em] text-[#789b96] md:grid-cols-[0.9fr_1.4fr_0.55fr_0.7fr]">
+            <div className="grid grid-cols-1 border-b border-[#d8e5e2] bg-[#f1f6f4] text-[10px] font-semibold uppercase tracking-[0.22em] text-[#789b96] md:grid-cols-[0.9fr_1.4fr_0.55fr_0.7fr_0.65fr]">
               {copy.tableHeaders.map((header) => (
                 <div key={header} className="border-b border-[#d8e5e2] p-4 md:border-b-0 md:border-r last:md:border-r-0">
                   {header}
                 </div>
               ))}
+              <div className="p-4">Diagnostico</div>
             </div>
             {copy.roles.map(([role, scope, supervision, savings]) => (
-              <article key={role} className="grid grid-cols-1 border-b border-[#e5eeee] last:border-b-0 md:grid-cols-[0.9fr_1.4fr_0.55fr_0.7fr]">
+              <article key={role} className="grid grid-cols-1 border-b border-[#e5eeee] last:border-b-0 md:grid-cols-[0.9fr_1.4fr_0.55fr_0.7fr_0.65fr]">
                 <div className="p-4 text-sm font-semibold text-[#173634]">{role}</div>
                 <div className="p-4 text-sm leading-7 text-[#65706d]">{scope}</div>
                 <div className="p-4">
@@ -50,6 +60,11 @@ export function LocalizedRolesPage({ locale }: { locale: MarketingLocale }) {
                   </span>
                 </div>
                 <div className="p-4 text-sm font-semibold text-[#173634]">{savings}</div>
+                <div className="p-4">
+                  <Link href={`${getLocalizedHref(locale, '/diagnosis')}?pressure=${getPressureForRole(role)}`} className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#527b73] hover:text-[#173634]">
+                    {locale === 'es' ? 'Evaluar' : 'Evaluate'} <ArrowRight size={12} />
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
