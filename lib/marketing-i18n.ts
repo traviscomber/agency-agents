@@ -26,6 +26,8 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/diagnosis') return locale === 'es' ? '/es/diagnostico' : '/en/diagnosis'
   if (href === '/signup') return `/${locale}/signup`
   if (href === '/login') return `/${locale}/login`
+  if (href === '/forgot-password') return `/${locale}/forgot-password`
+  if (href === '/signup-success') return `/${locale}/signup-success`
   if (href === '/contact') return `/${locale}/contact`
   return href
 }
