@@ -2,8 +2,34 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { CheckCircle2, ArrowRight } from 'lucide-react'
+
+const ONBOARDING_PLANS = [
+  {
+    id: 'free',
+    name: 'Demo Twin OS',
+    price: '$0/mo',
+    capacity: '5 twin runs/month',
+    fit: 'Validate one role and save the first artifacts.',
+    features: ['1 active operating program', 'Role twin library', 'Saved deliverables', 'Basic replacement preview'],
+  },
+  {
+    id: 'starter',
+    name: 'Pilot Program',
+    price: '$99/mo',
+    capacity: '1 deployed twin',
+    fit: 'Start with sales, collections, tenders, or implementation.',
+    features: ['Diagnosis checklist', 'Memory by account or process', 'Reusable outputs', 'Email support'],
+  },
+  {
+    id: 'managed',
+    name: 'Managed Deployment',
+    price: 'From USD 299/mo',
+    capacity: 'Outcome-led program',
+    fit: 'For teams that want diagnosis, setup, supervision, and ROI tracking.',
+    features: ['Operating map', 'Handoff rules', 'Supervision limits', 'Monthly ROI review'],
+  },
+]
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -35,14 +61,14 @@ export default function OnboardingPage() {
       <div className="mx-auto max-w-2xl">
         {/* Header */}
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to N3uralia Studio</h1>
-          <p className="mt-2 text-sm text-[#173634]/60">Set up the operating layer in 3 steps</p>
+          <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to N3uralia Twin OS</h1>
+          <p className="mt-2 text-sm text-[#173634]/60">Turn one repetitive role into a supervised operating program</p>
           {diagnosisRole ? (
             <div className="mx-auto mt-5 max-w-md border border-[#d8e5e2] bg-white px-4 py-3 text-left">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789b96]">Diagnosis ready</p>
               <p className="mt-1 text-sm font-semibold text-[#173634]">{diagnosisRole}</p>
               <p className="mt-1 text-xs leading-5 text-[#52605d]">
-                Finish onboarding and we will create the first operating program with this gemelo digital attached.
+                Finish onboarding and we will create the first operating program with this digital twin attached.
               </p>
             </div>
           ) : null}
@@ -63,7 +89,7 @@ export default function OnboardingPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">Step 1: Name the workstream</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Give the initiative a clear operating record</p>
+              <p className="mt-2 text-sm text-[#173634]/60">Name the process you want to turn into repeatable digital work</p>
             </div>
 
             <div className="space-y-3 border border-[#d8e5e2] bg-white p-6">
@@ -72,9 +98,16 @@ export default function OnboardingPage() {
               </label>
               <input
                 type="text"
-                placeholder="My Agency"
+                placeholder="Sales follow-up Chile, Tender review, Collections portfolio..."
                 className="w-full border border-[#d8e5e2] bg-[#fbfbfa] px-4 py-3 text-sm text-[#173634] outline-none focus:border-[#8fb2aa]"
               />
+              <div className="grid gap-3 pt-2 sm:grid-cols-3">
+                {['Role', 'Inputs', 'Human approval'].map((label) => (
+                  <div key={label} className="border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-2">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">{label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <button
@@ -91,14 +124,11 @@ export default function OnboardingPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">Step 2: Pick the operating plan</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Choose the level of volume and continuity you need now</p>
+              <p className="mt-2 text-sm text-[#173634]/60">Choose how much support, memory, and supervision the first twin needs</p>
             </div>
 
             <div className="space-y-3">
-              {[
-                { id: 'free', name: 'Starter', price: '$0/mo', runs: '5 runs/month', features: ['Core specialists', 'Save deliverables', 'Email support'] },
-                { id: 'pro', name: 'Growth', price: '$99/mo', runs: 'Unlimited runs', features: ['All starter features', 'Advanced specialists', 'Priority support', 'API access'] },
-              ].map((plan) => (
+              {ONBOARDING_PLANS.map((plan) => (
                 <button
                   key={plan.id}
                   onClick={() => setSelectedPlan(plan.id)}
@@ -112,8 +142,9 @@ export default function OnboardingPage() {
                     <div>
                       <h3 className="font-semibold text-[#173634]">{plan.name}</h3>
                       <p className="mt-1 text-sm text-[#173634]/60">{plan.price}</p>
+                      <p className="mt-2 text-xs leading-5 text-[#52605d]">{plan.fit}</p>
                     </div>
-                    <span className="text-xs font-semibold text-[#8fb2aa]">{plan.runs}</span>
+                    <span className="text-xs font-semibold text-[#8fb2aa]">{plan.capacity}</span>
                   </div>
                   <ul className="mt-4 space-y-2">
                     {plan.features.map((f) => (
@@ -156,7 +187,7 @@ export default function OnboardingPage() {
               <p className="mt-2 text-sm text-[#173634]/60">
                 {diagnosisRole
                   ? 'Your operating space is ready. Next, create the first program from your diagnosis.'
-                  : 'Your operating space is ready. Start with the dashboard, the project record, and the next specialist run.'}
+                  : 'Your operating space is ready. Start with the project record, role memory, and the first supervised twin run.'}
               </p>
             </div>
 

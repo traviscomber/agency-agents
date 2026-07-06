@@ -40,6 +40,77 @@ const deploymentBands = {
   ],
 }
 
+const managedPrograms = {
+  es: [
+    {
+      name: 'Sales Twin Starter',
+      target: 'Pymes B2B y servicios profesionales',
+      price: 'USD 199-499/mes',
+      promise: 'Ordena pipeline, follow-up, discovery y proximos pasos con memoria por cuenta.',
+      roi: 'Ahorro esperado: 5-8 h/semana por ejecutivo.',
+      cta: 'Diagnosticar ventas',
+    },
+    {
+      name: 'Licitaciones Pro',
+      target: 'Proveedoras del Estado, industriales y constructoras',
+      price: 'USD 499-1.500/mes',
+      promise: 'Convierte bases, requisitos y riesgos en go/no-go, checklist y plan documental.',
+      roi: 'Ahorro esperado: lectura inicial en minutos, no horas.',
+      cta: 'Revisar licitaciones',
+    },
+    {
+      name: 'Cobranza Pyme',
+      target: 'Empresas con cartera vencida o seguimiento manual',
+      price: 'USD 299-799/mes',
+      promise: 'Prioriza cuentas, prepara mensajes, detecta promesas de pago y escala excepciones.',
+      roi: 'Ahorro esperado: mas recuperacion con menos seguimiento manual.',
+      cta: 'Ordenar cobranza',
+    },
+    {
+      name: 'Implementation OS',
+      target: 'SaaS, agencias, consultoras y equipos de servicio',
+      price: 'USD 499-1.200/mes',
+      promise: 'Transforma reuniones, bloqueos e hitos en handoffs, owners y artifacts reutilizables.',
+      roi: 'Ahorro esperado: menos perdida de contexto entre kickoff y entrega.',
+      cta: 'Mapear implementacion',
+    },
+  ],
+  en: [
+    {
+      name: 'Sales Twin Starter',
+      target: 'B2B SMBs and professional services',
+      price: 'USD 199-499/month',
+      promise: 'Organize pipeline, follow-up, discovery, and next steps with account memory.',
+      roi: 'Expected savings: 5-8 h/week per sales rep.',
+      cta: 'Diagnose sales',
+    },
+    {
+      name: 'Tenders Pro',
+      target: 'Public-sector suppliers, industrial firms, and builders',
+      price: 'USD 499-1,500/month',
+      promise: 'Turn tender bases, requirements, and risks into go/no-go, checklists, and document plans.',
+      roi: 'Expected savings: first-pass review in minutes, not hours.',
+      cta: 'Review tenders',
+    },
+    {
+      name: 'Collections SMB',
+      target: 'Companies with overdue accounts or manual follow-up',
+      price: 'USD 299-799/month',
+      promise: 'Prioritize accounts, prepare messages, detect payment promises, and escalate exceptions.',
+      roi: 'Expected savings: more recovery with less manual follow-up.',
+      cta: 'Organize collections',
+    },
+    {
+      name: 'Implementation OS',
+      target: 'SaaS, agencies, consultancies, and service teams',
+      price: 'USD 499-1,200/month',
+      promise: 'Turn meetings, blockers, and milestones into handoffs, owners, and reusable artifacts.',
+      roi: 'Expected savings: less context loss between kickoff and delivery.',
+      cta: 'Map implementation',
+    },
+  ],
+}
+
 const planPresentation = {
   es: {
     free: {
@@ -108,11 +179,70 @@ const planPresentation = {
     },
   },
   en: {
-    free: { name: 'Free / Demo', interval: '/month', cta: 'Start free', features: PLANS[0].features },
-    starter: { name: 'Starter', interval: '/month', cta: 'Deploy Starter', features: PLANS[1].features },
-    pro: { name: 'Pro', interval: '/month', cta: 'Deploy Pro', features: PLANS[2].features },
-    team: { name: 'Business', interval: '/month', cta: 'Deploy Business', features: PLANS[3].features },
-    enterprise: { name: 'Enterprise', interval: '', cta: 'Contact sales', features: PLANS[4].features },
+    free: {
+      name: 'Free / Demo',
+      interval: '/month',
+      cta: 'Start free',
+      features: [
+        '5 digital twin runs per month',
+        '1 active operating program',
+        'Core role twin library',
+        'Saved deliverables',
+        'Basic replacement preview',
+      ],
+    },
+    starter: {
+      name: 'Starter',
+      interval: '/month',
+      cta: 'Deploy Starter',
+      features: [
+        '1 deployed operating twin',
+        'Basic memory by account or process',
+        'Reusable deliverables',
+        'Role diagnosis checklist',
+        'Email support',
+      ],
+    },
+    pro: {
+      name: 'Pro',
+      interval: '/month',
+      cta: 'Deploy Pro',
+      features: [
+        '3 deployed operating twins',
+        'Weekly automations',
+        'Full project and account history',
+        'Human handoffs and review states',
+        'Replacement dashboard',
+        'Priority support',
+      ],
+    },
+    team: {
+      name: 'Business',
+      interval: '/month',
+      cta: 'Deploy Business',
+      features: [
+        '10 deployed operating twins',
+        'Team workspace',
+        'Connectors for documents, sheets, CRM, or ERP',
+        'Recurring reporting',
+        'Implementation support',
+        'Advanced API',
+        'Priority operating reviews',
+      ],
+    },
+    enterprise: {
+      name: 'Enterprise',
+      interval: '',
+      cta: 'Contact sales',
+      features: [
+        'Custom digital twin portfolio',
+        'Private connectors and integrations',
+        'White-label option',
+        'Advanced security and SSO',
+        'SLA and dedicated support',
+        'Custom implementation roadmap',
+      ],
+    },
   },
 } satisfies Record<MarketingLocale, Record<string, { name: string; interval: string; cta: string; features: string[] }>>
 
@@ -258,6 +388,48 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                   <BadgeEyebrow>{stage}</BadgeEyebrow>
                   <p className="mt-3 text-lg font-semibold text-[#173634]">{scope}</p>
                   <p className="mt-2 text-sm leading-7 text-[#52605d]">{body}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[#d8e5e2] bg-[#fbfbfa]">
+          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+            <div className="mb-10 grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+              <div>
+                <Eyebrow className="text-[#789b96]">
+                  {locale === 'es' ? 'Programas gestionados' : 'Managed programs'}
+                </Eyebrow>
+                <H2Section className="mt-4 text-[#173634]">
+                  {locale === 'es'
+                    ? 'Compra un resultado operativo, no solo una licencia.'
+                    : 'Buy an operating outcome, not just a license.'}
+                </H2Section>
+              </div>
+              <Body className="text-[#52605d]">
+                {locale === 'es'
+                  ? 'Los planes base sirven para self-service. Los programas gestionados convierten un proceso repetitivo en un twin operativo con diagnostico, memoria, handoffs, supervision y ROI visible.'
+                  : 'Base plans support self-service. Managed programs turn a repetitive process into an operating twin with diagnosis, memory, handoffs, supervision, and visible ROI.'}
+              </Body>
+            </div>
+
+            <div className="grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] lg:grid-cols-4">
+              {managedPrograms[locale].map((program) => (
+                <Card key={program.name} variant="light" className="flex min-h-[340px] flex-col rounded-none border-0 p-6">
+                  <BadgeEyebrow>{program.target}</BadgeEyebrow>
+                  <H3 className="mt-4 text-[#173634]">{program.name}</H3>
+                  <p className="mt-3 text-sm font-semibold text-[#173634]">{program.price}</p>
+                  <p className="mt-4 text-sm leading-7 text-[#52605d]">{program.promise}</p>
+                  <div className="mt-5 border-l-2 border-[#8fb2aa] bg-[#f1f6f4] px-4 py-3">
+                    <p className="text-xs font-semibold leading-5 text-[#173634]">{program.roi}</p>
+                  </div>
+                  <Link
+                    href={getLocalizedHref(locale, '/diagnosis')}
+                    className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-[#173634] transition-colors hover:text-[#527b73]"
+                  >
+                    {program.cta} <ArrowRight size={13} />
+                  </Link>
                 </Card>
               ))}
             </div>
