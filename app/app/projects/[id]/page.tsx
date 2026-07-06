@@ -87,6 +87,16 @@ function resolveRecommendedAgentSlug(step?: ProjectWorkflowStep) {
   return ownerMap[step.owner] ?? null
 }
 
+function extractDiagnosisField(note: string, label: string, nextLabel?: string) {
+  const start = `${label}: `
+  const startIndex = note.indexOf(start)
+  if (startIndex === -1) return null
+  const valueStart = startIndex + start.length
+  const valueEnd = nextLabel ? note.indexOf(` ${nextLabel}:`, valueStart) : -1
+  const rawValue = note.slice(valueStart, valueEnd === -1 ? undefined : valueEnd)
+  return rawValue.replace(/\.$/, '').trim()
+}
+
 export default function ProjectDetailPage({ params }: Props) {
   const { id } = use(params)
   const [projects, setProjects] = useState(MOCK_PROJECTS)
@@ -316,6 +326,17 @@ export default function ProjectDetailPage({ params }: Props) {
   const recommendedTwinProfile = recommendedAgent?.twinProfile ?? null
   const programReplacementScore = recommendedTwinProfile?.operationalReplacementScore ?? null
   const programSupervision = recommendedTwinProfile?.supervisionLevel ?? null
+  const diagnosisMemory = memory.find((entry) => entry.title === 'Diagnosis recommendation') ?? null
+  const diagnosisBlueprint = diagnosisMemory
+    ? [
+        ['Gemelo recomendado', extractDiagnosisField(diagnosisMemory.note, 'Recommended gemelo digital', 'Supervision') ?? recommendedAgent?.name ?? 'Gemelo digital asignado'],
+        ['Supervision diagnosticada', extractDiagnosisField(diagnosisMemory.note, 'Supervision', 'Recoverable hours') ?? programSupervision ?? 'medium'],
+        ['Horas recuperables', extractDiagnosisField(diagnosisMemory.note, 'Recoverable hours', 'Estimated monthly savings') ?? 'Pendiente'],
+        ['ROI mensual estimado', extractDiagnosisField(diagnosisMemory.note, 'Estimated monthly savings', 'Next step') ?? 'Pendiente'],
+        ['Datos para cargar', extractDiagnosisField(diagnosisMemory.note, 'Next step') ?? activeStep?.detail ?? 'Definir contexto operativo inicial'],
+        ['Control humano', programSupervision ? getSupervisionGuidance(programSupervision) : 'Mantener aprobacion humana explicita antes de acciones sensibles.'],
+      ]
+    : []
   const operatingHealth = activeStep
     ? activeStep.status === 'blocked'
       ? 'Blocked pending unblock action'
@@ -533,6 +554,30 @@ export default function ProjectDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {diagnosisBlueprint.length ? (
+        <section className="mt-6 overflow-hidden border border-[#8fb2aa]/50 bg-[#edf6f3] shadow-[0_18px_60px_-48px_rgba(15,23,42,0.35)]">
+          <div className="grid gap-px bg-[#cfe1dc] lg:grid-cols-[0.82fr_1.18fr]">
+            <div className="bg-[#edf6f3] p-5 sm:p-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#527b73]">Blueprint del diagnostico</p>
+              <h2 className="mt-3 text-2xl font-light tracking-[-0.03em] text-[#173634]">
+                Este programa conserva la promesa comercial del primer gemelo digital.
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-[#52605d]">
+                El diagnostico no queda perdido en el signup: ROI, supervision, datos requeridos y siguiente rutina quedan dentro del registro operativo del programa.
+              </p>
+            </div>
+            <div className="grid gap-px bg-[#d8e5e2] sm:grid-cols-2 lg:grid-cols-3">
+              {diagnosisBlueprint.map(([label, value]) => (
+                <div key={label} className="bg-white p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">{label}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#52605d]">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="mt-6 grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
         <article className="n3-panel p-5 sm:p-6">
