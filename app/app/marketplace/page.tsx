@@ -4,15 +4,15 @@ import { Button } from '@/components/ui/button'
 
 export const metadata = {
   title: 'Twin Exchange | N3uralia Studio',
-  description: 'Discover curated specialists, operating packs, and reusable delivery patterns.',
+  description: 'Biblioteca de paquetes operativos, playbooks y gemelos reutilizables para Chile y Latam.',
 }
 
 export default function MarketplacePage() {
-  const categories = ['All', 'Strategy', 'Operations', 'Growth', 'Engineering', 'Compliance']
+  const categories = ['Todos', 'Ventas', 'Cobranza', 'Licitaciones', 'Implementacion', 'Gobierno']
   const featuredSignals = [
-    ['Curated by operators', 'Specialists are reviewed for handoff quality, not only prompt quality.'],
-    ['Reusable packs', 'Each listing is framed as a repeatable operating unit with output expectations.'],
-    ['Production-minded', 'The best specialists are paired with workflow notes, risks, and next actions.'],
+    ['Curado por operacion', 'Cada paquete se revisa por calidad de handoff, limites y continuidad, no solo por prompt.'],
+    ['Unidad reutilizable', 'Cada listing explicita input, output esperado, owner humano y metrica de replacement.'],
+    ['Listo para programa', 'Los mejores paquetes traen rutina, riesgos, decision pendiente y siguiente accion.'],
   ]
 
   const agents = [
@@ -25,9 +25,9 @@ export default function MarketplacePage() {
       rating: 4.8,
       reviews: 124,
       sales: 2840,
-      category: 'Strategy',
-      fit: 'Best when a team needs a first brief, owner map, and decision path before building.',
-      output: 'Brief, workflow outline, decision log',
+      category: 'Gobierno',
+      fit: 'Mejor cuando un equipo necesita brief inicial, mapa de owners y ruta de decision antes de desplegar.',
+      output: 'Brief operativo, workflow, decision log',
     },
     {
       id: '2',
@@ -38,9 +38,9 @@ export default function MarketplacePage() {
       rating: 4.6,
       reviews: 89,
       sales: 1240,
-      category: 'Operations',
-      fit: 'Best when handoffs, blockers, and late updates are creating execution drag.',
-      output: 'Workflow map, blockers, handoff recommendations',
+      category: 'Implementacion',
+      fit: 'Mejor cuando handoffs, bloqueos y actualizaciones tardias frenan la ejecucion.',
+      output: 'Mapa de workflow, bloqueos, recomendaciones de handoff',
     },
     {
       id: '3',
@@ -51,9 +51,9 @@ export default function MarketplacePage() {
       rating: 4.9,
       reviews: 156,
       sales: 3100,
-      category: 'Growth',
-      fit: 'Best when the team needs launch proof, commercial evidence, and reusable rollout artifacts.',
-      output: 'Launch proof, messaging pack, evidence points',
+      category: 'Ventas',
+      fit: 'Mejor cuando el equipo necesita evidencia comercial, mensajes y artifacts reutilizables para rollout.',
+      output: 'Prueba comercial, pack de mensajes, puntos de evidencia',
     },
   ]
 
@@ -65,22 +65,22 @@ export default function MarketplacePage() {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#52605d]">
                 <Sparkles size={12} className="text-[#789b96]" />
-                Curated specialist exchange
+                Twin Exchange operativo
               </div>
               <h1 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.03em] text-[#173634] sm:text-5xl">
-                Specialists that ship reusable operating work, not isolated prompt output.
+                Paquetes que convierten know-how operativo en rutinas reutilizables.
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d] sm:text-base">
-                This library is structured around execution pressure: choose the specialist, inspect the output shape,
-                and understand the handoff quality before you run anything.
+                Esta biblioteca esta organizada por presion operacional: elige el paquete, revisa el output,
+                entiende el handoff y despliegalo dentro de un programa con supervision.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <Button className="bg-[#173634] text-white hover:bg-[#0d1f1d]">
-                  Inspect featured packs <ArrowUpRight size={13} className="ml-1" />
+                  Inspeccionar paquetes <ArrowUpRight size={13} className="ml-1" />
                 </Button>
                 <Button variant="outline" className="border-[#d8e5e2] bg-white text-[#173634] hover:bg-[#f1f6f4]">
-                  Submit a specialist
+                  Proponer paquete
                 </Button>
               </div>
             </div>
@@ -98,13 +98,13 @@ export default function MarketplacePage() {
 
         <section className="mt-8 grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
           <div className="rounded-[1.75rem] border border-[#d8e5e2] bg-[#173634] p-6 text-[#f5fbfa] shadow-[0_16px_44px_-28px_rgba(15,23,42,0.42)]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#9db7b1]">Selection criteria</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">Why this exchange feels different</h2>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#9db7b1]">Criterio de seleccion</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">Por que este exchange no es un marketplace de prompts</h2>
             <div className="mt-6 space-y-4">
               {[
-                ['Output first', 'Each listing makes the artifact shape explicit before the run starts.'],
-                ['Workflow aware', 'Specialists are framed by the handoff they create for the next owner.'],
-                ['Commercially legible', 'Buyers can tell whether the specialist creates proof, action, or escalation.'],
+                ['Output primero', 'Cada paquete explicita la forma del artifact antes de ejecutar.'],
+                ['Consciente del workflow', 'El valor se mide por el handoff que deja al siguiente owner.'],
+                ['Legible para negocio', 'El comprador ve si genera prueba, accion, control o escalamiento.'],
               ].map(([title, body]) => (
                 <div key={title} className="rounded-[1.15rem] border border-white/10 bg-white/5 p-4">
                   <p className="text-sm font-semibold text-white">{title}</p>
@@ -116,15 +116,15 @@ export default function MarketplacePage() {
 
           <div className="rounded-[1.75rem] border border-[#d8e5e2] bg-white p-5 shadow-[0_16px_44px_-34px_rgba(15,23,42,0.35)]">
             <div className="mb-6 flex flex-col gap-3 border-b border-[#d8e5e2] pb-5 sm:flex-row">
-              <div className="flex flex-1 items-center gap-22xl border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2.5">
+              <div className="flex flex-1 items-center gap-2 border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2.5">
                 <Search size={15} className="text-[#8aa29c]" />
                 <input
-                  placeholder="Search by operating pressure, specialist, or deliverable..."
+                  placeholder="Buscar por presion operativa, gemelo o entregable..."
                   className="flex-1 bg-transparent text-sm text-[#173634] placeholder:text-[#789b96] focus:outline-none"
                 />
               </div>
-              <Button variant="outline" className="h-112xl border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
-                <Filter size={14} className="mr-2" /> Sort by proof
+              <Button variant="outline" className="h-11 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
+                <Filter size={14} className="mr-2" /> Ordenar por prueba
               </Button>
             </div>
 
@@ -132,9 +132,9 @@ export default function MarketplacePage() {
               {categories.map((cat) => (
                 <Button
                   key={cat}
-                  variant={cat === 'All' ? 'default' : 'outline'}
+                  variant={cat === 'Todos' ? 'default' : 'outline'}
                   className={`h-9 px-4 text-[10px] font-semibold uppercase tracking-[0.14em] whitespace-nowrap ${
-                    cat === 'All'
+                    cat === 'Todos'
                       ? 'bg-[#173634] text-white hover:bg-[#1e3431]'
                       : 'border-[#d8e5e2] bg-white text-[#173634] hover:bg-[#f1f6f4]'
                   }`}
@@ -156,17 +156,17 @@ export default function MarketplacePage() {
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#789b96]">{agent.category}</p>
                       {agent.sales > 2000 && (
                         <span className="flex items-center gap-1 bg-[#eef5f2] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f716a]">
-                          <TrendingUp size={11} /> Trending
+                          <TrendingUp size={11} /> Alta adopcion
                         </span>
                       )}
                     </div>
                     <h3 className="mt-3 text-lg font-semibold text-[#173634]">{agent.title}</h3>
-                    <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-[#65706d]">by {agent.creator}</p>
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-[#65706d]">por {agent.creator}</p>
 
                     <p className="mt-4 text-sm leading-relaxed text-[#52605d]">{agent.fit}</p>
 
                     <div className="mt-4 border border-[#d8e5e2] bg-white/80 p-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">Expected output</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">Output esperado</p>
                       <p className="mt-2 text-sm text-[#173634]">{agent.output}</p>
                     </div>
 
@@ -180,18 +180,18 @@ export default function MarketplacePage() {
                       ))}
                     </div>
                     <p className="mt-1 text-[10px] text-[#173634]/60">
-                      <span className="font-semibold text-[#173634]">{agent.rating}</span> ({agent.reviews} reviews)
+                      <span className="font-semibold text-[#173634]">{agent.rating}</span> ({agent.reviews} revisiones)
                     </p>
 
                     <div className="mt-3 flex items-center gap-3 text-[10px] text-[#173634]/50">
                       <div className="flex items-center gap-1">
                         <Download size={11} className="text-[#8fb2aa]" />
-                        {agent.sales} runs
+                        {agent.sales} corridas
                       </div>
-                      <span className="text-[#d8e5e2]">•</span>
+                      <span className="text-[#d8e5e2]">-</span>
                       <span className="inline-flex items-center gap-1 font-medium text-[#173634]">
                         <ShieldCheck size={11} className="text-[#789b96]" />
-                        Reviewed
+                        Revisado
                       </span>
                     </div>
                   </div>
@@ -199,12 +199,12 @@ export default function MarketplacePage() {
                   <div className="mt-5 border-t border-[#d8e5e2] pt-4">
                     <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.14em] text-[#65706d]">
                       <Workflow size={11} className="text-[#789b96]" />
-                      Handoff aware specialist
+                      Paquete con handoff
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="font-semibold text-[#173634]">${agent.pricePerRun.toFixed(2)}/run</p>
                       <Button className="h-8 bg-[#173634] px-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
-                        Inspect
+                        Ver
                       </Button>
                     </div>
                   </div>

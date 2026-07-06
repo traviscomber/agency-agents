@@ -880,6 +880,8 @@ export const authPageCopy = {
       submit: 'Crear cuenta',
       loading: 'Creando cuenta...',
       legal: 'Al crear una cuenta aceptas nuestros',
+      legalTerms: 'Terminos',
+      legalPrivacy: 'Politica de privacidad',
     },
     en: {
       badge: 'Free to start',
@@ -903,6 +905,8 @@ export const authPageCopy = {
       submit: 'Create account',
       loading: 'Creating account...',
       legal: 'By creating an account you agree to our',
+      legalTerms: 'Terms',
+      legalPrivacy: 'Privacy Policy',
     },
   },
   login: {
@@ -924,6 +928,8 @@ export const authPageCopy = {
       passwordPlaceholder: 'Ingresa tu contraseña',
       submit: 'Ingresar',
       legal: 'Al ingresar aceptas nuestros',
+      legalTerms: 'Terminos',
+      legalPrivacy: 'Politica de privacidad',
     },
     en: {
       badge: 'Secure access',
@@ -943,6 +949,8 @@ export const authPageCopy = {
       passwordPlaceholder: 'Enter your password',
       submit: 'Sign in',
       legal: 'By signing in you agree to our',
+      legalTerms: 'Terms',
+      legalPrivacy: 'Privacy Policy',
     },
   },
 } satisfies Record<string, Record<MarketingLocale, any>>

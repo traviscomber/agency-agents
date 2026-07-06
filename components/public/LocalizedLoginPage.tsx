@@ -72,9 +72,9 @@ export function LocalizedLoginPage({ locale }: { locale: MarketingLocale }) {
 
             <p className="mt-6 text-center text-xs text-[#a7b9b4]">
               {copy.legal}{' '}
-              <Link href={getLocalizedHref(locale, '/terms')} className="hover:text-[#173634] hover:underline">Terms</Link>
+              <Link href={getLocalizedHref(locale, '/terms')} className="hover:text-[#173634] hover:underline">{copy.legalTerms}</Link>
               {' '}and{' '}
-              <Link href={getLocalizedHref(locale, '/privacy')} className="hover:text-[#173634] hover:underline">Privacy Policy</Link>.
+              <Link href={getLocalizedHref(locale, '/privacy')} className="hover:text-[#173634] hover:underline">{copy.legalPrivacy}</Link>.
             </p>
           </div>
         </main>
