@@ -18,6 +18,15 @@ function getAgentDetailCopy(locale: MarketingLocale) {
         bestUse: 'Mejor uso',
         outputShape: 'Forma del output',
         outputShapeBody: 'Entregables estructurados con secciones claras y siguientes pasos accionables.',
+        commercialFit: 'Ficha comercial del twin',
+        replicatedRole: 'Rol replicado',
+        businessProblem: 'Problema que resuelve',
+        expectedSavings: 'Ahorro esperado',
+        firstResult: 'Primer resultado',
+        safeLimits: 'Limites seguros',
+        safeLimitsBody:
+          'Este twin prepara, resume, prioriza y documenta. Las decisiones comerciales, legales, financieras o reputacionales siguen requiriendo aprobacion humana.',
+        supervisionModel: 'Modelo de supervision',
         profile: 'Perfil del twin digital',
         marketFit: 'Market fit',
         replacementScope: 'Alcance de replacement',
@@ -47,6 +56,15 @@ function getAgentDetailCopy(locale: MarketingLocale) {
         bestUse: 'Best use',
         outputShape: 'Output shape',
         outputShapeBody: 'Structured deliverables with clear sections and next steps.',
+        commercialFit: 'Commercial twin card',
+        replicatedRole: 'Replicated role',
+        businessProblem: 'Business problem',
+        expectedSavings: 'Expected savings',
+        firstResult: 'First result',
+        safeLimits: 'Safe limits',
+        safeLimitsBody:
+          'This twin prepares, summarizes, prioritizes, and documents. Commercial, legal, financial, or reputational decisions still require human approval.',
+        supervisionModel: 'Supervision model',
         profile: 'Digital twin profile',
         marketFit: 'Market fit',
         replacementScope: 'Replacement scope',
@@ -69,6 +87,92 @@ function getAgentDetailCopy(locale: MarketingLocale) {
       }
 }
 
+function getCommercialCard(locale: MarketingLocale, agent: NonNullable<ReturnType<typeof getAgentBySlug>>) {
+  const score = agent.twinProfile?.operationalReplacementScore ?? 0
+  const supervision = agent.twinProfile?.supervisionLevel ?? 'medium'
+  const firstOutput = agent.outputFormat[0] ?? (locale === 'es' ? 'Entregable operativo inicial' : 'Initial operating deliverable')
+  const firstInput = agent.inputRequirements[0] ?? (locale === 'es' ? 'Contexto del proceso' : 'Process context')
+
+  if (!agent.twinProfile) {
+    return {
+      problem:
+        locale === 'es'
+          ? 'Trabajo especializado que necesita estructura, criterios claros y salida reutilizable.'
+          : 'Specialized work that needs structure, clear criteria, and reusable output.',
+      savings:
+        locale === 'es'
+          ? 'Ahorro variable segun volumen, calidad del contexto y repeticion del flujo.'
+          : 'Variable savings depending on volume, context quality, and workflow repetition.',
+      firstResult:
+        locale === 'es'
+          ? `${firstOutput} construido desde ${firstInput.toLowerCase()}.`
+          : `${firstOutput} built from ${firstInput.toLowerCase()}.`,
+      supervision:
+        locale === 'es'
+          ? 'Revision humana recomendada antes de usar entregables en produccion.'
+          : 'Human review recommended before using deliverables in production.',
+      score,
+      supervisionLevel: supervision,
+    }
+  }
+
+  const savingsBySlug: Record<string, { es: string; en: string; problemEs: string; problemEn: string }> = {
+    'twin-ejecutivo-comercial-b2b-chile': {
+      es: '5-8 h/semana por ejecutivo comercial.',
+      en: '5-8 h/week per sales executive.',
+      problemEs: 'Seguimiento inconsistente, pipeline desordenado y proximas acciones que dependen de memoria individual.',
+      problemEn: 'Inconsistent follow-up, messy pipeline, and next actions that depend on individual memory.',
+    },
+    'twin-analista-licitaciones-chile': {
+      es: '25-45 h/mes en lectura inicial, requisitos y checklist documental.',
+      en: '25-45 h/month on first-pass review, requirements, and document checklists.',
+      problemEs: 'Bases extensas, riesgo documental y decisiones go/no-go lentas antes de postular.',
+      problemEn: 'Long bid docs, document risk, and slow go/no-go decisions before submission.',
+    },
+    'twin-cobranza-pyme-chile': {
+      es: '30-50 h/mes en priorizacion, mensajes y seguimiento de promesas de pago.',
+      en: '30-50 h/month on prioritization, messages, and payment-promise follow-up.',
+      problemEs: 'Cartera vencida sin priorizacion, promesas de pago dispersas y escalamiento poco visible.',
+      problemEn: 'Overdue portfolio without prioritization, scattered payment promises, and unclear escalation.',
+    },
+    'twin-pm-implementacion-chile': {
+      es: '4-7 h/semana en minutas, bloqueos, handoffs y seguimiento de hitos.',
+      en: '4-7 h/week on minutes, blockers, handoffs, and milestone follow-up.',
+      problemEs: 'Perdida de contexto entre reuniones, bloqueos invisibles y responsables poco claros.',
+      problemEn: 'Context loss between meetings, invisible blockers, and unclear owners.',
+    },
+    'twin-reclutador-operativo-chile': {
+      es: '20-35 h/mes en screening inicial, ranking y seguimiento de vacantes.',
+      en: '20-35 h/month on initial screening, ranking, and vacancy follow-up.',
+      problemEs: 'Vacantes desordenadas, criterios inconsistentes y seguimiento manual de candidatos.',
+      problemEn: 'Messy vacancies, inconsistent criteria, and manual candidate follow-up.',
+    },
+  }
+
+  const match = savingsBySlug[agent.slug]
+
+  return {
+    problem:
+      locale === 'es'
+        ? match?.problemEs ?? `Rutinas repetitivas de ${agent.role.toLowerCase()} que necesitan continuidad, memoria y handoff.`
+        : match?.problemEn ?? `Repeatable ${agent.role.toLowerCase()} routines that need continuity, memory, and handoff.`,
+    savings:
+      locale === 'es'
+        ? match?.es ?? `Replacement estimado de ${score}% de la carga repetible.`
+        : match?.en ?? `Estimated replacement of ${score}% of repeatable load.`,
+    firstResult:
+      locale === 'es'
+        ? `${firstOutput} con owner, siguiente paso y memoria del proceso.`
+        : `${firstOutput} with owner, next step, and process memory.`,
+    supervision:
+      locale === 'es'
+        ? `${supervision === 'high' ? 'Alta' : supervision === 'low' ? 'Baja' : 'Media'}: el twin ejecuta rutina repetible y escala excepciones a humano.`
+        : `${supervision === 'high' ? 'High' : supervision === 'low' ? 'Low' : 'Medium'}: the twin runs repeatable routine work and escalates exceptions to a human.`,
+    score,
+    supervisionLevel: supervision,
+  }
+}
+
 export function LocalizedAgentDetailPage({
   locale,
   slug,
@@ -79,6 +183,7 @@ export function LocalizedAgentDetailPage({
   const copy = getAgentDetailCopy(locale)
   const agent = getAgentBySlug(slug)
   if (!agent) notFound()
+  const commercialCard = getCommercialCard(locale, agent)
 
   const relatedAgents = SEED_AGENTS.filter(
     (a) => a.id !== agent.id && (a.division === agent.division || a.suggestedPrompts.some(() => true))
@@ -132,6 +237,42 @@ export function LocalizedAgentDetailPage({
                 <div key={title} className="rounded-2xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)] p-4 shadow-[0_12px_36px_-32px_rgba(15,23,42,0.5)]">
                   <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_18px_60px_-44px_rgba(15,23,42,0.45)]">
+          <div className="grid gap-px bg-slate-200 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="bg-[#0f172a] p-6 text-white lg:p-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{copy.commercialFit}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em]">{agent.twinProfile?.roleLabel ?? agent.role}</h2>
+              <p className="mt-4 text-sm leading-7 text-slate-200">{commercialCard.problem}</p>
+              <div className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
+                <div className="bg-white/10 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">Replacement</p>
+                  <p className="mt-2 text-3xl font-light tracking-[-0.04em]">{commercialCard.score || 'N/A'}{commercialCard.score ? '%' : ''}</p>
+                </div>
+                <div className="bg-white/10 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">Supervision</p>
+                  <p className="mt-2 text-3xl font-light capitalize tracking-[-0.04em]">{commercialCard.supervisionLevel}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-px bg-slate-200 sm:grid-cols-2">
+              {[
+                [copy.replicatedRole, agent.role],
+                [copy.expectedSavings, commercialCard.savings],
+                [copy.firstResult, commercialCard.firstResult],
+                [copy.supervisionModel, commercialCard.supervision],
+                [copy.businessProblem, commercialCard.problem],
+                [copy.safeLimits, copy.safeLimitsBody],
+              ].map(([title, body]) => (
+                <div key={title} className="bg-[#fbfbfa] p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">{title}</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-800">{body}</p>
                 </div>
               ))}
             </div>
