@@ -4,7 +4,7 @@ import { DivisionBadge } from '@/components/shared/DivisionBadge'
 import { PlanBadge } from '@/components/shared/PlanBadge'
 import { FadeInUp } from '@/components/animations/FadeInUp'
 import { ArrowRight, Bookmark, Radar, ShieldCheck, Workflow, Layers3, CircleAlert, Sparkles } from 'lucide-react'
-import { landingCopy, type MarketingLocale } from '@/lib/marketing-i18n'
+import { getLocalizedAgentHref, getLocalizedHref, landingCopy, type MarketingLocale } from '@/lib/marketing-i18n'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { H1Hero, H2Section, H3, Eyebrow, Body, HeadingWithEyebrow } from '@/components/shared/Typography'
 import { Button } from '@/components/shared/ButtonStyled'
@@ -64,12 +64,12 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
                 <FadeInUp delay={0.2}>
                   <div className="mt-9 flex flex-wrap gap-4">
-                    <Link href="/signup">
+                    <Link href={getLocalizedHref(locale, '/signup')}>
                       <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
                         {copy.heroPrimary} <ArrowRight size={14} />
                       </Button>
                     </Link>
-                    <Link href="/app">
+                    <Link href={getLocalizedHref(locale, '/roles')}>
                       <Button variant="secondary" size="lg" className="inline-flex items-center gap-2">
                         {copy.heroSecondary} <ArrowRight size={14} />
                       </Button>
@@ -218,7 +218,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 <Eyebrow>{copy.featuredEyebrow}</Eyebrow>
                 <H2Section className="mt-3 text-[#173634]">{copy.featuredTitle}</H2Section>
               </div>
-              <Link href="/agents" className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#173634] hover:text-[#8fb2aa]">
+              <Link href={getLocalizedHref(locale, '/agents')} className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#173634] hover:text-[#8fb2aa]">
                 {copy.featuredCta} <ArrowRight size={12} />
               </Link>
             </div>
@@ -234,7 +234,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   <p className="mt-2 text-sm leading-6 text-[#52605d]">{agent.shortDescription}</p>
                   <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.outputFormat[0]}</p>
                   <div className="mt-5">
-                    <Link href={`/agents/${agent.slug}`} className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
+                    <Link href={getLocalizedAgentHref(locale, agent.slug)} className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
                       Open twin <ArrowRight size={12} />
                     </Link>
                   </div>
@@ -253,12 +253,12 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 {copy.workspaceBody}
               </Body>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/signup">
+                <Link href={getLocalizedHref(locale, '/signup')}>
                   <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
                     {copy.workspacePrimary} <ArrowRight size={14} />
                   </Button>
                 </Link>
-                <Link href="/pricing">
+                <Link href={getLocalizedHref(locale, '/pricing')}>
                   <Button variant="secondary" size="lg" className="inline-flex items-center gap-2">
                     {copy.workspaceSecondary} <ArrowRight size={14} />
                   </Button>

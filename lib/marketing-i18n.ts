@@ -15,6 +15,9 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/') return `/${locale}`
   if (href === '/agents') return `/${locale}/agents`
   if (href === '/pricing') return `/${locale}/pricing`
+  if (href === '/chile') return locale === 'es' ? '/es/chile' : '/en/latam'
+  if (href === '/roles') return `/${locale}/roles`
+  if (href === '/roi') return locale === 'es' ? '/es/calculadora-roi' : '/en/roi'
   if (href === '/signup') return `/${locale}/signup`
   if (href === '/login') return `/${locale}/login`
   if (href === '/contact') return `/${locale}/contact`
@@ -42,9 +45,11 @@ export const publicNavbarCopy = {
   es: {
     brandSubline: 'Twin OS Latam',
     navItems: [
+      { href: '/chile', label: 'Chile' },
+      { href: '/roles', label: 'Roles' },
+      { href: '/roi', label: 'ROI' },
       { href: '/agents', label: 'Twins' },
       { href: '/pricing', label: 'Planes' },
-      { href: '/app', label: 'Workspace' },
     ],
     login: 'Ingresar',
     cta: 'Comenzar',
@@ -52,9 +57,11 @@ export const publicNavbarCopy = {
   en: {
     brandSubline: 'Twin OS Latam',
     navItems: [
+      { href: '/chile', label: 'Latam' },
+      { href: '/roles', label: 'Roles' },
+      { href: '/roi', label: 'ROI' },
       { href: '/agents', label: 'Twins' },
       { href: '/pricing', label: 'Pricing' },
-      { href: '/app', label: 'Workspace' },
     ],
     login: 'Log in',
     cta: 'Start free',
@@ -73,6 +80,9 @@ export const publicFooterCopy = {
   es: {
     groups: {
       Producto: [
+        { href: '/chile', label: 'Chile y Latam' },
+        { href: '/roles', label: 'Roles operativos' },
+        { href: '/roi', label: 'Calculadora ROI' },
         { href: '/agents', label: 'Twins' },
         { href: '/pricing', label: 'Planes' },
         { href: '/app', label: 'Workspace' },
@@ -94,6 +104,9 @@ export const publicFooterCopy = {
   en: {
     groups: {
       Product: [
+        { href: '/chile', label: 'Chile and Latam' },
+        { href: '/roles', label: 'Operating roles' },
+        { href: '/roi', label: 'ROI calculator' },
         { href: '/agents', label: 'Twins' },
         { href: '/pricing', label: 'Pricing' },
         { href: '/app', label: 'Workspace' },
@@ -123,15 +136,15 @@ export const publicFooterCopy = {
 
 export const landingCopy = {
   es: {
-    metaTitle: 'N3uralia Studio | Twin OS para roles operativos en Chile y Latam',
+    metaTitle: 'N3uralia Twin OS | Gemelos digitales para Chile y Latam',
     metaDescription:
       'N3uralia Studio convierte roles digitales repetibles en twins supervisados para Chile y Latam, con memoria operativa, KPIs, handoffs y alcance de replacement visible.',
-    badge: 'Twin OS para roles operativos en Chile y Latam',
-    heroTitle: 'Despliega twins digitales para roles operativos reales en Chile y Latam.',
+    badge: 'N3uralia Twin OS para Chile y Latam',
+    heroTitle: 'Despliega trabajadores digitales supervisados para ventas, cobranza, licitaciones e implementacion.',
     heroBody:
       'N3uralia Studio convierte trabajos recurrentes en twins supervisados con memoria, KPIs, handoffs y replacement visible para ventas, licitaciones, cobranza, implementación y reclutamiento.',
-    heroPrimary: 'Desplegar primer twin',
-    heroSecondary: 'Explorar Twin OS',
+    heroPrimary: 'Desplegar primer gemelo',
+    heroSecondary: 'Ver roles disponibles',
     heroSignals: [
       ['Cobertura por rol', 'Twin por cargo, vertical y rutina'],
       ['Memoria operativa', 'Estado reutilizable por cuenta o proyecto'],
@@ -148,7 +161,7 @@ export const landingCopy = {
     whyThisMattersBody:
       'Los equipos no necesitan más IA genérica. Necesitan replicar roles operativos con contexto, controles y límites visibles. Esta superficie vuelve eso desplegable.',
     differentiators: [
-      ['No es otro builder de agentes', 'La diferencia es un sistema de roles desplegables para trabajo real en Chile y Latam, no una caja en blanco para prompts genéricos.'],
+      ['No vendemos agentes', 'Vendemos capacidad operativa digital: roles desplegables para trabajo real en Chile y Latam, no una caja en blanco para prompts genericos.'],
       ['Replicable por cargo', 'Cada twin trae rutinas, KPIs, límites y formatos de salida conectados a un puesto concreto.'],
       ['Medible como operación', 'Replacement, supervision y execution history hacen el sistema legible para líderes y operadores.'],
       ['Diseñado para ejecución supervisada', 'Los twins absorben carga repetitiva mientras la decisión legal, comercial o estratégica sigue explícitamente en humanos.'],
@@ -247,6 +260,147 @@ export const landingCopy = {
       'You can start with one twin. The compound value appears when the brief, workflow, packet, deliverable archive, and next move live in the same system.',
     workspacePrimary: 'Create account',
     workspaceSecondary: 'View plans',
+  },
+} satisfies Record<MarketingLocale, any>
+
+export const chileLatamPageCopy = {
+  es: {
+    metaTitle: 'Gemelos digitales para empresas chilenas | N3uralia Studio',
+    metaDescription:
+      'Replica puestos criticos con gemelos digitales supervisados para ventas, licitaciones, operaciones, cobranza e implementacion en Chile y Latam.',
+    eyebrow: 'Gemelos digitales para Chile y Latam',
+    title: 'Convierte cargos criticos de tu empresa en gemelos digitales supervisados.',
+    body:
+      'N3uralia ayuda a empresas chilenas a capturar la forma real de trabajar de sus mejores personas y convertirla en capacidad digital repetible, medible y supervisada.',
+    primary: 'Calcular ROI en CLP',
+    secondary: 'Ver roles replicables',
+    proof: [
+      ['Menos dependencia del duenio', 'El conocimiento operativo queda documentado como rutinas, criterios y entregables reutilizables.'],
+      ['Mas capacidad sin agrandar estructura', 'Los gemelos digitales ejecutan seguimiento, analisis, preparacion y handoffs con supervision humana.'],
+      ['Chile primero', 'El lenguaje, los roles y los casos estan pensados para pymes, proveedores, servicios e industrias de Chile y Latam.'],
+    ],
+    industriesTitle: 'Casos aplicados a perfiles del mercado chileno',
+    industries: [
+      ['Proveedores industriales y mineria', 'Licitaciones, reportes, seguimiento comercial, soporte documental y continuidad de proyectos.'],
+      ['Construccion e inmobiliaria', 'Coordinacion de obra, seguimiento de pendientes, postventa, compras y control de compromisos.'],
+      ['Servicios profesionales', 'Diagnosticos, propuestas, entregables, investigacion y coordinacion de clientes.'],
+      ['Logistica y distribucion', 'Incidencias, coordinacion, priorizacion de cuentas, cobranza y comunicacion operativa.'],
+    ],
+    operatingModelTitle: 'Modelo de venta: diagnostico, gemelo, supervision y mejora',
+    operatingModel: [
+      ['1. Diagnostico del cargo', 'Identificamos tareas repetibles, criterio experto, riesgos y datos necesarios.'],
+      ['2. Gemelo digital inicial', 'Creamos un perfil operativo con instrucciones, limites, outputs y rutina semanal.'],
+      ['3. Supervision humana', 'Definimos que ejecuta solo, que requiere aprobacion y que queda fuera de alcance.'],
+      ['4. Medicion de ROI', 'Medimos horas recuperadas, velocidad de respuesta, calidad de entregables y dependencia reducida.'],
+    ],
+  },
+  en: {
+    metaTitle: 'Digital twins for Chile and Latam companies | N3uralia Studio',
+    metaDescription:
+      'Replicate critical work roles with supervised digital twins for sales, tenders, operations, collections, and implementation across Chile and Latam.',
+    eyebrow: 'Digital twins for Chile and Latam',
+    title: 'Turn critical work roles into supervised digital twins.',
+    body:
+      'N3uralia helps Chile and Latam companies capture how their best people work and turn that operating knowledge into repeatable, measurable, supervised digital capacity.',
+    primary: 'Calculate ROI',
+    secondary: 'View replicable roles',
+    proof: [
+      ['Less founder dependency', 'Operating knowledge becomes documented routines, criteria, and reusable deliverables.'],
+      ['More capacity without more structure', 'Digital twins execute follow-up, analysis, preparation, and handoffs with human supervision.'],
+      ['Built for Latam', 'The language, roles, and use cases map to SMEs, suppliers, services, and industrial teams in Chile and Latam.'],
+    ],
+    industriesTitle: 'Applied use cases for Chile and Latam profiles',
+    industries: [
+      ['Industrial and mining suppliers', 'Tenders, reports, commercial follow-up, documentation support, and project continuity.'],
+      ['Construction and real estate', 'Site coordination, task follow-up, post-sale service, procurement, and commitment tracking.'],
+      ['Professional services', 'Diagnostics, proposals, deliverables, research, and client coordination.'],
+      ['Logistics and distribution', 'Incidents, coordination, account prioritization, collections, and operating communication.'],
+    ],
+    operatingModelTitle: 'Sales model: diagnosis, twin, supervision, and improvement',
+    operatingModel: [
+      ['1. Role diagnosis', 'We identify repeatable tasks, expert judgment, risks, and required inputs.'],
+      ['2. Initial digital twin', 'We create an operating profile with instructions, limits, outputs, and weekly routines.'],
+      ['3. Human supervision', 'We define what runs autonomously, what needs approval, and what remains out of scope.'],
+      ['4. ROI measurement', 'We measure recovered hours, response speed, deliverable quality, and reduced dependency.'],
+    ],
+  },
+} satisfies Record<MarketingLocale, any>
+
+export const rolesPageCopy = {
+  es: {
+    metaTitle: 'Roles replicables con gemelos digitales | N3uralia Studio',
+    metaDescription:
+      'Explora cargos chilenos que pueden convertirse en gemelos digitales supervisados con alcance de reemplazo, supervision y ahorro estimado.',
+    eyebrow: 'Biblioteca de roles replicables',
+    title: 'Cargos que una empresa chilena puede convertir en gemelos digitales.',
+    body:
+      'No vendemos agentes sueltos: modelamos puestos de trabajo completos con rutinas, outputs, limites, supervision y metricas de capacidad.',
+    cta: 'Crear diagnostico gratis',
+    tableHeaders: ['Rol', 'Que replica', 'Supervision', 'Ahorro potencial'],
+    roles: [
+      ['Ejecutivo comercial B2B', 'Follow-up, discovery, recap de reuniones, avance de pipeline y propuestas iniciales.', 'Media', '35 a 55 horas/mes'],
+      ['Analista de licitaciones', 'Lectura de bases, go/no-go, checklist documental, riesgos y plan de respuesta.', 'Alta', '25 a 45 horas/mes'],
+      ['Cobranza pyme', 'Priorizacion de cuentas, promesas de pago, mensajes y trazabilidad.', 'Media', '30 a 50 horas/mes'],
+      ['PM de implementacion', 'Hitos, bloqueos, responsables, minutas, handoffs y seguimiento semanal.', 'Media', '40 a 70 horas/mes'],
+      ['Reclutador operativo', 'Screening, pauta de entrevistas, shortlist, seguimiento y reportes.', 'Alta', '25 a 45 horas/mes'],
+    ],
+  },
+  en: {
+    metaTitle: 'Replicable roles with digital twins | N3uralia Studio',
+    metaDescription:
+      'Explore Chile and Latam work roles that can become supervised digital twins with replacement scope, supervision, and estimated savings.',
+    eyebrow: 'Replicable role library',
+    title: 'Work roles a Chile or Latam company can turn into digital twins.',
+    body:
+      'We do not sell loose agents. We model full work roles with routines, outputs, limits, supervision, and capacity metrics.',
+    cta: 'Create free diagnosis',
+    tableHeaders: ['Role', 'What it replicates', 'Supervision', 'Potential savings'],
+    roles: [
+      ['B2B sales executive', 'Follow-up, discovery, meeting recaps, pipeline movement, and initial proposals.', 'Medium', '35 to 55 hours/month'],
+      ['Tender analyst', 'Document review, go/no-go, requirement checklist, risks, and response plan.', 'High', '25 to 45 hours/month'],
+      ['SME collections analyst', 'Account prioritization, payment promises, messages, and traceability.', 'Medium', '30 to 50 hours/month'],
+      ['Implementation PM', 'Milestones, blockers, owners, minutes, handoffs, and weekly follow-up.', 'Medium', '40 to 70 hours/month'],
+      ['Operations recruiter', 'Screening, interview guides, shortlists, follow-up, and reports.', 'High', '25 to 45 hours/month'],
+    ],
+  },
+} satisfies Record<MarketingLocale, any>
+
+export const roiPageCopy = {
+  es: {
+    metaTitle: 'Calculadora ROI de gemelos digitales en CLP | N3uralia Studio',
+    metaDescription:
+      'Calcula horas recuperadas y ahorro mensual estimado al convertir cargos operativos en gemelos digitales para empresas chilenas.',
+    eyebrow: 'ROI en CLP',
+    title: 'Calcula cuanto valor puede recuperar un gemelo digital por cargo.',
+    body:
+      'Usa esta calculadora como primera estimacion comercial. El diagnostico real define alcance, supervision y datos necesarios por cargo.',
+    salaryLabel: 'Costo mensual del cargo en CLP',
+    hoursLabel: 'Horas repetibles por mes',
+    automationLabel: 'Porcentaje replicable por gemelo digital',
+    monthlySavings: 'Ahorro mensual estimado',
+    yearlySavings: 'Ahorro anual estimado',
+    recoveredHours: 'Horas recuperadas al mes',
+    cta: 'Agendar diagnostico',
+    assumption:
+      'Supuesto: el ahorro combina horas recuperadas y reduccion de dependencia operativa. No reemplaza evaluacion legal, laboral ni financiera.',
+  },
+  en: {
+    metaTitle: 'Digital twin ROI calculator for Chile and Latam | N3uralia Studio',
+    metaDescription:
+      'Estimate recovered hours and monthly savings when converting operating roles into supervised digital twins.',
+    eyebrow: 'ROI calculator',
+    title: 'Estimate how much value a digital twin can recover per role.',
+    body:
+      'Use this calculator as an initial commercial estimate. A real diagnosis defines scope, supervision, and required data per role.',
+    salaryLabel: 'Monthly role cost in CLP',
+    hoursLabel: 'Repeatable hours per month',
+    automationLabel: 'Percentage replicable by digital twin',
+    monthlySavings: 'Estimated monthly savings',
+    yearlySavings: 'Estimated yearly savings',
+    recoveredHours: 'Recovered hours per month',
+    cta: 'Book diagnosis',
+    assumption:
+      'Assumption: savings combine recovered hours and lower operating dependency. This is not legal, labor, or financial advice.',
   },
 } satisfies Record<MarketingLocale, any>
 

@@ -1,10 +1,14 @@
 import type { Metadata } from 'next'
 import { LocalizedLandingPage } from '@/components/public/LocalizedLandingPage'
-import { landingCopy } from '@/lib/marketing-i18n'
+import { buildLocaleAlternates, landingCopy } from '@/lib/marketing-i18n'
 
 export const metadata: Metadata = {
   title: landingCopy.es.metaTitle,
   description: landingCopy.es.metaDescription,
+  alternates: buildLocaleAlternates({
+    es: '/es',
+    en: '/en',
+  }),
   openGraph: {
     title: landingCopy.es.metaTitle,
     description: landingCopy.es.metaDescription,

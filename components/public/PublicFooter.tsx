@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { getLocaleFromPathname, publicFooterCopy } from '@/lib/marketing-i18n'
+import { getLocaleFromPathname, getLocalizedHref, publicFooterCopy } from '@/lib/marketing-i18n'
 
 export function PublicFooter() {
   const pathname = usePathname()
@@ -36,7 +36,7 @@ export function PublicFooter() {
               <ul className="space-y-3">
                 {items.map(({ href, label }) => (
                   <li key={href}>
-                    <Link href={href} className="text-sm text-[#65706d] transition-colors hover:text-[#173634]">
+                    <Link href={getLocalizedHref(locale, href)} className="text-sm text-[#65706d] transition-colors hover:text-[#173634]">
                       {label}
                     </Link>
                   </li>

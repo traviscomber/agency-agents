@@ -49,16 +49,16 @@ export async function sendPasswordResetEmail(email: string, resetLink: string): 
 // Template getters
 function getWelcomeTemplate(userName: string): EmailTemplate {
   return {
-    subject: 'Welcome to N3uralia AgencyOS',
+    subject: 'Welcome to N3uralia Twin OS',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #173634;">Welcome to N3uralia AgencyOS</h1>
+        <h1 style="color: #173634;">Welcome to N3uralia Twin OS</h1>
         <p>Hi ${userName},</p>
-        <p>We're excited to have you on board! N3uralia AgencyOS is designed to help your business operate more efficiently with AI-powered agents.</p>
+        <p>We're excited to have you on board. N3uralia Twin OS helps your business deploy supervised digital twins for real operating roles.</p>
         <p>Here's what you can do now:</p>
         <ul>
-          <li>Explore our library of AI agents</li>
-          <li>Start your first project</li>
+          <li>Explore role-based digital twins</li>
+          <li>Start your first operating program</li>
           <li>Set up your billing preferences</li>
           <li>Invite your team members</li>
         </ul>
@@ -71,7 +71,7 @@ function getWelcomeTemplate(userName: string): EmailTemplate {
         <p>Best regards,<br>The N3uralia Team</p>
       </div>
     `,
-    text: `Welcome to N3uralia AgencyOS\n\nHi ${userName},\n\nWe're excited to have you on board!`,
+    text: `Welcome to N3uralia Twin OS\n\nHi ${userName},\n\nYour workspace is ready for supervised digital twins by operating role.`,
   }
 }
 

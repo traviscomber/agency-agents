@@ -27,20 +27,23 @@ export function PublicNavbar() {
         </Link>
 
         <nav className="hidden items-center gap-2 md:flex">
-          {copy.navItems.map(({ href, label }) => (
+          {copy.navItems.map(({ href, label }) => {
+            const localizedHref = getLocalizedHref(locale, href)
+            return (
             <Link
               key={href}
-              href={href}
+              href={localizedHref}
               className={cn(
                 'rounded-full px-3 py-2 text-sm font-medium transition-colors',
-                pathname === href
+                pathname === localizedHref
                   ? 'bg-[#142522] text-[#f5fbfa]'
                   : 'text-[#9db7b1] hover:bg-[#142522] hover:text-[#f5fbfa]'
               )}
             >
               {label}
             </Link>
-          ))}
+            )
+          })}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -48,7 +51,7 @@ export function PublicNavbar() {
             {(['es', 'en'] as const).map((code) => (
               <Link
                 key={code}
-                href={`/${code}`}
+                href={code === 'es' ? '/es' : '/en'}
                 className={cn(
                   'px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] border border-[#1e3431]',
                   locale === code ? 'bg-[#142522] text-[#f5fbfa]' : 'text-[#9db7b1] hover:text-[#f5fbfa]',
@@ -59,13 +62,13 @@ export function PublicNavbar() {
             ))}
           </div>
           <Link
-            href="/login"
+            href={getLocalizedHref(locale, '/login')}
             className="text-sm font-medium text-[#9db7b1] transition-colors hover:text-[#f5fbfa]"
           >
             {copy.login}
           </Link>
           <Link
-            href="/signup"
+            href={getLocalizedHref(locale, '/signup')}
             className="bg-[#8fb2aa] px-5 py-2.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0] border border-[#8fb2aa]"
           >
             {copy.cta}
@@ -87,7 +90,7 @@ export function PublicNavbar() {
             {copy.navItems.map(({ href, label }) => (
               <Link
                 key={href}
-                href={href}
+                href={getLocalizedHref(locale, href)}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   'px-3 py-2.5 text-sm font-medium transition-colors',
@@ -117,14 +120,14 @@ export function PublicNavbar() {
           </div>
           <div className="mt-4 flex flex-col gap-2 border-t border-[#1e3431] pt-4">
             <Link
-              href="/login"
+              href={getLocalizedHref(locale, '/login')}
               onClick={() => setMobileOpen(false)}
               className="px-3 py-2.5 text-sm font-medium text-[#9db7b1] hover:text-[#f5fbfa]"
             >
               {copy.login}
             </Link>
             <Link
-              href="/signup"
+              href={getLocalizedHref(locale, '/signup')}
               onClick={() => setMobileOpen(false)}
               className="bg-[#8fb2aa] px-4 py-2.5 text-sm font-semibold text-[#060a10] text-center"
             >

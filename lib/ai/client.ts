@@ -69,7 +69,7 @@ export async function generateStructuredData<T>(
  * Build intelligent system prompt based on context
  */
 function buildSystemPrompt(context?: Record<string, any>): string {
-  let prompt = `You are an exceptionally intelligent, helpful AI assistant for N3uralia AgencyOS.
+  let prompt = `You are an exceptionally intelligent, helpful AI assistant for N3uralia Twin OS.
 You are an expert in:
 - Business operations and workflow optimization
 - Financial management and cobranza (debt collection)

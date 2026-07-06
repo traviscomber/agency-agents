@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const stream = await streamSmartText(prompt, {
       tone: 'helpful and knowledgeable',
       userRole: 'N3uralia User',
-      context: 'You are helping a user with N3uralia AgencyOS platform',
+      context: 'You are helping a user with N3uralia Twin OS, a platform for supervised digital twins by operating role',
     })
 
     const readableStream = new ReadableStream({

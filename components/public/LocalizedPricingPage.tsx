@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PLANS } from '@/lib/data/plans'
 import { CheckCircle2, ArrowRight, Workflow, ShieldCheck, Layers3 } from 'lucide-react'
-import { pricingPageCopy, type MarketingLocale } from '@/lib/marketing-i18n'
+import { getLocalizedHref, pricingPageCopy, type MarketingLocale } from '@/lib/marketing-i18n'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 import { H1Hero, H2Section, H3, Eyebrow, Body } from '@/components/shared/Typography'
 import { Button } from '@/components/shared/ButtonStyled'
@@ -9,6 +9,82 @@ import { Card } from '@/components/shared/CardStyled'
 import { Badge, BadgeEyebrow } from '@/components/shared/BadgeStyled'
 
 const VALUE_ICONS = [Workflow, ShieldCheck, Layers3]
+
+const planPresentation = {
+  es: {
+    free: {
+      name: 'Free / Demo',
+      interval: '/mes',
+      cta: 'Probar gratis',
+      features: [
+        '5 corridas de gemelo digital al mes',
+        '1 programa operativo activo',
+        'Biblioteca base de roles',
+        'Entregables guardados',
+        'Preview basico de replacement',
+      ],
+    },
+    starter: {
+      name: 'Starter',
+      interval: '/mes',
+      cta: 'Desplegar Starter',
+      features: [
+        '1 gemelo operativo desplegado',
+        'Memoria basica por cuenta o proceso',
+        'Entregables reutilizables',
+        'Checklist de diagnostico del rol',
+        'Soporte por email',
+      ],
+    },
+    pro: {
+      name: 'Pro',
+      interval: '/mes',
+      cta: 'Desplegar Pro',
+      features: [
+        '3 gemelos operativos desplegados',
+        'Automatizaciones semanales',
+        'Historial completo por proyecto y cuenta',
+        'Handoffs humanos y estados de revision',
+        'Dashboard de replacement',
+        'Soporte prioritario',
+      ],
+    },
+    team: {
+      name: 'Business',
+      interval: '/mes',
+      cta: 'Desplegar Business',
+      features: [
+        '10 gemelos operativos desplegados',
+        'Workspace de equipo',
+        'Connectors para documentos, sheets, CRM o ERP',
+        'Reporting recurrente',
+        'Soporte de implementacion',
+        'API avanzada',
+        'Revisiones operativas prioritarias',
+      ],
+    },
+    enterprise: {
+      name: 'Enterprise',
+      interval: '',
+      cta: 'Contactar ventas',
+      features: [
+        'Portafolio custom de gemelos digitales',
+        'Connectors e integraciones privadas',
+        'Opcion white-label',
+        'Seguridad avanzada y SSO',
+        'SLA y soporte dedicado',
+        'Roadmap de implementacion custom',
+      ],
+    },
+  },
+  en: {
+    free: { name: 'Free / Demo', interval: '/month', cta: 'Start free', features: PLANS[0].features },
+    starter: { name: 'Starter', interval: '/month', cta: 'Deploy Starter', features: PLANS[1].features },
+    pro: { name: 'Pro', interval: '/month', cta: 'Deploy Pro', features: PLANS[2].features },
+    team: { name: 'Business', interval: '/month', cta: 'Deploy Business', features: PLANS[3].features },
+    enterprise: { name: 'Enterprise', interval: '', cta: 'Contact sales', features: PLANS[4].features },
+  },
+} satisfies Record<MarketingLocale, Record<string, { name: string; interval: string; cta: string; features: string[] }>>
 
 export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
   const copy = pricingPageCopy[locale]
@@ -74,7 +150,9 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
             </div>
 
             <div className="grid gap-4 lg:grid-cols-5">
-              {PLANS.map((plan) => (
+              {PLANS.map((plan) => {
+                const presentation = planPresentation[locale][plan.id]
+                return (
                 <div
                   key={plan.id}
                   className={`relative flex flex-col border p-6 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1 ${
@@ -91,14 +169,14 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
 
                   <div className="mb-6">
                     <h2 className={`text-[10px] font-semibold uppercase tracking-[0.24em] ${plan.highlighted ? 'text-[#8fb2aa]' : 'text-[#789b96]'}`}>
-                      {plan.name}
+                      {presentation.name}
                     </h2>
                     <div className="mt-3 flex items-baseline gap-1.5">
                       <span className={`text-4xl font-semibold leading-none tracking-[-0.02em] ${plan.highlighted ? 'text-[#f5fbfa]' : 'text-[#173634]'}`}>
                         {plan.priceLabel}
                       </span>
                       {plan.price !== null ? (
-                        <span className={`text-xs ${plan.highlighted ? 'text-[#9db7b1]' : 'text-[#65706d]'}`}>/month</span>
+                        <span className={`text-xs ${plan.highlighted ? 'text-[#9db7b1]' : 'text-[#65706d]'}`}>{presentation.interval}</span>
                       ) : null}
                     </div>
                     <p className={`mt-2 text-xs leading-6 ${plan.highlighted ? 'text-[#9db7b1]' : 'text-[#65706d]'}`}>
@@ -119,7 +197,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                   </div>
 
                   <ul className="flex-1 space-y-3">
-                    {plan.features.map((feature) => (
+                    {presentation.features.map((feature) => (
                       <li key={feature} className={`flex items-start gap-2.5 text-xs leading-6 ${plan.highlighted ? 'text-[#d9e3e0]' : 'text-[#52605d]'}`}>
                         <CheckCircle2 size={13} className={`mt-0.5 shrink-0 ${plan.highlighted ? 'text-[#8fb2aa]' : 'text-[#173634]'}`} />
                         {feature}
@@ -127,17 +205,18 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                     ))}
                   </ul>
 
-                  <Link href={plan.id === 'enterprise' ? '/contact' : '/signup'} className="mt-7 inline-block w-full">
+                  <Link href={getLocalizedHref(locale, plan.id === 'enterprise' ? '/contact' : '/signup')} className="mt-7 inline-block w-full">
                     <Button 
                       variant={plan.highlighted ? 'primary' : 'secondary'} 
                       size="md"
                       className="w-full inline-flex items-center justify-center gap-2"
                     >
-                      {plan.cta} <ArrowRight size={13} />
+                      {presentation.cta} <ArrowRight size={13} />
                     </Button>
                   </Link>
                 </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </section>
@@ -171,10 +250,10 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                   <h2 className="mt-4 text-3xl font-light leading-tight text-[#f5fbfa]">{copy.readyTitle}</h2>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/signup" className="inline-flex items-center gap-2 bg-[#8fb2aa] px-6 py-3.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
+                  <Link href={getLocalizedHref(locale, '/signup')} className="inline-flex items-center gap-2 bg-[#8fb2aa] px-6 py-3.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
                     {copy.readyPrimary} <ArrowRight size={13} />
                   </Link>
-                  <Link href="/login" className="inline-flex items-center gap-2 border border-[#28413d] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">
+                  <Link href={getLocalizedHref(locale, '/login')} className="inline-flex items-center gap-2 border border-[#28413d] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">
                     {copy.readySecondary}
                   </Link>
                 </div>

@@ -9,7 +9,7 @@ import { ArrowRight, Lock, Search, ShieldCheck, Workflow, Layers3 } from 'lucide
 import { canAccessAgent } from '@/lib/types'
 import { MOCK_USER } from '@/lib/data/mock-store'
 import { cn } from '@/lib/utils'
-import { agentsPageCopy, type MarketingLocale } from '@/lib/marketing-i18n'
+import { agentsPageCopy, getLocalizedAgentHref, type MarketingLocale } from '@/lib/marketing-i18n'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
 
 const CURATION_ICONS = [Workflow, ShieldCheck, Layers3]
@@ -195,7 +195,7 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                         {hasAccess ? (
                           <>
                             <Link
-                              href={`/agents/${agent.slug}`}
+                              href={getLocalizedAgentHref(locale, agent.slug)}
                               className="flex-1 border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-2.5 text-center text-xs font-semibold text-[#52605d] transition-colors hover:border-[#8fb2aa]/40 hover:bg-[#edf4f1] hover:text-[#173634]"
                             >
                               {copy.inspect}

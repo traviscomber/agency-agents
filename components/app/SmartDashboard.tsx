@@ -26,11 +26,11 @@ export function SmartDashboard() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            prompt: `Generate 3-4 specific, actionable business insights for an AgencyOS user dashboard. 
+            prompt: `Generate 3-4 specific, actionable business insights for a N3uralia Twin OS user dashboard.
             Focus on operational efficiency, growth opportunities, cost savings, and process improvements.
             Return as JSON array with objects: { type: 'opportunity'|'recommendation'|'success'|'alert', title, description, action? }
             Be specific and mention actual Chilean SMB business context when relevant.`,
-            systemPrompt: 'You are a business operations intelligence system for AgencyOS. Generate insights that help Chilean SMBs improve their operations.'
+            systemPrompt: 'You are a business operations intelligence system for N3uralia Twin OS. Generate insights that help Chilean SMBs improve operations with supervised digital twins.'
           })
         })
 

@@ -26,7 +26,7 @@ export function SmartProjectAnalyzer({ projectName, description }: { projectName
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            prompt: `Analyze this AgencyOS project and provide strategic insights:
+            prompt: `Analyze this N3uralia Twin OS operating program and provide strategic insights:
             Project: ${projectName}
             Description: ${description || 'General business project'}
             
@@ -34,13 +34,13 @@ export function SmartProjectAnalyzer({ projectName, description }: { projectName
             { 
               summary: brief project health assessment,
               bottleneck: the biggest challenge or inefficiency,
-              recommendation: specific AI agent or process improvement,
+              recommendation: specific digital twin, connector, skill, or process improvement,
               estimatedROI: expected return if recommendation implemented,
               urgency: 'high'|'medium'|'low'
             }
             
             Focus on concrete, actionable improvements for Chilean SMBs.`,
-            systemPrompt: 'You are a business operations analyst for N3uralia AgencyOS. Provide specific, data-driven project analysis.'
+            systemPrompt: 'You are a business operations analyst for N3uralia Twin OS. Provide specific, data-driven project analysis for supervised digital twins by role.'
           })
         })
 
