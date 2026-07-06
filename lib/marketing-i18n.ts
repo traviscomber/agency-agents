@@ -18,6 +18,7 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/chile') return locale === 'es' ? '/es/chile' : '/en/latam'
   if (href === '/roles') return `/${locale}/roles`
   if (href === '/roi') return locale === 'es' ? '/es/calculadora-roi' : '/en/roi'
+  if (href === '/diagnosis') return locale === 'es' ? '/es/diagnostico' : '/en/diagnosis'
   if (href === '/signup') return `/${locale}/signup`
   if (href === '/login') return `/${locale}/login`
   if (href === '/contact') return `/${locale}/contact`
@@ -48,6 +49,7 @@ export const publicNavbarCopy = {
       { href: '/chile', label: 'Chile' },
       { href: '/roles', label: 'Roles' },
       { href: '/roi', label: 'ROI' },
+      { href: '/diagnosis', label: 'Diagnostico' },
       { href: '/agents', label: 'Twins' },
       { href: '/pricing', label: 'Planes' },
     ],
@@ -60,6 +62,7 @@ export const publicNavbarCopy = {
       { href: '/chile', label: 'Latam' },
       { href: '/roles', label: 'Roles' },
       { href: '/roi', label: 'ROI' },
+      { href: '/diagnosis', label: 'Diagnosis' },
       { href: '/agents', label: 'Twins' },
       { href: '/pricing', label: 'Pricing' },
     ],
@@ -83,6 +86,7 @@ export const publicFooterCopy = {
         { href: '/chile', label: 'Chile y Latam' },
         { href: '/roles', label: 'Roles operativos' },
         { href: '/roi', label: 'Calculadora ROI' },
+        { href: '/diagnosis', label: 'Diagnostico operativo' },
         { href: '/agents', label: 'Twins' },
         { href: '/pricing', label: 'Planes' },
         { href: '/app', label: 'Workspace' },
@@ -107,6 +111,7 @@ export const publicFooterCopy = {
         { href: '/chile', label: 'Chile and Latam' },
         { href: '/roles', label: 'Operating roles' },
         { href: '/roi', label: 'ROI calculator' },
+        { href: '/diagnosis', label: 'Operating diagnosis' },
         { href: '/agents', label: 'Twins' },
         { href: '/pricing', label: 'Pricing' },
         { href: '/app', label: 'Workspace' },
@@ -401,6 +406,185 @@ export const roiPageCopy = {
     cta: 'Book diagnosis',
     assumption:
       'Assumption: savings combine recovered hours and lower operating dependency. This is not legal, labor, or financial advice.',
+  },
+} satisfies Record<MarketingLocale, any>
+
+export const diagnosisPageCopy = {
+  es: {
+    metaTitle: 'Diagnostico de gemelos digitales para Chile | N3uralia Studio',
+    metaDescription:
+      'Evalua que cargo conviene convertir primero en gemelo digital supervisado y estima el ROI operativo en CLP.',
+    eyebrow: 'Diagnostico operativo',
+    title: 'Encuentra el primer gemelo digital que deberias desplegar.',
+    body:
+      'Responde cuatro variables simples y recibe una recomendacion comercial: rol prioritario, supervision, horas recuperables y siguiente paso.',
+    companyLabel: 'Tipo de empresa',
+    pressureLabel: 'Presion operativa principal',
+    teamLabel: 'Tamano del equipo',
+    monthlyCostLabel: 'Costo mensual aproximado del cargo',
+    resultEyebrow: 'Gemelo recomendado',
+    supervision: 'Nivel de supervision',
+    recoveredHours: 'Horas recuperables',
+    estimatedSavings: 'Ahorro mensual estimado',
+    nextStep: 'Siguiente paso',
+    primary: 'Crear cuenta y guardar diagnostico',
+    secondary: 'Ver detalle del gemelo',
+    options: {
+      company: [
+        ['services', 'Servicios profesionales'],
+        ['industrial', 'Proveedor industrial/mineria'],
+        ['construction', 'Construccion/inmobiliaria'],
+        ['logistics', 'Logistica/distribucion'],
+        ['saas', 'SaaS o B2B digital'],
+      ],
+      pressure: [
+        ['sales', 'Ventas y seguimiento comercial'],
+        ['collections', 'Cobranza y cuentas pendientes'],
+        ['tenders', 'Licitaciones y documentos'],
+        ['implementation', 'Implementacion y coordinacion'],
+        ['recruiting', 'Reclutamiento operativo'],
+      ],
+      team: [
+        ['small', '1 a 10 personas'],
+        ['mid', '11 a 50 personas'],
+        ['growth', '51 a 200 personas'],
+      ],
+    },
+    recommendations: {
+      sales: {
+        role: 'Twin de Ejecutivo Comercial B2B Chile',
+        slug: 'twin-ejecutivo-comercial-b2b-chile',
+        summary: 'Absorbe follow-up, recap de reuniones, priorizacion de pipeline y propuestas iniciales.',
+        supervision: 'Media',
+        hours: '35 a 55 h/mes',
+        savingsFactor: 0.42,
+        next: 'Cargar pipeline activo, pricing, objeciones frecuentes y ultimas conversaciones comerciales.',
+      },
+      collections: {
+        role: 'Twin de Cobranza Pyme Chile',
+        slug: 'twin-cobranza-pyme-chile',
+        summary: 'Prioriza cuentas, prepara mensajes, registra promesas de pago y escala excepciones.',
+        supervision: 'Media',
+        hours: '30 a 50 h/mes',
+        savingsFactor: 0.38,
+        next: 'Cargar aging de deuda, politicas de cobranza, historial de contacto y reglas de escalamiento.',
+      },
+      tenders: {
+        role: 'Twin de Analista de Licitaciones Chile',
+        slug: 'twin-analista-licitaciones-chile',
+        summary: 'Lee bases, arma go/no-go, checklist documental, riesgos y plan de respuesta.',
+        supervision: 'Alta',
+        hours: '25 a 45 h/mes',
+        savingsFactor: 0.34,
+        next: 'Cargar bases, criterios de adjudicacion, capacidades de la empresa y deadlines.',
+      },
+      implementation: {
+        role: 'Twin de PM de Implementacion Chile',
+        slug: 'twin-pm-implementacion-chile',
+        summary: 'Mantiene hitos, bloqueos, responsables, minutas, handoffs y seguimiento semanal.',
+        supervision: 'Media',
+        hours: '40 a 70 h/mes',
+        savingsFactor: 0.45,
+        next: 'Cargar proyecto activo, stakeholders, hitos, riesgos y compromisos pendientes.',
+      },
+      recruiting: {
+        role: 'Twin de Reclutador Operativo Chile',
+        slug: 'twin-reclutador-operativo-chile',
+        summary: 'Ordena screening, pautas de entrevista, shortlist, seguimiento y reportes.',
+        supervision: 'Alta',
+        hours: '25 a 45 h/mes',
+        savingsFactor: 0.32,
+        next: 'Cargar perfil del cargo, CVs, criterios de filtro y etapas del proceso.',
+      },
+    },
+  },
+  en: {
+    metaTitle: 'Digital twin diagnosis for Chile and Latam | N3uralia Studio',
+    metaDescription:
+      'Evaluate which role should become your first supervised digital twin and estimate operating ROI in CLP.',
+    eyebrow: 'Operating diagnosis',
+    title: 'Find the first digital twin you should deploy.',
+    body:
+      'Answer four simple variables and get a commercial recommendation: priority role, supervision, recoverable hours, and next step.',
+    companyLabel: 'Company type',
+    pressureLabel: 'Main operating pressure',
+    teamLabel: 'Team size',
+    monthlyCostLabel: 'Approximate monthly role cost',
+    resultEyebrow: 'Recommended twin',
+    supervision: 'Supervision level',
+    recoveredHours: 'Recoverable hours',
+    estimatedSavings: 'Estimated monthly savings',
+    nextStep: 'Next step',
+    primary: 'Create account and save diagnosis',
+    secondary: 'View twin detail',
+    options: {
+      company: [
+        ['services', 'Professional services'],
+        ['industrial', 'Industrial/mining supplier'],
+        ['construction', 'Construction/real estate'],
+        ['logistics', 'Logistics/distribution'],
+        ['saas', 'SaaS or digital B2B'],
+      ],
+      pressure: [
+        ['sales', 'Sales and commercial follow-up'],
+        ['collections', 'Collections and pending accounts'],
+        ['tenders', 'Tenders and documents'],
+        ['implementation', 'Implementation and coordination'],
+        ['recruiting', 'Operations recruiting'],
+      ],
+      team: [
+        ['small', '1 to 10 people'],
+        ['mid', '11 to 50 people'],
+        ['growth', '51 to 200 people'],
+      ],
+    },
+    recommendations: {
+      sales: {
+        role: 'B2B Sales Executive Twin Chile',
+        slug: 'twin-ejecutivo-comercial-b2b-chile',
+        summary: 'Absorbs follow-up, meeting recaps, pipeline prioritization, and initial proposals.',
+        supervision: 'Medium',
+        hours: '35 to 55 h/month',
+        savingsFactor: 0.42,
+        next: 'Load active pipeline, pricing, frequent objections, and recent commercial conversations.',
+      },
+      collections: {
+        role: 'SME Collections Twin Chile',
+        slug: 'twin-cobranza-pyme-chile',
+        summary: 'Prioritizes accounts, drafts messages, records payment promises, and escalates exceptions.',
+        supervision: 'Medium',
+        hours: '30 to 50 h/month',
+        savingsFactor: 0.38,
+        next: 'Load debt aging, collections policy, contact history, and escalation rules.',
+      },
+      tenders: {
+        role: 'Tender Analyst Twin Chile',
+        slug: 'twin-analista-licitaciones-chile',
+        summary: 'Reads tender docs, prepares go/no-go, requirement checklist, risks, and response plan.',
+        supervision: 'High',
+        hours: '25 to 45 h/month',
+        savingsFactor: 0.34,
+        next: 'Load tender docs, award criteria, company capabilities, and deadlines.',
+      },
+      implementation: {
+        role: 'Implementation PM Twin Chile',
+        slug: 'twin-pm-implementacion-chile',
+        summary: 'Keeps milestones, blockers, owners, minutes, handoffs, and weekly follow-up moving.',
+        supervision: 'Medium',
+        hours: '40 to 70 h/month',
+        savingsFactor: 0.45,
+        next: 'Load active project, stakeholders, milestones, risks, and pending commitments.',
+      },
+      recruiting: {
+        role: 'Operations Recruiter Twin Chile',
+        slug: 'twin-reclutador-operativo-chile',
+        summary: 'Organizes screening, interview guides, shortlist, follow-up, and reports.',
+        supervision: 'High',
+        hours: '25 to 45 h/month',
+        savingsFactor: 0.32,
+        next: 'Load job profile, CVs, filter criteria, and process stages.',
+      },
+    },
   },
 } satisfies Record<MarketingLocale, any>
 

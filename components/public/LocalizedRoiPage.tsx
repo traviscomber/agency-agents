@@ -73,7 +73,7 @@ export function LocalizedRoiPage({ locale }: { locale: MarketingLocale }) {
           </div>
           <p className="mt-5 max-w-3xl text-sm leading-7 text-[#65706d]">{copy.assumption}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={getLocalizedHref(locale, '/contact')} className="inline-flex items-center gap-2 bg-[#173634] px-5 py-3 text-sm font-semibold text-white hover:bg-[#244944]">
+            <Link href={getLocalizedHref(locale, '/diagnosis')} className="inline-flex items-center gap-2 bg-[#173634] px-5 py-3 text-sm font-semibold text-white hover:bg-[#244944]">
               {copy.cta} <ArrowRight size={14} />
             </Link>
             <Link href={getLocalizedHref(locale, '/roles')} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">

@@ -65,6 +65,9 @@ export function LocalizedSignupPage({ locale }: { locale: MarketingLocale }) {
                 </li>
               ))}
             </ul>
+            <Link href={getLocalizedHref(locale, '/diagnosis')} className="mt-8 inline-flex items-center gap-2 border border-[#28413d] px-4 py-2.5 text-sm font-semibold text-[#d9e3e0] hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">
+              {locale === 'es' ? 'Hacer diagnostico antes' : 'Run diagnosis first'} <ArrowRight size={13} />
+            </Link>
           </div>
 
           <p className="text-xs text-[#52605d]">&copy; {new Date().getFullYear()} N3uralia Studio</p>

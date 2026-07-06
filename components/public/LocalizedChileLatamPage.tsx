@@ -23,8 +23,8 @@ export function LocalizedChileLatamPage({ locale }: { locale: MarketingLocale })
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-[#c7d5d1]">{copy.body}</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={getLocalizedHref(locale, '/roi')} className="inline-flex items-center gap-2 bg-[#8fb2aa] px-5 py-3 text-sm font-semibold text-[#06100f] hover:bg-[#d9e3e0]">
-                  {copy.primary} <ArrowRight size={14} />
+                <Link href={getLocalizedHref(locale, '/diagnosis')} className="inline-flex items-center gap-2 bg-[#8fb2aa] px-5 py-3 text-sm font-semibold text-[#06100f] hover:bg-[#d9e3e0]">
+                  {locale === 'es' ? 'Hacer diagnostico' : 'Run diagnosis'} <ArrowRight size={14} />
                 </Link>
                 <Link href={getLocalizedHref(locale, '/roles')} className="inline-flex items-center gap-2 border border-[#28413d] bg-[#0d1917] px-5 py-3 text-sm font-semibold text-[#f5fbfa] hover:bg-[#142522]">
                   {copy.secondary}
