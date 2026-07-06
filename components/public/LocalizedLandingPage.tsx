@@ -208,6 +208,9 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 )
               })}
             </div>
+            <Link href={getLocalizedHref(locale, '/industries')} className="mt-8 inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">
+              {locale === 'es' ? 'Ver casos por industria' : 'View industry cases'} <ArrowRight size={14} />
+            </Link>
           </div>
         </section>
 

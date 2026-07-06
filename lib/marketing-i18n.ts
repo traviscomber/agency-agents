@@ -16,6 +16,7 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/agents') return `/${locale}/agents`
   if (href === '/pricing') return `/${locale}/pricing`
   if (href === '/chile') return locale === 'es' ? '/es/chile' : '/en/latam'
+  if (href === '/industries') return locale === 'es' ? '/es/industrias' : '/en/industries'
   if (href === '/roles') return `/${locale}/roles`
   if (href === '/roi') return locale === 'es' ? '/es/calculadora-roi' : '/en/roi'
   if (href === '/diagnosis') return locale === 'es' ? '/es/diagnostico' : '/en/diagnosis'
@@ -47,6 +48,7 @@ export const publicNavbarCopy = {
     brandSubline: 'Twin OS Latam',
     navItems: [
       { href: '/chile', label: 'Chile' },
+      { href: '/industries', label: 'Industrias' },
       { href: '/roles', label: 'Roles' },
       { href: '/roi', label: 'ROI' },
       { href: '/diagnosis', label: 'Diagnostico' },
@@ -60,6 +62,7 @@ export const publicNavbarCopy = {
     brandSubline: 'Twin OS Latam',
     navItems: [
       { href: '/chile', label: 'Latam' },
+      { href: '/industries', label: 'Industries' },
       { href: '/roles', label: 'Roles' },
       { href: '/roi', label: 'ROI' },
       { href: '/diagnosis', label: 'Diagnosis' },
@@ -84,6 +87,7 @@ export const publicFooterCopy = {
     groups: {
       Producto: [
         { href: '/chile', label: 'Chile y Latam' },
+        { href: '/industries', label: 'Industrias' },
         { href: '/roles', label: 'Roles operativos' },
         { href: '/roi', label: 'Calculadora ROI' },
         { href: '/diagnosis', label: 'Diagnostico operativo' },
@@ -109,6 +113,7 @@ export const publicFooterCopy = {
     groups: {
       Product: [
         { href: '/chile', label: 'Chile and Latam' },
+        { href: '/industries', label: 'Industries' },
         { href: '/roles', label: 'Operating roles' },
         { href: '/roi', label: 'ROI calculator' },
         { href: '/diagnosis', label: 'Operating diagnosis' },
@@ -584,6 +589,115 @@ export const diagnosisPageCopy = {
         savingsFactor: 0.32,
         next: 'Load job profile, CVs, filter criteria, and process stages.',
       },
+    },
+  },
+} satisfies Record<MarketingLocale, any>
+
+export const industriesPageCopy = {
+  es: {
+    metaTitle: 'Industrias chilenas para gemelos digitales | N3uralia Studio',
+    metaDescription:
+      'Casos por industria para desplegar gemelos digitales en proveedores industriales, construccion, servicios profesionales, logistica y SaaS B2B.',
+    eyebrow: 'Casos por industria',
+    title: 'Gemelos digitales aplicados a mercados que ya compran operacion en Chile.',
+    body:
+      'La venta cambia cuando el comprador ve su propio dolor: seguimiento comercial, licitaciones, cobranza, coordinacion, reportes y memoria operativa por cuenta.',
+    primary: 'Hacer diagnostico',
+    secondary: 'Ver roles replicables',
+    cases: [
+      {
+        industry: 'Proveedores industriales y mineria',
+        pressure: 'Licitaciones, reportes tecnicos, seguimiento comercial y continuidad documental.',
+        twins: ['Analista de Licitaciones Chile', 'Ejecutivo Comercial B2B Chile', 'PM de Implementacion Chile'],
+        roi: 'Reduce horas perdidas revisando bases, preparando checklists y recuperando contexto por oportunidad.',
+        firstMove: 'Cargar bases, pipeline de oportunidades, capacidades tecnicas y fechas criticas.',
+      },
+      {
+        industry: 'Construccion e inmobiliaria',
+        pressure: 'Coordinacion de obra, postventa, compras, minutas, compromisos y control de pendientes.',
+        twins: ['PM de Implementacion Chile', 'Cobranza Pyme Chile', 'Reclutador Operativo Chile'],
+        roi: 'Recupera capacidad administrativa y baja riesgo de compromisos invisibles entre obra, cliente y proveedores.',
+        firstMove: 'Cargar proyecto activo, responsables, hitos, pendientes, minutas y reglas de escalamiento.',
+      },
+      {
+        industry: 'Servicios profesionales',
+        pressure: 'Diagnosticos, propuestas, entregables, investigacion, seguimiento de clientes y handoffs.',
+        twins: ['Ejecutivo Comercial B2B Chile', 'PM de Implementacion Chile', 'Analista de Licitaciones Chile'],
+        roi: 'Convierte criterio experto en rutinas repetibles para vender, entregar y documentar sin partir desde cero.',
+        firstMove: 'Cargar propuesta tipo, brief de cliente, entregables historicos y formato de salida esperado.',
+      },
+      {
+        industry: 'Logistica y distribucion',
+        pressure: 'Incidencias, coordinacion diaria, cobranza, cuentas criticas y comunicacion operativa.',
+        twins: ['Cobranza Pyme Chile', 'PM de Implementacion Chile', 'Ejecutivo Comercial B2B Chile'],
+        roi: 'Acelera seguimiento de cuentas e incidencias con trazabilidad, mensajes sugeridos y escalamiento humano claro.',
+        firstMove: 'Cargar cartera, aging, incidencias recurrentes, SLAs y reglas de priorizacion.',
+      },
+      {
+        industry: 'SaaS y B2B digital',
+        pressure: 'Pipeline, onboarding, expansion, soporte comercial y documentacion de implementacion.',
+        twins: ['Ejecutivo Comercial B2B Chile', 'PM de Implementacion Chile', 'Reclutador Operativo Chile'],
+        roi: 'Estandariza discovery, follow-up y onboarding para crecer sin depender de memoria informal del equipo.',
+        firstMove: 'Cargar CRM, ICP, pricing, playbook comercial, tickets y etapas de onboarding.',
+      },
+    ],
+    headers: {
+      twins: 'Gemelos recomendados',
+      roi: 'Palanca ROI',
+      firstMove: 'Primer movimiento',
+    },
+  },
+  en: {
+    metaTitle: 'Chile and Latam industries for digital twins | N3uralia Studio',
+    metaDescription:
+      'Industry cases for deploying digital twins in industrial suppliers, construction, professional services, logistics, and B2B SaaS.',
+    eyebrow: 'Industry cases',
+    title: 'Digital twins applied to markets that already buy operational capacity in Chile and Latam.',
+    body:
+      'The sale changes when buyers see their own pain: commercial follow-up, tenders, collections, coordination, reporting, and account-level operating memory.',
+    primary: 'Run diagnosis',
+    secondary: 'View replicable roles',
+    cases: [
+      {
+        industry: 'Industrial and mining suppliers',
+        pressure: 'Tenders, technical reports, commercial follow-up, and documentation continuity.',
+        twins: ['Tender Analyst Twin Chile', 'B2B Sales Executive Twin Chile', 'Implementation PM Twin Chile'],
+        roi: 'Reduces hours lost reviewing tender docs, preparing checklists, and recovering context by opportunity.',
+        firstMove: 'Load tender docs, opportunity pipeline, technical capabilities, and critical dates.',
+      },
+      {
+        industry: 'Construction and real estate',
+        pressure: 'Site coordination, post-sale service, procurement, minutes, commitments, and task control.',
+        twins: ['Implementation PM Twin Chile', 'SME Collections Twin Chile', 'Operations Recruiter Twin Chile'],
+        roi: 'Recovers administrative capacity and lowers the risk of invisible commitments between site, client, and suppliers.',
+        firstMove: 'Load active project, owners, milestones, pending tasks, minutes, and escalation rules.',
+      },
+      {
+        industry: 'Professional services',
+        pressure: 'Diagnostics, proposals, deliverables, research, client follow-up, and handoffs.',
+        twins: ['B2B Sales Executive Twin Chile', 'Implementation PM Twin Chile', 'Tender Analyst Twin Chile'],
+        roi: 'Turns expert judgment into repeatable routines for selling, delivering, and documenting without starting from zero.',
+        firstMove: 'Load proposal templates, client brief, historical deliverables, and expected output format.',
+      },
+      {
+        industry: 'Logistics and distribution',
+        pressure: 'Incidents, daily coordination, collections, critical accounts, and operating communication.',
+        twins: ['SME Collections Twin Chile', 'Implementation PM Twin Chile', 'B2B Sales Executive Twin Chile'],
+        roi: 'Accelerates account and incident follow-up with traceability, suggested messages, and clear human escalation.',
+        firstMove: 'Load portfolio, debt aging, recurring incidents, SLAs, and prioritization rules.',
+      },
+      {
+        industry: 'SaaS and digital B2B',
+        pressure: 'Pipeline, onboarding, expansion, commercial support, and implementation documentation.',
+        twins: ['B2B Sales Executive Twin Chile', 'Implementation PM Twin Chile', 'Operations Recruiter Twin Chile'],
+        roi: 'Standardizes discovery, follow-up, and onboarding so the company can grow without informal team memory.',
+        firstMove: 'Load CRM, ICP, pricing, sales playbook, tickets, and onboarding stages.',
+      },
+    ],
+    headers: {
+      twins: 'Recommended twins',
+      roi: 'ROI lever',
+      firstMove: 'First move',
     },
   },
 } satisfies Record<MarketingLocale, any>

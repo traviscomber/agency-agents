@@ -29,6 +29,9 @@ export function LocalizedChileLatamPage({ locale }: { locale: MarketingLocale })
                 <Link href={getLocalizedHref(locale, '/roles')} className="inline-flex items-center gap-2 border border-[#28413d] bg-[#0d1917] px-5 py-3 text-sm font-semibold text-[#f5fbfa] hover:bg-[#142522]">
                   {copy.secondary}
                 </Link>
+                <Link href={getLocalizedHref(locale, '/industries')} className="inline-flex items-center gap-2 border border-[#28413d] bg-[#0d1917] px-5 py-3 text-sm font-semibold text-[#f5fbfa] hover:bg-[#142522]">
+                  {locale === 'es' ? 'Ver industrias' : 'View industries'}
+                </Link>
               </div>
             </div>
 
@@ -68,6 +71,9 @@ export function LocalizedChileLatamPage({ locale }: { locale: MarketingLocale })
                 </article>
               ))}
             </div>
+            <Link href={getLocalizedHref(locale, '/industries')} className="inline-flex items-center gap-2 self-start border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">
+              {locale === 'es' ? 'Abrir casos por industria' : 'Open industry cases'} <ArrowRight size={14} />
+            </Link>
           </div>
         </section>
 
