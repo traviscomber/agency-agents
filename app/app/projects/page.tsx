@@ -14,6 +14,7 @@ import type { Project, ProjectType } from '@/lib/types'
 import { ArrowRight, Bookmark, Calendar, FolderOpen, Plus, Lightbulb } from 'lucide-react'
 import { getAgentBySlug, getFeaturedAgents } from '@/lib/data/seed-agents'
 import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectCurrentWorkflowStep, getProjectTypeLabel, PROJECT_TYPE_OPTIONS, type CreateStoredProjectOptions } from '@/lib/project-memory'
+import { ConversionPath } from '@/components/public/ConversionPath'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
@@ -496,6 +497,9 @@ export default function ProjectsPage() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789b96]">Imported diagnosis</p>
                 <p className="mt-2 text-sm font-semibold text-[#173634]">{diagnosisIntent.role}</p>
                 <p className="mt-2 text-xs leading-5 text-[#52605d]">{diagnosisIntent.summary}</p>
+                <div className="mt-4">
+                  <ConversionPath locale="es" active="program" />
+                </div>
                 <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   {[
                     ['Supervision', diagnosisIntent.supervision],

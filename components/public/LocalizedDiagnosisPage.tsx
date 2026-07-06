@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight, Calculator, CheckCircle2, ClipboardList } from 'lucide-react'
 import { PublicFooter } from '@/components/public/PublicFooter'
 import { PublicNavbar } from '@/components/public/PublicNavbar'
+import { ConversionPath } from '@/components/public/ConversionPath'
 import {
   diagnosisPageCopy,
   getLocalizedAgentHref,
@@ -96,6 +97,9 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
               <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8fb2aa]">{copy.eyebrow}</p>
               <h1 className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.96] tracking-[-0.03em] md:text-7xl">{copy.title}</h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-[#c7d5d1]">{copy.body}</p>
+              <div className="mt-8 max-w-3xl">
+                <ConversionPath locale={locale} active="diagnosis" variant="dark" />
+              </div>
             </div>
             <div className="border border-[#28413d] bg-[#0d1917] p-5">
               <div className="grid gap-4 sm:grid-cols-2">

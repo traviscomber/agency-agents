@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { authPageCopy, getLocalizedHref, type MarketingLocale } from '@/lib/marketing-i18n'
+import { ConversionPath } from '@/components/public/ConversionPath'
 
 export function LocalizedSignupPage({ locale }: { locale: MarketingLocale }) {
   const router = useRouter()
@@ -14,6 +15,11 @@ export function LocalizedSignupPage({ locale }: { locale: MarketingLocale }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [hasDiagnosis, setHasDiagnosis] = useState(false)
+
+  useEffect(() => {
+    setHasDiagnosis(Boolean(window.localStorage.getItem('n3uralia.diagnosis')))
+  }, [])
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -68,6 +74,11 @@ export function LocalizedSignupPage({ locale }: { locale: MarketingLocale }) {
             <Link href={getLocalizedHref(locale, '/diagnosis')} className="mt-8 inline-flex items-center gap-2 border border-[#28413d] px-4 py-2.5 text-sm font-semibold text-[#d9e3e0] hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">
               {locale === 'es' ? 'Hacer diagnostico antes' : 'Run diagnosis first'} <ArrowRight size={13} />
             </Link>
+            {hasDiagnosis ? (
+              <div className="mt-6">
+                <ConversionPath locale={locale} active="twin" variant="dark" />
+              </div>
+            ) : null}
           </div>
 
           <p className="text-xs text-[#52605d]">&copy; {new Date().getFullYear()} N3uralia Studio</p>
@@ -90,6 +101,11 @@ export function LocalizedSignupPage({ locale }: { locale: MarketingLocale }) {
                 {copy.formAlt}{' '}
                 <Link href={getLocalizedHref(locale, '/login')} className="font-semibold text-[#173634] hover:underline">{copy.formAltCta}</Link>
               </p>
+              {hasDiagnosis ? (
+                <div className="mt-5">
+                  <ConversionPath locale={locale} active="twin" />
+                </div>
+              ) : null}
             </div>
 
             <form onSubmit={handleSignup} className="space-y-4 border border-[#d8e5e2] bg-[#f1f6f4] p-6">
