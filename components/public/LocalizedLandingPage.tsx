@@ -312,6 +312,9 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   <Link href={getLocalizedHref(locale, '/playbooks')} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] transition-colors hover:bg-[#f1f6f4]">
                     {locale === 'es' ? 'Ver playbooks' : 'View playbooks'} <ArrowRight size={14} />
                   </Link>
+                  <Link href={getLocalizedHref(locale, '/implementation')} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#173634] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1e3431]">
+                    {locale === 'es' ? 'Implementacion 30 dias' : '30-day implementation'} <ArrowRight size={14} />
+                  </Link>
                 </div>
               </div>
             </div>

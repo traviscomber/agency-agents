@@ -391,6 +391,9 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                 </Card>
               ))}
             </div>
+            <Link href={getLocalizedHref(locale, '/implementation')} className="mt-6 inline-flex items-center gap-2 border border-[#173634] bg-[#173634] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1e3431]">
+              {locale === 'es' ? 'Ver implementacion en 30 dias' : 'View 30-day implementation'} <ArrowRight size={14} />
+            </Link>
           </div>
         </section>
 

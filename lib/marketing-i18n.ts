@@ -20,6 +20,7 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/roles') return `/${locale}/roles`
   if (href === '/demo') return `/${locale}/demo`
   if (href === '/playbooks') return `/${locale}/playbooks`
+  if (href === '/implementation') return locale === 'es' ? '/es/implementacion' : '/en/implementation'
   if (href === '/trust') return locale === 'es' ? '/es/seguridad' : '/en/trust'
   if (href === '/roi') return locale === 'es' ? '/es/calculadora-roi' : '/en/roi'
   if (href === '/diagnosis') return locale === 'es' ? '/es/diagnostico' : '/en/diagnosis'
@@ -54,6 +55,7 @@ export const publicNavbarCopy = {
       { href: '/industries', label: 'Industrias' },
       { href: '/roles', label: 'Roles' },
       { href: '/demo', label: 'Demo' },
+      { href: '/implementation', label: 'Implementacion' },
       { href: '/trust', label: 'Confianza' },
       { href: '/playbooks', label: 'Playbooks' },
       { href: '/roi', label: 'ROI' },
@@ -71,6 +73,7 @@ export const publicNavbarCopy = {
       { href: '/industries', label: 'Industries' },
       { href: '/roles', label: 'Roles' },
       { href: '/demo', label: 'Demo' },
+      { href: '/implementation', label: 'Implementation' },
       { href: '/trust', label: 'Trust' },
       { href: '/playbooks', label: 'Playbooks' },
       { href: '/roi', label: 'ROI' },
@@ -98,6 +101,7 @@ export const publicFooterCopy = {
         { href: '/chile', label: 'Chile y Latam' },
         { href: '/industries', label: 'Industrias' },
         { href: '/roles', label: 'Roles operativos' },
+        { href: '/implementation', label: 'Implementacion 30 dias' },
         { href: '/trust', label: 'Seguridad y supervision' },
         { href: '/roi', label: 'Calculadora ROI' },
         { href: '/diagnosis', label: 'Diagnostico operativo' },
@@ -125,6 +129,7 @@ export const publicFooterCopy = {
         { href: '/chile', label: 'Chile and Latam' },
         { href: '/industries', label: 'Industries' },
         { href: '/roles', label: 'Operating roles' },
+        { href: '/implementation', label: '30-day implementation' },
         { href: '/trust', label: 'Trust and supervision' },
         { href: '/roi', label: 'ROI calculator' },
         { href: '/diagnosis', label: 'Operating diagnosis' },
