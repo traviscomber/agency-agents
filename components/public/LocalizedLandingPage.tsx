@@ -14,6 +14,57 @@ import { Badge, BadgeEyebrow } from '@/components/shared/BadgeStyled'
 const DIFFERENTIATOR_ICONS = [Workflow, Bookmark, Radar, ShieldCheck]
 const CASE_ICONS = [Layers3, CircleAlert, Sparkles]
 
+const operatingProof = {
+  es: {
+    eyebrow: 'Producto trabajando',
+    title: 'De input disperso a handoff supervisado en una corrida.',
+    body:
+      'La demo debe mostrar trabajo real: datos de entrada, rutina del twin, entregable, siguiente responsable, limite seguro y ROI estimado.',
+    inputTitle: 'Input real',
+    inputItems: ['CRM con 18 cuentas activas', 'Notas de reuniones y objeciones', 'Meta: recuperar 10 oportunidades dormidas'],
+    twinTitle: 'Twin seleccionado',
+    twinName: 'Ejecutivo Comercial B2B Chile',
+    twinBody: 'Rutina: priorizar cuentas, preparar follow-up, detectar bloqueos y dejar memoria por oportunidad.',
+    outputTitle: 'Output generado',
+    outputItems: ['Top 5 cuentas por urgencia y potencial', '3 correos de seguimiento listos para revision', 'Resumen de objeciones y siguiente accion'],
+    handoffTitle: 'Handoff humano',
+    handoffItems: ['Owner: lider comercial', 'Decision: aprobar propuesta final', 'Escala si hay descuento, contrato o riesgo legal'],
+    metrics: [
+      ['Replacement', '74%', 'Carga repetible absorbible'],
+      ['Tiempo', '7 h', 'Ahorro semanal estimado'],
+      ['ROI', 'CLP $820k', 'Ahorro mensual diagnosticado'],
+    ],
+    safetyTitle: 'Limites seguros',
+    safetyBody:
+      'El twin prepara, resume y prioriza. No negocia precio final, no aprueba contratos y no toma decisiones legales sin humano.',
+    cta: 'Diagnosticar mi operacion',
+  },
+  en: {
+    eyebrow: 'Product at work',
+    title: 'From scattered input to supervised handoff in one run.',
+    body:
+      'The demo should show real work: input data, twin routine, deliverable, next owner, safe limit, and estimated ROI.',
+    inputTitle: 'Real input',
+    inputItems: ['CRM with 18 active accounts', 'Meeting notes and objections', 'Goal: recover 10 dormant opportunities'],
+    twinTitle: 'Selected twin',
+    twinName: 'B2B Sales Executive Twin Chile',
+    twinBody: 'Routine: prioritize accounts, prepare follow-up, detect blockers, and save memory by opportunity.',
+    outputTitle: 'Generated output',
+    outputItems: ['Top 5 accounts by urgency and potential', '3 follow-up emails ready for review', 'Objection summary and next action'],
+    handoffTitle: 'Human handoff',
+    handoffItems: ['Owner: sales lead', 'Decision: approve final proposal', 'Escalates on discount, contract, or legal risk'],
+    metrics: [
+      ['Replacement', '74%', 'Repeatable load absorbable'],
+      ['Time', '7 h', 'Estimated weekly savings'],
+      ['ROI', 'CLP $820k', 'Diagnosed monthly savings'],
+    ],
+    safetyTitle: 'Safe limits',
+    safetyBody:
+      'The twin prepares, summarizes, and prioritizes. It does not negotiate final price, approve contracts, or make legal decisions without a human.',
+    cta: 'Diagnose my operation',
+  },
+}
+
 const guidedDemos = {
   es: [
     {
@@ -193,7 +244,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 const Icon = DIFFERENTIATOR_ICONS[index]
                 return (
                   <article key={title} className="n3-panel p-5">
-                    <div className="flex h-10 w-10 items-center justify-center2xl border border-[#d8e5e2] bg-[#f1f6f4] text-[#789b96]">
+                    <div className="flex h-10 w-10 items-center justify-center border border-[#d8e5e2] bg-[#f1f6f4] text-[#789b96]">
                       <Icon size={16} />
                     </div>
                     <p className="mt-4 text-sm font-semibold text-[#173634]">{title}</p>
@@ -201,6 +252,84 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   </article>
                 )
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-[#d8e5e2] bg-[#0d1f1d] text-[#f5fbfa]">
+          <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
+            <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+              <div>
+                <Eyebrow className="text-[#8fb2aa]">{operatingProof[locale].eyebrow}</Eyebrow>
+                <H2Section className="mt-3 max-w-2xl text-white">{operatingProof[locale].title}</H2Section>
+                <Body variant="dark" className="mt-4 max-w-xl !text-[#c7d5d1]">
+                  {operatingProof[locale].body}
+                </Body>
+                <Link href={getLocalizedHref(locale, '/diagnosis')} className="mt-8 inline-flex items-center gap-2 bg-[#8fb2aa] px-5 py-3 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
+                  {operatingProof[locale].cta} <ArrowRight size={14} />
+                </Link>
+              </div>
+
+              <div className="border border-white/10 bg-[#102826] p-4 shadow-[0_28px_80px_-52px_rgba(0,0,0,0.8)]">
+                <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 lg:grid-cols-[0.85fr_1.15fr]">
+                  <div className="bg-[#0d1f1d] p-5">
+                    <BadgeEyebrow>{operatingProof[locale].inputTitle}</BadgeEyebrow>
+                    <ul className="mt-4 space-y-3">
+                      {operatingProof[locale].inputItems.map((item) => (
+                        <li key={item} className="border border-white/10 bg-white/5 px-3 py-2 text-sm leading-6 text-[#d9e3e0]">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-[#f5fbfa] p-5 text-[#173634]">
+                    <BadgeEyebrow>{operatingProof[locale].twinTitle}</BadgeEyebrow>
+                    <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">{operatingProof[locale].twinName}</h3>
+                    <p className="mt-3 text-sm leading-7 text-[#52605d]">{operatingProof[locale].twinBody}</p>
+                    <div className="mt-5 grid gap-2 sm:grid-cols-3">
+                      {operatingProof[locale].metrics.map(([label, value, note]) => (
+                        <div key={label} className="border border-[#d8e5e2] bg-[#edf6f3] px-3 py-3">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#527b73]">{label}</p>
+                          <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">{value}</p>
+                          <p className="mt-1 text-[11px] leading-4 text-[#52605d]">{note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                  <Card variant="dark" className="border-white/10 p-5">
+                    <BadgeEyebrow>{operatingProof[locale].outputTitle}</BadgeEyebrow>
+                    <ul className="mt-4 space-y-3">
+                      {operatingProof[locale].outputItems.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm leading-6 text-[#d9e3e0]">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-[#8fb2aa]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+
+                  <Card variant="dark" className="border-white/10 p-5">
+                    <BadgeEyebrow>{operatingProof[locale].handoffTitle}</BadgeEyebrow>
+                    <ul className="mt-4 space-y-3">
+                      {operatingProof[locale].handoffItems.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm leading-6 text-[#d9e3e0]">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-[#8fb2aa]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </div>
+
+                <div className="mt-4 border border-amber-300/20 bg-amber-300/10 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-200">{operatingProof[locale].safetyTitle}</p>
+                  <p className="mt-2 text-sm leading-7 text-[#f4ead4]">{operatingProof[locale].safetyBody}</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
