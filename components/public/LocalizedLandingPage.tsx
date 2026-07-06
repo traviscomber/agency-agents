@@ -14,6 +14,61 @@ import { Badge, BadgeEyebrow } from '@/components/shared/BadgeStyled'
 const DIFFERENTIATOR_ICONS = [Workflow, Bookmark, Radar, ShieldCheck]
 const CASE_ICONS = [Layers3, CircleAlert, Sparkles]
 
+const guidedDemos = {
+  es: [
+    {
+      title: 'Ejecutivo Comercial B2B Chile',
+      pressure: 'sales',
+      company: 'services',
+      promise: 'Convierte seguimiento comercial disperso en una rutina semanal con pipeline, proximas acciones y propuestas iniciales.',
+      steps: ['Cargar CRM, ICP y ultimas conversaciones', 'Ejecutar follow-up por cuenta activa', 'Guardar recap, objeciones y siguiente accion'],
+      roi: '35 a 55 horas/mes recuperables',
+    },
+    {
+      title: 'Cobranza Pyme Chile',
+      pressure: 'collections',
+      company: 'logistics',
+      promise: 'Prioriza cuentas vencidas, prepara mensajes y escala excepciones sin perder trazabilidad humana.',
+      steps: ['Cargar aging y politicas de cobranza', 'Clasificar deudores por riesgo y urgencia', 'Generar promesas de pago y handoff humano'],
+      roi: '30 a 50 horas/mes recuperables',
+    },
+    {
+      title: 'Analista de Licitaciones Chile',
+      pressure: 'tenders',
+      company: 'industrial',
+      promise: 'Lee bases, arma go/no-go, checklist documental y riesgos antes del sign-off humano.',
+      steps: ['Cargar bases y criterios de adjudicacion', 'Detectar requisitos, plazos y riesgos', 'Producir plan de respuesta y checklist'],
+      roi: '25 a 45 horas/mes recuperables',
+    },
+  ],
+  en: [
+    {
+      title: 'B2B Sales Executive Twin Chile',
+      pressure: 'sales',
+      company: 'services',
+      promise: 'Turn scattered commercial follow-up into a weekly routine with pipeline, next actions, and initial proposals.',
+      steps: ['Load CRM, ICP, and recent conversations', 'Run follow-up across active accounts', 'Save recap, objections, and next action'],
+      roi: '35 to 55 recoverable hours/month',
+    },
+    {
+      title: 'SME Collections Twin Chile',
+      pressure: 'collections',
+      company: 'logistics',
+      promise: 'Prioritize overdue accounts, prepare messages, and escalate exceptions without losing human traceability.',
+      steps: ['Load aging and collection policies', 'Classify debtors by risk and urgency', 'Generate payment promises and human handoff'],
+      roi: '30 to 50 recoverable hours/month',
+    },
+    {
+      title: 'Tender Analyst Twin Chile',
+      pressure: 'tenders',
+      company: 'industrial',
+      promise: 'Read bid docs, produce go/no-go, document checklist, and risks before human sign-off.',
+      steps: ['Load bid docs and award criteria', 'Detect requirements, deadlines, and risks', 'Produce response plan and checklist'],
+      roi: '25 to 45 recoverable hours/month',
+    },
+  ],
+}
+
 export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
   const copy = landingCopy[locale]
   const featuredAgents = getFeaturedAgents().slice(0, 6)
@@ -211,6 +266,56 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
             <Link href={getLocalizedHref(locale, '/industries')} className="mt-8 inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">
               {locale === 'es' ? 'Ver casos por industria' : 'View industry cases'} <ArrowRight size={14} />
             </Link>
+          </div>
+        </section>
+
+        <section className="border-y border-[#d8e5e2] bg-[#fbfbfa]">
+          <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <Eyebrow>{locale === 'es' ? 'Demo guiada' : 'Guided demo'}</Eyebrow>
+                <H2Section className="mt-3 max-w-3xl text-[#173634]">
+                  {locale === 'es'
+                    ? 'Tres recorridos para entender como se vende un gemelo digital por cargo.'
+                    : 'Three walkthroughs that show how a role-based digital twin is sold.'}
+                </H2Section>
+              </div>
+              <p className="max-w-md text-sm leading-7 text-[#52605d]">
+                {locale === 'es'
+                  ? 'Cada demo baja desde dolor operativo a datos, rutina, entregable y ROI antes de crear el programa.'
+                  : 'Each demo moves from operating pain to data, routine, deliverable, and ROI before creating the program.'}
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {guidedDemos[locale].map((demo, index) => (
+                <Card key={demo.title} variant="light" className="flex flex-col p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <BadgeEyebrow>{locale === 'es' ? `Recorrido ${index + 1}` : `Walkthrough ${index + 1}`}</BadgeEyebrow>
+                      <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em] text-[#173634]">{demo.title}</h3>
+                    </div>
+                    <span className="border border-[#d8e5e2] bg-[#f1f6f4] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#527b73]">
+                      {demo.roi}
+                    </span>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-[#52605d]">{demo.promise}</p>
+                  <div className="mt-5 flex-1 space-y-2">
+                    {demo.steps.map((step, stepIndex) => (
+                      <div key={step} className="border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">
+                          {locale === 'es' ? 'Paso' : 'Step'} {stepIndex + 1}
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-[#52605d]">{step}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href={`${getLocalizedHref(locale, '/diagnosis')}?company=${demo.company}&pressure=${demo.pressure}`} className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#173634] hover:text-[#8fb2aa]">
+                    {locale === 'es' ? 'Diagnosticar este gemelo' : 'Diagnose this twin'} <ArrowRight size={12} />
+                  </Link>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 
