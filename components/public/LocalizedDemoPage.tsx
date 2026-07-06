@@ -127,6 +127,9 @@ export function LocalizedDemoPage({ locale }: { locale: MarketingLocale }) {
                 <Link href={getLocalizedHref(locale, '/pricing')} className="inline-flex items-center gap-2 border border-[#28413d] bg-[#0d1917] px-5 py-3 text-sm font-semibold text-[#f5fbfa] hover:bg-[#142522]">
                   {copy.secondary}
                 </Link>
+                <Link href={getLocalizedHref(locale, '/playbooks')} className="inline-flex items-center gap-2 border border-[#28413d] bg-[#0d1917] px-5 py-3 text-sm font-semibold text-[#f5fbfa] hover:bg-[#142522]">
+                  {locale === 'es' ? 'Ver playbooks' : 'View playbooks'}
+                </Link>
               </div>
             </div>
             <ConversionPath locale={locale} active="context" variant="dark" />

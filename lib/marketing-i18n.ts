@@ -19,6 +19,7 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/industries') return locale === 'es' ? '/es/industrias' : '/en/industries'
   if (href === '/roles') return `/${locale}/roles`
   if (href === '/demo') return `/${locale}/demo`
+  if (href === '/playbooks') return `/${locale}/playbooks`
   if (href === '/roi') return locale === 'es' ? '/es/calculadora-roi' : '/en/roi'
   if (href === '/diagnosis') return locale === 'es' ? '/es/diagnostico' : '/en/diagnosis'
   if (href === '/signup') return `/${locale}/signup`
@@ -52,6 +53,7 @@ export const publicNavbarCopy = {
       { href: '/industries', label: 'Industrias' },
       { href: '/roles', label: 'Roles' },
       { href: '/demo', label: 'Demo' },
+      { href: '/playbooks', label: 'Playbooks' },
       { href: '/roi', label: 'ROI' },
       { href: '/diagnosis', label: 'Diagnostico' },
       { href: '/agents', label: 'Twins' },
@@ -67,6 +69,7 @@ export const publicNavbarCopy = {
       { href: '/industries', label: 'Industries' },
       { href: '/roles', label: 'Roles' },
       { href: '/demo', label: 'Demo' },
+      { href: '/playbooks', label: 'Playbooks' },
       { href: '/roi', label: 'ROI' },
       { href: '/diagnosis', label: 'Diagnosis' },
       { href: '/agents', label: 'Twins' },

@@ -292,6 +292,9 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
             <Link href={getLocalizedHref(locale, '/demo')} className="mt-6 inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">
               {locale === 'es' ? 'Abrir demo completa' : 'Open full demo'} <ArrowRight size={14} />
             </Link>
+            <Link href={getLocalizedHref(locale, '/playbooks')} className="ml-3 mt-6 inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-white">
+              {locale === 'es' ? 'Ver playbooks operativos' : 'View operating playbooks'} <ArrowRight size={14} />
+            </Link>
 
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {guidedDemos[locale].map((demo, index) => (
