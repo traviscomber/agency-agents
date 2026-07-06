@@ -35,6 +35,19 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
     const companyFactor = company === 'industrial' || company === 'construction' ? 1.08 : 1
     return Math.round(monthlyCost * recommendation.savingsFactor * teamFactor * companyFactor)
   }, [company, monthlyCost, recommendation.savingsFactor, team])
+  const blueprintItems = locale === 'es'
+    ? [
+        ['Datos para cargar', recommendation.next],
+        ['Primera rutina', 'Ejecutar una rutina semanal sobre el cuello de botella principal y guardar el entregable reutilizable.'],
+        ['Control humano', `Supervision ${recommendation.supervision.toLowerCase()} con escalamiento cuando haya excepciones, riesgos o decisiones comerciales sensibles.`],
+        ['Output esperado', 'Un programa operativo con memoria, siguiente accion, responsable humano y metricas de replacement visibles.'],
+      ]
+    : [
+        ['Data to load', recommendation.next],
+        ['First routine', 'Run a weekly routine on the main bottleneck and save the reusable deliverable.'],
+        ['Human control', `${recommendation.supervision} supervision with escalation for exceptions, risks, or sensitive business decisions.`],
+        ['Expected output', 'An operating program with memory, next action, human owner, and visible replacement metrics.'],
+      ]
 
   function persistDiagnosisIntent() {
     window.localStorage.setItem(
@@ -119,6 +132,29 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
                     <p className="mt-2 text-lg font-semibold text-[#173634]">{value}</p>
                   </div>
                 ))}
+              </div>
+              <div className="mt-8 border border-[#d8e5e2] bg-[#f8fbfa] p-5">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#789b96]">
+                      {locale === 'es' ? 'Blueprint de despliegue' : 'Deployment blueprint'}
+                    </p>
+                    <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#173634]">
+                      {locale === 'es' ? 'De diagnostico a primer gemelo digital operativo.' : 'From diagnosis to first operating digital twin.'}
+                    </h3>
+                  </div>
+                  <span className="inline-flex self-start border border-[#8fb2aa]/50 bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#527b73]">
+                    {locale === 'es' ? 'Listo para programa' : 'Program ready'}
+                  </span>
+                </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {blueprintItems.map(([label, value]) => (
+                    <div key={label} className="border border-[#d8e5e2] bg-white p-4">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">{label}</p>
+                      <p className="mt-2 text-sm leading-6 text-[#52605d]">{value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href={`${getLocalizedHref(locale, '/signup')}?diagnosis=1`} onClick={persistDiagnosisIntent} className="inline-flex items-center gap-2 bg-[#173634] px-5 py-3 text-sm font-semibold text-white hover:bg-[#244944]">
