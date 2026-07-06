@@ -484,7 +484,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.outputFormat[0]}</p>
                   <div className="mt-5">
                     <Link href={getLocalizedAgentHref(locale, agent.slug)} className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#173634]">
-                      Open twin <ArrowRight size={12} />
+                      {locale === 'es' ? 'Abrir twin' : 'Open twin'} <ArrowRight size={12} />
                     </Link>
                   </div>
                 </Card>

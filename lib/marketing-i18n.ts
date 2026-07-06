@@ -746,7 +746,7 @@ export const agentsPageCopy = {
     curationSignals: [
       ['Built for workflow', 'Every twin should make the next move clearer, not just generate a document.'],
       ['Built for trust', 'The system favors output shape, handoff clarity, and recoverable state over raw novelty.'],
-      ['Built for systems', 'Specialists live inside project memory, workflow condition, and saved deliverables.'],
+      ['Built for systems', 'Role twins live inside project memory, workflow condition, and saved deliverables.'],
     ],
     searchPlaceholder: 'Search twins, industries or roles...',
     visibleProfiles: 'profiles visible',
@@ -912,7 +912,7 @@ export const authPageCopy = {
       badge: 'Secure access',
       leftEyebrow: 'Command access',
       leftTitle: 'Sign in to resume the next operating sequence.',
-      leftBody: 'Specialists, workflows, and deliverables stay linked so your team can recover context without re-briefing the system.',
+      leftBody: 'Role twins, workflows, and deliverables stay linked so your team can recover context without re-briefing the system.',
       leftSignals: [
         ['Operational continuity', 'Each run stays attached to owners, handoffs, and the current step.'],
         ['Traceable by default', 'Deliverables, memory, and workflow state stay visible after the run ends.'],
