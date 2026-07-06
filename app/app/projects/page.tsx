@@ -40,6 +40,17 @@ function getSupervisionGuidance(level: 'low' | 'medium' | 'high') {
   return 'Should stay under explicit human approval before execution.'
 }
 
+function getDiagnosisEstimatedSavings(project: Project) {
+  const diagnosisMemory = project.memory?.find((entry) => entry.title === 'Diagnosis recommendation')
+  if (!diagnosisMemory) return null
+
+  const match = diagnosisMemory.note.match(/Estimated monthly savings: CLP ([\d.,]+)/)
+  if (!match?.[1]) return null
+
+  const value = Number(match[1].replace(/[^\d]/g, ''))
+  return Number.isFinite(value) && value > 0 ? value : null
+}
+
 interface DiagnosisIntent {
   role: string
   slug: string
@@ -124,6 +135,7 @@ export default function ProjectsPage() {
     const twinProfile = mappedTwin?.twinProfile ?? featuredTwinProfiles[index % Math.max(featuredTwinProfiles.length, 1)]
     const replacementScore = twinProfile?.operationalReplacementScore ?? averageReplacement
     const supervisionLevel = twinProfile?.supervisionLevel ?? 'medium'
+    const diagnosisEstimatedSavings = getDiagnosisEstimatedSavings(project)
 
     return {
       project,
@@ -134,6 +146,7 @@ export default function ProjectsPage() {
       twinProfile,
       replacementScore,
       supervisionLevel,
+      diagnosisEstimatedSavings,
     }
   })
   const filteredProjectRows = projectRows.filter(({ replacementScore, supervisionLevel }) => {
@@ -150,6 +163,7 @@ export default function ProjectsPage() {
     ? Math.round(projectRows.reduce((total, row) => total + row.replacementScore, 0) / projectRows.length)
     : averageReplacement
   const highSupervisionCount = projectRows.filter((row) => row.supervisionLevel === 'high').length
+  const totalDiagnosisSavings = projectRows.reduce((total, row) => total + (row.diagnosisEstimatedSavings ?? 0), 0)
   const activeFilterCount = filteredProjectRows.length
   const diagnosisBlueprint = diagnosisIntent
     ? [
@@ -271,6 +285,11 @@ export default function ProjectsPage() {
             value: `${highSupervisionCount} roles`,
             note: 'Programs that should preserve tighter human approval before execution.',
           },
+          {
+            label: 'Estimated ROI',
+            value: totalDiagnosisSavings ? formatClp(totalDiagnosisSavings) : 'Pending',
+            note: 'Monthly savings imported from diagnosis-backed programs.',
+          },
         ].map(({ label, value, note }) => (
           <div key={label} className="bg-[#fbfbfa] px-5 py-5">
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
@@ -363,7 +382,7 @@ export default function ProjectsPage() {
         </div>
       ) : (
         <div className="mt-6 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-2 xl:grid-cols-3">
-          {filteredProjectRows.map(({ project, index, packet, twinProfile, replacementScore, supervisionLevel }) => (
+          {filteredProjectRows.map(({ project, index, packet, twinProfile, replacementScore, supervisionLevel, diagnosisEstimatedSavings }) => (
             (() => {
               return (
                 <article key={project.id} className="n3-card n3-panel flex flex-col p-5 transition-colors hover:bg-[#f1f6f4]">
@@ -420,6 +439,14 @@ export default function ProjectsPage() {
                       </div>
                     ))}
                   </div>
+
+                  {diagnosisEstimatedSavings ? (
+                    <div className="mt-4 border border-[#cfe1dc] bg-[#edf6f3] px-4 py-3">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#527b73]">ROI diagnosticado</p>
+                      <p className="mt-1 text-2xl font-light tracking-[-0.04em] text-[#173634]">{formatClp(diagnosisEstimatedSavings)}</p>
+                      <p className="mt-1 text-xs leading-5 text-[#52605d]">Ahorro mensual estimado desde el diagnostico inicial.</p>
+                    </div>
+                  ) : null}
 
                   {twinProfile ? (
                     <div className="mt-4">
