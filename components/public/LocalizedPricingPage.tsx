@@ -117,6 +117,7 @@ const planPresentation = {
       name: 'Free / Demo',
       interval: '/mes',
       cta: 'Probar gratis',
+      description: 'Para probar la tesis con un rol, un programa y entregables guardados antes de invertir en despliegue.',
       features: [
         '5 corridas de gemelo digital al mes',
         '1 programa operativo activo',
@@ -129,6 +130,7 @@ const planPresentation = {
       name: 'Starter',
       interval: '/mes',
       cta: 'Desplegar Starter',
+      description: 'Para convertir un proceso repetitivo en el primer twin operativo con memoria basica y control humano.',
       features: [
         '1 gemelo operativo desplegado',
         'Memoria basica por cuenta o proceso',
@@ -141,6 +143,7 @@ const planPresentation = {
       name: 'Pro',
       interval: '/mes',
       cta: 'Desplegar Pro',
+      description: 'Para equipos que necesitan varios twins, automatizaciones semanales y replacement visible por proyecto.',
       features: [
         '3 gemelos operativos desplegados',
         'Automatizaciones semanales',
@@ -154,10 +157,11 @@ const planPresentation = {
       name: 'Business',
       interval: '/mes',
       cta: 'Desplegar Business',
+      description: 'Para operar varias areas con conectores, reporting recurrente y handoffs entre roles supervisados.',
       features: [
         '10 gemelos operativos desplegados',
         'Workspace de equipo',
-        'Connectors para documentos, sheets, CRM o ERP',
+        'Conectores para documentos, Sheets, CRM o ERP',
         'Reporting recurrente',
         'Soporte de implementacion',
         'API avanzada',
@@ -168,9 +172,10 @@ const planPresentation = {
       name: 'Enterprise',
       interval: '',
       cta: 'Contactar ventas',
+      description: 'Para portafolios multi-rol con integraciones privadas, seguridad avanzada, SLA y gobierno ejecutivo.',
       features: [
-        'Portafolio custom de gemelos digitales',
-        'Connectors e integraciones privadas',
+        'Portafolio a medida de gemelos digitales',
+        'Conectores e integraciones privadas',
         'Opcion white-label',
         'Seguridad avanzada y SSO',
         'SLA y soporte dedicado',
@@ -183,6 +188,7 @@ const planPresentation = {
       name: 'Free / Demo',
       interval: '/month',
       cta: 'Start free',
+      description: 'For testing the thesis with one role, one program, and saved deliverables before investing in deployment.',
       features: [
         '5 digital twin runs per month',
         '1 active operating program',
@@ -195,6 +201,7 @@ const planPresentation = {
       name: 'Starter',
       interval: '/month',
       cta: 'Deploy Starter',
+      description: 'For turning one repetitive process into the first operating twin with basic memory and human control.',
       features: [
         '1 deployed operating twin',
         'Basic memory by account or process',
@@ -207,6 +214,7 @@ const planPresentation = {
       name: 'Pro',
       interval: '/month',
       cta: 'Deploy Pro',
+      description: 'For teams that need multiple twins, weekly automations, and visible replacement by project.',
       features: [
         '3 deployed operating twins',
         'Weekly automations',
@@ -220,6 +228,7 @@ const planPresentation = {
       name: 'Business',
       interval: '/month',
       cta: 'Deploy Business',
+      description: 'For operating several areas with connectors, recurring reporting, and handoffs between supervised roles.',
       features: [
         '10 deployed operating twins',
         'Team workspace',
@@ -234,6 +243,7 @@ const planPresentation = {
       name: 'Enterprise',
       interval: '',
       cta: 'Contact sales',
+      description: 'For multi-role portfolios with private integrations, advanced security, SLAs, and executive governance.',
       features: [
         'Custom digital twin portfolio',
         'Private connectors and integrations',
@@ -244,7 +254,7 @@ const planPresentation = {
       ],
     },
   },
-} satisfies Record<MarketingLocale, Record<string, { name: string; interval: string; cta: string; features: string[] }>>
+} satisfies Record<MarketingLocale, Record<string, { name: string; interval: string; cta: string; description: string; features: string[] }>>
 
 export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
   const copy = pricingPageCopy[locale]
@@ -276,7 +286,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
               </div>
 
               <Card variant="dark" className="p-6 border-white/10">
-                <BadgeEyebrow>What scales with plan</BadgeEyebrow>
+                <BadgeEyebrow>{locale === 'es' ? 'Que escala por plan' : 'What scales with plan'}</BadgeEyebrow>
                 <div className="mt-5 space-y-3">
                   {copy.valueStack.map(([title, desc], index) => {
                     const Icon = VALUE_ICONS[index]
@@ -340,7 +350,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                       ) : null}
                     </div>
                     <p className={`mt-2 text-xs leading-6 ${plan.highlighted ? 'text-[#9db7b1]' : 'text-[#65706d]'}`}>
-                      {plan.description}
+                      {presentation.description}
                     </p>
                     <p className={`mt-3 border-t pt-3 text-[11px] font-semibold leading-5 ${plan.highlighted ? 'border-white/10 text-[#8fb2aa]' : 'border-[#d8e5e2] text-[#173634]'}`}>
                       {clpAnchors[locale][plan.id]}
