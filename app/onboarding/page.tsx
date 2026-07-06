@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle2, ArrowRight } from 'lucide-react'
@@ -9,10 +9,22 @@ export default function OnboardingPage() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+  const [diagnosisRole, setDiagnosisRole] = useState<string | null>(null)
+
+  useEffect(() => {
+    const raw = window.localStorage.getItem('n3uralia.diagnosis')
+    if (!raw) return
+    try {
+      const parsed = JSON.parse(raw) as { role?: string }
+      setDiagnosisRole(parsed.role ?? null)
+    } catch {
+      window.localStorage.removeItem('n3uralia.diagnosis')
+    }
+  }, [])
 
   const handleNext = () => {
     if (step === 3) {
-      router.push('/app')
+      router.push(diagnosisRole ? '/app/projects?diagnosis=1' : '/app')
     } else {
       setStep(step + 1)
     }
@@ -25,6 +37,15 @@ export default function OnboardingPage() {
         <div className="mb-12 text-center">
           <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to N3uralia Studio</h1>
           <p className="mt-2 text-sm text-[#173634]/60">Set up the operating layer in 3 steps</p>
+          {diagnosisRole ? (
+            <div className="mx-auto mt-5 max-w-md border border-[#d8e5e2] bg-white px-4 py-3 text-left">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789b96]">Diagnosis ready</p>
+              <p className="mt-1 text-sm font-semibold text-[#173634]">{diagnosisRole}</p>
+              <p className="mt-1 text-xs leading-5 text-[#52605d]">
+                Finish onboarding and we will create the first operating program with this gemelo digital attached.
+              </p>
+            </div>
+          ) : null}
           <div className="mt-6 flex items-center justify-center gap-2">
             {[1, 2, 3].map((s) => (
               <div
@@ -132,7 +153,11 @@ export default function OnboardingPage() {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">You&apos;re all set!</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Your operating space is ready. Start with the dashboard, the project record, and the next specialist run.</p>
+              <p className="mt-2 text-sm text-[#173634]/60">
+                {diagnosisRole
+                  ? 'Your operating space is ready. Next, create the first program from your diagnosis.'
+                  : 'Your operating space is ready. Start with the dashboard, the project record, and the next specialist run.'}
+              </p>
             </div>
 
             <button

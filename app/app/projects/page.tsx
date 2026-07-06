@@ -13,10 +13,18 @@ import { MOCK_PROJECTS } from '@/lib/data/mock-store'
 import type { Project, ProjectType } from '@/lib/types'
 import { ArrowRight, Bookmark, Calendar, FolderOpen, Plus, Lightbulb } from 'lucide-react'
 import { getAgentBySlug, getFeaturedAgents } from '@/lib/data/seed-agents'
-import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectCurrentWorkflowStep, getProjectTypeLabel, PROJECT_TYPE_OPTIONS } from '@/lib/project-memory'
+import { buildProjectHandoffPacket, createStoredProject, getMergedProjects, getProjectCurrentWorkflowStep, getProjectTypeLabel, PROJECT_TYPE_OPTIONS, type CreateStoredProjectOptions } from '@/lib/project-memory'
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(date))
+}
+
+function formatClp(value: number) {
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+    maximumFractionDigits: 0,
+  }).format(value)
 }
 
 function getReplacementBand(score: number) {
@@ -31,12 +39,23 @@ function getSupervisionGuidance(level: 'low' | 'medium' | 'high') {
   return 'Should stay under explicit human approval before execution.'
 }
 
+interface DiagnosisIntent {
+  role: string
+  slug: string
+  summary: string
+  supervision: string
+  hours: string
+  estimatedSavings: number
+  next: string
+}
+
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS)
   const [showNew, setShowNew] = useState(false)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [projectType, setProjectType] = useState<ProjectType>('operations')
+  const [diagnosisIntent, setDiagnosisIntent] = useState<DiagnosisIntent | null>(null)
   const [replacementFilter, setReplacementFilter] = useState<'all' | '70' | '80'>('all')
   const [supervisionFilter, setSupervisionFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all')
 
@@ -46,13 +65,44 @@ export default function ProjectsPage() {
     })()
   }, [])
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const raw = window.localStorage.getItem('n3uralia.diagnosis')
+    if (!raw || params.get('diagnosis') !== '1') return
+
+    try {
+      const parsed = JSON.parse(raw) as DiagnosisIntent
+      if (!parsed.slug || !parsed.role) return
+      setDiagnosisIntent(parsed)
+      setName(`Programa ${parsed.role}`)
+      setDescription(parsed.summary)
+      setProjectType('operations')
+      setShowNew(true)
+    } catch {
+      window.localStorage.removeItem('n3uralia.diagnosis')
+    }
+  }, [])
+
   async function handleCreate() {
     if (!name.trim()) return
-    const project = await createStoredProject(name.trim(), description.trim(), projectType)
+    const diagnosisOptions: CreateStoredProjectOptions = diagnosisIntent
+      ? {
+          recommendedAgentSlug: diagnosisIntent.slug,
+          diagnosisRole: diagnosisIntent.role,
+          diagnosisSummary: diagnosisIntent.summary,
+          diagnosisSupervision: diagnosisIntent.supervision,
+          diagnosisHours: diagnosisIntent.hours,
+          diagnosisEstimatedSavings: diagnosisIntent.estimatedSavings,
+          diagnosisNextStep: diagnosisIntent.next,
+        }
+      : {}
+    const project = await createStoredProject(name.trim(), description.trim(), projectType, diagnosisOptions)
     setProjects((prev) => [project, ...prev.filter((item) => item.id !== project.id)])
     setName('')
     setDescription('')
     setProjectType('operations')
+    setDiagnosisIntent(null)
+    window.localStorage.removeItem('n3uralia.diagnosis')
     setShowNew(false)
   }
 
@@ -386,12 +436,35 @@ export default function ProjectsPage() {
       <Dialog open={showNew} onOpenChange={setShowNew}>
         <DialogContent className="n3-panel sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-base font-light text-[#173634]">New project</DialogTitle>
+            <DialogTitle className="text-base font-light text-[#173634]">
+              {diagnosisIntent ? 'Create program from diagnosis' : 'New project'}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <p className="text-xs leading-relaxed text-[#173634]/55">
-              Give each initiative a home for the run, the source context, and the deliverables that come out of it.
+              {diagnosisIntent
+                ? 'This program will start with the diagnosed gemelo digital already assigned to the active workflow step.'
+                : 'Give each initiative a home for the run, the source context, and the deliverables that come out of it.'}
             </p>
+            {diagnosisIntent ? (
+              <div className="border border-[#d8e5e2] bg-[#f1f6f4] p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789b96]">Imported diagnosis</p>
+                <p className="mt-2 text-sm font-semibold text-[#173634]">{diagnosisIntent.role}</p>
+                <p className="mt-2 text-xs leading-5 text-[#52605d]">{diagnosisIntent.summary}</p>
+                <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                  {[
+                    ['Supervision', diagnosisIntent.supervision],
+                    ['Recoverable', diagnosisIntent.hours],
+                    ['Savings', formatClp(diagnosisIntent.estimatedSavings)],
+                  ].map(([label, value]) => (
+                    <div key={label} className="border border-[#d8e5e2] bg-white px-3 py-2">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">{label}</p>
+                      <p className="mt-1 text-xs font-semibold text-[#173634]">{value}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <div className="space-y-2">
               <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Operating template</Label>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -444,7 +517,7 @@ export default function ProjectsPage() {
               Cancel
             </Button>
             <Button onClick={handleCreate} disabled={!name.trim()} className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-              Create project
+              {diagnosisIntent ? 'Create twin program' : 'Create project'}
             </Button>
           </DialogFooter>
         </DialogContent>

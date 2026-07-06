@@ -40,6 +40,16 @@ interface PersistRunArgs {
   run: AgentRun
 }
 
+export interface CreateStoredProjectOptions {
+  recommendedAgentSlug?: string
+  diagnosisRole?: string
+  diagnosisSummary?: string
+  diagnosisSupervision?: string
+  diagnosisHours?: string
+  diagnosisEstimatedSavings?: number
+  diagnosisNextStep?: string
+}
+
 function upsertRun(runs: AgentRun[], nextRun: AgentRun) {
   return [nextRun, ...runs.filter((item) => item.id !== nextRun.id)]
 }
@@ -903,8 +913,49 @@ export async function getMergedProjects(baseProjects: Project[] = MOCK_PROJECTS)
   return Array.from(mergedProjects.values()).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
 }
 
-export async function createStoredProject(name: string, description: string, projectType: ProjectType = 'operations'): Promise<Project> {
+export async function createStoredProject(
+  name: string,
+  description: string,
+  projectType: ProjectType = 'operations',
+  options: CreateStoredProjectOptions = {},
+): Promise<Project> {
   const now = new Date().toISOString()
+  const baseBrief = defaultOperatingBrief(name, projectType)
+  const baseWorkflow = defaultWorkflow(name, projectType)
+  const diagnosisMemory = options.recommendedAgentSlug
+    ? [
+        {
+          id: `mem-diagnosis-${Date.now()}`,
+          title: 'Diagnosis recommendation',
+          note: [
+            options.diagnosisRole ? `Recommended gemelo digital: ${options.diagnosisRole}.` : null,
+            options.diagnosisSummary,
+            options.diagnosisSupervision ? `Supervision: ${options.diagnosisSupervision}.` : null,
+            options.diagnosisHours ? `Recoverable hours: ${options.diagnosisHours}.` : null,
+            options.diagnosisEstimatedSavings ? `Estimated monthly savings: CLP ${options.diagnosisEstimatedSavings.toLocaleString('es-CL')}.` : null,
+            options.diagnosisNextStep ? `Next step: ${options.diagnosisNextStep}` : null,
+          ]
+            .filter(Boolean)
+            .join(' '),
+          source: 'decision' as const,
+          createdAt: now,
+        },
+      ]
+    : []
+  const workflow = options.recommendedAgentSlug
+    ? baseWorkflow.map((step, index) =>
+        index === 0
+          ? {
+              ...step,
+              name: options.diagnosisRole ? `Deploy ${options.diagnosisRole}` : 'Deploy recommended gemelo digital',
+              owner: 'Operations',
+              status: 'active' as const,
+              detail: options.diagnosisNextStep || options.diagnosisSummary || step.detail,
+              recommendedAgentSlug: options.recommendedAgentSlug,
+            }
+          : step,
+      )
+    : baseWorkflow
   const project: Project = {
     id: `proj-${Date.now()}`,
     userId: 'user-demo-001',
@@ -916,9 +967,23 @@ export async function createStoredProject(name: string, description: string, pro
     updatedAt: now,
     runCount: 0,
     savedCount: 0,
-    operatingBrief: defaultOperatingBrief(name, projectType),
-    memory: [],
-    workflow: defaultWorkflow(name, projectType),
+    operatingBrief: options.recommendedAgentSlug
+      ? {
+          ...baseBrief,
+          objective: description || options.diagnosisSummary || baseBrief.objective,
+          successDefinition:
+            options.diagnosisRole
+              ? `Deploy ${options.diagnosisRole} with clear supervision, reusable outputs, and measurable replacement capacity.`
+              : baseBrief.successDefinition,
+          constraints: [
+            ...baseBrief.constraints,
+            'Keep human approval explicit for high-impact decisions.',
+            'Preserve diagnosis context inside the program memory.',
+          ],
+        }
+      : baseBrief,
+    memory: diagnosisMemory,
+    workflow,
   }
 
   return postProjectState<Project>(

@@ -36,6 +36,26 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
     return Math.round(monthlyCost * recommendation.savingsFactor * teamFactor * companyFactor)
   }, [company, monthlyCost, recommendation.savingsFactor, team])
 
+  function persistDiagnosisIntent() {
+    window.localStorage.setItem(
+      'n3uralia.diagnosis',
+      JSON.stringify({
+        company,
+        pressure,
+        team,
+        monthlyCost,
+        role: recommendation.role,
+        slug: recommendation.slug,
+        summary: recommendation.summary,
+        supervision: recommendation.supervision,
+        hours: recommendation.hours,
+        estimatedSavings: adjustedSavings,
+        next: recommendation.next,
+        createdAt: new Date().toISOString(),
+      }),
+    )
+  }
+
   return (
     <div className="min-h-screen bg-[#fbfbfa] text-[#173634]">
       <PublicNavbar />
@@ -101,11 +121,14 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
                 ))}
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={getLocalizedHref(locale, '/signup')} className="inline-flex items-center gap-2 bg-[#173634] px-5 py-3 text-sm font-semibold text-white hover:bg-[#244944]">
+                <Link href={`${getLocalizedHref(locale, '/signup')}?diagnosis=1`} onClick={persistDiagnosisIntent} className="inline-flex items-center gap-2 bg-[#173634] px-5 py-3 text-sm font-semibold text-white hover:bg-[#244944]">
                   {copy.primary} <ArrowRight size={14} />
                 </Link>
                 <Link href={getLocalizedAgentHref(locale, recommendation.slug)} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">
                   {copy.secondary}
+                </Link>
+                <Link href="/app/projects?diagnosis=1" onClick={persistDiagnosisIntent} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] hover:bg-[#f1f6f4]">
+                  {locale === 'es' ? 'Crear programa operativo' : 'Create operating program'}
                 </Link>
               </div>
             </article>
