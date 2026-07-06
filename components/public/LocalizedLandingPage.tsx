@@ -14,6 +14,33 @@ import { Badge, BadgeEyebrow } from '@/components/shared/BadgeStyled'
 const DIFFERENTIATOR_ICONS = [Workflow, Bookmark, Radar, ShieldCheck]
 const CASE_ICONS = [Layers3, CircleAlert, Sparkles]
 
+const twinArchitecture = {
+  es: {
+    eyebrow: 'Arquitectura Twin OS',
+    title: 'Un twin operativo no es un prompt. Es datos, habilidad y memoria del rol.',
+    body:
+      'La unidad vendible combina conectores, skills y memoria del cargo para ejecutar rutinas reales con limites y handoffs. Eso lo diferencia de un builder generico de agentes.',
+    formula: 'Connector + Skill + Memoria del rol = Gemelo operativo',
+    parts: [
+      ['Connectors', 'Gmail, Drive, Sheets, CRM, ERP, correos, documentos, licitaciones, facturas y datos de clientes.'],
+      ['Skills', 'Cobranza, licitacion, seguimiento comercial, propuestas, implementacion, reporting y reclutamiento.'],
+      ['Memoria del rol', 'Criterios, limites, KPIs, formatos de salida, owners y decisiones pendientes por cuenta o programa.'],
+    ],
+  },
+  en: {
+    eyebrow: 'Twin OS architecture',
+    title: 'An operating twin is not a prompt. It is data, skill, and role memory.',
+    body:
+      'The sellable unit combines connectors, skills, and role memory to run real routines with limits and handoffs. That separates it from a generic agent builder.',
+    formula: 'Connector + Skill + Role memory = Operating twin',
+    parts: [
+      ['Connectors', 'Gmail, Drive, Sheets, CRM, ERP, emails, documents, tenders, invoices, and customer data.'],
+      ['Skills', 'Collections, tenders, sales follow-up, proposals, implementation, reporting, and recruiting.'],
+      ['Role memory', 'Criteria, limits, KPIs, output formats, owners, and pending decisions by account or program.'],
+    ],
+  },
+}
+
 const operatingProof = {
   es: {
     eyebrow: 'Producto trabajando',
@@ -252,6 +279,41 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   </article>
                 )
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-[#d8e5e2] bg-[#f1f6f4]">
+          <div className="mx-auto max-w-7xl px-5 py-18 sm:px-8 sm:py-20">
+            <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+              <div>
+                <Eyebrow className="text-[#789b96]">{twinArchitecture[locale].eyebrow}</Eyebrow>
+                <H2Section className="mt-3 text-[#173634]">{twinArchitecture[locale].title}</H2Section>
+                <Body variant="light" className="mt-4">
+                  {twinArchitecture[locale].body}
+                </Body>
+              </div>
+              <div className="border border-[#d8e5e2] bg-white p-5 shadow-[0_20px_60px_-42px_rgba(15,23,42,0.35)]">
+                <div className="border border-[#173634] bg-[#173634] px-4 py-4">
+                  <p className="text-sm font-semibold text-[#f5fbfa]">{twinArchitecture[locale].formula}</p>
+                </div>
+                <div className="mt-4 grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] md:grid-cols-3">
+                  {twinArchitecture[locale].parts.map(([title, body]) => (
+                    <div key={title} className="bg-[#fbfbfa] p-4">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">{title}</p>
+                      <p className="mt-3 text-sm leading-7 text-[#52605d]">{body}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <Link href={getLocalizedHref(locale, '/chile')} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3 text-sm font-semibold text-[#173634] transition-colors hover:bg-white">
+                    {locale === 'es' ? 'Ver modelo Chile/Latam' : 'View Chile/Latam model'} <ArrowRight size={14} />
+                  </Link>
+                  <Link href={getLocalizedHref(locale, '/playbooks')} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-white px-5 py-3 text-sm font-semibold text-[#173634] transition-colors hover:bg-[#f1f6f4]">
+                    {locale === 'es' ? 'Ver playbooks' : 'View playbooks'} <ArrowRight size={14} />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
