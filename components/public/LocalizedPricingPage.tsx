@@ -10,6 +10,36 @@ import { Badge, BadgeEyebrow } from '@/components/shared/BadgeStyled'
 
 const VALUE_ICONS = [Workflow, ShieldCheck, Layers3]
 
+const clpAnchors = {
+  es: {
+    free: 'CLP $0',
+    starter: 'Referencia Chile: desde CLP $95.000/mes',
+    pro: 'Referencia Chile: desde CLP $285.000/mes',
+    team: 'Referencia Chile: desde CLP $760.000/mes',
+    enterprise: 'CLP custom segun integraciones y SLA',
+  },
+  en: {
+    free: 'CLP $0',
+    starter: 'Chile reference: from CLP $95,000/month',
+    pro: 'Chile reference: from CLP $285,000/month',
+    team: 'Chile reference: from CLP $760,000/month',
+    enterprise: 'Custom CLP based on integrations and SLA',
+  },
+}
+
+const deploymentBands = {
+  es: [
+    ['Diagnostico', '1 cargo prioritario', 'Mapa de tareas, datos necesarios, supervision, ROI estimado en CLP y primer programa operativo.'],
+    ['Despliegue', '1 a 3 gemelos', 'Configuracion del rol, memoria inicial, rutinas semanales, entregables guardados y reglas de escalamiento.'],
+    ['Sistema operativo', '10+ gemelos', 'Conectores, reporting recurrente, handoffs multi-rol, QA ejecutivo y mejora continua por industria.'],
+  ],
+  en: [
+    ['Diagnosis', '1 priority role', 'Task map, required data, supervision, CLP ROI estimate, and first operating program.'],
+    ['Deployment', '1 to 3 twins', 'Role configuration, initial memory, weekly routines, saved deliverables, and escalation rules.'],
+    ['Operating system', '10+ twins', 'Connectors, recurring reporting, multi-role handoffs, executive QA, and industry improvement loops.'],
+  ],
+}
+
 const planPresentation = {
   es: {
     free: {
@@ -182,6 +212,9 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                     <p className={`mt-2 text-xs leading-6 ${plan.highlighted ? 'text-[#9db7b1]' : 'text-[#65706d]'}`}>
                       {plan.description}
                     </p>
+                    <p className={`mt-3 border-t pt-3 text-[11px] font-semibold leading-5 ${plan.highlighted ? 'border-white/10 text-[#8fb2aa]' : 'border-[#d8e5e2] text-[#173634]'}`}>
+                      {clpAnchors[locale][plan.id]}
+                    </p>
                   </div>
 
                   <div className={`mb-5 border p-4 ${plan.highlighted ? 'border-white/10 bg-white/5' : 'border-[#d8e5e2] bg-[#f8fbfa]'}`}>
@@ -217,6 +250,16 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                 </div>
                 )
               })}
+            </div>
+
+            <div className="mt-8 grid gap-4 lg:grid-cols-3">
+              {deploymentBands[locale].map(([stage, scope, body]) => (
+                <Card key={stage} variant="light" className="p-5">
+                  <BadgeEyebrow>{stage}</BadgeEyebrow>
+                  <p className="mt-3 text-lg font-semibold text-[#173634]">{scope}</p>
+                  <p className="mt-2 text-sm leading-7 text-[#52605d]">{body}</p>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
