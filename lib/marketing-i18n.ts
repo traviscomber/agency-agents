@@ -28,6 +28,8 @@ export function getLocalizedHref(locale: MarketingLocale, href: string) {
   if (href === '/login') return `/${locale}/login`
   if (href === '/forgot-password') return `/${locale}/forgot-password`
   if (href === '/signup-success') return `/${locale}/signup-success`
+  if (href === '/privacy') return locale === 'es' ? '/es/privacidad' : '/en/privacy'
+  if (href === '/terms') return locale === 'es' ? '/es/terminos' : '/en/terms'
   if (href === '/contact') return `/${locale}/contact`
   return href
 }
@@ -120,6 +122,10 @@ export const publicFooterCopy = {
         { href: '/es', label: 'Chile y Latam' },
         { href: '/en', label: 'English site' },
       ],
+      Legal: [
+        { href: '/terms', label: 'Terminos' },
+        { href: '/privacy', label: 'Privacidad' },
+      ],
     },
     description:
       'Un sistema operativo para trabajo digital supervisado en Chile y Latam: twins por rol, memoria operativa, handoffs y entregables reutilizables.',
@@ -147,6 +153,10 @@ export const publicFooterCopy = {
       Region: [
         { href: '/es', label: 'Sitio en espanol' },
         { href: '/en', label: 'Chile and Latam focus' },
+      ],
+      Legal: [
+        { href: '/terms', label: 'Terms' },
+        { href: '/privacy', label: 'Privacy' },
       ],
     },
     description:
