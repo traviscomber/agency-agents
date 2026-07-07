@@ -4,13 +4,13 @@ export async function GET(req: NextRequest) {
   const userId = req.headers.get('x-user-id')
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  // TODO: Fetch chains from Supabase
+  // TODO: Fetch operating handoff chains from Supabase
   const chains = [
     {
       id: '1',
-      name: 'Content Pipeline',
-      description: 'Draft → Review → Publish',
-      agents: ['content-writer', 'editor', 'publisher'],
+      name: 'Ventas a implementacion',
+      description: 'Discovery - propuesta - kickoff - handoff de riesgos',
+      agents: ['ejecutivo-comercial-b2b-chile', 'propuestas-comerciales-chile', 'pm-implementacion-chile'],
       is_active: true,
     },
   ]

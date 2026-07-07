@@ -3,18 +3,18 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata = {
-  title: 'Twin Chains | N3uralia Studio',
-  description: 'Create automated workflows by chaining gemelos digitales together.',
+  title: 'Handoffs Twin OS | N3uralia Studio',
+  description: 'Crea cadenas operativas entre gemelos, owners humanos y entregables reutilizables.',
 }
 
 export default function ChainsPage() {
   const chains = [
     {
       id: '1',
-      name: 'Content Pipeline',
-      description: 'Draft → Review → Publish workflow',
-      agents: ['content-writer', 'editor', 'publisher'],
-      runs: 124,
+      name: 'Ventas a implementacion',
+      description: 'Discovery - propuesta - kickoff - handoff de riesgos',
+      agents: ['comercial-b2b', 'propuestas', 'pm-implementacion'],
+      handoffs: 124,
     },
   ]
 
@@ -23,16 +23,16 @@ export default function ChainsPage() {
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Workflows</p>
-            <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Twin Chains</h1>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Handoffs operativos</p>
+            <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Cadenas Twin OS</h1>
             <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-              Automate multi-step workflows by chaining gemelos digitales together. Output from one becomes input to the next.
+              Encadena gemelos digitales y owners humanos para que discovery, propuesta, implementacion y cobranza hereden contexto sin partir de cero.
             </p>
           </div>
           <Button asChild className="rounded-lg bg-[#8fb2aa] text-white hover:bg-[#7a9a91]">
             <Link href="/app/chains/new">
               <Plus size={14} className="mr-2" />
-              New Chain
+              Nueva cadena
             </Link>
           </Button>
         </div>
@@ -41,7 +41,7 @@ export default function ChainsPage() {
       <div className="space-y-3">
         {chains.length === 0 ? (
           <div className="rounded-none border border-[#d8e5e2] bg-[#f1f6f4] px-6 py-10 text-center">
-            <p className="text-sm text-[#173634]/60">No chains yet. Create one to automate multi-step workflows.</p>
+            <p className="text-sm text-[#173634]/60">Aun no hay cadenas. Crea una para coordinar gemelos, handoffs y aprobaciones humanas.</p>
           </div>
         ) : (
           chains.map((chain) => (
@@ -63,8 +63,8 @@ export default function ChainsPage() {
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-sm font-semibold text-[#173634]">{chain.runs}</p>
-                <p className="text-xs text-[#173634]/60">runs</p>
+                <p className="text-sm font-semibold text-[#173634]">{chain.handoffs}</p>
+                <p className="text-xs text-[#173634]/60">handoffs</p>
               </div>
             </Link>
           ))

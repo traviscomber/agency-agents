@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       created_at: now.toISOString()
     }, { status: 201 })
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create scheduled run' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to create recurring operating routine' }, { status: 500 })
   }
 }
 
@@ -36,16 +36,16 @@ export async function GET(req: NextRequest) {
       scheduled_runs: [
         {
           id: '1',
-          agent_slug: 'content-writer',
-          frequency: 'daily',
-          name: 'Daily Blog Post',
+          agent_slug: 'ejecutivo-comercial-b2b-chile',
+          frequency: 'weekly',
+          name: 'Seguimiento comercial semanal',
           is_active: true,
           next_run_at: new Date(Date.now() + 86400000).toISOString()
         }
       ]
     })
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch scheduled runs' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch recurring operating routines' }, { status: 500 })
   }
 }
 
