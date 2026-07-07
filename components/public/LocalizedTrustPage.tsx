@@ -48,6 +48,15 @@ const trustCopy = {
       },
     ],
     evidenceTitle: 'Confianza vendible para compradores locales',
+    localControlTitle: 'Checklist operativo para vender confianza',
+    localControlBody:
+      'Antes de conectar un twin a procesos reales, el comprador debe poder revisar que datos usa, quien aprueba, que queda registrado y como se recupera el contexto si cambia el operador.',
+    localControls: [
+      ['Fuentes y datos minimos', 'Definir documentos, planillas, CRM o notas permitidas por programa. Evitar secretos o datos sensibles que no sean necesarios para ejecutar la rutina.'],
+      ['Aprobaciones por decision', 'Marcar descuentos, propuestas finales, compromisos legales, comunicaciones sensibles y escalamiento financiero como puntos de aprobacion humana.'],
+      ['Bitacora recuperable', 'Cada ejecucion debe dejar brief, entregable, owner, decision pendiente y siguiente paso para auditoria interna o continuidad operacional.'],
+      ['Revision y mejora', 'Los programas deben revisarse por calidad de entregables, horas recuperadas, errores evitados y excepciones que siguen requiriendo supervision.'],
+    ],
     evidence: [
       ['Modo supervisado por defecto', 'El punto de partida es control humano sobre excepciones, no autonomia ciega.'],
       ['ROI trazable', 'La promesa se mide en horas recuperadas, errores evitados, velocidad de respuesta y continuidad por cuenta.'],
@@ -95,6 +104,15 @@ const trustCopy = {
       },
     ],
     evidenceTitle: 'Buyer-ready trust for local companies',
+    localControlTitle: 'Operating checklist for buyer confidence',
+    localControlBody:
+      'Before a twin connects to real processes, the buyer should be able to review what data it uses, who approves decisions, what is logged, and how context is recovered when the operator changes.',
+    localControls: [
+      ['Sources and minimum data', 'Define allowed documents, sheets, CRM records, or notes by program. Avoid secrets or sensitive data that is not required for the routine.'],
+      ['Decision approvals', 'Mark discounts, final proposals, legal commitments, sensitive communications, and financial escalation as human approval points.'],
+      ['Recoverable audit trail', 'Each execution should leave the brief, deliverable, owner, pending decision, and next step for internal audit or operating continuity.'],
+      ['Review and improvement', 'Programs should be reviewed for deliverable quality, recovered hours, avoided errors, and exceptions that still require supervision.'],
+    ],
     evidence: [
       ['Supervised by default', 'The starting point is human control over exceptions, not blind autonomy.'],
       ['Traceable ROI', 'The promise is measured in recovered hours, avoided errors, response speed, and account continuity.'],
@@ -147,7 +165,8 @@ export function LocalizedTrustPage({ locale }: { locale: MarketingLocale }) {
               <Card variant="dark" className="border-white/10 p-5">
                 <BadgeEyebrow>{copy.controlTitle}</BadgeEyebrow>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {copy.controls.map(([title, body]: [string, string], index: number) => {
+                  {copy.controls.map((item: string[], index: number) => {
+                    const [title, body] = item
                     const Icon = CONTROL_ICONS[index] ?? ShieldCheck
                     return (
                       <div key={title} className="border border-white/10 bg-white/5 p-4">
@@ -206,21 +225,47 @@ export function LocalizedTrustPage({ locale }: { locale: MarketingLocale }) {
 
         <section className="border-b border-[#d8e5e2] bg-[#fbfbfa]">
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+            <div className="mb-16 grid gap-8 border-b border-[#d8e5e2] pb-16 lg:grid-cols-[0.85fr_1.15fr]">
+              <div>
+                <Eyebrow className="text-[#789b96]">{locale === 'es' ? 'Control local' : 'Local controls'}</Eyebrow>
+                <H2Section className="mt-3 text-[#173634]">{copy.localControlTitle}</H2Section>
+                <p className="mt-4 max-w-md text-sm leading-7 text-[#52605d]">{copy.localControlBody}</p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {copy.localControls.map((item: string[], index: number) => {
+                  const [title, body] = item
+                  const Icon = CONTROL_ICONS[index] ?? ShieldCheck
+                  return (
+                    <Card key={title} variant="light" className="p-5">
+                      <div className="flex h-10 w-10 items-center justify-center bg-[#173634] text-[#d9e3e0]">
+                        <Icon size={16} />
+                      </div>
+                      <p className="mt-4 text-sm font-semibold text-[#173634]">{title}</p>
+                      <p className="mt-2 text-sm leading-7 text-[#52605d]">{body}</p>
+                    </Card>
+                  )
+                })}
+              </div>
+            </div>
+
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
               <div>
                 <Eyebrow className="text-[#789b96]">{locale === 'es' ? 'Prueba de confianza' : 'Trust evidence'}</Eyebrow>
                 <H2Section className="mt-3 text-[#173634]">{copy.evidenceTitle}</H2Section>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                {copy.evidence.map(([title, body]: [string, string]) => (
-                  <Card key={title} variant="light" className="p-5">
-                    <div className="flex h-10 w-10 items-center justify-center bg-[#173634] text-[#d9e3e0]">
-                      <LockKeyhole size={16} />
-                    </div>
-                    <p className="mt-4 text-sm font-semibold text-[#173634]">{title}</p>
-                    <p className="mt-2 text-sm leading-7 text-[#52605d]">{body}</p>
-                  </Card>
-                ))}
+                {copy.evidence.map((item: string[]) => {
+                  const [title, body] = item
+                  return (
+                    <Card key={title} variant="light" className="p-5">
+                      <div className="flex h-10 w-10 items-center justify-center bg-[#173634] text-[#d9e3e0]">
+                        <LockKeyhole size={16} />
+                      </div>
+                      <p className="mt-4 text-sm font-semibold text-[#173634]">{title}</p>
+                      <p className="mt-2 text-sm leading-7 text-[#52605d]">{body}</p>
+                    </Card>
+                  )
+                })}
               </div>
             </div>
           </div>
