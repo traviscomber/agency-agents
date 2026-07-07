@@ -5,7 +5,7 @@ import { buildLocaleAlternates } from '@/lib/marketing-i18n'
 
 export const metadata: Metadata = {
   title: 'Privacidad | N3uralia Twin OS',
-  description: 'Privacidad para cuentas, diagnosticos, programas operativos y twins supervisados de N3uralia Studio.',
+  description: 'Privacidad para cuentas, diagnósticos, programas operativos y twins supervisados de N3uralia Studio.',
   alternates: buildLocaleAlternates({
     es: '/es/privacidad',
     en: '/en/privacy',
