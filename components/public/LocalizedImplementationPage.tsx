@@ -225,7 +225,7 @@ export function LocalizedImplementationPage({ locale }: { locale: MarketingLocal
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
             <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
               <div>
-                <Eyebrow className="text-[#789b96]">{locale === 'es' ? 'Criterios de produccion' : 'Production criteria'}</Eyebrow>
+                <Eyebrow className="text-[#789b96]">{locale === 'es' ? 'Criterios de producción' : 'Production criteria'}</Eyebrow>
                 <H2Section className="mt-3 text-[#173634]">{copy.gatesTitle}</H2Section>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">

@@ -18,13 +18,13 @@ const twinArchitecture = {
   es: {
     eyebrow: 'Arquitectura Twin OS',
     title: 'Un twin operativo no es un prompt. Es datos, habilidad y memoria del rol.',
-    body:
-      'La unidad vendible combina conectores, skills y memoria del cargo para ejecutar rutinas reales con limites y handoffs. Eso lo diferencia de un builder generico de agentes.',
+      body:
+      'La unidad vendible combina conectores, skills y memoria del cargo para ejecutar rutinas reales con límites y handoffs. Eso lo diferencia de un builder genérico de agentes.',
     formula: 'Connector + Skill + Memoria del rol = Gemelo operativo',
     parts: [
       ['Connectors', 'Gmail, Drive, Sheets, CRM, ERP, correos, documentos, licitaciones, facturas y datos de clientes.'],
       ['Skills', 'Cobranza, licitacion, seguimiento comercial, propuestas, implementacion, reporting y reclutamiento.'],
-      ['Memoria del rol', 'Criterios, limites, KPIs, formatos de salida, owners y decisiones pendientes por cuenta o programa.'],
+      ['Memoria del rol', 'Criterios, límites, KPIs, formatos de salida, owners y decisiones pendientes por cuenta o programa.'],
     ],
   },
   en: {
@@ -46,25 +46,25 @@ const operatingProof = {
     eyebrow: 'Producto trabajando',
     title: 'De input disperso a entregable guardado y handoff supervisado en una corrida.',
     body:
-      'La demo debe mostrar trabajo real: datos de entrada, rutina del twin, entregable guardado, siguiente responsable, limite seguro y ROI estimado.',
+      'La demo debe mostrar trabajo real: datos de entrada, rutina del twin, entregable guardado, siguiente responsable, límite seguro y ROI estimado.',
     inputTitle: 'Input real',
     inputItems: ['CRM con 18 cuentas activas', 'Notas de reuniones y objeciones', 'Meta: recuperar 10 oportunidades dormidas'],
     twinTitle: 'Twin seleccionado',
     twinName: 'Ejecutivo Comercial B2B Chile',
     twinBody: 'Rutina: priorizar cuentas, preparar follow-up, detectar bloqueos y dejar memoria por oportunidad.',
     outputTitle: 'Entregable generado',
-    outputItems: ['Top 5 cuentas por urgencia y potencial', '3 correos de seguimiento listos para revision', 'Resumen de objeciones y siguiente accion'],
+    outputItems: ['Top 5 cuentas por urgencia y potencial', '3 correos de seguimiento listos para revisión', 'Resumen de objeciones y siguiente acción'],
     handoffTitle: 'Handoff humano',
-    handoffItems: ['Owner: lider comercial', 'Decision: aprobar propuesta final', 'Escala si hay descuento, contrato o riesgo legal'],
+    handoffItems: ['Owner: líder comercial', 'Decisión: aprobar propuesta final', 'Escala si hay descuento, contrato o riesgo legal'],
     metrics: [
       ['Replacement', '74%', 'Carga repetible absorbible'],
       ['Tiempo', '7 h', 'Ahorro semanal estimado'],
       ['Control', '3 puntos', 'Handoffs y aprobaciones humanas visibles'],
     ],
-    safetyTitle: 'Limites seguros',
+    safetyTitle: 'Límites seguros',
     safetyBody:
       'El twin prepara, resume y prioriza. No negocia precio final, no aprueba contratos y no toma decisiones legales sin humano.',
-    cta: 'Diagnosticar mi operacion',
+    cta: 'Diagnosticar mi operación',
   },
   en: {
     eyebrow: 'Product at work',
@@ -366,7 +366,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                     {locale === 'es' ? 'Ver playbooks' : 'View playbooks'} <ArrowRight size={14} />
                   </Link>
                   <Link href={getLocalizedHref(locale, '/implementation')} className="inline-flex items-center gap-2 border border-[#d8e5e2] bg-[#173634] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1e3431]">
-                    {locale === 'es' ? 'Implementacion 30 dias' : '30-day implementation'} <ArrowRight size={14} />
+                    {locale === 'es' ? 'Implementación 30 días' : '30-day implementation'} <ArrowRight size={14} />
                   </Link>
                 </div>
               </div>
