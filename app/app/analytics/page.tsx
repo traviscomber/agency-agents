@@ -1,104 +1,178 @@
-'use client'
+import { ArrowRight, Clock, Gauge, ShieldCheck, TrendingUp } from 'lucide-react'
+import Link from 'next/link'
 
-const MONTHLY_DATA = [
-  { month: 'Nov', runs: 120, cost: 58 },
-  { month: 'Dec', runs: 185, cost: 79 },
-  { month: 'Jan', runs: 240, cost: 95 }
+const roiMetrics = [
+  { label: 'ROI mensual estimado', value: 'CLP $3.42M', note: 'Ahorro proyectado por horas recuperadas y menor retrabajo.' },
+  { label: 'Horas recuperadas', value: '86 h', note: 'Capacidad operativa que vuelve al equipo este mes.' },
+  { label: 'Replacement promedio', value: '78%', note: 'Carga repetible absorbible bajo supervision definida.' },
 ]
 
-const AGENT_DATA = [
-  { name: 'Content Writer', runs: 85, time: 12.5 },
-  { name: 'Data Analyst', runs: 72, time: 8.3 },
-  { name: 'Code Reviewer', runs: 56, time: 6.8 },
-  { name: 'Email Drafter', runs: 27, time: 3.2 }
+const programRows = [
+  {
+    program: 'Sales Twin Starter',
+    twin: 'Ejecutivo Comercial B2B Chile',
+    replacement: 82,
+    supervision: 'Media',
+    hours: 28,
+    clp: 'CLP $1.18M',
+    next: 'Aprobar propuesta final y cargar objeciones nuevas.',
+  },
+  {
+    program: 'Licitaciones Pro',
+    twin: 'Analista de Licitaciones Chile',
+    replacement: 74,
+    supervision: 'Alta',
+    hours: 22,
+    clp: 'CLP $920k',
+    next: 'Revision legal de clausulas y go/no-go ejecutivo.',
+  },
+  {
+    program: 'Cobranza Pyme',
+    twin: 'Cobranza Pyme Chile',
+    replacement: 79,
+    supervision: 'Media',
+    hours: 21,
+    clp: 'CLP $790k',
+    next: 'Escalar cuentas con promesa vencida o disputa comercial.',
+  },
+  {
+    program: 'Implementation OS',
+    twin: 'PM de Implementacion Chile',
+    replacement: 76,
+    supervision: 'Media',
+    hours: 15,
+    clp: 'CLP $530k',
+    next: 'Confirmar owner humano para bloqueos de alcance.',
+  },
 ]
 
-const ROI_DATA = [
-  { description: 'Hours saved (est.)', value: '24', unit: 'hrs/month' },
-  { description: 'Cost per output', value: '$0.40', unit: 'per run' },
-  { description: 'Value generated', value: '$2,400', unit: 'est.' }
+const operatingSignals = [
+  ['Velocidad', 'Follow-up, priorizacion y minuta pasan de horas dispersas a rutinas recuperables.'],
+  ['Control', 'Cada programa deja explicito que puede ejecutar el twin y que requiere aprobacion humana.'],
+  ['Continuidad', 'Memoria, artifacts y handoffs quedan unidos al programa para que el siguiente operador no parta de cero.'],
 ]
+
+function getReplacementBand(score: number) {
+  if (score >= 80) return 'Autonomia controlada'
+  if (score >= 70) return 'Replacement gestionado'
+  return 'Asistencia operativa'
+}
 
 export default function AnalyticsPage() {
   return (
-    <div className="space-y-8">
-      <div className="border-b border-[#d8e5e2] pb-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Performance</p>
-        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Analytics</h1>
-        <p className="mt-2 text-sm text-[#173634]/60">Track usage, ROI, and gemelo performance metrics.</p>
-      </div>
+    <div className="mx-auto max-w-7xl px-6 py-10">
+      <header className="mb-10 overflow-hidden border border-[#d8e5e2] bg-[linear-gradient(135deg,#ffffff_0%,#f7faf9_52%,#eef5f2_100%)] p-8 shadow-[0_22px_70px_-48px_rgba(15,23,42,0.42)]">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">ROI operativo</p>
+            <h1 className="mt-3 max-w-3xl text-4xl font-light tracking-[-0.04em] text-[#173634]">
+              Mide capacidad digital, no solo corridas.
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d]">
+              Este tablero traduce ejecuciones de gemelos en horas recuperadas, ahorro estimado en CLP, nivel de
+              replacement y carga de supervision humana por programa operativo.
+            </p>
+          </div>
 
-      {/* Key metrics */}
-      <section>
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">ROI This Month</p>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {ROI_DATA.map((metric) => (
-            <div key={metric.description} className="border border-[#d8e5e2] bg-white px-5 py-4">
-              <p className="text-xs text-[#173634]/60">{metric.description}</p>
-              <p className="mt-2 text-3xl font-light text-[#173634]">{metric.value}</p>
-              <p className="mt-1 text-xs text-[#173634]/50">{metric.unit}</p>
+          <div className="grid gap-3">
+            {operatingSignals.map(([title, body]) => (
+              <div key={title} className="border border-[#d8e5e2] bg-white/90 p-4">
+                <p className="text-sm font-semibold text-[#173634]">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-[#52605d]">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      <section className="mb-8 grid gap-4 lg:grid-cols-3">
+        {roiMetrics.map((metric) => (
+          <article key={metric.label} className="border border-[#d8e5e2] bg-white p-5 shadow-[0_14px_44px_-34px_rgba(15,23,42,0.35)]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{metric.label}</p>
+            <p className="mt-3 text-4xl font-light tracking-[-0.04em] text-[#173634]">{metric.value}</p>
+            <p className="mt-3 text-sm leading-6 text-[#52605d]">{metric.note}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="mb-8 border border-[#d8e5e2] bg-white shadow-[0_18px_58px_-42px_rgba(15,23,42,0.38)]">
+        <div className="border-b border-[#d8e5e2] px-6 py-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Programas por impacto</p>
+          <h2 className="mt-2 text-2xl font-light tracking-[-0.03em] text-[#173634]">Replacement, supervision y siguiente decision.</h2>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[980px] text-sm">
+            <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
+              <tr>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Programa</th>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Gemelo</th>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Replacement</th>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Supervision</th>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Horas</th>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">ROI</th>
+                <th className="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#52605d]">Siguiente decision</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#d8e5e2]">
+              {programRows.map((row) => (
+                <tr key={row.program} className="align-top hover:bg-[#f8fbfa]">
+                  <td className="px-5 py-4 font-semibold text-[#173634]">{row.program}</td>
+                  <td className="px-5 py-4 text-[#52605d]">{row.twin}</td>
+                  <td className="px-5 py-4">
+                    <div className="flex items-center gap-2">
+                      <Gauge size={14} className="text-[#789b96]" />
+                      <span className="font-semibold text-[#173634]">{row.replacement}%</span>
+                    </div>
+                    <p className="mt-1 text-[11px] text-[#789b96]">{getReplacementBand(row.replacement)}</p>
+                  </td>
+                  <td className="px-5 py-4">
+                    <span className="inline-flex items-center gap-1.5 border border-[#d8e5e2] bg-[#f1f6f4] px-2.5 py-1 text-[11px] font-semibold text-[#173634]">
+                      <ShieldCheck size={12} className="text-[#789b96]" />
+                      {row.supervision}
+                    </span>
+                  </td>
+                  <td className="px-5 py-4">
+                    <span className="inline-flex items-center gap-1.5 text-[#173634]">
+                      <Clock size={13} className="text-[#789b96]" />
+                      {row.hours} h
+                    </span>
+                  </td>
+                  <td className="px-5 py-4 font-semibold text-[#173634]">{row.clp}</td>
+                  <td className="max-w-xs px-5 py-4 text-sm leading-6 text-[#52605d]">{row.next}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="border border-[#d8e5e2] bg-[#173634] p-6 text-white">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#9db7b1]">Lectura ejecutiva</p>
+          <h2 className="mt-3 text-2xl font-light tracking-[-0.03em]">El numero importante no es cuantas veces se ejecuto un twin.</h2>
+          <p className="mt-4 text-sm leading-7 text-[#d9e3e0]">
+            El comprador quiere saber que capacidad absorbio, que decision queda en humanos y que dinero o tiempo recupero
+            la operacion. Por eso el tablero prioriza ROI, replacement, supervision y siguiente accion.
+          </p>
+        </div>
+
+        <div className="border border-[#d8e5e2] bg-[#f1f6f4] p-6">
+          <div className="flex items-start gap-3">
+            <TrendingUp className="mt-1 h-5 w-5 text-[#527b73]" />
+            <div>
+              <p className="text-sm font-semibold text-[#173634]">Siguiente mejora recomendada</p>
+              <p className="mt-2 text-sm leading-7 text-[#52605d]">
+                Conecta este tablero al diagnostico inicial para comparar ROI estimado versus ROI observado por programa.
+                Eso convierte la venta en un ciclo medible: diagnostico, despliegue, evidencia y expansion.
+              </p>
+              <Link href="/app/projects" className="mt-4 inline-flex items-center gap-2 bg-[#173634] px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#0d1f1d]">
+                Ver programas <ArrowRight size={12} />
+              </Link>
             </div>
-          ))}
+          </div>
         </div>
       </section>
-
-      {/* Monthly trends table */}
-      <section className="border border-[#d8e5e2] bg-white px-6 py-6">
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Monthly Trends</p>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Month</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Runs</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Cost ($)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#d8e5e2]">
-              {MONTHLY_DATA.map((row) => (
-                <tr key={row.month} className="hover:bg-[#f1f6f4]">
-                  <td className="px-4 py-3 text-[#173634]">{row.month}</td>
-                  <td className="px-4 py-3 text-[#173634]">{row.runs}</td>
-                  <td className="px-4 py-3 text-[#173634]">${row.cost}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Agent performance table */}
-      <section className="border border-[#d8e5e2] bg-white px-6 py-6">
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Gemelo Performance</p>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="border-b border-[#d8e5e2] bg-[#f1f6f4]">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Agent</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Total Runs</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-[#173634]">Avg Time (min)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#d8e5e2]">
-              {AGENT_DATA.map((agent) => (
-                <tr key={agent.name} className="hover:bg-[#f1f6f4]">
-                  <td className="px-4 py-3 text-[#173634]">{agent.name}</td>
-                  <td className="px-4 py-3 text-[#173634]">{agent.runs}</td>
-                  <td className="px-4 py-3 text-[#173634]">{agent.time}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <div className="border border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4">
-        <p className="text-xs font-semibold text-[#173634]">Want deeper insights?</p>
-        <p className="mt-2 text-xs leading-relaxed text-[#173634]/70">
-          Upgrade to Pro or Team to unlock advanced analytics, custom reports, and API access for integration with your business intelligence tools.
-        </p>
-      </div>
     </div>
   )
 }

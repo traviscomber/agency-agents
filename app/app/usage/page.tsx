@@ -29,19 +29,19 @@ export default function UsagePage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-10 border-b border-[#d8e5e2] pb-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Usage</p>
-        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Run consumption.</h1>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Uso operativo</p>
+        <h1 className="mt-2 text-3xl font-light tracking-tight text-[#173634]">Capacidad de ejecucion del Twin OS.</h1>
         <p className="mt-2 text-sm leading-relaxed text-[#173634]/60">
-          Track usage against your plan limit and identify which gemelos digitales are driving volume.
+          Controla la capacidad mensual del plan e identifica que gemelos digitales concentran mas rutinas operativas.
         </p>
       </header>
 
       {/* Stats */}
       <div className="mb-10 grid grid-cols-3 gap-px border border-[#d8e5e2] bg-[#d8e5e2]">
         {[
-          { label: 'Plan', value: plan?.name ?? '—', cap: true },
-          { label: 'Runs used', value: String(runsUsed), cap: false },
-          { label: 'Run limit', value: runsLimit === Infinity ? 'Unlimited' : String(runsLimit), cap: false },
+          { label: 'Plan', value: plan?.name ?? '-', cap: true },
+          { label: 'Rutinas ejecutadas', value: String(runsUsed), cap: false },
+          { label: 'Capacidad mensual', value: runsLimit === Infinity ? 'Ilimitada' : String(runsLimit), cap: false },
         ].map(({ label, value, cap }) => (
           <div key={label} className="bg-[#fbfbfa] px-5 py-5">
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{label}</p>
@@ -50,15 +50,15 @@ export default function UsagePage() {
         ))}
       </div>
 
-      {/* Usage bar */}
+      {/* Operating capacity bar */}
       <section className="mb-10 border border-[#d8e5e2]">
         <div className="border-b border-[#d8e5e2] px-5 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Monthly run usage</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Uso mensual de rutinas</p>
         </div>
         <div className="px-5 py-6">
           <div className="mb-2 flex items-center justify-between text-xs text-[#173634]/50">
-            <span>{runsUsed} used</span>
-            <span>{runsLimit === Infinity ? 'Unlimited' : `${runsLimit} limit`}</span>
+            <span>{runsUsed} usadas</span>
+            <span>{runsLimit === Infinity ? 'Ilimitado' : `${runsLimit} de capacidad`}</span>
           </div>
           <div className="h-2 w-full overflow-hidden bg-[#d8e5e2]">
             <div
@@ -68,14 +68,14 @@ export default function UsagePage() {
           </div>
           <p className="mt-2 text-xs text-[#173634]/40">
             {runsLimit === Infinity
-              ? 'No limit on your plan.'
-              : `${Math.round(usagePercent)}% of monthly allocation used. ${runsLimit - runsUsed} runs remaining.`}
+              ? 'Tu plan no tiene limite de rutinas.'
+              : `${Math.round(usagePercent)}% de la capacidad mensual usada. Quedan ${runsLimit - runsUsed} rutinas.`}
           </p>
           {usagePercent >= 80 && runsLimit !== Infinity && (
             <div className="mt-4 flex items-center justify-between border border-amber-200 bg-amber-50 px-4 py-3">
-              <p className="text-xs text-amber-700">Near your monthly run limit. Consider upgrading.</p>
+              <p className="text-xs text-amber-700">Estas cerca del limite mensual de rutinas. Considera subir de plan.</p>
               <Link href="/app/billing" className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-700">
-                Upgrade <ArrowRight size={10} />
+                Subir plan <ArrowRight size={10} />
               </Link>
             </div>
           )}
@@ -86,10 +86,10 @@ export default function UsagePage() {
         {/* By division */}
         <section className="border border-[#d8e5e2]">
           <div className="border-b border-[#d8e5e2] px-5 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">By division</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Por area operativa</p>
           </div>
           {Object.keys(runsByDivision).length === 0 ? (
-            <p className="px-5 py-8 text-center text-xs text-[#173634]/38">No runs recorded yet.</p>
+            <p className="px-5 py-8 text-center text-xs text-[#173634]/38">Aun no hay rutinas registradas.</p>
           ) : (
             <div className="divide-y divide-[#d8e5e2]">
               {Object.entries(runsByDivision)
@@ -115,7 +115,7 @@ export default function UsagePage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Top gemelos digitales</p>
           </div>
           {topAgents.length === 0 ? (
-            <p className="px-5 py-8 text-center text-xs text-[#173634]/38">No runs recorded yet.</p>
+            <p className="px-5 py-8 text-center text-xs text-[#173634]/38">Aun no hay rutinas registradas.</p>
           ) : (
             <div className="divide-y divide-[#d8e5e2]">
               {topAgents.map((agent) => (
@@ -125,7 +125,7 @@ export default function UsagePage() {
                     <DivisionBadge division={agent.division} size="sm" />
                   </div>
                   <span className="shrink-0 text-sm font-light text-[#173634]/60">
-                    {agent.count} run{agent.count !== 1 ? 's' : ''}
+                    {agent.count} rutina{agent.count !== 1 ? 's' : ''}
                   </span>
                 </div>
               ))}
@@ -137,11 +137,11 @@ export default function UsagePage() {
       {plan?.price !== null && MOCK_USER.plan !== 'enterprise' && (
         <div className="mt-8 flex flex-col gap-4 border border-[#d8e5e2] px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-medium text-[#173634]">Need more runs?</p>
-            <p className="mt-0.5 text-xs text-[#173634]/50">Upgrade your plan to increase monthly gemelo execution capacity.</p>
+            <p className="text-sm font-medium text-[#173634]">Necesitas mas capacidad operativa?</p>
+            <p className="mt-0.5 text-xs text-[#173634]/50">Sube de plan para aumentar rutinas mensuales, memoria y cobertura de gemelos.</p>
           </div>
           <Button asChild className="h-9 shrink-0 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-            <Link href="/app/billing">View plans <ArrowRight size={11} className="ml-1.5" /></Link>
+            <Link href="/app/billing">Ver planes <ArrowRight size={11} className="ml-1.5" /></Link>
           </Button>
         </div>
       )}

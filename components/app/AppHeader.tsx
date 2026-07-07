@@ -14,22 +14,23 @@ const NAV_ITEMS = [
   { href: '/app',          label: 'Dashboard', icon: LayoutDashboard },
   { href: '/app/agents',   label: 'Gemelos',   icon: Bot },
   { href: '/app/projects', label: 'Programas', icon: FolderOpen },
-  { href: '/app/history',  label: 'History',   icon: History },
-  { href: '/app/saved',    label: 'Saved',     icon: Bookmark },
-  { href: '/app/usage',    label: 'Usage',     icon: BarChart2 },
-  { href: '/app/billing',  label: 'Billing',   icon: CreditCard },
-  { href: '/app/settings', label: 'Settings',  icon: Settings },
+  { href: '/app/history',  label: 'Historial', icon: History },
+  { href: '/app/saved',    label: 'Entregables', icon: Bookmark },
+  { href: '/app/usage',    label: 'Uso', icon: BarChart2 },
+  { href: '/app/billing',  label: 'Plan', icon: CreditCard },
+  { href: '/app/settings', label: 'Ajustes', icon: Settings },
 ]
 
 const TITLE_MAP: Record<string, string> = {
   '/app':          'Dashboard',
   '/app/agents':   'Gemelos',
   '/app/projects': 'Programas',
-  '/app/history':  'History',
-  '/app/saved':    'Saved',
-  '/app/usage':    'Usage',
-  '/app/billing':  'Billing',
-  '/app/settings': 'Settings',
+  '/app/history':  'Historial',
+  '/app/saved':    'Entregables',
+  '/app/usage':    'Uso',
+  '/app/billing':  'Plan',
+  '/app/settings': 'Ajustes',
+  '/app/analytics': 'ROI y metricas',
 }
 
 interface AppHeaderProps {
@@ -115,7 +116,7 @@ export function AppHeader({ title }: AppHeaderProps) {
             href="/app/agents"
             className="inline-flex items-center gap-1.5 border border-[#1e3431] bg-[#173634] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d9e3e0] transition-colors hover:bg-[#0d1f1d]"
           >
-            Run twin <ArrowUpRight size={11} />
+            Ejecutar <ArrowUpRight size={11} />
           </Link>
         </div>
       </div>
@@ -168,7 +169,7 @@ export function AppHeader({ title }: AppHeaderProps) {
               className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-[#789b96] transition-colors hover:text-[#173634]"
             >
               <LogOut size={14} />
-              Sign out
+              Salir
             </Link>
           </div>
         </div>
