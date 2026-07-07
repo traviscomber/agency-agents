@@ -46,32 +46,32 @@ const managedPrograms = {
       name: 'Sales Twin Starter',
       target: 'Pymes B2B y servicios profesionales',
       price: 'USD 199-499/mes',
-      promise: 'Ordena pipeline, follow-up, discovery y proximos pasos con memoria por cuenta.',
-      roi: 'Ahorro esperado: 5-8 h/semana por ejecutivo.',
+      promise: 'Ordena pipeline, follow-up, discovery y proximos pasos con memoria por cuenta y supervision humana.',
+      roi: 'Ahorro esperado: 5-8 h/semana por ejecutivo y menos oportunidades perdidas.',
       cta: 'Diagnosticar ventas',
     },
     {
       name: 'Licitaciones Pro',
       target: 'Proveedoras del Estado, industriales y constructoras',
       price: 'USD 499-1.500/mes',
-      promise: 'Convierte bases, requisitos y riesgos en go/no-go, checklist y plan documental.',
-      roi: 'Ahorro esperado: lectura inicial en minutos, no horas.',
+      promise: 'Convierte bases, requisitos y riesgos en go/no-go, checklist, plan documental y handoff temprano.',
+      roi: 'Ahorro esperado: lectura inicial en minutos, menos errores y mejor control del proceso.',
       cta: 'Revisar licitaciones',
     },
     {
       name: 'Cobranza Pyme',
       target: 'Empresas con cartera vencida o seguimiento manual',
       price: 'USD 299-799/mes',
-      promise: 'Prioriza cuentas, prepara mensajes, detecta promesas de pago y escala excepciones.',
-      roi: 'Ahorro esperado: mas recuperacion con menos seguimiento manual.',
+      promise: 'Prioriza cuentas, prepara mensajes, detecta promesas de pago y escala excepciones al humano correcto.',
+      roi: 'Ahorro esperado: mas recuperacion con menos seguimiento manual y mas control de mora.',
       cta: 'Ordenar cobranza',
     },
     {
       name: 'Implementation OS',
       target: 'SaaS, agencias, consultoras y equipos de servicio',
       price: 'USD 499-1.200/mes',
-      promise: 'Transforma reuniones, bloqueos e hitos en handoffs, owners y artifacts reutilizables.',
-      roi: 'Ahorro esperado: menos perdida de contexto entre kickoff y entrega.',
+      promise: 'Transforma reuniones, bloqueos e hitos en handoffs, owners y entregables reutilizables.',
+      roi: 'Ahorro esperado: menos perdida de contexto entre kickoff y entrega final.',
       cta: 'Mapear implementacion',
     },
   ],
@@ -80,32 +80,32 @@ const managedPrograms = {
       name: 'Sales Twin Starter',
       target: 'B2B SMBs and professional services',
       price: 'USD 199-499/month',
-      promise: 'Organize pipeline, follow-up, discovery, and next steps with account memory.',
-      roi: 'Expected savings: 5-8 h/week per sales rep.',
+      promise: 'Organize pipeline, follow-up, discovery, and next steps with account memory and human supervision.',
+      roi: 'Expected savings: 5-8 h/week per sales rep and fewer missed opportunities.',
       cta: 'Diagnose sales',
     },
     {
       name: 'Tenders Pro',
       target: 'Public-sector suppliers, industrial firms, and builders',
       price: 'USD 499-1,500/month',
-      promise: 'Turn tender bases, requirements, and risks into go/no-go, checklists, and document plans.',
-      roi: 'Expected savings: first-pass review in minutes, not hours.',
+      promise: 'Turn tender bases, requirements, and risks into go/no-go, checklists, document plans, and early handoffs.',
+      roi: 'Expected savings: first-pass review in minutes, fewer errors, and better process control.',
       cta: 'Review tenders',
     },
     {
       name: 'Collections SMB',
       target: 'Companies with overdue accounts or manual follow-up',
       price: 'USD 299-799/month',
-      promise: 'Prioritize accounts, prepare messages, detect payment promises, and escalate exceptions.',
-      roi: 'Expected savings: more recovery with less manual follow-up.',
+      promise: 'Prioritize accounts, prepare messages, detect payment promises, and escalate exceptions to the right human owner.',
+      roi: 'Expected savings: more recovery with less manual follow-up and tighter delinquency control.',
       cta: 'Organize collections',
     },
     {
       name: 'Implementation OS',
       target: 'SaaS, agencies, consultancies, and service teams',
       price: 'USD 499-1,200/month',
-      promise: 'Turn meetings, blockers, and milestones into handoffs, owners, and reusable artifacts.',
-      roi: 'Expected savings: less context loss between kickoff and delivery.',
+      promise: 'Turn meetings, blockers, and milestones into handoffs, owners, and reusable deliverables.',
+      roi: 'Expected savings: less context loss between kickoff and final delivery.',
       cta: 'Map implementation',
     },
   ],
@@ -117,7 +117,7 @@ const planPresentation = {
       name: 'Free / Demo',
       interval: '/mes',
       cta: 'Probar gratis',
-      description: 'Para probar la tesis con un rol, un programa y entregables guardados antes de invertir en despliegue.',
+      description: 'Para probar la tesis con un rol, un programa y entregables guardados antes de invertir en un despliegue operativo.',
       features: [
         '5 corridas de gemelo digital al mes',
         '1 programa operativo activo',
@@ -130,7 +130,7 @@ const planPresentation = {
       name: 'Starter',
       interval: '/mes',
       cta: 'Desplegar Starter',
-      description: 'Para convertir un proceso repetitivo en el primer twin operativo con memoria basica y control humano.',
+      description: 'Para convertir un proceso repetitivo en el primer programa operativo con memoria basica y control humano.',
       features: [
         '1 gemelo operativo desplegado',
         'Memoria basica por cuenta o proceso',
@@ -143,7 +143,7 @@ const planPresentation = {
       name: 'Pro',
       interval: '/mes',
       cta: 'Desplegar Pro',
-      description: 'Para equipos que necesitan varios twins, automatizaciones semanales y replacement visible por proyecto.',
+      description: 'Para equipos que necesitan varios twins, automatizaciones semanales y replacement visible por programa.',
       features: [
         '3 gemelos operativos desplegados',
         'Automatizaciones semanales',
@@ -188,7 +188,7 @@ const planPresentation = {
       name: 'Free / Demo',
       interval: '/month',
       cta: 'Create diagnosis',
-      description: 'For testing the thesis with one priority role, one operating program, and saved deliverables before investing in deployment.',
+      description: 'For testing the thesis with one priority role, one operating program, and saved deliverables before investing in a full deployment.',
       features: [
         '5 supervised routine executions per month',
         '1 active operating program',
@@ -214,7 +214,7 @@ const planPresentation = {
       name: 'Pro',
       interval: '/month',
       cta: 'Deploy Pro',
-      description: 'For teams that need multiple twins, weekly automations, and visible replacement by operating program.',
+      description: 'For teams that need multiple twins, weekly automations, and visible replacement by program.',
       features: [
         '3 deployed operating twins',
         'Weekly automations',
@@ -286,7 +286,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
               </div>
 
               <Card variant="dark" className="p-6 border-white/10">
-                <BadgeEyebrow>{locale === 'es' ? 'Que escala por plan' : 'What scales with plan'}</BadgeEyebrow>
+                <BadgeEyebrow>{locale === 'es' ? 'Que compra cada plan' : 'What each plan buys'}</BadgeEyebrow>
                 <div className="mt-5 space-y-3">
                   {copy.valueStack.map(([title, desc], index) => {
                     const Icon = VALUE_ICONS[index]
@@ -412,18 +412,18 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
             <div className="mb-10 grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
               <div>
                 <Eyebrow className="text-[#789b96]">
-                  {locale === 'es' ? 'Programas gestionados' : 'Managed programs'}
+                  {locale === 'es' ? 'Programas operativos gestionados' : 'Managed operating programs'}
                 </Eyebrow>
                 <H2Section className="mt-4 text-[#173634]">
                   {locale === 'es'
-                    ? 'Compra un resultado operativo, no solo una licencia.'
-                    : 'Buy an operating outcome, not just a license.'}
+                    ? 'Compra capacidad operativa supervisada, no solo una suscripcion.'
+                    : 'Buy supervised operating capacity, not just a subscription.'}
                 </H2Section>
               </div>
               <Body className="text-[#52605d]">
                 {locale === 'es'
-                  ? 'Los planes base sirven para self-service. Los programas gestionados convierten un proceso repetitivo en un twin operativo con diagnostico, memoria, handoffs, supervision y ROI visible.'
-                  : 'Base plans support self-service. Managed programs turn a repetitive process into an operating twin with diagnosis, memory, handoffs, supervision, and visible ROI.'}
+                  ? 'Los planes base sirven para self-service. Los programas gestionados convierten un proceso repetitivo en capacidad operativa con diagnostico, memoria, handoffs, supervision y ROI visible.'
+                  : 'Base plans support self-service. Managed programs turn a repetitive process into operating capacity with diagnosis, memory, handoffs, supervision, and visible ROI.'}
               </Body>
             </div>
 

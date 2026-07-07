@@ -45,7 +45,7 @@ export const PLANS: Plan[] = [
     maxProjects: 10,
     features: [
       '3 deployed operating twins',
-      'Weekly automations',
+      'Weekly operating routines',
       'Full program and account history',
       'Human handoffs and review states',
       'Replacement dashboard',
