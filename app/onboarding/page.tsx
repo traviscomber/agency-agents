@@ -10,7 +10,7 @@ const ONBOARDING_PLANS = [
     name: 'Demo Twin OS',
     price: '$0/mo',
     capacity: '5 twin runs/month',
-    fit: 'Validate one role and save the first artifacts.',
+    fit: 'Validate one role, save the first artifacts, and prove the first operating loop.',
     features: ['1 active operating program', 'Role twin library', 'Saved deliverables', 'Basic replacement preview'],
   },
   {
@@ -26,7 +26,7 @@ const ONBOARDING_PLANS = [
     name: 'Managed Deployment',
     price: 'From USD 299/mo',
     capacity: 'Outcome-led program',
-    fit: 'For teams that want diagnosis, setup, supervision, and ROI tracking.',
+    fit: 'For teams that want diagnosis, setup, supervision, and ROI tracking in one rollout.',
     features: ['Operating map', 'Handoff rules', 'Supervision limits', 'Monthly ROI review'],
   },
 ]
@@ -64,13 +64,13 @@ export default function OnboardingPage() {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to N3uralia Twin OS</h1>
-          <p className="mt-2 text-sm text-[#173634]/60">Turn one repetitive Chile/Latam role into a supervised operating program with ROI visible</p>
+          <p className="mt-2 text-sm text-[#173634]/60">Turn one repetitive Chile/Latam role into a supervised operating program with visible ROI, memory, and handoff control.</p>
           {diagnosisRole ? (
             <div className="mx-auto mt-5 max-w-md border border-[#d8e5e2] bg-white px-4 py-3 text-left">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789b96]">Diagnosis ready</p>
               <p className="mt-1 text-sm font-semibold text-[#173634]">{diagnosisRole}</p>
               <p className="mt-1 text-xs leading-5 text-[#52605d]">
-                Finish onboarding and we will create the first operating program with this digital twin attached.
+                Finish onboarding and we will create the first operating program with this digital twin attached, ready to run with supervision.
               </p>
             </div>
           ) : null}
@@ -91,7 +91,7 @@ export default function OnboardingPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">Step 1: Name the operating program</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Pick the real process you want to convert into supervised digital capacity.</p>
+              <p className="mt-2 text-sm text-[#173634]/60">Pick the real process you want to convert into supervised digital capacity and a clear deliverable.</p>
             </div>
 
             <div className="space-y-3 border border-[#d8e5e2] bg-white p-6">
@@ -129,7 +129,7 @@ export default function OnboardingPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-2xl font-semibold text-[#173634]">Step 2: Pick the operating plan</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Choose how much support, memory, and supervision the first twin needs</p>
+              <p className="mt-2 text-sm text-[#173634]/60">Choose how much support, memory, and supervision the first twin needs to produce a useful first result.</p>
             </div>
 
             <div className="space-y-3">
@@ -191,7 +191,7 @@ export default function OnboardingPage() {
               <h2 className="text-2xl font-semibold text-[#173634]">You&apos;re all set!</h2>
               <p className="mt-2 text-sm text-[#173634]/60">
                 {diagnosisRole
-                  ? 'Your operating space is ready. Next, create the first program from your diagnosis.'
+                  ? 'Your operating space is ready. Next, create the first program from your diagnosis and save the first artifact.'
                   : 'Your operating space is ready. Start with the program record, role memory, and the first supervised twin run.'}
               </p>
             </div>

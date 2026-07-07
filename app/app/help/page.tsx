@@ -8,16 +8,16 @@ const FAQ_ITEMS = [
     category: 'Primeros pasos',
     items: [
       {
-        q: 'Que es un programa operativo?',
+        q: 'Qué es un programa operativo?',
         a: 'Un programa operativo es un flujo de trabajo con pasos, contexto, responsables y entregables guardados. Sirve para que un gemelo digital pueda continuar trabajo real sin perder memoria.',
       },
       {
-        q: 'Que es un gemelo digital?',
-        a: 'Un gemelo digital es un trabajador digital supervisado para un cargo especifico: ventas, cobranza, licitaciones, implementacion o reclutamiento. Replica rutinas, formatos de salida y criterios del rol.',
+        q: 'Qué es un gemelo digital?',
+        a: 'Un gemelo digital es un trabajador digital supervisado para un cargo específico: ventas, cobranza, licitaciones, implementación o reclutamiento. Replica rutinas, formatos de salida y criterios del rol.',
       },
       {
-        q: 'Como ejecuto un gemelo?',
-        a: 'Entra a Programas, abre el programa operativo, revisa el paso activo y ejecuta el gemelo recomendado. Despues guarda el output para que quede disponible como memoria operativa.',
+        q: 'Cómo ejecuto un gemelo?',
+        a: 'Entra a Programas, abre el programa operativo, revisa el paso activo y ejecuta el gemelo recomendado. Después guarda el entregable para que quede disponible como memoria operativa.',
       },
     ],
   },
@@ -25,16 +25,16 @@ const FAQ_ITEMS = [
     category: 'Resultados y control',
     items: [
       {
-        q: 'Que significa Replacement Score?',
-        a: 'Replacement Score muestra que porcentaje del cargo puede absorber el gemelo digital bajo supervision. Un score alto no elimina aprobaciones humanas; indica mayor capacidad repetible.',
+        q: 'Qué significa Replacement Score?',
+        a: 'Replacement Score muestra qué porcentaje del cargo puede absorber el gemelo digital bajo supervisión. Un score alto no elimina aprobaciones humanas; indica mayor capacidad repetible y más carga operativa delegable.',
       },
       {
-        q: 'Que significa nivel de supervision?',
-        a: 'Baja significa chequeos ligeros. Media requiere revision regular. Alta debe mantenerse bajo aprobacion humana explicita antes de ejecutar decisiones sensibles.',
+        q: 'Qué significa nivel de supervisión?',
+        a: 'Baja significa chequeos ligeros. Media requiere revisión regular. Alta debe mantenerse bajo aprobación humana explícita antes de ejecutar decisiones sensibles.',
       },
       {
-        q: 'Por que puede fallar una corrida?',
-        a: 'Normalmente falta contexto, el objetivo no esta claro o el gemelo no calza con el paso. Revisa Historial, ajusta el brief y vuelve a ejecutar con mas datos del programa.',
+        q: 'Por qué puede fallar una corrida?',
+        a: 'Normalmente falta contexto, el objetivo no está claro o el gemelo no calza con el paso. Revisa Historial, ajusta el brief y vuelve a ejecutar con más datos del programa.',
       },
     ],
   },
@@ -43,15 +43,15 @@ const FAQ_ITEMS = [
     items: [
       {
         q: 'Debo guardar outputs?',
-        a: 'Si. Los outputs guardados son memoria reutilizable: propuestas, minutas, checklists, mensajes de cobranza, analisis de licitaciones y handoffs para el siguiente operador.',
+        a: 'Sí. Los outputs guardados son memoria reutilizable: propuestas, minutas, checklists, mensajes de cobranza, análisis de licitaciones y handoffs para el siguiente operador.',
       },
       {
-        q: 'Cuantos pasos debe tener un programa?',
-        a: 'Parte con 2 o 3 pasos. Cada paso debe representar una decision, rutina o handoff donde un gemelo digital o una persona toma responsabilidad.',
+        q: 'Cuántos pasos debe tener un programa?',
+        a: 'Parte con 2 o 3 pasos. Cada paso debe representar una decisión, rutina o handoff donde un gemelo digital o una persona toma responsabilidad.',
       },
       {
-        q: 'Puedo ejecutar el mismo gemelo mas de una vez?',
-        a: 'Si. Algunos programas necesitan el mismo gemelo en distintas etapas. Cada corrida queda registrada para trazabilidad y aprendizaje operativo.',
+        q: 'Puedo ejecutar el mismo gemelo más de una vez?',
+        a: 'Sí. Algunos programas necesitan el mismo gemelo en distintas etapas. Cada corrida queda registrada para trazabilidad y aprendizaje operativo.',
       },
     ],
   },
@@ -59,16 +59,16 @@ const FAQ_ITEMS = [
     category: 'Problemas frecuentes',
     items: [
       {
-        q: 'El gemelo sigue fallando, que hago?',
+        q: 'El gemelo sigue fallando, qué hago?',
         a: 'Revisa Historial. Los problemas comunes son instrucciones poco precisas, datos incompletos o un gemelo mal asignado al paso. Ajusta el brief o cambia el gemelo.',
       },
       {
-        q: 'Como veo que paso en una corrida?',
-        a: 'Ve a Historial, abre la corrida y revisa inputs, outputs y errores. Eso te permite auditar que hizo el gemelo y que contexto necesita para mejorar.',
+        q: 'Cómo veo qué pasó en una corrida?',
+        a: 'Ve a Historial, abre la corrida y revisa inputs, outputs y errores. Eso te permite auditar qué hizo el gemelo y qué contexto necesita para mejorar.',
       },
       {
         q: 'Puedo borrar o deshacer una corrida?',
-        a: 'Las corridas quedan como historial de auditoria. Si necesitas corregir, crea una nueva corrida o ajusta el paso del programa sin borrar la trazabilidad anterior.',
+        a: 'Las corridas quedan como historial de auditoría. Si necesitas corregir, crea una nueva corrida o ajusta el paso del programa sin borrar la trazabilidad anterior.',
       },
     ],
   },
@@ -97,9 +97,9 @@ export default function HelpPage() {
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
       <header className="mb-8 border-b border-[#d8e5e2] pb-8">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Guia operativa</p>
-        <h1 className="mt-2 text-3xl font-light text-[#173634]">Como usar N3uralia Twin OS</h1>
+        <h1 className="mt-2 text-3xl font-light text-[#173634]">Cómo usar N3uralia Twin OS</h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#52605d]">
-          Lo esencial para crear programas operativos, ejecutar gemelos digitales y entender replacement, supervision y outputs guardados.
+          Lo esencial para crear programas operativos, ejecutar gemelos digitales y entender replacement, supervisión y outputs guardados.
         </p>
       </header>
 
@@ -131,7 +131,7 @@ export default function HelpPage() {
           <div className="rounded-none border border-[#d8e5e2] bg-[#fbfbfa] p-4">
             <div className="mb-3 flex items-center gap-2 text-[#8fb2aa]">
               <Zap size={16} />
-              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Inicio rapido</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em]">Inicio rápido</p>
             </div>
             <ol className="space-y-2 text-sm text-[#52605d]">
               <li>1. Crea un programa operativo</li>
@@ -147,14 +147,14 @@ export default function HelpPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.16em]">Recuerda</p>
             </div>
             <p className="text-sm leading-relaxed text-amber-700">
-              Los gemelos digitales funcionan mejor con contexto especifico: cuenta, objetivo, restricciones, formato esperado y criterio de escalamiento humano.
+              Los gemelos digitales funcionan mejor con contexto específico: cuenta, objetivo, restricciones, formato esperado y criterio de escalamiento humano.
             </p>
           </div>
         </aside>
       </div>
 
       <div className="mt-12 border-t border-[#d8e5e2] pt-8">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Necesitas ayuda?</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">¿Necesitas ayuda?</p>
         <p className="text-sm text-[#52605d]">Revisa los tips dentro de cada pagina o escribe a support@n3uralia.com.</p>
       </div>
     </div>
