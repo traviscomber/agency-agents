@@ -35,7 +35,7 @@ export default function SettingsPage() {
     { id: 'account', label: 'Account' },
     { id: 'notifications', label: 'Notifications' },
     { id: 'team', label: 'Team' },
-    { id: 'white-label', label: 'White-Label' },
+    { id: 'white-label', label: 'Partners' },
   ]
 
   return (
@@ -159,7 +159,7 @@ export default function SettingsPage() {
                   <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">{label}</Label>
                   <Input
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="********"
                     className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm focus-visible:ring-[#8fb2aa]"
                   />
                 </div>
@@ -250,51 +250,51 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* White-Label tab */}
+      {/* Partner tab */}
       {tab === 'white-label' && (
         <div className="space-y-8">
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3 flex items-center gap-2">
               <Zap size={16} className="text-[#8fb2aa]" />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">White-Label Program</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#173634]/45">Partner Twin OS</p>
             </div>
             <div className="p-5 space-y-5">
               <div>
-                <p className="text-sm font-semibold text-[#173634] mb-2">Custom Domain</p>
+                <p className="text-sm font-semibold text-[#173634] mb-2">Dominio operativo</p>
                 <div className="flex gap-2">
                   <Input
-                    placeholder="agents.yourcompany.com"
+                    placeholder="twins.tuempresa.cl"
                     className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634]"
                   />
                   <Button className="h-10 bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
-                    Configure
+                    Configurar
                   </Button>
                 </div>
-                <p className="mt-2 text-[10px] text-[#173634]/50">Requires $299-999/month white-label plan</p>
+                <p className="mt-2 text-[10px] text-[#173634]/50">Disponible para programas partner con gobierno, playbooks y soporte de implementacion.</p>
               </div>
 
               <div className="border-t border-[#d8e5e2] pt-5">
-                <p className="text-sm font-semibold text-[#173634] mb-3">Reseller Program</p>
+                <p className="text-sm font-semibold text-[#173634] mb-3">Programa partner</p>
                 <p className="text-xs text-[#173634]/60 mb-4">
-                  Enable reseller mode to sell N3uralia Studio instances to your customers. You&apos;ll receive 30-40% commission per sale.
+                  Activa un workspace para desplegar gemelos digitales a clientes con memoria, limites de supervision, reporting de ROI y handoffs auditables.
                 </p>
                 <Button variant="outline" className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#173634] hover:bg-[#f1f6f4]">
-                  Enable Reseller Mode
+                  Solicitar activacion partner
                 </Button>
               </div>
 
               <div className="border-t border-[#d8e5e2] pt-5">
-                <p className="text-sm font-semibold text-[#173634] mb-3">Branding</p>
+                <p className="text-sm font-semibold text-[#173634] mb-3">Marca y control</p>
                 <div className="space-y-3">
                   <div>
-                    <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Logo URL</Label>
+                    <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Logo del partner</Label>
                     <Input
                       placeholder="https://..."
                       className="mt-1 h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm"
                     />
                   </div>
                   <div>
-                    <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Primary Color</Label>
+                    <Label className="text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]/55">Color primario</Label>
                     <div className="mt-1 flex items-center gap-2">
                       <div className="h-10 w-16 rounded border border-[#d8e5e2]" style={{ backgroundColor: '#8fb2aa' }} />
                       <Input placeholder="#8fb2aa" className="h-10 flex-1 border-[#d8e5e2] bg-[#fbfbfa] text-sm" />
