@@ -20,12 +20,12 @@ export async function POST(req: NextRequest) {
     const event = (payload as { event?: { type?: string; text?: string } }).event
     
     if (event?.type === 'app_mention') {
-      // Parse agent command from mention
-      const agentMatch = (event.text ?? text)?.match(/@agent\s+(\w+)/)
-      if (agentMatch) {
-        const agentSlug = agentMatch[1]
-        // TODO: Queue agent run, post result to Slack
-        return NextResponse.json({ ok: true })
+      // Parse a supervised twin command from a mention.
+      const twinMatch = (event.text ?? text)?.match(/@n3uralia\s+run\s+([\w-]+)/)
+      if (twinMatch) {
+        const twinSlug = twinMatch[1]
+        // TODO: Queue a Twin OS routine, preserve channel context, and post a handoff-ready result to Slack.
+        return NextResponse.json({ ok: true, twinSlug })
       }
     }
   }
@@ -33,10 +33,10 @@ export async function POST(req: NextRequest) {
   if (type === 'slash_command') {
     const { command, text: commandText } = payload as { command?: string; text?: string }
     
-    if (command === '/run-agent') {
-      // TODO: Parse agent slug from text, execute, respond
+    if (command === '/run-twin') {
+      // TODO: Parse twin slug and program context, execute under supervision rules, and respond with owner/next step.
       return NextResponse.json({
-        text: `Running agent: ${commandText ?? ''}`,
+        text: `Starting supervised twin routine: ${commandText ?? ''}`,
         response_type: 'in_channel',
       })
     }
