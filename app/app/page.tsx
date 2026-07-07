@@ -137,7 +137,7 @@ export default function AppDashboard() {
               </h1>
               <p className="mt-5 max-w-2xl text-sm leading-7 text-[#d9e3e0] sm:text-[15px]">
                 N3uralia Studio should behave like Twin OS: the control layer for sales, licitaciones, collections,
-                implementation, and recruiting where every run leaves reusable operating state behind.
+                implementation, and recruiting where every twin execution leaves reusable operating state behind.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
@@ -215,12 +215,12 @@ export default function AppDashboard() {
                   {
                     icon: Orbit,
                     label: 'Role first',
-                    copy: 'Programs start from a replicable role, not from a blank prompt box.',
+                    copy: 'Programs start from a replicable role, not from a blank request box.',
                   },
                   {
                     icon: Radar,
                     label: 'State retained',
-                    copy: 'Memory, runs, and deliverables stay attached to the account or workflow.',
+                    copy: 'Memory, twin executions, and deliverables stay attached to the account or routine.',
                   },
                   {
                     icon: ShieldCheck,
@@ -249,8 +249,8 @@ export default function AppDashboard() {
             {leadProject ? `Advance ${leadProject.name} without losing context.` : 'Create the first program to start the twin operating loop.'}
           </p>
           <p className="mt-3 text-sm leading-7 text-[#52605d]">
-            The product becomes differentiable when the operator can see the brief, the active step, the next twin, and the latest
-            artifact in one surface.
+            The product becomes differentiable when the operator can see the brief, the active routine, the next twin, and the latest
+            deliverable in one surface.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link href={leadProject ? `/app/projects/${leadProject.id}` : '/app/projects'} className="inline-flex h-9 items-center bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
@@ -267,26 +267,26 @@ export default function AppDashboard() {
         <div className="n3-subpanel bg-[#f1f6f4] p-5">
           <div className="flex items-center gap-2 text-[#8fb2aa]">
             <Clock3 size={14} />
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest run</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest twin execution</p>
           </div>
           <p className="mt-4 text-sm font-medium text-[#173634]">{latestRun?.agentName ?? 'No execution yet'}</p>
-          <p className="mt-2 text-sm leading-6 text-[#52605d]">{latestRun?.task ?? 'Run the first twin to create a persistent execution record.'}</p>
+          <p className="mt-2 text-sm leading-6 text-[#52605d]">{latestRun?.task ?? 'Run the first twin to create a persistent operating record.'}</p>
           <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">
-            {latestRun ? `${formatShortDate(latestRun.createdAt)} / ${latestRun.status}` : 'waiting for first run'}
+            {latestRun ? `${formatShortDate(latestRun.createdAt)} / ${latestRun.status}` : 'waiting for first twin execution'}
           </p>
         </div>
 
         <div className="n3-subpanel bg-[#f1f6f4] p-5">
           <div className="flex items-center gap-2 text-[#8fb2aa]">
             <Binary size={14} />
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest artifact</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]">Latest deliverable</p>
           </div>
-          <p className="mt-4 text-sm font-medium text-[#173634]">{latestSavedArtifact?.title ?? 'No saved output yet'}</p>
+          <p className="mt-4 text-sm font-medium text-[#173634]">{latestSavedArtifact?.title ?? 'No saved deliverable yet'}</p>
           <p className="mt-2 text-sm leading-6 text-[#52605d]">
-            {latestSavedArtifact ? 'Saved outputs should become reusable operating material, not dead exports.' : 'Save the first output to start the reusable artifact library.'}
+            {latestSavedArtifact ? 'Saved deliverables should become reusable operating material, not dead exports.' : 'Save the first deliverable to start the reusable operating archive.'}
           </p>
           <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-[#8fb2aa]">
-            {latestSavedArtifact ? formatShortDate(latestSavedArtifact.createdAt) : 'artifact queue empty'}
+            {latestSavedArtifact ? formatShortDate(latestSavedArtifact.createdAt) : 'deliverable archive empty'}
           </p>
         </div>
       </section>
@@ -299,7 +299,7 @@ export default function AppDashboard() {
                 <p className="n3-eyebrow">Live handoff packet</p>
                 <p className="mt-2 text-xl font-semibold text-[#173634]">The next human or twin can inherit real state immediately.</p>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-[#52605d]">
-                  This is the differentiator in product form: a visible packet with current step, output expectation, and risk note already attached.
+                  This is the differentiator in product form: a visible packet with current routine, expected deliverable, and risk note already attached.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -316,7 +316,7 @@ export default function AppDashboard() {
                 <p className="mt-1 text-xs leading-5 text-[#52605d]">{leadPacket.currentStepOwner}</p>
               </div>
               <div className="n3-subpanel">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected deliverable</p>
                 <p className="mt-1 text-sm leading-6 text-[#52605d]">{leadPacket.outputExpectation}</p>
               </div>
               <div className="n3-subpanel">
@@ -367,7 +367,7 @@ export default function AppDashboard() {
                   <p className="mt-1 text-sm font-medium text-[#173634]">{packet.nextStep || packet.currentStep}</p>
                 </div>
                 <div className="n3-subpanel">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected deliverable</p>
                   <p className="mt-1 text-sm leading-6 text-[#52605d]">{packet.outputExpectation}</p>
                 </div>
               </div>
@@ -413,7 +413,7 @@ export default function AppDashboard() {
                         {stepMeta ? <span className={cn('rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]', stepMeta.tone)}>{stepMeta.label}</span> : null}
                       </div>
                       <p className="mt-2 max-w-3xl text-sm leading-6 text-[#52605d]">
-                        {packet?.summary || project.description || 'Tighten the brief so future runs inherit stronger context and fewer assumptions.'}
+                        {packet?.summary || project.description || 'Tighten the brief so future twin executions inherit stronger context and fewer assumptions.'}
                       </p>
 
                       <div className="mt-4 grid gap-3 md:grid-cols-3">
@@ -433,7 +433,7 @@ export default function AppDashboard() {
                             {packet?.nextStep ?? `${project.memory?.length ?? 0} memory / ${project.savedCount ?? 0} saved`}
                           </p>
                           <p className="mt-1 text-xs leading-5 text-[#52605d]">
-                            {packet?.riskNote ?? `${project.runCount ?? 0} runs linked to this program`}
+                            {packet?.riskNote ?? `${project.runCount ?? 0} twin executions linked to this program`}
                           </p>
                         </div>
                       </div>
@@ -447,7 +447,7 @@ export default function AppDashboard() {
                       {recommendedAgent && buildProjectRunHref(project) ? (
                         <Link href={buildProjectRunHref(project) ?? `/app/run/${recommendedAgent.slug}?projectId=${project.id}`} className="inline-flex h-9 items-center bg-[#173634] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#1e3431]">
                           <Zap size={12} className="mr-1.5" />
-                          Run next
+                          Execute next
                         </Link>
                       ) : null}
                     </div>
@@ -462,13 +462,13 @@ export default function AppDashboard() {
               {
                 icon: Orbit,
                 label: 'System memory',
-                value: `${savedOutputs.length} artifacts retained`,
-                copy: 'Outputs should become reusable material for the next twin or human owner, not a dead appendix.',
+                value: `${savedOutputs.length} deliverables retained`,
+                copy: 'Deliverables should become reusable material for the next twin or human owner, not a dead appendix.',
               },
               {
                 icon: Radar,
                 label: 'Execution flow',
-                value: `${recentRuns.length} recent runs`,
+                value: `${recentRuns.length} recent twin executions`,
                 copy: 'Operators need to inspect what was attempted, what succeeded, and what should happen next.',
               },
               {
@@ -492,11 +492,11 @@ export default function AppDashboard() {
           <section className="border border-[#d8e5e2] bg-[#fbfbfa]">
             <div className="flex items-center justify-between border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Execution stream</p>
-                <p className="mt-1 text-sm text-[#52605d]">The latest runs should read like a working record, not anonymous activity.</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Twin ledger stream</p>
+                <p className="mt-1 text-sm text-[#52605d]">The latest twin executions should read like a supervised operating record, not disconnected activity.</p>
               </div>
               <Link href="/app/history" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
-                Full history
+                Full twin ledger
               </Link>
             </div>
             <div className="divide-y divide-[#d8e5e2]">
@@ -560,7 +560,7 @@ export default function AppDashboard() {
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-[#173634]">{project.name}</p>
                         <p className="text-[11px] text-[#52605d]">
-                          {project.runCount ?? 0} runs / {project.savedCount ?? 0} saved
+                          {project.runCount ?? 0} twin executions / {project.savedCount ?? 0} deliverables
                         </p>
                       </div>
                     </div>
@@ -586,7 +586,7 @@ export default function AppDashboard() {
                   </div>
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-[#173634]">{saved.title}</p>
-                    <p className="text-[11px] text-[#52605d]">Reusable output linked back to execution history.</p>
+                    <p className="text-[11px] text-[#52605d]">Reusable deliverable linked back to the twin ledger.</p>
                   </div>
                 </Link>
               ))}
