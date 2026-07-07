@@ -10,8 +10,8 @@ export const metadata = {
 export default function MarketplacePage() {
   const categories = ['Todos', 'Ventas', 'Cobranza', 'Licitaciones', 'Implementacion', 'Gobierno']
   const featuredSignals = [
-    ['Curado por operacion', 'Cada paquete se revisa por calidad de handoff, limites y continuidad, no solo por prompt.'],
-    ['Unidad reutilizable', 'Cada listing explicita input, output esperado, owner humano y metrica de replacement.'],
+    ['Curado por operación', 'Cada paquete se revisa por calidad de handoff, límites y continuidad, no solo por prompt.'],
+    ['Unidad reutilizable', 'Cada listing explicita input, entregable esperado, owner humano y métrica de replacement.'],
     ['Listo para programa', 'Los mejores paquetes traen rutina, riesgos, decision pendiente y siguiente accion.'],
   ]
 
@@ -26,7 +26,7 @@ export default function MarketplacePage() {
       reviews: 124,
       sales: 2840,
       category: 'Gobierno',
-      fit: 'Mejor cuando un equipo necesita brief inicial, mapa de owners y ruta de decision antes de desplegar.',
+      fit: 'Mejor cuando un equipo necesita brief inicial, mapa de owners y ruta de decisión antes de desplegar.',
       output: 'Brief operativo, workflow, decision log',
     },
     {
@@ -39,7 +39,7 @@ export default function MarketplacePage() {
       reviews: 89,
       sales: 1240,
       category: 'Implementacion',
-      fit: 'Mejor cuando handoffs, bloqueos y actualizaciones tardias frenan la ejecucion.',
+      fit: 'Mejor cuando handoffs, bloqueos y actualizaciones tardías frenan la ejecución.',
       output: 'Mapa de workflow, bloqueos, recomendaciones de handoff',
     },
     {
@@ -52,7 +52,7 @@ export default function MarketplacePage() {
       reviews: 156,
       sales: 3100,
       category: 'Ventas',
-      fit: 'Mejor cuando el equipo necesita evidencia comercial, mensajes y artifacts reutilizables para rollout.',
+      fit: 'Mejor cuando el equipo necesita evidencia comercial, mensajes y entregables reutilizables para rollout.',
       output: 'Prueba comercial, pack de mensajes, puntos de evidencia',
     },
   ]
@@ -68,11 +68,11 @@ export default function MarketplacePage() {
                 Twin Exchange operativo
               </div>
               <h1 className="mt-5 max-w-2xl text-4xl font-semibold tracking-[-0.03em] text-[#173634] sm:text-5xl">
-                Paquetes que convierten know-how operativo en rutinas reutilizables.
+                Paquetes que convierten know-how operativo en rutinas y entregables reutilizables.
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d] sm:text-base">
-                Esta biblioteca esta organizada por presion operacional: elige el paquete, revisa el output,
-                entiende el handoff y despliegalo dentro de un programa con supervision.
+                Esta biblioteca está organizada por presión operacional: elige el paquete, revisa el entregable,
+                entiende el handoff y despliega el programa con supervisión.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -98,13 +98,13 @@ export default function MarketplacePage() {
 
         <section className="mt-8 grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
           <div className="rounded-[1.75rem] border border-[#d8e5e2] bg-[#173634] p-6 text-[#f5fbfa] shadow-[0_16px_44px_-28px_rgba(15,23,42,0.42)]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#9db7b1]">Criterio de seleccion</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">Por que este exchange no es un marketplace de prompts</h2>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#9db7b1]">Criterio de selección</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">Por qué este exchange no es un marketplace de prompts</h2>
             <div className="mt-6 space-y-4">
               {[
-                ['Output primero', 'Cada paquete explicita la forma del artifact antes de ejecutar.'],
+                ['Entregable primero', 'Cada paquete explicita la forma del entregable antes de ejecutar.'],
                 ['Consciente del workflow', 'El valor se mide por el handoff que deja al siguiente owner.'],
-                ['Legible para negocio', 'El comprador ve si genera prueba, accion, control o escalamiento.'],
+                ['Legible para negocio', 'El comprador ve si genera prueba, acción, control o escalamiento.'],
               ].map(([title, body]) => (
                 <div key={title} className="rounded-[1.15rem] border border-white/10 bg-white/5 p-4">
                   <p className="text-sm font-semibold text-white">{title}</p>
@@ -119,7 +119,7 @@ export default function MarketplacePage() {
               <div className="flex flex-1 items-center gap-2 border border-[#d8e5e2] bg-[#fbfbfa] px-3 py-2.5">
                 <Search size={15} className="text-[#8aa29c]" />
                 <input
-                  placeholder="Buscar por presion operativa, gemelo o entregable..."
+                  placeholder="Buscar por presión operativa, gemelo o entregable..."
                   className="flex-1 bg-transparent text-sm text-[#173634] placeholder:text-[#789b96] focus:outline-none"
                 />
               </div>
@@ -156,7 +156,7 @@ export default function MarketplacePage() {
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#789b96]">{agent.category}</p>
                       {agent.sales > 2000 && (
                         <span className="flex items-center gap-1 bg-[#eef5f2] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f716a]">
-                          <TrendingUp size={11} /> Alta adopcion
+                          <TrendingUp size={11} /> Alta adopción
                         </span>
                       )}
                     </div>
@@ -166,7 +166,7 @@ export default function MarketplacePage() {
                     <p className="mt-4 text-sm leading-relaxed text-[#52605d]">{agent.fit}</p>
 
                     <div className="mt-4 border border-[#d8e5e2] bg-white/80 p-3">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">Output esperado</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#789b96]">Entregable esperado</p>
                       <p className="mt-2 text-sm text-[#173634]">{agent.output}</p>
                     </div>
 
@@ -204,7 +204,7 @@ export default function MarketplacePage() {
                     <div className="flex items-center justify-between">
                       <p className="font-semibold text-[#173634]">${agent.pricePerRun.toFixed(2)}/run</p>
                       <Button className="h-8 bg-[#173634] px-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#1e3431]">
-                        Ver
+                        Ver programa
                       </Button>
                     </div>
                   </div>

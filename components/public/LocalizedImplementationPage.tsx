@@ -12,38 +12,38 @@ const PHASE_ICONS = [ClipboardCheck, Workflow, ShieldCheck, Gauge]
 
 const implementationCopy = {
   es: {
-    badge: 'Operacion inteligente en 30 dias',
+    badge: 'Operación inteligente en 30 días',
     title: 'De proceso repetitivo a twin operativo supervisado.',
     body:
-      'N3uralia convierte un cargo o proceso critico en una rutina digital con memoria, handoffs, limites seguros y medicion de ROI. La meta no es una demo: es una primera capacidad operativa funcionando.',
+      'N3uralia convierte un cargo o proceso crítico en una rutina digital con memoria, handoffs, límites seguros y medición de ROI. La meta no es una demo: es una primera capacidad operativa funcionando.',
     primary: 'Solicitar diagnostico',
     secondary: 'Ver planes',
-    formula: 'Diagnostico + Twin + Supervision + ROI = Operacion desplegable',
+    formula: 'Diagnóstico + Twin + Supervisión + ROI = Operación desplegable',
     phasesTitle: 'Plan de despliegue',
     phases: [
       {
         week: 'Semana 1',
-        title: 'Diagnostico del cargo',
+        title: 'Diagnóstico del cargo',
         body: 'Mapeamos tareas repetibles, datos disponibles, riesgos, responsables humanos y criterio experto.',
-        output: 'Mapa del rol, replacement inicial, inputs requeridos y primer caso de uso.',
+        output: 'Mapa del rol, replacement inicial, inputs requeridos y primer entregable.',
       },
       {
         week: 'Semana 2',
-        title: 'Twin minimo operativo',
-        body: 'Configuramos instrucciones, rutinas, formato de salida, memoria inicial y limites de decision.',
-        output: 'Primer twin listo para ejecutar con datos reales acotados.',
+        title: 'Twin mínimo operativo',
+        body: 'Configuramos instrucciones, rutinas, formato de salida, memoria inicial y límites de decisión.',
+        output: 'Primer twin listo para ejecutar con datos reales acotados y supervisión definida.',
       },
       {
         week: 'Semana 3',
         title: 'Rutina supervisada',
-        body: 'Ejecutamos casos reales, ajustamos outputs, definimos handoffs y marcamos puntos de aprobacion humana.',
-        output: 'Artifacts reutilizables, owners, reglas de escalamiento y bitacora de mejoras.',
+        body: 'Ejecutamos casos reales, ajustamos outputs, definimos handoffs y marcamos puntos de aprobación humana.',
+        output: 'Entregables reutilizables, owners, reglas de escalamiento y bitácora de mejoras.',
       },
       {
         week: 'Semana 4',
-        title: 'ROI y expansion',
-        body: 'Medimos horas recuperadas, calidad de entregables, errores evitados y proximo rol a desplegar.',
-        output: 'Dashboard de valor, backlog de automatizacion y plan de expansion por rol.',
+        title: 'ROI y expansión',
+        body: 'Medimos horas recuperadas, calidad de entregables, errores evitados y próximo rol a desplegar.',
+        output: 'Dashboard de valor, backlog de automatización y plan de expansión por rol.',
       },
     ],
     packagesTitle: 'Programas que se pueden desplegar primero',
@@ -55,14 +55,14 @@ const implementationCopy = {
     ],
     gatesTitle: 'Gates para no vender humo',
     gates: [
-      ['Datos reales', 'El twin debe correr con inputs del cliente, no con ejemplos genericos.'],
-      ['Handoff visible', 'Cada output debe dejar owner, proximo paso y decision pendiente.'],
-      ['Limites seguros', 'Debe estar claro que aprueba humano y que no hace el twin.'],
-      ['ROI medible', 'La mejora se mide en horas, velocidad, errores evitados o recuperacion.'],
+      ['Datos reales', 'El twin debe correr con inputs del cliente, no con ejemplos genéricos.'],
+      ['Handoff visible', 'Cada output debe dejar owner, próximo paso y decisión pendiente.'],
+      ['Límites seguros', 'Debe estar claro qué aprueba un humano y qué no hace el twin.'],
+      ['ROI medible', 'La mejora se mide en horas, velocidad, errores evitados o recuperación.'],
     ],
     finalTitle: 'Empieza con un rol. Escala hacia un sistema operativo por cargos.',
     finalBody:
-      'El primer despliegue debe probar valor en un proceso concreto. Despues se conectan roles: ventas, propuesta, implementacion, cobranza y reporting.',
+      'El primer despliegue debe probar valor en un proceso concreto. Después se conectan roles: ventas, propuesta, implementación, cobranza y reporting.',
   },
   en: {
     badge: 'Intelligent operations in 30 days',
@@ -78,19 +78,19 @@ const implementationCopy = {
         week: 'Week 1',
         title: 'Role diagnosis',
         body: 'We map repeatable tasks, available data, risks, human owners, and expert judgment.',
-        output: 'Role map, initial replacement scope, required inputs, and first use case.',
+        output: 'Role map, initial replacement scope, required inputs, and first deliverable.',
       },
       {
         week: 'Week 2',
         title: 'Minimum operating twin',
         body: 'We configure instructions, routines, output format, initial memory, and decision limits.',
-        output: 'First twin ready to run with scoped real data.',
+        output: 'First twin ready to run with scoped real data and defined supervision.',
       },
       {
         week: 'Week 3',
         title: 'Supervised routine',
         body: 'We run real cases, tune outputs, define handoffs, and mark human approval points.',
-        output: 'Reusable artifacts, owners, escalation rules, and improvement log.',
+        output: 'Reusable deliverables, owners, escalation rules, and improvement log.',
       },
       {
         week: 'Week 4',
@@ -183,7 +183,7 @@ export function LocalizedImplementationPage({ locale }: { locale: MarketingLocal
               <H2Section className="mt-3 text-[#173634]">{copy.phasesTitle}</H2Section>
             </div>
             <div className="grid gap-4 lg:grid-cols-4">
-              {copy.phases.map((phase: { week: string; title: string; body: string; output: string }, index: number) => {
+              {copy.phases.map((phase, index) => {
                 const Icon = PHASE_ICONS[index] ?? Layers3
                 return (
                   <Card key={phase.week} variant="light" className="p-6">
@@ -211,7 +211,7 @@ export function LocalizedImplementationPage({ locale }: { locale: MarketingLocal
               <p className="mt-4 text-sm leading-7 text-[#52605d]">{copy.finalBody}</p>
             </div>
             <div className="grid gap-px border border-[#d8e5e2] bg-[#d8e5e2] sm:grid-cols-2">
-              {copy.packages.map(([title, body]: [string, string]) => (
+                {copy.packages.map(([title, body]) => (
                 <div key={title} className="bg-white p-5">
                   <p className="text-sm font-semibold text-[#173634]">{title}</p>
                   <p className="mt-2 text-sm leading-7 text-[#52605d]">{body}</p>
@@ -229,7 +229,7 @@ export function LocalizedImplementationPage({ locale }: { locale: MarketingLocal
                 <H2Section className="mt-3 text-[#173634]">{copy.gatesTitle}</H2Section>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                {copy.gates.map(([title, body]: [string, string]) => (
+                {copy.gates.map(([title, body]) => (
                   <Card key={title} variant="light" className="p-5">
                     <BadgeEyebrow>{title}</BadgeEyebrow>
                     <p className="mt-3 text-sm leading-7 text-[#52605d]">{body}</p>
