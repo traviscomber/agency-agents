@@ -317,7 +317,7 @@ function SavedPageContent() {
                         <p className="mt-1 text-xs leading-5 text-[#52605d]">{activePacket.currentStepDetail}</p>
                       </div>
                       <div className="n3-subpanel">
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected deliverable</p>
                         <p className="mt-1 text-sm leading-6 text-[#52605d]">{activePacket.outputExpectation}</p>
                       </div>
                     </div>

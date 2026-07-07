@@ -499,7 +499,7 @@ function RunAgentPageContent({ params }: Props) {
                       <p className="mt-3 text-sm leading-6 text-[#173634]/75">{inheritedHandoffPacket.objective}</p>
                       <div className="mt-4 grid gap-4 sm:grid-cols-2">
                         <div>
-                          <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected deliverable</p>
                           <p className="mt-1 text-xs leading-5 text-[#173634]/70">{inheritedHandoffPacket.outputExpectation}</p>
                         </div>
                         <div>
