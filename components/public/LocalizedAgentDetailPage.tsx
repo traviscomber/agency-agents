@@ -23,6 +23,8 @@ function getAgentDetailCopy(locale: MarketingLocale) {
         businessProblem: 'Problema que resuelve',
         expectedSavings: 'Ahorro esperado',
         firstResult: 'Primer resultado',
+        approvalRequired: 'Necesita aprobacion para',
+        doesNotDo: 'No hace',
         safeLimits: 'Limites seguros',
         safeLimitsBody:
           'Este twin prepara, resume, prioriza y documenta. Las decisiones comerciales, legales, financieras o reputacionales siguen requiriendo aprobacion humana.',
@@ -61,6 +63,8 @@ function getAgentDetailCopy(locale: MarketingLocale) {
         businessProblem: 'Business problem',
         expectedSavings: 'Expected savings',
         firstResult: 'First result',
+        approvalRequired: 'Needs approval for',
+        doesNotDo: 'Does not do',
         safeLimits: 'Safe limits',
         safeLimitsBody:
           'This twin prepares, summarizes, prioritizes, and documents. Commercial, legal, financial, or reputational decisions still require human approval.',
@@ -111,6 +115,8 @@ function getCommercialCard(locale: MarketingLocale, agent: NonNullable<ReturnTyp
         locale === 'es'
           ? 'Revision humana recomendada antes de usar entregables en produccion.'
           : 'Human review recommended before using deliverables in production.',
+      needsApprovalFor: [],
+      doesNotDo: [],
       score,
       supervisionLevel: supervision,
     }
@@ -150,24 +156,49 @@ function getCommercialCard(locale: MarketingLocale, agent: NonNullable<ReturnTyp
   }
 
   const match = savingsBySlug[agent.slug]
+  const englishBoundariesBySlug: Record<string, { needsApprovalFor: string[]; doesNotDo: string[] }> = {
+    'twin-ejecutivo-comercial-b2b-chile': {
+      needsApprovalFor: ['Discounts or price changes', 'Final proposals', 'Contract commitments'],
+      doesNotDo: ['Does not negotiate final terms', 'Does not approve contracts', 'Does not promise timelines without a human owner'],
+    },
+    'twin-analista-licitaciones-chile': {
+      needsApprovalFor: ['Final bid decision', 'Sensitive legal interpretation', 'Economic offer'],
+      doesNotDo: ['Does not sign documents', 'Does not replace legal review', 'Does not define final pricing'],
+    },
+    'twin-cobranza-pyme-chile': {
+      needsApprovalFor: ['Special payment agreements', 'Service blocks', 'Legal escalation'],
+      doesNotDo: ['Does not threaten customers', 'Does not renegotiate debt without policy', 'Does not execute legal actions'],
+    },
+    'twin-pm-implementacion-chile': {
+      needsApprovalFor: ['Scope changes', 'Final committed dates', 'Executive escalation'],
+      doesNotDo: ['Does not change contracts', 'Does not reprioritize roadmap without sponsor', 'Does not promise delivery without the team'],
+    },
+    'twin-reclutador-operativo-chile': {
+      needsApprovalFor: ['Final selection', 'Job offer', 'Sensitive evaluations'],
+      doesNotDo: ['Does not discriminate on protected attributes', 'Does not decide final hiring', 'Does not negotiate compensation without a recruiter'],
+    },
+  }
+  const englishBoundaries = englishBoundariesBySlug[agent.slug]
 
   return {
     problem:
       locale === 'es'
-        ? match?.problemEs ?? `Rutinas repetitivas de ${agent.role.toLowerCase()} que necesitan continuidad, memoria y handoff.`
-        : match?.problemEn ?? `Repeatable ${agent.role.toLowerCase()} routines that need continuity, memory, and handoff.`,
+        ? agent.twinProfile.businessProblem ?? match?.problemEs ?? `Rutinas repetitivas de ${agent.role.toLowerCase()} que necesitan continuidad, memoria y handoff.`
+        : match?.problemEn ?? agent.twinProfile.businessProblem ?? `Repeatable ${agent.role.toLowerCase()} routines that need continuity, memory, and handoff.`,
     savings:
       locale === 'es'
-        ? match?.es ?? `Replacement estimado de ${score}% de la carga repetible.`
-        : match?.en ?? `Estimated replacement of ${score}% of repeatable load.`,
+        ? agent.twinProfile.expectedSavings ?? match?.es ?? `Replacement estimado de ${score}% de la carga repetible.`
+        : match?.en ?? agent.twinProfile.expectedSavings ?? `Estimated replacement of ${score}% of repeatable load.`,
     firstResult:
       locale === 'es'
-        ? `${firstOutput} con owner, siguiente paso y memoria del proceso.`
+        ? agent.twinProfile.firstResult ?? `${firstOutput} con owner, siguiente paso y memoria del proceso.`
         : `${firstOutput} with owner, next step, and process memory.`,
     supervision:
       locale === 'es'
         ? `${supervision === 'high' ? 'Alta' : supervision === 'low' ? 'Baja' : 'Media'}: el twin ejecuta rutina repetible y escala excepciones a humano.`
         : `${supervision === 'high' ? 'High' : supervision === 'low' ? 'Low' : 'Medium'}: the twin runs repeatable routine work and escalates exceptions to a human.`,
+    needsApprovalFor: locale === 'en' ? englishBoundaries?.needsApprovalFor ?? [] : agent.twinProfile.needsApprovalFor ?? [],
+    doesNotDo: locale === 'en' ? englishBoundaries?.doesNotDo ?? [] : agent.twinProfile.doesNotDo ?? [],
     score,
     supervisionLevel: supervision,
   }
@@ -275,6 +306,30 @@ export function LocalizedAgentDetailPage({
                   <p className="mt-3 text-sm leading-7 text-slate-800">{body}</p>
                 </div>
               ))}
+              {commercialCard.needsApprovalFor.length ? (
+                <div className="bg-[#fbfbfa] p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">{copy.approvalRequired}</p>
+                  <ul className="mt-3 space-y-2">
+                    {commercialCard.needsApprovalFor.map((item) => (
+                      <li key={item} className="text-sm leading-6 text-slate-800">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              {commercialCard.doesNotDo.length ? (
+                <div className="bg-[#fbfbfa] p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">{copy.doesNotDo}</p>
+                  <ul className="mt-3 space-y-2">
+                    {commercialCard.doesNotDo.map((item) => (
+                      <li key={item} className="text-sm leading-6 text-slate-800">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>

@@ -49,6 +49,11 @@ export interface DigitalTwinProfile {
   replacementScope: string
   operationalReplacementScore?: number
   supervisionLevel?: 'low' | 'medium' | 'high'
+  businessProblem?: string
+  expectedSavings?: string
+  firstResult?: string
+  needsApprovalFor?: string[]
+  doesNotDo?: string[]
 }
 
 export type ProjectType = 'launch' | 'growth' | 'operations' | 'client-delivery'

@@ -14,6 +14,51 @@ import { PublicNavbar } from '@/components/public/PublicNavbar'
 
 const CURATION_ICONS = [Workflow, ShieldCheck, Layers3]
 
+function getTwinCommercialPreview(locale: MarketingLocale, agent: (typeof SEED_AGENTS)[number]) {
+  const englishBySlug: Record<string, { problem: string; savings: string; firstResult: string; approval: string[] }> = {
+    'twin-ejecutivo-comercial-b2b-chile': {
+      problem: 'Scattered pipeline, inconsistent follow-up, and context loss between meeting, proposal, and close.',
+      savings: '5-8 h/week per sales executive.',
+      firstResult: 'Prioritized agenda, next steps by account, and 3 follow-ups ready for review.',
+      approval: ['Discounts or price changes', 'Final proposals', 'Contract commitments'],
+    },
+    'twin-analista-licitaciones-chile': {
+      problem: 'Long bid docs, scattered requirements, and slow go/no-go decisions before the team invests hours.',
+      savings: 'First-pass document review in 15-30 minutes per tender.',
+      firstResult: 'Go/no-go, document checklist, risks, and owners for human sign-off.',
+      approval: ['Final bid decision', 'Sensitive legal interpretation', 'Economic offer'],
+    },
+    'twin-cobranza-pyme-chile': {
+      problem: 'Overdue accounts without prioritization, lost payment promises, and weak follow-up traceability.',
+      savings: '30-50 recoverable hours/month in follow-up and prioritization.',
+      firstResult: 'Account ranking, suggested messages, detected promises, and cases to escalate.',
+      approval: ['Special payment agreements', 'Service blocks', 'Legal escalation'],
+    },
+    'twin-pm-implementacion-chile': {
+      problem: 'Implementations with scattered agreements, invisible blockers, and weak sales-to-delivery handoffs.',
+      savings: '4-7 h/week per PM on notes, follow-up, and risk control.',
+      firstResult: 'Executive minutes, risk matrix, owners, and next milestone by customer.',
+      approval: ['Scope changes', 'Final committed dates', 'Executive escalation'],
+    },
+    'twin-reclutador-operativo-chile': {
+      problem: 'Open roles with scattered candidates, manual screening, and weak interview continuity.',
+      savings: '20-35 h/month on initial screening and candidate follow-up.',
+      firstResult: 'Ranked shortlist, candidate risks, and interview guide for human decision.',
+      approval: ['Final selection', 'Job offer', 'Sensitive evaluations'],
+    },
+  }
+
+  if (locale === 'en') return englishBySlug[agent.slug] ?? null
+  if (!agent.twinProfile) return null
+
+  return {
+    problem: agent.twinProfile.businessProblem,
+    savings: agent.twinProfile.expectedSavings,
+    firstResult: agent.twinProfile.firstResult,
+    approval: agent.twinProfile.needsApprovalFor ?? [],
+  }
+}
+
 export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
   const [search, setSearch] = useState('')
   const [activeDivision, setActiveDivision] = useState<string | null>(null)
@@ -142,6 +187,7 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {filtered.map((agent) => {
                   const hasAccess = canAccessAgent(MOCK_USER.plan, agent.planRequired)
+                  const commercialPreview = getTwinCommercialPreview(locale, agent)
 
                   return (
                     <article key={agent.id} className="relative flex flex-col border border-[#d8e5e2] bg-white p-6 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)] transition-transform hover:-translate-y-1">
@@ -183,6 +229,42 @@ export function LocalizedAgentsPage({ locale }: { locale: MarketingLocale }) {
                               <p className="mt-1 text-sm font-medium capitalize text-[#173634]">{agent.twinProfile.supervisionLevel ?? 'medium'}</p>
                             </div>
                           </div>
+                          {commercialPreview?.problem || commercialPreview?.savings || commercialPreview?.firstResult ? (
+                            <div className="mt-4 grid gap-2">
+                              {commercialPreview.problem ? (
+                                <div className="border border-[#d8e5e2] bg-[#f8fbfa] p-3">
+                                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
+                                    {locale === 'es' ? 'Dolor comprador' : 'Buyer pain'}
+                                  </p>
+                                  <p className="mt-1.5 text-xs leading-5 text-[#52605d]">{commercialPreview.problem}</p>
+                                </div>
+                              ) : null}
+                              {commercialPreview.savings ? (
+                                <div className="border border-[#d8e5e2] bg-[#f8fbfa] p-3">
+                                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
+                                    {locale === 'es' ? 'Ahorro esperado' : 'Expected savings'}
+                                  </p>
+                                  <p className="mt-1.5 text-xs font-semibold leading-5 text-[#173634]">{commercialPreview.savings}</p>
+                                </div>
+                              ) : null}
+                              {commercialPreview.firstResult ? (
+                                <div className="border border-[#d8e5e2] bg-[#f8fbfa] p-3">
+                                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
+                                    {locale === 'es' ? 'Primer resultado' : 'First result'}
+                                  </p>
+                                  <p className="mt-1.5 text-xs leading-5 text-[#52605d]">{commercialPreview.firstResult}</p>
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : null}
+                          {commercialPreview?.approval.length ? (
+                            <div className="mt-4 border border-[#d8e5e2] bg-[#173634] p-3 text-[#f5fbfa]">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a8c5be]">
+                                {locale === 'es' ? 'Escala a humano' : 'Human approval'}
+                              </p>
+                              <p className="mt-1.5 text-xs leading-5 text-[#d9e3e0]">{commercialPreview.approval.slice(0, 3).join(' / ')}</p>
+                            </div>
+                          ) : null}
                         </div>
                       ) : null}
 
