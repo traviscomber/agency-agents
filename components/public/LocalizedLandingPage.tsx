@@ -147,6 +147,33 @@ const guidedDemos = {
   ],
 }
 
+const marketPositioning = {
+  es: {
+    eyebrow: 'Diferenciacion en mercado',
+    title: 'No compite por cantidad de apps ni por prometer autonomia total.',
+    body:
+      'N3uralia se posiciona entre consultoria IA, RPA, chatbots y builders genericos: entrega capacidad operativa por cargo, con memoria, handoff, ROI y limites humanos desde el primer despliegue.',
+    rows: [
+      ['Chatbots y CX', 'Automatizan conversacion y atencion.', 'N3uralia automatiza trabajo interno por cargo: ventas, cobranza, licitaciones, implementacion y reclutamiento.'],
+      ['RPA tradicional', 'Ejecuta procesos rigidos y repetibles.', 'N3uralia trabaja con lenguaje, documentos, criterios y handoffs donde el proceso cambia por contexto.'],
+      ['Builders de agentes', 'Piden al cliente inventar prompts y flujos.', 'N3uralia parte desde roles chilenos empaquetados con rutinas, KPIs, limites y outputs listos.'],
+      ['Copilots enterprise', 'Requieren ecosistema pesado y gobierno amplio.', 'N3uralia baja a pymes y medianas Latam con diagnostico, programa operativo y ROI visible en 30 dias.'],
+    ],
+  },
+  en: {
+    eyebrow: 'Market differentiation',
+    title: 'It does not compete on app count or total-autonomy claims.',
+    body:
+      'N3uralia sits between AI consulting, RPA, chatbots, and generic agent builders: it delivers operating capacity by role, with memory, handoff, ROI, and human limits from the first deployment.',
+    rows: [
+      ['Chatbots and CX', 'Automate conversations and support.', 'N3uralia automates internal role work: sales, collections, tenders, implementation, and recruiting.'],
+      ['Traditional RPA', 'Runs rigid repeatable processes.', 'N3uralia works with language, documents, criteria, and handoffs where the process changes by context.'],
+      ['Agent builders', 'Ask customers to invent prompts and flows.', 'N3uralia starts from packaged Chilean roles with routines, KPIs, limits, and ready output shapes.'],
+      ['Enterprise copilots', 'Need heavier ecosystems and broad governance.', 'N3uralia lands in Latam SMBs and mid-market teams with diagnosis, operating program, and visible ROI in 30 days.'],
+    ],
+  },
+}
+
 export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
   const copy = landingCopy[locale]
   const featuredAgents = getFeaturedAgents().slice(0, 6)
@@ -279,6 +306,32 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                   </article>
                 )
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[#d8e5e2] bg-[#173634] text-[#f5fbfa]">
+          <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+            <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+              <div>
+                <Eyebrow className="text-[#8fb2aa]">{marketPositioning[locale].eyebrow}</Eyebrow>
+                <H2Section className="mt-4 text-white">{marketPositioning[locale].title}</H2Section>
+              </div>
+              <Body variant="dark" className="!text-[#c7d5d1]">
+                {marketPositioning[locale].body}
+              </Body>
+            </div>
+
+            <div className="mt-10 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-4">
+              {marketPositioning[locale].rows.map(([category, market, n3uralia]) => (
+                <article key={category} className="bg-[#0d1f1d] p-5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">{category}</p>
+                  <p className="mt-4 text-sm leading-6 text-[#9db7b1]">{market}</p>
+                  <div className="mt-5 border-l-2 border-[#8fb2aa] pl-4">
+                    <p className="text-sm font-semibold leading-6 text-[#f5fbfa]">{n3uralia}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
