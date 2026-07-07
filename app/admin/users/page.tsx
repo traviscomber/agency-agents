@@ -4,12 +4,12 @@ import type { UserProfile, PlanId } from '@/lib/types'
 import { Mail, Building2 } from 'lucide-react'
 
 const MOCK_USERS: UserProfile[] = [
-  { id: 'u1', email: 'demo@n3uralia.com', fullName: 'Demo User', company: 'Acme Inc.', role: 'Founder', plan: 'free', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-15T10:00:00Z' },
-  { id: 'u2', email: 'alex@buildfast.co', fullName: 'Alex Chen', company: 'BuildFast', role: 'CTO', plan: 'pro', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-10T08:00:00Z' },
-  { id: 'u3', email: 'sarah@launchpad.io', fullName: 'Sarah Kim', company: 'Launchpad', role: 'Product Lead', plan: 'starter', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-12T14:00:00Z' },
-  { id: 'u4', email: 'james@consultco.com', fullName: 'James Owens', company: 'Consult Co.', role: 'Consultant', plan: 'pro', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-14T11:30:00Z' },
-  { id: 'u5', email: 'nina@studio23.design', fullName: 'Nina Park', company: 'Studio 23', role: 'Designer', plan: 'starter', isAdmin: false, onboardingCompleted: false, createdAt: '2024-01-18T09:00:00Z' },
-  { id: 'admin', email: 'admin@n3uralia.com', fullName: 'Admin User', plan: 'enterprise', isAdmin: true, onboardingCompleted: true, createdAt: '2024-01-01T00:00:00Z' },
+  { id: 'u1', email: 'demo@n3uralia.com', fullName: 'Operador N3uralia', company: 'N3uralia Demo Chile', role: 'Founder', plan: 'free', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-15T10:00:00Z' },
+  { id: 'u2', email: 'operaciones@andespymes.cl', fullName: 'Camila Rojas', company: 'Andes Pymes B2B', role: 'Gerente de Operaciones', plan: 'pro', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-10T08:00:00Z' },
+  { id: 'u3', email: 'licitaciones@proveedorindustrial.cl', fullName: 'Matias Fuentes', company: 'Proveedor Industrial Chile', role: 'Lider de Licitaciones', plan: 'starter', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-12T14:00:00Z' },
+  { id: 'u4', email: 'finanzas@logisticalatam.cl', fullName: 'Valentina Torres', company: 'Logistica Latam', role: 'Jefa de Finanzas', plan: 'pro', isAdmin: false, onboardingCompleted: true, createdAt: '2024-01-14T11:30:00Z' },
+  { id: 'u5', email: 'delivery@saasantiago.cl', fullName: 'Nicolas Herrera', company: 'SaaS Santiago', role: 'Head of Delivery', plan: 'starter', isAdmin: false, onboardingCompleted: false, createdAt: '2024-01-18T09:00:00Z' },
+  { id: 'admin', email: 'admin@n3uralia.com', fullName: 'Admin N3uralia', plan: 'enterprise', isAdmin: true, onboardingCompleted: true, createdAt: '2024-01-01T00:00:00Z' },
 ]
 
 const planCounts: Record<PlanId, number> = { free: 0, starter: 0, pro: 0, team: 0, enterprise: 0 }

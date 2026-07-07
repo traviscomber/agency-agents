@@ -15,10 +15,14 @@ import type {
   SavedOutput,
 } from '@/lib/types'
 
-const STORAGE_PREFIX = 'agencyos.project-overlay.'
-const STORED_PROJECTS_KEY = 'agencyos.projects'
-const GLOBAL_RUNS_KEY = 'agencyos.runs'
-const GLOBAL_SAVED_OUTPUTS_KEY = 'agencyos.saved-outputs'
+const STORAGE_PREFIX = 'n3uralia.project-overlay.'
+const STORED_PROJECTS_KEY = 'n3uralia.projects'
+const GLOBAL_RUNS_KEY = 'n3uralia.runs'
+const GLOBAL_SAVED_OUTPUTS_KEY = 'n3uralia.saved-outputs'
+const LEGACY_STORAGE_PREFIX = 'agencyos.project-overlay.'
+const LEGACY_STORED_PROJECTS_KEY = 'agencyos.projects'
+const LEGACY_GLOBAL_RUNS_KEY = 'agencyos.runs'
+const LEGACY_GLOBAL_SAVED_OUTPUTS_KEY = 'agencyos.saved-outputs'
 
 interface PersistedProjectState {
   projects: Project[]
@@ -66,8 +70,28 @@ function getStorageKey(projectId: string) {
   return `${STORAGE_PREFIX}${projectId}`
 }
 
+function getLegacyStorageKey(projectId: string) {
+  return `${LEGACY_STORAGE_PREFIX}${projectId}`
+}
+
 function canUseStorage() {
   return typeof window !== 'undefined'
+}
+
+function readStorageWithLegacy<T>(key: string, legacyKey: string): T | null {
+  if (!canUseStorage()) return null
+  const raw = window.localStorage.getItem(key) ?? window.localStorage.getItem(legacyKey)
+  if (!raw) return null
+
+  try {
+    const parsed = JSON.parse(raw) as T
+    if (!window.localStorage.getItem(key)) {
+      window.localStorage.setItem(key, raw)
+    }
+    return parsed
+  } catch {
+    return null
+  }
 }
 
 export function resolveWorkflowRecommendedAgentSlug(step?: ProjectWorkflowStep | null) {
@@ -572,15 +596,7 @@ function buildProjectRunHrefForPreset(preset: ProjectRunPreset) {
 }
 
 function loadProjectOverlay(projectId: string): ProjectOverlayState | null {
-  if (!canUseStorage()) return null
-  const raw = window.localStorage.getItem(getStorageKey(projectId))
-  if (!raw) return null
-
-  try {
-    return JSON.parse(raw) as ProjectOverlayState
-  } catch {
-    return null
-  }
+  return readStorageWithLegacy<ProjectOverlayState>(getStorageKey(projectId), getLegacyStorageKey(projectId))
 }
 
 function saveProjectOverlay(projectId: string, overlay: ProjectOverlayState) {
@@ -728,15 +744,7 @@ export function advanceWorkflowAfterRun(
 }
 
 function loadStoredProjects(): Project[] {
-  if (!canUseStorage()) return []
-  const raw = window.localStorage.getItem(STORED_PROJECTS_KEY)
-  if (!raw) return []
-
-  try {
-    return JSON.parse(raw) as Project[]
-  } catch {
-    return []
-  }
+  return readStorageWithLegacy<Project[]>(STORED_PROJECTS_KEY, LEGACY_STORED_PROJECTS_KEY) ?? []
 }
 
 function saveStoredProjects(projects: Project[]) {
@@ -764,15 +772,7 @@ function buildLocalPersistedState(): PersistedProjectState {
 }
 
 function loadGlobalRuns() {
-  if (!canUseStorage()) return []
-  const raw = window.localStorage.getItem(GLOBAL_RUNS_KEY)
-  if (!raw) return []
-
-  try {
-    return JSON.parse(raw) as AgentRun[]
-  } catch {
-    return []
-  }
+  return readStorageWithLegacy<AgentRun[]>(GLOBAL_RUNS_KEY, LEGACY_GLOBAL_RUNS_KEY) ?? []
 }
 
 function saveGlobalRuns(runs: AgentRun[]) {
@@ -781,15 +781,7 @@ function saveGlobalRuns(runs: AgentRun[]) {
 }
 
 function loadGlobalSavedOutputs() {
-  if (!canUseStorage()) return []
-  const raw = window.localStorage.getItem(GLOBAL_SAVED_OUTPUTS_KEY)
-  if (!raw) return []
-
-  try {
-    return JSON.parse(raw) as SavedOutput[]
-  } catch {
-    return []
-  }
+  return readStorageWithLegacy<SavedOutput[]>(GLOBAL_SAVED_OUTPUTS_KEY, LEGACY_GLOBAL_SAVED_OUTPUTS_KEY) ?? []
 }
 
 function saveGlobalSavedOutputs(savedOutputs: SavedOutput[]) {
