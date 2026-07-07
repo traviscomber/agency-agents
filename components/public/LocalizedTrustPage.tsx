@@ -13,20 +13,20 @@ const CONTROL_ICONS = [ShieldCheck, UserCheck, FileClock, DatabaseZap]
 const trustCopy = {
   es: {
     badge: 'Confianza operacional para Chile y Latam',
-    title: 'Autonomia parcial, supervision clara y limites visibles por twin.',
+    title: 'Autonomía parcial, supervisión clara y límites visibles por twin.',
     body:
-      'N3uralia Twin OS no vende autonomia total. Cada gemelo digital trabaja dentro de un marco auditable: fuentes, memoria, reglas de aprobacion, handoffs humanos y tareas explicitamente fuera de alcance.',
-    primary: 'Diagnosticar mi operacion',
+      'N3uralia Twin OS no vende autonomía total. Cada gemelo digital trabaja dentro de un marco auditable: fuentes, memoria, reglas de aprobación, handoffs humanos y tareas explícitamente fuera de alcance.',
+    primary: 'Diagnosticar mi operación',
     secondary: 'Ver roles replicables',
-    controlTitle: 'Como se controla cada twin',
+    controlTitle: 'Cómo se controla cada twin',
     controls: [
-      ['Fuentes declaradas', 'Cada programa define que documentos, cuentas, CRM, planillas o notas puede usar el twin antes de ejecutar.'],
-      ['Aprobacion humana', 'Las decisiones comerciales, legales, financieras o reputacionales quedan marcadas como aprobacion obligatoria.'],
-      ['Logs y artefactos', 'Cada corrida deja entregables, memoria, owner siguiente y contexto recuperable para auditoria interna.'],
-      ['Limites por rol', 'El alcance se define por cargo: preparar, priorizar, resumir, sugerir, escalar o documentar.'],
+      ['Fuentes declaradas', 'Cada programa define qué documentos, cuentas, CRM, planillas o notas puede usar el twin antes de ejecutar.'],
+      ['Aprobación humana', 'Las decisiones comerciales, legales, financieras o reputacionales quedan marcadas como aprobación obligatoria.'],
+      ['Logs y artefactos', 'Cada corrida deja entregables, memoria, owner siguiente y contexto recuperable para auditoría interna.'],
+      ['Límites por rol', 'El alcance se define por cargo: preparar, priorizar, resumir, sugerir, escalar o documentar.'],
     ],
-    matrixTitle: 'Matriz de limites seguros',
-    columns: ['Puede hacer', 'Requiere aprobacion', 'No hace'],
+    matrixTitle: 'Matriz de límites seguros',
+    columns: ['Puede hacer', 'Requiere aprobación', 'No hace'],
     matrix: [
       {
         role: 'Ejecutivo Comercial B2B',
@@ -37,35 +37,35 @@ const trustCopy = {
       {
         role: 'Analista de Licitaciones',
         can: ['Leer bases', 'Extraer requisitos', 'Crear go/no-go inicial'],
-        approval: ['Presentar oferta', 'Aceptar riesgo legal', 'Comprometer boletas o garantias'],
-        never: ['Aprobar postulacion sin humano', 'Inventar cumplimiento', 'Omitir incompatibilidades'],
+        approval: ['Presentar oferta', 'Aceptar riesgo legal', 'Comprometer boletas o garantías'],
+        never: ['Aprobar postulación sin humano', 'Inventar cumplimiento', 'Omitir incompatibilidades'],
       },
       {
         role: 'Cobranza Pyme',
         can: ['Priorizar cartera', 'Sugerir mensajes', 'Detectar promesas de pago'],
-        approval: ['Escalar cuenta critica', 'Aplicar condonacion', 'Enviar comunicacion sensible'],
+        approval: ['Escalar cuenta crítica', 'Aplicar condonación', 'Enviar comunicación sensible'],
         never: ['Amenazar clientes', 'Modificar deuda', 'Ejecutar acciones legales'],
       },
     ],
     evidenceTitle: 'Confianza vendible para compradores locales',
     localControlTitle: 'Checklist operativo para vender confianza',
     localControlBody:
-      'Antes de conectar un twin a procesos reales, el comprador debe poder revisar que datos usa, quien aprueba, que queda registrado y como se recupera el contexto si cambia el operador.',
+      'Antes de conectar un twin a procesos reales, el comprador debe poder revisar qué datos usa, quién aprueba, qué queda registrado y cómo se recupera el contexto si cambia el operador.',
     localControls: [
-      ['Fuentes y datos minimos', 'Definir documentos, planillas, CRM o notas permitidas por programa. Evitar secretos o datos sensibles que no sean necesarios para ejecutar la rutina.'],
-      ['Aprobaciones por decision', 'Marcar descuentos, propuestas finales, compromisos legales, comunicaciones sensibles y escalamiento financiero como puntos de aprobacion humana.'],
-      ['Bitacora recuperable', 'Cada ejecucion debe dejar brief, entregable, owner, decision pendiente y siguiente paso para auditoria interna o continuidad operacional.'],
-      ['Revision y mejora', 'Los programas deben revisarse por calidad de entregables, horas recuperadas, errores evitados y excepciones que siguen requiriendo supervision.'],
+      ['Fuentes y datos mínimos', 'Definir documentos, planillas, CRM o notas permitidas por programa. Evitar secretos o datos sensibles que no sean necesarios para ejecutar la rutina.'],
+      ['Aprobaciones por decisión', 'Marcar descuentos, propuestas finales, compromisos legales, comunicaciones sensibles y escalamiento financiero como puntos de aprobación humana.'],
+      ['Bitácora recuperable', 'Cada ejecución debe dejar brief, entregable, owner, decisión pendiente y siguiente paso para auditoría interna o continuidad operacional.'],
+      ['Revisión y mejora', 'Los programas deben revisarse por calidad de entregables, horas recuperadas, errores evitados y excepciones que siguen requiriendo supervisión.'],
     ],
     evidence: [
-      ['Modo supervisado por defecto', 'El punto de partida es control humano sobre excepciones, no autonomia ciega.'],
+      ['Modo supervisado por defecto', 'El punto de partida es control humano sobre excepciones, no autonomía ciega.'],
       ['ROI trazable', 'La promesa se mide en horas recuperadas, errores evitados, velocidad de respuesta y continuidad por cuenta.'],
       ['Datos acotados', 'El twin trabaja con contexto provisto por el programa, no con acceso abierto innecesario.'],
-      ['Operacion en produccion', 'La meta es dejar rutinas, handoffs y artefactos reutilizables, no demos aisladas.'],
+      ['Operación en producción', 'La meta es dejar rutinas, handoffs y artefactos reutilizables, no demos aisladas.'],
     ],
-    finalTitle: 'Si un twin no tiene limites, no esta listo para operar.',
+    finalTitle: 'Si un twin no tiene límites, no está listo para operar.',
     finalBody:
-      'El diferencial de N3uralia es empaquetar el cargo, la rutina, el output y la supervision. Eso permite vender capacidad digital sin prometer decisiones autonomas que una empresa chilena no deberia delegar.',
+      'El diferencial de N3uralia es empaquetar el cargo, la rutina, el output y la supervisión. Eso permite vender capacidad digital sin prometer decisiones autónomas que una empresa chilena no debería delegar.',
   },
   en: {
     badge: 'Operating trust for Chile and Latam',
