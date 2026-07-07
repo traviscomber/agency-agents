@@ -473,7 +473,7 @@ export function buildProjectHandoffText(packet: ProjectHandoffPacket) {
     packet.latestDeliverable ? `Latest deliverable: ${packet.latestDeliverable}.` : 'Latest deliverable: no deliverables saved yet.',
     packet.nextStep ? `Next step after this: ${packet.nextStep}.` : 'Next step after this: no further step defined.',
     `Execution mode: ${packet.executionMode}`,
-    `Expected output: ${packet.outputExpectation}`,
+    `Expected deliverable: ${packet.outputExpectation}`,
     `Risk note: ${packet.riskNote}`,
     `Checklist: ${packet.handoffChecklist.join(' | ')}`,
   ]

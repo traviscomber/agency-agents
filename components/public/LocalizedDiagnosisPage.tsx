@@ -36,13 +36,13 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
     const pressureParam = params.get('pressure') as PressureKey | null
     const teamParam = params.get('team')
 
-    if (companyParam && copy.options.company.some(([value]: [string, string]) => value === companyParam)) {
+    if (companyParam && copy.options.company.some(([value]) => value === companyParam)) {
       setCompany(companyParam)
     }
-    if (pressureParam && copy.options.pressure.some(([value]: [PressureKey, string]) => value === pressureParam)) {
+    if (pressureParam && copy.options.pressure.some(([value]) => value === pressureParam)) {
       setPressure(pressureParam)
     }
-    if (teamParam && copy.options.team.some(([value]: [string, string]) => value === teamParam)) {
+    if (teamParam && copy.options.team.some(([value]) => value === teamParam)) {
       setTeam(teamParam)
     }
   }, [copy.options.company, copy.options.pressure, copy.options.team])
@@ -58,13 +58,13 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
         ['Datos para cargar', recommendation.next],
         ['Primera rutina', 'Ejecutar una rutina semanal sobre el cuello de botella principal y guardar el entregable reutilizable.'],
         ['Control humano', `Supervision ${recommendation.supervision.toLowerCase()} con escalamiento cuando haya excepciones, riesgos o decisiones comerciales sensibles.`],
-        ['Output esperado', 'Un programa operativo con memoria, siguiente accion, responsable humano y metricas de replacement visibles.'],
+        ['Entregable esperado', 'Un programa operativo con memoria, siguiente accion, responsable humano y metricas de replacement visibles.'],
       ]
     : [
         ['Data to load', recommendation.next],
         ['First routine', 'Run a weekly routine on the main bottleneck and save the reusable deliverable.'],
         ['Human control', `${recommendation.supervision} supervision with escalation for exceptions, risks, or sensitive business decisions.`],
-        ['Expected output', 'An operating program with memory, next action, human owner, and visible replacement metrics.'],
+        ['Expected deliverable', 'An operating program with memory, next action, human owner, and visible replacement metrics.'],
       ]
 
   function persistDiagnosisIntent() {
@@ -106,7 +106,7 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
                 <label className="grid gap-2 text-sm font-semibold text-[#f5fbfa]">
                   {copy.companyLabel}
                   <select value={company} onChange={(event) => setCompany(event.target.value)} className="border border-[#28413d] bg-[#07100f] px-3 py-3 text-sm text-white">
-                    {copy.options.company.map(([value, label]: [string, string]) => (
+                    {copy.options.company.map(([value, label]) => (
                       <option key={value} value={value}>{label}</option>
                     ))}
                   </select>
@@ -114,7 +114,7 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
                 <label className="grid gap-2 text-sm font-semibold text-[#f5fbfa]">
                   {copy.pressureLabel}
                   <select value={pressure} onChange={(event) => setPressure(event.target.value as PressureKey)} className="border border-[#28413d] bg-[#07100f] px-3 py-3 text-sm text-white">
-                    {copy.options.pressure.map(([value, label]: [PressureKey, string]) => (
+                    {copy.options.pressure.map(([value, label]) => (
                       <option key={value} value={value}>{label}</option>
                     ))}
                   </select>
@@ -122,7 +122,7 @@ export function LocalizedDiagnosisPage({ locale }: { locale: MarketingLocale }) 
                 <label className="grid gap-2 text-sm font-semibold text-[#f5fbfa]">
                   {copy.teamLabel}
                   <select value={team} onChange={(event) => setTeam(event.target.value)} className="border border-[#28413d] bg-[#07100f] px-3 py-3 text-sm text-white">
-                    {copy.options.team.map(([value, label]: [string, string]) => (
+                    {copy.options.team.map(([value, label]) => (
                       <option key={value} value={value}>{label}</option>
                     ))}
                   </select>
