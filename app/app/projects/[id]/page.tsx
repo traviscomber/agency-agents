@@ -248,8 +248,8 @@ export default function ProjectDetailPage({ params }: Props) {
       workflow: nextWorkflow,
       memoryEntry: {
         id: `mem-${Date.now()}`,
-        title: 'Workflow advanced manually',
-        note: `Marked "${workflow[nextIndex]?.name}" as done and moved the project forward without creating a new run.`,
+        title: 'Program routine advanced manually',
+        note: `Marked "${workflow[nextIndex]?.name}" as done and moved the operating program forward without creating a new twin execution.`,
         source: 'handoff',
         createdAt,
       },
@@ -274,10 +274,10 @@ export default function ProjectDetailPage({ params }: Props) {
       workflow: nextWorkflow as ProjectWorkflowStep[],
       memoryEntry: {
         id: `mem-${Date.now()}`,
-        title: 'Workflow specialist updated',
+        title: 'Program role twin updated',
         note: step
-          ? `Assigned "${selectedAgent?.name ?? 'no specialist'}" as the recommended agent for workflow step "${step.name}".`
-          : 'Updated the recommended specialist for a workflow step.',
+          ? `Assigned "${selectedAgent?.name ?? 'no role twin'}" as the recommended twin for program routine "${step.name}".`
+          : 'Updated the recommended role twin for a program routine.',
         source: 'decision',
         createdAt,
       },
@@ -304,10 +304,10 @@ export default function ProjectDetailPage({ params }: Props) {
       workflow: nextWorkflow as ProjectWorkflowStep[],
       memoryEntry: {
         id: `mem-${Date.now()}`,
-        title: 'Workflow status updated',
+        title: 'Program routine status updated',
         note: step
-          ? `Marked workflow step "${step.name}" as ${getWorkflowStatusMeta(nextStatus).label.toLowerCase()}.`
-          : 'Updated the workflow status.',
+          ? `Marked program routine "${step.name}" as ${getWorkflowStatusMeta(nextStatus).label.toLowerCase()}.`
+          : 'Updated the program routine status.',
         source: 'decision',
         createdAt,
       },
@@ -421,7 +421,7 @@ export default function ProjectDetailPage({ params }: Props) {
     {
       label: 'Continuity depth',
       value: `${memory.length + saved.length + runs.length}`,
-      note: 'combined notes, deliverables, and runs linked to this initiative',
+      note: 'combined memory, deliverables, and twin executions linked to this program',
     },
     {
       label: 'Packet readiness',
@@ -485,7 +485,7 @@ export default function ProjectDetailPage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-2">
               <div className="n3-chip">
                 <Sparkles size={12} className="text-primary" />
-                Project operating record
+                Program operating record
               </div>
               <div className="n3-chip-soft">
                 {projectTypeLabel}
@@ -507,7 +507,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-700">
               <span className="inline-flex items-center gap-1.5 border border-slate-200 bg-white px-3 py-1.5">
-                <Bot size={11} /> {runs.length} runs
+                <Bot size={11} /> {runs.length} twin executions
               </span>
               <span className="inline-flex items-center gap-1.5 border border-slate-200 bg-white px-3 py-1.5">
                 <Bookmark size={11} /> {saved.length} deliverables
@@ -532,12 +532,12 @@ export default function ProjectDetailPage({ params }: Props) {
             <div className="n3-dark-panel p-5">
               <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">Operating health</p>
               <p className="mt-3 text-2xl font-semibold">{operatingHealth}</p>
-              <p className="mt-1 text-sm text-white/70">The next move should remain explicit so the project never drops back into prompt chaos.</p>
+              <p className="mt-1 text-sm text-white/70">The next move should remain explicit so the program never drops back into ad hoc execution.</p>
             </div>
             <div className="n3-subpanel p-5 shadow-sm">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Project status</p>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Program status</p>
               <p className="mt-3 text-2xl font-semibold capitalize text-foreground">{project.status}</p>
-              <p className="mt-1 text-sm text-slate-700">Last updated {formatDate(project.updatedAt)} with brief, workflow, runs, and saved state attached.</p>
+              <p className="mt-1 text-sm text-slate-700">Last updated {formatDate(project.updatedAt)} with brief, routines, twin executions, and saved state attached.</p>
             </div>
             <div className="n3-subpanel p-5 shadow-sm">
               <p className="text-[11px] uppercase tracking-[0.22em] text-slate-700">Twin program</p>
@@ -923,7 +923,7 @@ export default function ProjectDetailPage({ params }: Props) {
               Workflow
             </TabsTrigger>
             <TabsTrigger value="runs" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Runs ({runs.length})
+              Twin ledger ({runs.length})
             </TabsTrigger>
             <TabsTrigger value="saved" className="rounded-xl text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">
               Deliverables ({saved.length})
@@ -1033,12 +1033,12 @@ export default function ProjectDetailPage({ params }: Props) {
 
                           return preset ? (
                             <div className="mt-4 border border-slate-200 bg-white p-4">
-                              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Run preview</p>
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">Twin execution preview</p>
                               <p className="mt-2 text-sm font-semibold text-foreground">
                                 {getAgentBySlug(preset.agentSlug)?.name ?? 'Mapped gemelo'}
                               </p>
                               <p className="mt-1 text-xs leading-5 text-slate-700">
-                                Output: {preset.desiredOutput} · Depth: {preset.detailLevel}
+                                Deliverable: {preset.desiredOutput} · Depth: {preset.detailLevel}
                               </p>
                               <p className="mt-2 text-xs leading-5 text-slate-700">{preset.rationale}</p>
                               {presetHref ? (
@@ -1047,7 +1047,7 @@ export default function ProjectDetailPage({ params }: Props) {
                                     href={presetHref}
                                     className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-700 hover:text-foreground"
                                   >
-                                    Open preset run <ArrowRight size={11} />
+                                    Open supervised execution <ArrowRight size={11} />
                                   </Link>
                                 </div>
                               ) : null}
@@ -1096,7 +1096,7 @@ export default function ProjectDetailPage({ params }: Props) {
                             </SelectContent>
                           </Select>
                         </div>
-                        {step.linkedRunLabel ? <p className="mt-4 text-xs text-slate-700">Linked run: {step.linkedRunLabel}</p> : null}
+                        {step.linkedRunLabel ? <p className="mt-4 text-xs text-slate-700">Linked twin execution: {step.linkedRunLabel}</p> : null}
                       </article>
                     )
                   })()
@@ -1109,9 +1109,9 @@ export default function ProjectDetailPage({ params }: Props) {
             {runs.length === 0 ? (
               <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-gradient-to-b from-slate-50 to-white p-12 text-center">
                 <Bot size={28} className="mx-auto text-slate-700" />
-                <p className="mt-4 text-sm text-slate-700">No runs captured yet.</p>
+                <p className="mt-4 text-sm text-slate-700">No twin executions captured yet.</p>
                 <Button size="sm" asChild className="mt-6">
-                  <Link href="/app/agents">Start a run</Link>
+                  <Link href="/app/agents">Start supervised execution</Link>
                 </Button>
               </div>
             ) : (
@@ -1320,8 +1320,8 @@ export default function ProjectDetailPage({ params }: Props) {
         </section>
       ) : (
         <section className="rounded-[1.75rem] border border-dashed border-slate-200 bg-gradient-to-b from-slate-50 to-white p-12 text-center">
-          <p className="text-sm text-slate-700">No project memory captured yet.</p>
-          <p className="mt-2 text-xs text-slate-700">Use quick capture to preserve decisions, handoffs, and research context for the next run.</p>
+          <p className="text-sm text-slate-700">No program memory captured yet.</p>
+          <p className="mt-2 text-xs text-slate-700">Use quick capture to preserve decisions, handoffs, and research context for the next twin execution.</p>
         </section>
       )}
       </section>
@@ -1334,7 +1334,7 @@ export default function ProjectDetailPage({ params }: Props) {
         </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href="/app/history">
-            <ArrowRight size={13} className="mr-1.5" /> View all runs
+            <ArrowRight size={13} className="mr-1.5" /> View twin ledger
           </Link>
         </Button>
       </div>
