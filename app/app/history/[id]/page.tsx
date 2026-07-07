@@ -72,11 +72,11 @@ export default function RunDetailPage({ params }: Props) {
     return (
       <div className="mx-auto max-w-3xl px-6 py-16">
         <Link href="/app/history" className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
-          <ArrowLeft size={12} /> Run history
+          <ArrowLeft size={12} /> Twin ledger
         </Link>
         <div className="mt-6 border border-[#d8e5e2] px-8 py-16 text-center">
-          <p className="text-sm font-medium text-[#173634]">Run not found</p>
-          <p className="mt-1 text-xs text-[#173634]/45">The execution record may have been removed or never persisted.</p>
+          <p className="text-sm font-medium text-[#173634]">Twin run not found</p>
+          <p className="mt-1 text-xs text-[#173634]/45">The operating record may have been removed or never persisted.</p>
         </div>
       </div>
     )
@@ -203,7 +203,7 @@ export default function RunDetailPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <Link href="/app/history" className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] hover:text-[#173634]">
-        <ArrowLeft size={12} /> Run history
+        <ArrowLeft size={12} /> Twin ledger
       </Link>
 
       <header className="mb-8 mt-5 border-b border-[#d8e5e2] pb-8">
@@ -215,7 +215,7 @@ export default function RunDetailPage({ params }: Props) {
           {run.presetStepName ? (
             <span className="n3-chip inline-flex items-center gap-1">
               <FolderOpen size={10} />
-              Workflow preset
+              Program routine
             </span>
           ) : null}
         </div>
@@ -234,17 +234,17 @@ export default function RunDetailPage({ params }: Props) {
         <div className="mt-5 flex flex-wrap gap-3">
           {run.output ? (
             <Button variant="outline" onClick={handleCopyOutput} className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-              <Copy size={12} className="mr-1.5" /> {copied ? 'Copied' : 'Copy output'}
+              <Copy size={12} className="mr-1.5" /> {copied ? 'Copied' : 'Copy deliverable'}
             </Button>
           ) : null}
           {rerunHref ? (
             <Button asChild className="h-9 bg-[#173634] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:bg-[#1e3431]">
-              <Link href={rerunHref}>Run this brief again</Link>
+              <Link href={rerunHref}>Run this operating brief again</Link>
             </Button>
           ) : null}
           {run.output && savedOutputs.length === 0 ? (
             <Button variant="outline" onClick={handleSaveToLibrary} disabled={isSaving} className="h-9 border-[#d8e5e2] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#173634]">
-              <Bookmark size={12} className="mr-1.5" /> {isSaving ? 'Saving...' : 'Save to library'}
+              <Bookmark size={12} className="mr-1.5" /> {isSaving ? 'Saving...' : 'Save deliverable'}
             </Button>
           ) : null}
         </div>
@@ -255,19 +255,19 @@ export default function RunDetailPage({ params }: Props) {
           {run.presetStepName ? (
             <section className="n3-panel">
               <div className="border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-3">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Execution origin</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Twin run origin</p>
               </div>
               <div className="space-y-3 px-5 py-5 text-sm text-[#173634]/80">
-                <p className="font-medium text-[#173634]">This run came from a workflow preset, not an isolated prompt.</p>
+                <p className="font-medium text-[#173634]">This twin run came from an operating routine, not an ad hoc request.</p>
                 <p>
-                  Project: <span className="font-medium">{run.projectName || 'Unassigned project'}</span>
+                  Program: <span className="font-medium">{run.projectName || 'Unassigned operating program'}</span>
                 </p>
                 <p>
-                  Step: <span className="font-medium">{run.presetStepName}</span>
+                  Routine: <span className="font-medium">{run.presetStepName}</span>
                   {run.presetStepOwner ? ` · Owner: ${run.presetStepOwner}` : ''}
                 </p>
                 <p className="text-[#52605d]">
-                  Use this detail view to inspect what the system asked for, then rerun or save the output without losing the workflow lineage.
+                  Use this detail view to inspect the brief, supervision packet, and deliverable before rerunning or saving it back into program memory.
                 </p>
               </div>
             </section>
@@ -294,7 +294,7 @@ export default function RunDetailPage({ params }: Props) {
                 <p className="font-medium text-[#173634]">{run.handoffPacket.summary}</p>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected output</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected deliverable</p>
                     <p className="mt-1 leading-6 text-[#52605d]">{run.handoffPacket.outputExpectation}</p>
                   </div>
                   <div>
@@ -361,7 +361,7 @@ export default function RunDetailPage({ params }: Props) {
             </>
           ) : (
             <section className="border border-[#d8e5e2] px-5 py-10 text-sm text-[#173634]/55">
-              No persisted output was captured for this run.
+              No persisted deliverable was captured for this twin run.
             </section>
           )}
         </div>
@@ -369,27 +369,27 @@ export default function RunDetailPage({ params }: Props) {
         <aside className="space-y-4">
           <section className="border border-[#d8e5e2]">
             <div className="border-b border-[#d8e5e2] px-5 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Execution metadata</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#173634]/45">Audit metadata</p>
             </div>
             <div className="space-y-3 px-5 py-5 text-sm text-[#173634]/70">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Execution type</p>
-                <p className="mt-1">{run.presetStepName ? 'Workflow preset' : 'Direct run'}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Run type</p>
+                <p className="mt-1">{run.presetStepName ? 'Program routine' : 'Direct twin run'}</p>
               </div>
               {run.handoffPacket ? (
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Execution mode</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Supervision mode</p>
                   <p className="mt-1">{run.handoffPacket.executionMode}</p>
                 </div>
               ) : null}
               {run.presetStepName ? (
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Workflow step</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Operating routine</p>
                   <p className="mt-1">{run.presetStepName}</p>
                 </div>
               ) : null}
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Output shape</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Deliverable shape</p>
                 <p className="mt-1 capitalize">{run.desiredOutput || 'Not specified'}</p>
               </div>
               <div>
@@ -418,7 +418,7 @@ export default function RunDetailPage({ params }: Props) {
                     <div className="min-w-0">
                       <div className="inline-flex items-center gap-2 text-[#8fb2aa]">
                         <Bookmark size={12} />
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em]">Saved output</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em]">Saved deliverable</p>
                       </div>
                       <p className="mt-2 truncate text-sm text-[#173634]">{savedOutput.title}</p>
                     </div>
@@ -431,7 +431,7 @@ export default function RunDetailPage({ params }: Props) {
 
           {runAgent ? (
             <Button asChild variant="outline" className="h-9 w-full border-[#d8e5e2] text-xs font-semibold uppercase tracking-[0.16em] text-[#173634]">
-              <Link href={`/app/run/${runAgent.slug}`}>Open specialist</Link>
+              <Link href={`/app/run/${runAgent.slug}`}>Open role twin</Link>
             </Button>
           ) : null}
         </aside>

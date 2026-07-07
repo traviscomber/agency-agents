@@ -51,12 +51,12 @@ export default function HistoryPage() {
         <div className="mb-8">
           <HelpTip
             icon={Lightbulb}
-            title="No Runs Yet"
+            title="No twin runs yet"
             description="This page shows every time you run a gemelo digital. To see data here, go to Programas, select a program, and run the mapped gemelo on a workflow step."
             variant="tip"
             actions={[
               {
-                label: 'Create a Project',
+                label: 'Create a program',
                 onClick: () => window.location.href = '/app/projects',
               },
             ]}
@@ -66,8 +66,8 @@ export default function HistoryPage() {
         <div className="mb-8">
           <HelpTip
             icon={Lightbulb}
-            title="Understanding Your Run History"
-            description="Each row represents one agent execution. Click any run to see full details, outputs, and errors. Use the search to find runs by agent, project, or task name."
+            title="Understanding your twin ledger"
+            description="Each row represents one auditable twin run. Open any record to inspect the brief, deliverable, handoff packet, supervision state, and errors. Use search to find runs by twin, program, or task."
             variant="info"
           />
         </div>
@@ -81,7 +81,7 @@ export default function HistoryPage() {
               Every run should read like a traceable production event.
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d]">
-              This view should help you audit output quality, inspect project linkage, and re-open the right run without
+              This view should help you audit deliverable quality, inspect program linkage, and re-open the right run without
               scanning a generic activity list.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -94,10 +94,11 @@ export default function HistoryPage() {
             </div>
           </div>
 
-          <div className="grid gap-px bg-[#d8e5e2] sm:grid-cols-3 lg:grid-cols-1">
+          <div className="grid gap-px bg-[#d8e5e2] sm:grid-cols-2 lg:grid-cols-1">
             {[
-              { label: 'Total runs', value: runs.length, note: 'persisted executions' },
-              { label: 'Completed', value: completedRuns, note: 'successful outputs' },
+              { label: 'Twin runs', value: runs.length, note: 'persisted execution records' },
+              { label: 'Deliverables ready', value: completedRuns, note: 'successful operating outputs' },
+              { label: 'Needs review', value: failedRuns, note: 'exceptions for human follow-up' },
               { label: 'Programs linked', value: activeProjects, note: 'active operating motions' },
             ].map(({ label, value, note }) => (
               <div key={label} className="bg-[#f1f6f4] px-5 py-5">
@@ -113,13 +114,13 @@ export default function HistoryPage() {
       <section className="n3-panel mt-8">
         <div className="flex flex-col gap-4 border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="n3-eyebrow">Run index</p>
-            <p className="mt-1 text-sm text-[#52605d]">Search by gemelo, task, or linked program.</p>
+            <p className="n3-eyebrow">Twin run index</p>
+            <p className="mt-1 text-sm text-[#52605d]">Search by role twin, task, operating program, or handoff stage.</p>
           </div>
           <div className="relative w-full max-w-md">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8fb2aa]" />
             <Input
-              placeholder="Search execution history..."
+              placeholder="Search twin ledger..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-10 border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
@@ -129,9 +130,9 @@ export default function HistoryPage() {
 
         {filteredRuns.length === 0 ? (
           <div className="px-8 py-16 text-center">
-            <p className="text-sm font-medium text-[#173634]">{search ? 'No matching runs' : 'No runs yet'}</p>
+            <p className="text-sm font-medium text-[#173634]">{search ? 'No matching twin runs' : 'No twin runs yet'}</p>
             <p className="mt-1 text-xs text-[#52605d]">
-              {search ? 'Try a different search term.' : 'Run an agent to populate this timeline.'}
+              {search ? 'Try a different search term.' : 'Run a role twin from an operating program to populate this ledger.'}
             </p>
           </div>
         ) : (
@@ -153,13 +154,13 @@ export default function HistoryPage() {
                     {run.status === 'completed' && (
                       <span className="n3-chip-soft inline-flex items-center gap-1">
                         <Sparkles size={10} />
-                        Output ready
+                        Deliverable ready
                       </span>
                     )}
                     {run.presetStepName ? (
                       <span className="n3-chip inline-flex items-center gap-1">
                         <Sparkles size={10} />
-                        Workflow preset
+                        Program routine
                       </span>
                     ) : null}
                     {run.handoffPacket ? (
@@ -183,8 +184,8 @@ export default function HistoryPage() {
                         {run.projectName}
                       </span>
                     )}
-                    {run.presetStepName ? <span>Step: {run.presetStepName}</span> : null}
-                    {run.handoffPacket ? <span>Mode: {run.handoffPacket.executionMode}</span> : null}
+                    {run.presetStepName ? <span>Routine: {run.presetStepName}</span> : null}
+                    {run.handoffPacket ? <span>Supervision mode: {run.handoffPacket.executionMode}</span> : null}
                   </div>
                 </div>
 
@@ -199,7 +200,7 @@ export default function HistoryPage() {
                     {run.status}
                   </span>
                   <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">
-                    Inspect <ArrowRight size={11} />
+                    Audit <ArrowRight size={11} />
                   </span>
                 </div>
               </Link>
