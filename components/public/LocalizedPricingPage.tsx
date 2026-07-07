@@ -176,7 +176,7 @@ const planPresentation = {
       features: [
         'Portafolio a medida de gemelos digitales',
         'Conectores e integraciones privadas',
-        'Opcion white-label',
+        'Despliegue partner o marca privada',
         'Seguridad avanzada y SSO',
         'SLA y soporte dedicado',
         'Roadmap de implementacion custom',
@@ -187,8 +187,8 @@ const planPresentation = {
     free: {
       name: 'Free / Demo',
       interval: '/month',
-      cta: 'Start free',
-      description: 'For testing the thesis with one role, one program, and saved deliverables before investing in deployment.',
+      cta: 'Create diagnosis',
+      description: 'For testing the thesis with one priority role, one operating program, and saved deliverables before investing in deployment.',
       features: [
         '5 digital twin runs per month',
         '1 active operating program',
@@ -247,7 +247,7 @@ const planPresentation = {
       features: [
         'Custom digital twin portfolio',
         'Private connectors and integrations',
-        'White-label option',
+        'Partner or private-brand deployment',
         'Advanced security and SSO',
         'SLA and dedicated support',
         'Custom implementation roadmap',
@@ -478,7 +478,7 @@ export function LocalizedPricingPage({ locale }: { locale: MarketingLocale }) {
                   <h2 className="mt-4 text-3xl font-light leading-tight text-[#f5fbfa]">{copy.readyTitle}</h2>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Link href={getLocalizedHref(locale, '/signup')} className="inline-flex items-center gap-2 bg-[#8fb2aa] px-6 py-3.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
+                  <Link href={getLocalizedHref(locale, '/diagnosis')} className="inline-flex items-center gap-2 bg-[#8fb2aa] px-6 py-3.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0]">
                     {copy.readyPrimary} <ArrowRight size={13} />
                   </Link>
                   <Link href={getLocalizedHref(locale, '/login')} className="inline-flex items-center gap-2 border border-[#28413d] px-5 py-3.5 text-sm font-semibold text-[#d9e3e0] transition-colors hover:border-[#8fb2aa]/40 hover:text-[#f5fbfa]">

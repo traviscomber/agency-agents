@@ -49,7 +49,7 @@ export function LocalizedLoginPage({ locale }: { locale: MarketingLocale }) {
               <h2 className="text-2xl font-semibold tracking-tight text-[#173634]">{copy.formTitle}</h2>
               <p className="mt-1.5 text-sm text-[#65706d]">
                 {copy.formAlt}{' '}
-                <Link href={getLocalizedHref(locale, '/signup')} className="font-semibold text-[#173634] hover:underline">{copy.formAltCta}</Link>
+                <Link href={getLocalizedHref(locale, '/diagnosis')} className="font-semibold text-[#173634] hover:underline">{copy.formAltCta}</Link>
               </p>
             </div>
 

@@ -197,7 +197,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
 
                 <FadeInUp delay={0.2}>
                   <div className="mt-9 flex flex-wrap gap-4">
-                    <Link href={getLocalizedHref(locale, '/signup')}>
+                    <Link href={getLocalizedHref(locale, '/diagnosis')}>
                       <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
                         {copy.heroPrimary} <ArrowRight size={14} />
                       </Button>
@@ -567,7 +567,7 @@ export function LocalizedLandingPage({ locale }: { locale: MarketingLocale }) {
                 {copy.workspaceBody}
               </Body>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href={getLocalizedHref(locale, '/signup')}>
+                <Link href={getLocalizedHref(locale, '/diagnosis')}>
                   <Button variant="primary" size="lg" className="inline-flex items-center gap-2">
                     {copy.workspacePrimary} <ArrowRight size={14} />
                   </Button>

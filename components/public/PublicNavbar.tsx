@@ -68,7 +68,7 @@ export function PublicNavbar() {
             {copy.login}
           </Link>
           <Link
-            href={getLocalizedHref(locale, '/signup')}
+            href={getLocalizedHref(locale, '/diagnosis')}
             className="bg-[#8fb2aa] px-5 py-2.5 text-sm font-semibold text-[#060a10] transition-colors hover:bg-[#d9e3e0] border border-[#8fb2aa]"
           >
             {copy.cta}
@@ -127,7 +127,7 @@ export function PublicNavbar() {
               {copy.login}
             </Link>
             <Link
-              href={getLocalizedHref(locale, '/signup')}
+              href={getLocalizedHref(locale, '/diagnosis')}
               onClick={() => setMobileOpen(false)}
               className="bg-[#8fb2aa] px-4 py-2.5 text-sm font-semibold text-[#060a10] text-center"
             >

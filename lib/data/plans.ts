@@ -15,7 +15,7 @@ export const PLANS: Plan[] = [
       'Saved deliverables',
       'Basic replacement preview',
     ],
-    cta: 'Start free',
+    cta: 'Create diagnosis',
     highlighted: false,
   },
   {
@@ -85,7 +85,7 @@ export const PLANS: Plan[] = [
     features: [
       'Custom twin portfolio',
       'Private connectors and integrations',
-      'White-label deployment option',
+      'Partner or private-brand deployment option',
       'Advanced security and SSO',
       'SLA and dedicated support',
       'Custom implementation roadmap',

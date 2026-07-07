@@ -68,7 +68,7 @@ export const publicNavbarCopy = {
       { href: '/pricing', label: 'Planes' },
     ],
     login: 'Ingresar',
-    cta: 'Comenzar',
+    cta: 'Diagnostico',
   },
   en: {
     brandSubline: 'Twin OS Latam',
@@ -86,7 +86,7 @@ export const publicNavbarCopy = {
       { href: '/pricing', label: 'Pricing' },
     ],
     login: 'Log in',
-    cta: 'Start free',
+    cta: 'Create diagnosis',
   },
 } satisfies Record<
   MarketingLocale,
@@ -815,14 +815,14 @@ export const pricingPageCopy = {
       ['Hay descuento anual?', 'Si. Para Enterprise puedes contactar ventas y revisar facturacion anual o descuentos por volumen.'],
       ['Que plan incluye automatizacion programada?', 'Starter y superiores. Usalo cuando el gemelo digital necesita reporting recurrente, monitoreo o pases operativos repetibles.'],
       ['Puedo usar programas multi-step?', 'Si, en Professional o superior. Encadena gemelos digitales y aprobaciones humanas cuando el trabajo requiere revision y handoff.'],
-      ['Que significa white-label?', 'Clientes Enterprise pueden revender el sistema bajo su propia marca con dominio, branding y revenue-share.'],
+      ['Que significa despliegue partner?', 'Clientes Enterprise o partners pueden operar Twin OS con dominio, identidad, gobierno y revenue-share acordado.'],
     ],
   },
   en: {
     eyebrow: 'Twin OS pricing',
     title: 'Price digital labor by role, not just isolated runs.',
     summary:
-      'Start free, then upgrade when you need more active twins, stronger memory, deeper automation, and clearer supervision across Chile and Latam operating roles.',
+      'Start with a diagnosis, then upgrade when you need more active twins, stronger memory, deeper automation, and clearer supervision across Chile and Latam operating roles.',
     valueStack: [
       ['Pay for active twin capacity', 'Plans scale when you need more deployed roles, more concurrent routines, and more operating memory by account.'],
       ['Pay for supervised replacement', 'The value is not only more runs. It is clearer control over what the twin can absorb and what still needs approval.'],
@@ -843,7 +843,7 @@ export const pricingPageCopy = {
     faqTitle: 'The plan should match your replacement ambition, not the hype.',
     readyEyebrow: 'Ready to start',
     readyTitle: 'Deploy the first twin before you scale the operating system.',
-    readyPrimary: 'Start free',
+    readyPrimary: 'Create diagnosis',
     readySecondary: 'Log in',
     faq: [
       ['Can I start without a credit card?', 'Yes. The free plan gives you enough room to evaluate one or two role twins before expanding operational coverage.'],
@@ -851,7 +851,7 @@ export const pricingPageCopy = {
       ['Do you offer annual discounts?', 'Yes. Contact sales for Enterprise plans to discuss annual billing and volume discounts.'],
       ['Which plan includes scheduled automation?', 'Starter and higher. Use scheduled runs when the twin needs recurring reporting, monitoring, or repeatable operational passes.'],
       ['Can I use multi-step twin programs?', 'Yes, on Professional and higher. Chain twins and human approvals when the work requires review, handoff, or sequencing rather than a single run.'],
-      ['What is white-label?', 'Enterprise customers can resell the system under their own brand with custom domain, branding, and revenue-share options.'],
+      ['What is partner deployment?', 'Enterprise customers or partners can operate Twin OS with custom domain, identity, governance, and agreed revenue-share.'],
     ],
   },
 } satisfies Record<MarketingLocale, any>
@@ -942,7 +942,7 @@ export const authPageCopy = {
       ],
       formTitle: 'Sign in',
       formAlt: 'No account?',
-      formAltCta: 'Start free',
+      formAltCta: 'Create diagnosis',
       email: 'Email',
       password: 'Password',
       forgot: 'Forgot?',
