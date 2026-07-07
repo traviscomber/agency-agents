@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Sparkles, Filter, Search } from 'lucide-react'
-import { useAIStream } from '@/lib/hooks/useAI'
+import { Sparkles, Search } from 'lucide-react'
 
 interface Agent {
   slug: string
@@ -23,7 +22,6 @@ export function SmartAgentSelector({ agents, onSelect }: { agents: Agent[], onSe
   const [query, setQuery] = useState('')
   const [recommendations, setRecommendations] = useState<Recommendation[]>([])
   const [loading, setLoading] = useState(false)
-  const { streamText } = useAIStream()
 
   const handleSearch = async (searchQuery: string) => {
     if (!searchQuery.trim()) {
@@ -37,16 +35,16 @@ export function SmartAgentSelector({ agents, onSelect }: { agents: Agent[], onSe
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          prompt: `User needs: "${searchQuery}"
+          prompt: `Operating pressure: "${searchQuery}"
           
-          Available agents:
+          Available role twins and operators:
           ${agents.map(a => `- ${a.name} (${a.capability}): ${a.description}`).join('\n')}
           
-          Rank these agents by relevance to the user's need. Return as JSON array with objects:
+          Rank these twins by fit for the operating pressure. Return as JSON array with objects:
           { agentSlug: string, score: 0-100, reasoning: string }
           
-          Be specific about why each agent is good for this use case.`,
-          systemPrompt: 'You are an intelligent agent matching system. Help users find the perfect AI agent for their business need.'
+          Be specific about the role fit, expected operating output, likely supervision level, and where a human should stay in control.`,
+          systemPrompt: 'You are a N3uralia Twin OS role-fit analyst. Match Chile/Latam operating pressures to supervised digital twins by role, with ROI, handoff, and approval boundaries in mind.'
         })
       })
 
@@ -83,7 +81,7 @@ export function SmartAgentSelector({ agents, onSelect }: { agents: Agent[], onSe
         <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
         <input
           type="text"
-          placeholder="Search agents (e.g., 'improve cash flow', 'hire better people')"
+          placeholder="Search twins (e.g., 'recover overdue invoices', 'review tenders')"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -93,7 +91,7 @@ export function SmartAgentSelector({ agents, onSelect }: { agents: Agent[], onSe
       {loading && (
         <div className="flex items-center gap-2 text-gray-600">
           <Sparkles className="w-4 h-4 animate-spin" />
-          <span className="text-sm">Finding perfect agent match...</span>
+          <span className="text-sm">Finding the best role twin fit...</span>
         </div>
       )}
 
@@ -118,7 +116,7 @@ export function SmartAgentSelector({ agents, onSelect }: { agents: Agent[], onSe
               {score > 0 && (
                 <div className="text-right">
                   <div className="text-lg font-bold text-blue-600">{score}%</div>
-                  <div className="text-xs text-gray-500">match</div>
+                  <div className="text-xs text-gray-500">role fit</div>
                 </div>
               )}
             </div>

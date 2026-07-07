@@ -125,13 +125,35 @@ export default function AppAgentsPage() {
                 <p className="mt-1.5 flex-1 text-xs leading-relaxed text-[#173634]/55">{agent.shortDescription}</p>
                 {agent.twinProfile ? (
                   <div className="mt-3 border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-3">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.twinProfile.roleLabel} · {agent.twinProfile.geography}</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">{agent.twinProfile.roleLabel} / {agent.twinProfile.geography}</p>
                     <p className="mt-1 text-xs leading-5 text-[#52605d]">{agent.twinProfile.replacementScope}</p>
                     <div className="mt-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#52605d]">
                       <span>{agent.twinProfile.operationalReplacementScore ?? 0}% replacement</span>
-                      <span>·</span>
+                      <span>/</span>
                       <span className="capitalize">{agent.twinProfile.supervisionLevel ?? 'medium'} supervision</span>
                     </div>
+                    {agent.twinProfile.expectedSavings || agent.twinProfile.firstResult ? (
+                      <div className="mt-3 grid gap-2">
+                        {agent.twinProfile.expectedSavings ? (
+                          <div className="border border-[#d8e5e2] bg-white px-3 py-2">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">Expected savings</p>
+                            <p className="mt-1 text-xs font-semibold leading-5 text-[#173634]">{agent.twinProfile.expectedSavings}</p>
+                          </div>
+                        ) : null}
+                        {agent.twinProfile.firstResult ? (
+                          <div className="border border-[#d8e5e2] bg-white px-3 py-2">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#8fb2aa]">First result</p>
+                            <p className="mt-1 text-xs leading-5 text-[#52605d]">{agent.twinProfile.firstResult}</p>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+                    {agent.twinProfile.needsApprovalFor?.length ? (
+                      <div className="mt-3 border border-[#173634]/15 bg-[#173634] px-3 py-2 text-white">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a8c5be]">Human approval</p>
+                        <p className="mt-1 text-xs leading-5 text-[#d9e3e0]">{agent.twinProfile.needsApprovalFor.slice(0, 2).join(' / ')}</p>
+                      </div>
+                    ) : null}
                   </div>
                 ) : null}
                 <div className="mt-4 border-t border-[#d8e5e2] pt-3">

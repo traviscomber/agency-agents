@@ -6,8 +6,8 @@ import type { AgentRun, Project, SavedOutput, UserProfile } from '@/lib/types'
 export const MOCK_USER: UserProfile = {
   id: 'user-demo-001',
   email: 'demo@n3uralia.com',
-  fullName: 'Demo User',
-  company: 'Acme Inc.',
+  fullName: 'Operador N3uralia',
+  company: 'N3uralia Demo Chile',
   role: 'Founder',
   plan: 'free',
   isAdmin: false,

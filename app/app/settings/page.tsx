@@ -99,7 +99,7 @@ export default function SettingsPage() {
                     id="company"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    placeholder="Acme Inc."
+                    placeholder="N3uralia Demo Chile"
                     className="h-10 border-[#d8e5e2] bg-[#fbfbfa] text-sm text-[#173634] focus-visible:ring-[#8fb2aa]"
                   />
                 </div>

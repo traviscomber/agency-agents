@@ -104,6 +104,44 @@ export default async function AppAgentDetailPage({ params }: Props) {
                     ))}
                   </ul>
                 </div>
+                {agent.twinProfile.businessProblem ? (
+                  <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">Business problem</p>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground">{agent.twinProfile.businessProblem}</p>
+                  </div>
+                ) : null}
+                {agent.twinProfile.expectedSavings ? (
+                  <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">Expected savings</p>
+                    <p className="mt-2 text-sm font-semibold leading-relaxed text-foreground">{agent.twinProfile.expectedSavings}</p>
+                  </div>
+                ) : null}
+                {agent.twinProfile.firstResult ? (
+                  <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">First operating result</p>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground">{agent.twinProfile.firstResult}</p>
+                  </div>
+                ) : null}
+                {agent.twinProfile.needsApprovalFor?.length ? (
+                  <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">Needs human approval for</p>
+                    <ul className="mt-2 space-y-2">
+                      {agent.twinProfile.needsApprovalFor.map((item) => (
+                        <li key={item} className="text-sm leading-relaxed text-slate-700">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {agent.twinProfile.doesNotDo?.length ? (
+                  <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-700">Does not do</p>
+                    <ul className="mt-2 space-y-2">
+                      {agent.twinProfile.doesNotDo.map((item) => (
+                        <li key={item} className="text-sm leading-relaxed text-slate-700">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             </section>
           ) : null}
