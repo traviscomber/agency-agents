@@ -44,22 +44,22 @@ const twinArchitecture = {
 const operatingProof = {
   es: {
     eyebrow: 'Producto trabajando',
-    title: 'De input disperso a handoff supervisado en una corrida.',
+    title: 'De input disperso a entregable guardado y handoff supervisado en una corrida.',
     body:
-      'La demo debe mostrar trabajo real: datos de entrada, rutina del twin, entregable, siguiente responsable, limite seguro y ROI estimado.',
+      'La demo debe mostrar trabajo real: datos de entrada, rutina del twin, entregable guardado, siguiente responsable, limite seguro y ROI estimado.',
     inputTitle: 'Input real',
     inputItems: ['CRM con 18 cuentas activas', 'Notas de reuniones y objeciones', 'Meta: recuperar 10 oportunidades dormidas'],
     twinTitle: 'Twin seleccionado',
     twinName: 'Ejecutivo Comercial B2B Chile',
     twinBody: 'Rutina: priorizar cuentas, preparar follow-up, detectar bloqueos y dejar memoria por oportunidad.',
-    outputTitle: 'Output generado',
+    outputTitle: 'Entregable generado',
     outputItems: ['Top 5 cuentas por urgencia y potencial', '3 correos de seguimiento listos para revision', 'Resumen de objeciones y siguiente accion'],
     handoffTitle: 'Handoff humano',
     handoffItems: ['Owner: lider comercial', 'Decision: aprobar propuesta final', 'Escala si hay descuento, contrato o riesgo legal'],
     metrics: [
       ['Replacement', '74%', 'Carga repetible absorbible'],
       ['Tiempo', '7 h', 'Ahorro semanal estimado'],
-      ['ROI', 'CLP $820k', 'Ahorro mensual diagnosticado'],
+      ['Control', '3 puntos', 'Handoffs y aprobaciones humanas visibles'],
     ],
     safetyTitle: 'Limites seguros',
     safetyBody:
@@ -68,22 +68,22 @@ const operatingProof = {
   },
   en: {
     eyebrow: 'Product at work',
-    title: 'From scattered input to supervised handoff in one run.',
+    title: 'From scattered input to a saved deliverable and supervised handoff in one run.',
     body:
-      'The demo should show real work: input data, twin routine, deliverable, next owner, safe limit, and estimated ROI.',
+      'The demo should show real work: input data, twin routine, saved deliverable, next owner, safe limit, and estimated ROI.',
     inputTitle: 'Real input',
     inputItems: ['CRM with 18 active accounts', 'Meeting notes and objections', 'Goal: recover 10 dormant opportunities'],
     twinTitle: 'Selected twin',
     twinName: 'B2B Sales Executive Twin Chile',
     twinBody: 'Routine: prioritize accounts, prepare follow-up, detect blockers, and save memory by opportunity.',
-    outputTitle: 'Generated output',
+    outputTitle: 'Generated deliverable',
     outputItems: ['Top 5 accounts by urgency and potential', '3 follow-up emails ready for review', 'Objection summary and next action'],
     handoffTitle: 'Human handoff',
     handoffItems: ['Owner: sales lead', 'Decision: approve final proposal', 'Escalates on discount, contract, or legal risk'],
     metrics: [
       ['Replacement', '74%', 'Repeatable load absorbable'],
       ['Time', '7 h', 'Estimated weekly savings'],
-      ['ROI', 'CLP $820k', 'Diagnosed monthly savings'],
+      ['Control', '3 points', 'Visible handoffs and human approvals'],
     ],
     safetyTitle: 'Safe limits',
     safetyBody:
