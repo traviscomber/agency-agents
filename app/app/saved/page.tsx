@@ -92,7 +92,7 @@ function SavedPageContent() {
       const groupId = output.projectId ?? `standalone-${output.agentName}`
       const project = output.projectId ? projectsById.get(output.projectId) : undefined
       const packet = resolveOutputPacket(output, runsById, projectsById)
-      const label = project?.name ?? `Standalone · ${output.agentName}`
+      const label = project?.name ?? `Twin-run · ${output.agentName}`
       const existing = grouped.get(groupId)
 
       if (existing) {
@@ -130,19 +130,19 @@ function SavedPageContent() {
   const activeTrace = active
     ? [
         {
-          label: 'Source run',
+          label: 'Twin run',
           value: activeRun?.agentName || 'Unknown run',
-          note: activeRun?.task || 'This asset has no recoverable run task attached.',
+          note: activeRun?.task || 'This deliverable has no recoverable twin task attached.',
         },
         {
           label: 'Workflow origin',
-          value: activeRun?.presetStepName || activePacket?.currentStep || 'Standalone artifact',
-          note: activePacket?.executionMode || 'No workflow preset attached.',
+          value: activeRun?.presetStepName || activePacket?.currentStep || 'Unassigned deliverable',
+          note: activePacket?.executionMode || 'No operating routine attached.',
         },
         {
           label: 'Reuse path',
-          value: relatedOutputs.length ? `${relatedOutputs.length} related asset${relatedOutputs.length === 1 ? '' : 's'}` : 'First asset in chain',
-          note: activeProject ? `Attached to ${activeProject.name}` : 'Not yet linked to a project record.',
+          value: relatedOutputs.length ? `${relatedOutputs.length} related deliverable${relatedOutputs.length === 1 ? '' : 's'}` : 'First deliverable in chain',
+          note: activeProject ? `Attached to ${activeProject.name}` : 'Not yet linked to an operating program.',
         },
       ]
     : []
@@ -155,19 +155,19 @@ function SavedPageContent() {
       <header className="n3-panel overflow-hidden">
         <div className="grid gap-px bg-[#d8e5e2] lg:grid-cols-[1.15fr_0.85fr]">
           <div className="bg-[linear-gradient(135deg,_rgba(23,54,52,0.05),_rgba(143,178,170,0.02))] px-6 py-8 sm:px-8">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Reusable asset system</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Reusable deliverable memory</p>
             <h1 className="mt-3 max-w-3xl text-4xl font-light tracking-[-0.04em] text-[#173634]">
-              Deliverables should stay attached to the workstream logic that produced them.
+              Deliverables should stay attached to the operating logic that produced them.
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[#52605d]">
-              This surface should read like an operating archive: project-linked outputs, inherited packets, and source runs grouped so the next operator can recover context without hunting across screens.
+              This surface should read like operating memory: program-linked deliverables, inherited packets, and twin runs grouped so the next operator can recover context without hunting across screens.
             </p>
           </div>
 
           <div className="grid gap-px bg-[#d8e5e2] sm:grid-cols-3 lg:grid-cols-1">
             {[
-              { label: 'Saved outputs', value: savedOutputs.length, note: 'retained deliverables' },
-              { label: 'Project-linked', value: projectLinked, note: 'owned by workstreams' },
+              { label: 'Saved deliverables', value: savedOutputs.length, note: 'retained operating memory' },
+              { label: 'Program-linked', value: projectLinked, note: 'owned by active programs' },
               { label: 'Packet-backed', value: packetBacked, note: 'carry operating context' },
             ].map(({ label, value, note }) => (
               <div key={label} className="bg-[#f1f6f4] px-5 py-5">
@@ -184,12 +184,12 @@ function SavedPageContent() {
         <div className="flex flex-col gap-4 border-b border-[#d8e5e2] bg-[#f1f6f4] px-5 py-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Operating archive</p>
-            <p className="mt-1 text-sm text-[#52605d]">Find deliverables by workstream, packet stage, specialist, or source run.</p>
+            <p className="mt-1 text-sm text-[#52605d]">Find deliverables by program, packet stage, role twin, or source run.</p>
           </div>
           <div className="relative w-full max-w-md">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8fb2aa]" />
             <Input
-              placeholder="Search by deliverable, project, specialist, or stage..."
+              placeholder="Search by deliverable, program, twin, or stage..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-10 border-[#d8e5e2] bg-[#fbfbfa] pl-9 text-sm text-[#173634] placeholder:text-[#173634]/35 focus-visible:ring-[#8fb2aa]"
@@ -213,14 +213,14 @@ function SavedPageContent() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">
-                          {group.project ? 'Project cluster' : 'Standalone cluster'}
+                          {group.project ? 'Program cluster' : 'Twin-run cluster'}
                         </p>
                         <p className="mt-1 text-sm font-semibold text-[#173634]">{group.label}</p>
                       </div>
                       {group.packet ? <span className="n3-chip-soft">{group.packet.executionMode}</span> : null}
                     </div>
                     <p className="mt-3 text-xs leading-5 text-[#52605d]">
-                      {group.packet?.summary || 'Outputs without a full project packet still stay grouped by authoring context.'}
+                      {group.packet?.summary || 'Deliverables without a full program packet still stay grouped by twin-run context.'}
                     </p>
                     <div className="mt-4 space-y-2">
                       {group.outputs.map((item) => {
@@ -270,7 +270,7 @@ function SavedPageContent() {
               <div className="min-w-0 bg-[#fbfbfa] p-6 sm:p-7">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Selected asset</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Selected deliverable</p>
                     <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#52605d]">{active.agentName}</p>
                     <h2 className="mt-1 text-2xl font-light tracking-[-0.03em] text-[#173634]">{active.title}</h2>
                   </div>
@@ -289,7 +289,7 @@ function SavedPageContent() {
                     <p className="mt-1 text-sm capitalize text-[#173634]">{active.format}</p>
                   </div>
                   <div className="bg-[#f1f6f4] px-4 py-3">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Project</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8fb2aa]">Program</p>
                     <p className="mt-1 text-sm text-[#173634]">{active.projectName || 'Unassigned'}</p>
                   </div>
                 </div>
@@ -348,11 +348,11 @@ function SavedPageContent() {
                     </span>
                   ) : null}
                   <Link href={`/app/history/${active.agentRunId}`} className="inline-flex items-center gap-1 font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
-                    Source run <ArrowRight size={10} />
+                    Twin run <ArrowRight size={10} />
                   </Link>
                   {activeProject ? (
                     <Link href={`/app/projects/${activeProject.id}`} className="inline-flex items-center gap-1 font-semibold uppercase tracking-[0.16em] text-[#8fb2aa] transition-colors hover:text-[#173634]">
-                      Project record <ArrowRight size={10} />
+                      Program record <ArrowRight size={10} />
                     </Link>
                   ) : null}
                 </div>
@@ -375,7 +375,7 @@ function SavedPageContent() {
 
                 {relatedOutputs.length ? (
                   <div className="mt-8">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Related assets</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8fb2aa]">Related deliverables</p>
                     <div className="mt-3 grid gap-3">
                       {relatedOutputs.map((item) => (
                         <button
