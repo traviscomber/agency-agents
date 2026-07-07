@@ -7,12 +7,12 @@ export async function GET(req: NextRequest) {
   // TODO: Fetch partner details from Supabase
   const partner = {
     id: '1',
-    brand_name: 'ACME Automation',
-    custom_domain: 'agents.acme.com',
+    brand_name: 'N3 Partner Studio',
+    custom_domain: 'twins.partner.cl',
     logo_url: '/partner-logo.png',
-    color_primary: '#00a86b',
-    monthly_fee: 299,
-    revenue_split: 30,
+    color_primary: '#8fb2aa',
+    monthly_fee: 799,
+    revenue_split: 0,
     status: 'active',
   }
 
@@ -25,15 +25,15 @@ export async function POST(req: NextRequest) {
 
   const { brand_name, custom_domain, color_primary } = await req.json()
 
-  // TODO: Validate domain, create DNS records, save to DB
+  // TODO: Validate domain, create DNS records, save partner workspace to DB
   const partner = {
     id: Math.random().toString(),
     partner_id: userId,
     brand_name,
     custom_domain,
     color_primary,
-    monthly_fee: 299,
-    revenue_split: 30,
+    monthly_fee: 799,
+    revenue_split: 0,
     is_active: true,
   }
 
