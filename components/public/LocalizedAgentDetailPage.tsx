@@ -23,12 +23,12 @@ function getAgentDetailCopy(locale: MarketingLocale) {
         businessProblem: 'Problema que resuelve',
         expectedSavings: 'Ahorro esperado',
         firstResult: 'Primer resultado',
-        approvalRequired: 'Necesita aprobacion para',
+        approvalRequired: 'Necesita aprobación para',
         doesNotDo: 'No hace',
-        safeLimits: 'Limites seguros',
+        safeLimits: 'Límites seguros',
         safeLimitsBody:
-          'Este twin prepara, resume, prioriza y documenta. Las decisiones comerciales, legales, financieras o reputacionales siguen requiriendo aprobacion humana.',
-        supervisionModel: 'Modelo de supervision',
+          'Este twin prepara, resume, prioriza y documenta. Las decisiones comerciales, legales, financieras o reputacionales siguen requiriendo aprobación humana.',
+        supervisionModel: 'Modelo de supervisión',
         profile: 'Perfil del twin digital',
         marketFit: 'Market fit',
         replacementScope: 'Alcance de replacement',
@@ -286,7 +286,7 @@ export function LocalizedAgentDetailPage({
                   <p className="mt-2 text-3xl font-light tracking-[-0.04em]">{commercialCard.score || 'N/A'}{commercialCard.score ? '%' : ''}</p>
                 </div>
                 <div className="bg-white/10 p-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">Supervision</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">{locale === 'es' ? 'Supervisión' : 'Supervision'}</p>
                   <p className="mt-2 text-3xl font-light capitalize tracking-[-0.04em]">{commercialCard.supervisionLevel}</p>
                 </div>
               </div>
