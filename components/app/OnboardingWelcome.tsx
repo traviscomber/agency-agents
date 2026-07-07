@@ -8,23 +8,23 @@ import { useOnboarding } from './OnboardingContext'
 const ONBOARDING_STEPS = [
   {
     number: 1,
-    title: 'Create a Program',
-    description: 'Start with one operating program that has 2-3 workflow steps and a clear business outcome.',
+    title: 'Create an operating program',
+    description: 'Start with one Chile/Latam routine, a clear business outcome, and the human approval boundary.',
     cta: 'Go to Programs',
     href: '/app/projects',
   },
   {
     number: 2,
-    title: 'Pick a Gemelo',
-    description: 'Assign a gemelo digital to each step. Each gemelo maps to a real operating role.',
+    title: 'Assign the role twin',
+    description: 'Map each routine step to a gemelo that knows the role, expected deliverable, supervision level, and limits.',
     cta: 'Browse Gemelos',
     href: '/app/agents',
   },
   {
     number: 3,
-    title: 'Run & Monitor',
-    description: 'Execute gemelos, review outputs, and save what works for reuse.',
-    cta: 'View History',
+    title: 'Run, audit, and reuse',
+    description: 'Execute the twin, audit the deliverable and handoff packet, then save useful work as operating memory.',
+    cta: 'View Ledger',
     href: '/app/history',
   },
 ]
@@ -50,12 +50,12 @@ export function OnboardingWelcome() {
       <div className="max-w-2xl rounded-none border border-[#d8e5e2] bg-white p-8 shadow-lg">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">Getting Started</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fb2aa]">First operating loop</p>
             <h2 className="mt-2 text-2xl font-light text-[#173634]">
-              Run your first gemelo in 3 steps
+              Deploy your first supervised role twin in 3 steps
             </h2>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-[#52605d]">
-              Twin OS turns business processes into supervised gemelos digitales. Here is how to get started:
+              Twin OS turns repetitive work into a controlled loop: program, role twin, deliverable, handoff, and measurable ROI.
             </p>
           </div>
           <button
@@ -99,13 +99,13 @@ export function OnboardingWelcome() {
             }}
             className="text-xs text-[#8fb2aa] hover:text-[#173634] font-semibold"
           >
-            I know how this works, skip
+            I know the operating loop, skip
           </button>
           <button
             onClick={() => setIsOpen(false)}
             className="h-9 border border-[#173634] bg-[#173634] px-4 text-xs font-semibold text-white hover:bg-[#1e3431]"
           >
-            Let&apos;s go
+            Start loop
           </button>
         </div>
       </div>

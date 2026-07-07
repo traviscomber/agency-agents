@@ -19,7 +19,7 @@ const ONBOARDING_PLANS = [
     price: '$99/mo',
     capacity: '1 deployed twin',
     fit: 'Start with sales, collections, tenders, or implementation.',
-    features: ['Diagnosis checklist', 'Memory by account or process', 'Reusable outputs', 'Email support'],
+    features: ['Diagnosis checklist', 'Memory by account or process', 'Reusable deliverables', 'Email support'],
   },
   {
     id: 'managed',
@@ -30,6 +30,8 @@ const ONBOARDING_PLANS = [
     features: ['Operating map', 'Handoff rules', 'Supervision limits', 'Monthly ROI review'],
   },
 ]
+
+const OPERATING_CHECKPOINTS = ['Role to replicate', 'Inputs available', 'Human approval boundary', 'ROI metric']
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -62,7 +64,7 @@ export default function OnboardingPage() {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-3xl font-light tracking-tight text-[#173634]">Welcome to N3uralia Twin OS</h1>
-          <p className="mt-2 text-sm text-[#173634]/60">Turn one repetitive role into a supervised operating program</p>
+          <p className="mt-2 text-sm text-[#173634]/60">Turn one repetitive Chile/Latam role into a supervised operating program with ROI visible</p>
           {diagnosisRole ? (
             <div className="mx-auto mt-5 max-w-md border border-[#d8e5e2] bg-white px-4 py-3 text-left">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#789b96]">Diagnosis ready</p>
@@ -84,30 +86,33 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Step 1: Initiative Name */}
+        {/* Step 1: Program Name */}
         {step === 1 && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold text-[#173634]">Step 1: Name the workstream</h2>
-              <p className="mt-2 text-sm text-[#173634]/60">Name the process you want to turn into repeatable digital work</p>
+              <h2 className="text-2xl font-semibold text-[#173634]">Step 1: Name the operating program</h2>
+              <p className="mt-2 text-sm text-[#173634]/60">Pick the real process you want to convert into supervised digital capacity.</p>
             </div>
 
             <div className="space-y-3 border border-[#d8e5e2] bg-white p-6">
               <label className="block text-xs font-semibold uppercase tracking-[0.12em] text-[#555a56]">
-                Initiative name
+                Program name
               </label>
               <input
                 type="text"
-                placeholder="Sales follow-up Chile, Tender review, Collections portfolio..."
+                placeholder="Sales follow-up Chile, Tender review, Collections portfolio Latam..."
                 className="w-full border border-[#d8e5e2] bg-[#fbfbfa] px-4 py-3 text-sm text-[#173634] outline-none focus:border-[#8fb2aa]"
               />
-              <div className="grid gap-3 pt-2 sm:grid-cols-3">
-                {['Role', 'Inputs', 'Human approval'].map((label) => (
+              <div className="grid gap-3 pt-2 sm:grid-cols-2">
+                {OPERATING_CHECKPOINTS.map((label) => (
                   <div key={label} className="border border-[#d8e5e2] bg-[#f8fbfa] px-3 py-2">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#789b96]">{label}</p>
                   </div>
                 ))}
               </div>
+              <p className="text-xs leading-5 text-[#52605d]">
+                Strong programs start with a narrow routine: the twin prepares, prioritizes, summarizes, or follows up while a human keeps approval over sensitive decisions.
+              </p>
             </div>
 
             <button
@@ -187,7 +192,7 @@ export default function OnboardingPage() {
               <p className="mt-2 text-sm text-[#173634]/60">
                 {diagnosisRole
                   ? 'Your operating space is ready. Next, create the first program from your diagnosis.'
-                  : 'Your operating space is ready. Start with the project record, role memory, and the first supervised twin run.'}
+                  : 'Your operating space is ready. Start with the program record, role memory, and the first supervised twin run.'}
               </p>
             </div>
 

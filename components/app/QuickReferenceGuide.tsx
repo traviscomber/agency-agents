@@ -14,8 +14,8 @@ const QUICK_REFS: QuickRefItem[] = [
     steps: [
       '1. Entra a Gemelos y selecciona el rol correcto',
       '2. Ejecutalo sobre el paso activo del programa',
-      '3. Monitorea progreso en Historial',
-      '4. Guarda outputs utiles en Entregables',
+      '3. Audita progreso en el ledger de twins',
+      '4. Guarda entregables utiles en Entregables',
     ],
   },
   {
@@ -23,7 +23,7 @@ const QUICK_REFS: QuickRefItem[] = [
     steps: [
       '1. Entra a Programas y crea un nuevo programa',
       '2. Define objetivo, contexto y restricciones',
-      '3. Agrega pasos como Venta, Propuesta o Follow-up',
+      '3. Agrega rutinas como Venta, Propuesta, Cobranza o Follow-up',
       '4. Asigna gemelos digitales a cada paso',
     ],
   },
@@ -31,18 +31,18 @@ const QUICK_REFS: QuickRefItem[] = [
     title: 'Entender el dashboard',
     steps: [
       'Programas activos: flujos operativos en curso',
-      'Execution quality: tasa reciente de corridas completadas',
-      'Role coverage: cargos cubiertos por gemelos digitales',
-      'Abre cada tarjeta para ver contexto y siguiente paso',
+      'Calidad de ejecucion: corridas recientes completadas y revisables',
+      'Cobertura de roles: cargos cubiertos por gemelos digitales',
+      'Abre cada tarjeta para ver contexto, supervision y siguiente paso',
     ],
   },
   {
     title: 'Siguientes movimientos',
     steps: [
       'Ejecuta un gemelo sobre el primer paso',
-      'Revisa resultados en Historial',
-      'Guarda outputs importantes para reutilizar',
-      'Crea el siguiente paso o handoff humano',
+      'Revisa resultados, riesgos y handoff en el ledger',
+      'Guarda entregables importantes para reutilizar',
+      'Crea el siguiente paso o escalamiento humano',
     ],
   },
 ]
