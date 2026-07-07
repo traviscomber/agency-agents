@@ -190,7 +190,7 @@ const planPresentation = {
       cta: 'Create diagnosis',
       description: 'For testing the thesis with one priority role, one operating program, and saved deliverables before investing in deployment.',
       features: [
-        '5 digital twin runs per month',
+        '5 supervised routine executions per month',
         '1 active operating program',
         'Core role twin library',
         'Saved deliverables',
@@ -214,11 +214,11 @@ const planPresentation = {
       name: 'Pro',
       interval: '/month',
       cta: 'Deploy Pro',
-      description: 'For teams that need multiple twins, weekly automations, and visible replacement by project.',
+      description: 'For teams that need multiple twins, weekly automations, and visible replacement by operating program.',
       features: [
         '3 deployed operating twins',
         'Weekly automations',
-        'Full project and account history',
+        'Full program and account history',
         'Human handoffs and review states',
         'Replacement dashboard',
         'Priority support',
@@ -231,7 +231,7 @@ const planPresentation = {
       description: 'For operating several areas with connectors, recurring reporting, and handoffs between supervised roles.',
       features: [
         '10 deployed operating twins',
-        'Team workspace',
+        'Team operating workspace',
         'Connectors for documents, sheets, CRM, or ERP',
         'Recurring reporting',
         'Implementation support',
